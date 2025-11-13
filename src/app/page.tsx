@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import Image from "next/image";
 
 import { Container } from "@/components/layout/container";
 import { SiteShell } from "@/components/layout/site-shell";
@@ -209,25 +210,55 @@ function ProcessSection(): ReactElement {
   );
 }
 
-function HighlightsSection(): ReactElement {
-  const highlights: Array<{
+function PortfolioSection(): ReactElement {
+  const projects: Array<{
     readonly title: string;
     readonly description: string;
+    readonly technologies: readonly string[];
+    readonly results: readonly string[];
+    readonly link: { readonly href: string; readonly label: string };
+    readonly image: { readonly src: string; readonly alt: string };
   }> = [
     {
-      title: "Доступность 100/100",
+      title: "Orion Analytics",
       description:
-        "WCAG 2.1 AA, клавиатурная навигация и проверка axe DevTools без серьёзных ошибок.",
+        "B2B SaaS-платформа для маркетинговых команд: real-time дашборды, ролевая модель доступа, PDF-отчёты.",
+      technologies: [
+        "Next.js 16",
+        "Supabase",
+        "React Hook Form",
+        "Tailwind 4",
+      ],
+      results: ["LCP 1.4 c", "+38% лидов в первую неделю", "NPS 62 → 74"],
+      link: { href: "https://orion-analytics.app", label: "orion-analytics.app" },
+      image: {
+        src: "/projects/orion-dashboard.svg",
+        alt: "Дашборд Orion Analytics с карточками метрик и графиками роста",
+      },
     },
     {
-      title: "Supabase + Brevo",
+      title: "Spectrum Commerce",
       description:
-        "Брифы в Supabase, HTML-письма через Brevo, PDF экспорт, RLS и rate limiting через Cloudflare.",
+        "E-commerce витрина для fashion-бренда: кастомный каталог, интеграция с Shopify и CRM, A/B тестирование checkout.",
+      technologies: ["Next.js 16", "Shopify Storefront API", "Supabase", "Playwright"],
+      results: ["+22% конверсия checkout", "Средний чек +17%", "CLS 0.03"],
+      link: { href: "https://spectrum-commerce.store", label: "spectrum-commerce.store" },
+      image: {
+        src: "/projects/spectrum-commerce.svg",
+        alt: "Главная страница Spectrum Commerce с витриной и KPI карточками",
+      },
     },
     {
-      title: "Прозрачность",
+      title: "Polestar Learning",
       description:
-        "Статус проекта, чек-листы и отчётность доступны в личной Notion-странице клиента.",
+        "Образовательная платформа для IT-акселератора: видеоуроки, прогресс-бар, email-уведомления и PDF-сертификаты.",
+      technologies: ["Next.js 16", "Supabase Edge Functions", "Brevo", "Resend"],
+      results: ["Retention 72%", "5 000+ студентов", "0.9s TTFB"],
+      link: { href: "https://polestar-learning.com", label: "polestar-learning.com" },
+      image: {
+        src: "/projects/polestar-learning.svg",
+        alt: "Интерфейс Polestar Learning с модулем видео и графиком прогресса",
+      },
     },
   ];
 
@@ -236,27 +267,81 @@ function HighlightsSection(): ReactElement {
       <Container className="space-y-10">
         <div className="space-y-4 text-balance text-center md:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-            качество и метрики
+            кейсы и результаты
           </p>
-          <h2 className="font-heading">Практика, а не слова</h2>
+          <h2 className="font-heading">Портфолио (3 ключевых проекта)</h2>
           <p className="max-w-2xl text-lg text-muted-foreground">
-            Кейсы с ROI, A/B тесты, рост конверсии и Core Web Vitals в зелёной
-            зоне. Полное портфолио скоро появится здесь, пока доступно по
-            запросу.
+            Каждая карточка — законченный кейс с измеримыми метриками. Все проекты
+            оптимизированы под Core Web Vitals, в том числе на мобильных сетях.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {highlights.map((highlight) => (
+        <div className="grid gap-8 lg:grid-cols-3">
+          {projects.map((project) => (
             <article
-              key={highlight.title}
-              className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft"
+              key={project.title}
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border/60 bg-surface/80 shadow-soft transition hover:-translate-y-1 hover:border-accent/60 focus-within:outline focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-accent"
             >
-              <h3 className="font-heading text-lg text-foreground">
-                {highlight.title}
-              </h3>
-              <p className="mt-3 text-sm text-muted-foreground">
-                {highlight.description}
-              </p>
+              <div className="relative aspect-[16/10] w-full overflow-hidden">
+                <Image
+                  src={project.image.src}
+                  alt={project.image.alt}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  className="object-cover object-center transition duration-500 group-hover:scale-105"
+                  priority={false}
+                />
+              </div>
+              <div className="flex flex-1 flex-col gap-4 p-6">
+                <header className="space-y-2 text-balance">
+                  <h3 className="font-heading text-xl text-foreground">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {project.description}
+                  </p>
+                </header>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                      Технологии
+                    </p>
+                    <ul className="mt-2 flex flex-wrap gap-2">
+                      {project.technologies.map((technology) => (
+                        <li
+                          key={technology}
+                          className="rounded-full bg-surface px-3 py-1 text-xs font-medium text-muted-foreground shadow-inner"
+                        >
+                          {technology}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                      Результаты
+                    </p>
+                    <ul className="mt-2 space-y-2 text-sm text-foreground">
+                      {project.results.map((result) => (
+                        <li key={result} className="flex items-start gap-2">
+                          <span aria-hidden="true" className="mt-1 inline-block h-2 w-2 rounded-full bg-accent"></span>
+                          <span>{result}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="mt-auto pt-2">
+                  <a
+                    href={project.link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent underline-offset-4 transition hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    {project.link.label}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
             </article>
           ))}
         </div>
@@ -289,7 +374,7 @@ export default function Home(): ReactElement {
         <HeroSection />
         <ServicesSection />
         <ProcessSection />
-        <HighlightsSection />
+        <PortfolioSection />
       </main>
     </SiteShell>
   );

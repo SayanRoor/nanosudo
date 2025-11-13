@@ -1,0 +1,32 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Orion Analytics Dashboard Mockup</title>
+  <desc id="desc">High level dashboard layout with navigation sidebar and cards</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1f2937" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="24" fill="url(#bg)" />
+  <rect x="32" y="32" width="96" height="336" rx="16" fill="#1f2937" stroke="#334155" stroke-width="2" />
+  <rect x="152" y="32" width="456" height="48" rx="12" fill="#1f2937" stroke="#334155" stroke-width="2" />
+  <rect x="152" y="104" width="212" height="120" rx="16" fill="#1f2937" stroke="#0ea5e9" stroke-width="2" />
+  <rect x="396" y="104" width="212" height="120" rx="16" fill="#1f2937" stroke="#22d3ee" stroke-width="2" />
+  <rect x="152" y="244" width="456" height="124" rx="16" fill="#1f2937" stroke="url(#accent)" stroke-width="2" />
+  <circle cx="80" cy="80" r="20" fill="#38bdf8" opacity="0.6" />
+  <rect x="56" y="122" width="48" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="142" width="36" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="186" width="72" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="206" width="48" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="226" width="64" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="270" width="80" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="290" width="40" height="8" rx="4" fill="#334155" />
+  <rect x="56" y="310" width="70" height="8" rx="4" fill="#334155" />
+  <path d="M176 296 C212 272 244 340 280 320 C316 300 340 336 368 312" stroke="#38bdf8" stroke-width="6" fill="none" stroke-linecap="round" />
+  <path d="M392 296 C424 276 440 328 472 308 C504 288 520 324 544 304" stroke="#f472b6" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.9" />
+</svg>
+

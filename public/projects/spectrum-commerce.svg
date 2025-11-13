@@ -1,0 +1,36 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Spectrum Commerce Storefront Mockup</title>
+  <desc id="desc">E-commerce layout with hero banner, product cards and metrics</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="hero" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="24" fill="url(#bg)" />
+  <rect x="32" y="32" width="576" height="64" rx="16" fill="#111827" stroke="#334155" stroke-width="2" />
+  <rect x="32" y="120" width="576" height="112" rx="20" fill="url(#hero)" opacity="0.85" />
+  <rect x="32" y="256" width="176" height="112" rx="16" fill="#111827" stroke="#f59e0b" stroke-width="2" />
+  <rect x="232" y="256" width="176" height="112" rx="16" fill="#111827" stroke="#10b981" stroke-width="2" />
+  <rect x="432" y="256" width="176" height="112" rx="16" fill="#111827" stroke="#6366f1" stroke-width="2" />
+  <circle cx="80" cy="64" r="20" fill="#6366f1" />
+  <rect x="120" y="50" width="96" height="12" rx="6" fill="#334155" />
+  <rect x="232" y="50" width="76" height="12" rx="6" fill="#334155" />
+  <rect x="324" y="50" width="88" height="12" rx="6" fill="#334155" />
+  <rect x="416" y="50" width="72" height="12" rx="6" fill="#334155" />
+  <rect x="508" y="50" width="88" height="12" rx="6" fill="#334155" />
+  <rect x="56" y="284" width="128" height="12" rx="6" fill="#fcd34d" />
+  <rect x="256" y="284" width="128" height="12" rx="6" fill="#34d399" />
+  <rect x="456" y="284" width="128" height="12" rx="6" fill="#818cf8" />
+  <rect x="56" y="308" width="104" height="10" rx="5" fill="#fcd34d" opacity="0.5" />
+  <rect x="256" y="308" width="104" height="10" rx="5" fill="#34d399" opacity="0.5" />
+  <rect x="456" y="308" width="104" height="10" rx="5" fill="#818cf8" opacity="0.5" />
+  <path d="M72 176 H592" stroke="#fde68a" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+  <path d="M72 196 H512" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+  <path d="M72 216 H452" stroke="#f97316" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+</svg>
+
