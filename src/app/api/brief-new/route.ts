@@ -7,19 +7,7 @@ import type { CalculationResult } from "@/features/brief/utils/calculation";
 import { formatCurrency } from "@/lib/currency";
 import type { Locale } from "@/i18n/config";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl || !supabaseServiceKey) {
-  throw new Error("Missing Supabase environment variables");
-}
-
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
 
 type BriefNewSubmissionPayload = {
   readonly formData: BriefNewFormValues;
@@ -29,6 +17,21 @@ type BriefNewSubmissionPayload = {
 
 export async function POST(request: Request): Promise<NextResponse> {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("Missing Supabase environment variables");
+      return NextResponse.json({ error: "Configuration error" }, { status: 500 });
+    }
+
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
+
     const body = (await request.json()) as BriefNewSubmissionPayload;
     const { formData, calculation, locale = 'ru' } = body;
 
