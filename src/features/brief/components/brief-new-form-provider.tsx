@@ -148,7 +148,6 @@ export function BriefNewFormProvider({
     if (!enableAutosave || typeof window === "undefined") {
       return;
     }
-    /* eslint-disable react-hooks/incompatible-library */
     const subscription = form.watch(() => {
       try {
         const currentValues = form.getValues();
@@ -157,7 +156,6 @@ export function BriefNewFormProvider({
         // Ignore storage errors
       }
     });
-    /* eslint-enable react-hooks/incompatible-library */
     return (): void => {
       subscription.unsubscribe();
     };

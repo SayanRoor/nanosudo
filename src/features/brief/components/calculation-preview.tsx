@@ -25,11 +25,9 @@ export function CalculationPreview({
   const [isMounted, setIsMounted] = useState(false);
 
   // Prevent hydration mismatch by only calculating after mount
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const calculation = useMemo(() => {
     if (!isMounted) {
