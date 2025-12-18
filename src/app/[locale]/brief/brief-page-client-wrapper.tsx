@@ -28,11 +28,9 @@ export function BriefPageClientWrapper(): ReactElement {
 
   // Only set to true after component mounts on client
   // This ensures the component never renders on the server
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setIsClient(true);
   }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Return loading state during SSR to prevent any server-side rendering
   // This is safe because ssr: false in dynamic() already prevents server rendering

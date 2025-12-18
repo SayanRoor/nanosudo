@@ -220,7 +220,6 @@ export function BriefFormProvider({
     }
     const timeoutRef: { current: number | null } = { current: null };
 
-    // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch(() => {
       if (timeoutRef.current !== null) {
         window.clearTimeout(timeoutRef.current);
