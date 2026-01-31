@@ -17,7 +17,10 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
-    environmentMatchGlobs: [["src/app/api/**", "node"]],
+    environmentMatchGlobs: [
+      ["src/app/api/**", "node"],
+      ["tests/build/**", "node"],
+    ],
     include: ["src/**/*.test.ts", "tests/**/*.test.ts"],
     exclude: ["tests/e2e/**"],
     coverage: {
