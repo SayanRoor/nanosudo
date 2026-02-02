@@ -8,6 +8,7 @@ import type { CalculationResult } from "@/features/brief/utils/calculation";
 import { formatCurrency, formatHourlyRate } from "@/lib/currency";
 import type { Locale } from "@/i18n/config";
 import { HOURLY_RATES } from "@/features/brief/schemas/brief-new";
+import { logger } from "@/lib/logger";
 
 type GeneratePDFRequest = {
   readonly formData: BriefNewFormValues;
@@ -79,7 +80,9 @@ export async function POST(
     try {
       body = (await request.json()) as GeneratePDFRequest;
     } catch (parseError) {
-      console.error("[PDF] JSON parse error:", parseError);
+      logger.error("[PDF] JSON parse error", {
+        error: parseError instanceof Error ? parseError.message : String(parseError),
+      });
       return NextResponse.json(
         { error: "Invalid JSON in request body", details: parseError instanceof Error ? parseError.message : String(parseError) },
         { status: 400 },
@@ -90,7 +93,7 @@ export async function POST(
 
     // Validate input
     if (!formData || !calculation) {
-      console.error("[PDF] Missing formData or calculation", {
+      logger.error("[PDF] Missing formData or calculation", {
         hasFormData: !!formData,
         hasCalculation: !!calculation,
       });
@@ -101,7 +104,7 @@ export async function POST(
     }
 
     if (!formData.projectInfo?.projectName) {
-      console.error("[PDF] Project name is required");
+      logger.error("[PDF] Project name is required");
       return NextResponse.json(
         { error: "Project name is required" },
         { status: 400 },
@@ -110,7 +113,7 @@ export async function POST(
 
     // Validate calculation structure
     if (!calculation.costBreakdown) {
-      console.error("[PDF] Missing costBreakdown in calculation", {
+      logger.error("[PDF] Missing costBreakdown in calculation", {
         calculationKeys: Object.keys(calculation),
       });
       return NextResponse.json(
@@ -516,19 +519,24 @@ export async function POST(
         try {
           const buffer = Buffer.concat(chunks);
           if (buffer.length === 0) {
-            console.error("[PDF] Generated PDF is empty");
+            logger.error("[PDF] Generated PDF is empty");
             reject(new Error("Generated PDF is empty"));
           } else {
             resolve(buffer);
           }
         } catch (err) {
-          console.error("[PDF] Error concatenating chunks:", err);
+          logger.error("[PDF] Error concatenating chunks", {
+            error: err instanceof Error ? err.message : String(err),
+          });
           reject(err instanceof Error ? err : new Error("Failed to concatenate PDF chunks"));
         }
       });
       
       doc.on("error", (err: Error) => {
-        console.error("[PDF] PDFDocument error:", err);
+        logger.error("[PDF] PDFDocument error", {
+          error: err.message,
+          stack: err.stack,
+        });
         reject(err);
       });
 
@@ -536,7 +544,9 @@ export async function POST(
       try {
         doc.end();
       } catch (err) {
-        console.error("[PDF] Error calling doc.end():", err);
+        logger.error("[PDF] Error calling doc.end()", {
+          error: err instanceof Error ? err.message : String(err),
+        });
         reject(err instanceof Error ? err : new Error("Failed to finalize PDF document"));
       }
     });
@@ -548,13 +558,16 @@ export async function POST(
       },
     });
   } catch (error) {
-    console.error("[PDF] Error generating PDF:", error);
+    logger.error("[PDF] Error generating PDF", {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
     const errorName = error instanceof Error ? error.name : "UnknownError";
-    console.error("[PDF] Error details:", { 
+    logger.error("[PDF] Error details", {
       name: errorName,
-      message: errorMessage, 
+      message: errorMessage,
       stack: errorStack,
       type: typeof error,
     });
@@ -568,8 +581,8 @@ export async function POST(
         ...(errorStack ? { stack: errorStack } : {}),
       } : {}),
     };
-    
-    console.error("[PDF] Returning error response:", errorResponse);
+
+    logger.error("[PDF] Returning error response", { response: errorResponse });
     return NextResponse.json(errorResponse, { status: 500 });
   }
 }

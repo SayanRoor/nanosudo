@@ -31,7 +31,10 @@ export function AdminLoginForm(): ReactElement {
       }
       setStatus("sent");
     } catch (error) {
-      console.error(error);
+      if (process.env.NODE_ENV === "development") {
+         
+        console.error(error);
+      }
       setStatus("error");
       setErrorMessage(
         error instanceof Error

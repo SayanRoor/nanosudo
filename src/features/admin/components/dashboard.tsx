@@ -54,7 +54,10 @@ export function AdminDashboard(): ReactElement {
       .select("*")
       .order("created_at", { ascending: false });
     if (error) {
-      console.error(error);
+      if (process.env.NODE_ENV === "development") {
+         
+        console.error(error);
+      }
       setState("error");
       setErrorMessage(
         error.message ??
@@ -99,7 +102,10 @@ export function AdminDashboard(): ReactElement {
         .eq("id", submissionId);
 
       if (error) {
-        console.error(error);
+        if (process.env.NODE_ENV === "development") {
+           
+          console.error(error);
+        }
         await loadData();
         setErrorMessage(
           error.message ?? "Не удалось обновить статус. Попробуйте ещё раз.",

@@ -81,11 +81,11 @@ export async function POST(request: Request): Promise<Response> {
         });
 
       if (uploadResult.error) {
-        console.error(uploadResult.error);
         return NextResponse.json(
           {
             message:
               "Не удалось сохранить файл брендбука. Проверьте настройки Supabase Storage.",
+            error: process.env.NODE_ENV === "development" ? uploadResult.error.message : undefined,
           },
           { status: 500 },
         );
@@ -136,9 +136,11 @@ export async function POST(request: Request): Promise<Response> {
       .from("submissions")
       .insert(insertPayload);
     if (insertResult.error) {
-      console.error(insertResult.error);
       return NextResponse.json(
-        { message: "Не удалось сохранить бриф в базе данных." },
+        {
+          message: "Не удалось сохранить бриф в базе данных.",
+          error: process.env.NODE_ENV === "development" ? insertResult.error.message : undefined,
+        },
         { status: 500 },
       );
     }
@@ -186,13 +188,13 @@ export async function POST(request: Request): Promise<Response> {
 
     return NextResponse.json({ id: submissionId }, { status: 200 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       {
         message:
           error instanceof Error
             ? error.message
             : "Не удалось отправить бриф. Попробуйте позже.",
+        error: process.env.NODE_ENV === "development" && error instanceof Error ? error.stack : undefined,
       },
       { status: 500 },
     );

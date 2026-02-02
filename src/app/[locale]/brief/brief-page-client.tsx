@@ -66,7 +66,10 @@ function BriefCalculationSection(): ReactElement {
       try {
         calculation = calculateProjectCost(values);
       } catch (calcError) {
-        console.error("[Request] Calculation error:", calcError);
+        if (process.env.NODE_ENV === "development") {
+           
+          console.error("[Request] Calculation error:", calcError);
+        }
         throw new Error(t("brief.errors.calculationError", { error: calcError instanceof Error ? calcError.message : String(calcError) }));
       }
 
@@ -97,7 +100,10 @@ function BriefCalculationSection(): ReactElement {
       // Success
       setIsSubmitted(true);
     } catch (error) {
-      console.error("Error submitting request:", error);
+      if (process.env.NODE_ENV === "development") {
+         
+        console.error("Error submitting request:", error);
+      }
       const errorMessage = error instanceof Error ? error.message : t("brief.errors.unknownError");
       alert(t("brief.errors.submitError", { error: errorMessage }));
     } finally {

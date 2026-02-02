@@ -6,6 +6,7 @@ import type { BriefNewFormValues } from "@/features/brief/schemas/brief-new";
 import type { CalculationResult } from "@/features/brief/utils/calculation";
 import { formatCurrency } from "@/lib/currency";
 import type { Locale } from "@/i18n/config";
+import { logger } from "@/lib/logger";
 
 
 
@@ -21,7 +22,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
-      console.error("Missing Supabase environment variables");
+      logger.error("Missing Supabase environment variables");
       return NextResponse.json({ error: "Configuration error" }, { status: 500 });
     }
 
@@ -81,8 +82,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       .single();
 
     if (insertResult.error) {
-      console.error("[Brief Submission] Database insert error:", {
-        error: insertResult.error,
+      logger.error("[Brief Submission] Database insert error", {
         code: insertResult.error.code,
         message: insertResult.error.message,
         details: insertResult.error.details,
@@ -91,7 +91,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json(
         {
           error: "Failed to save submission",
-          details: insertResult.error.message,
+          details: process.env.NODE_ENV === "development" ? insertResult.error.message : undefined,
         },
         { status: 500 },
       );
@@ -129,13 +129,17 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     return NextResponse.json({ id: submissionId }, { status: 200 });
   } catch (error) {
-    console.error("Error processing brief submission:", error);
+    logger.error("Error processing brief submission", {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
             : "Failed to process submission",
+        details: process.env.NODE_ENV === "development" && error instanceof Error ? error.stack : undefined,
       },
       { status: 500 },
     );
