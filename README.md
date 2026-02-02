@@ -1,6 +1,6 @@
 ## nanosudo.com
 
-Портфолио full-stack разработчика (Next.js 16, TypeScript, Tailwind 4, Supabase, Brevo).
+Портфолио (Next.js 16, TypeScript, Tailwind 4, Supabase, Brevo).
 
 ### Быстрый старт
 

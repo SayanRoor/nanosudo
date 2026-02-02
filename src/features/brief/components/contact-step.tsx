@@ -108,7 +108,10 @@ export function BriefContactStep(): ReactElement {
       clearDraft();
       setStatus("success");
     } catch (error) {
-      console.error(error);
+      if (process.env.NODE_ENV === "development") {
+         
+        console.error(error);
+      }
       setErrorMessage(
         error instanceof Error
           ? error.message

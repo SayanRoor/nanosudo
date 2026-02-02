@@ -125,7 +125,7 @@ function HeroSection(): ReactElement {
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={phraseIndex}
-                    className="inline-block bg-gradient-to-r from-accent via-[#8a7bff] to-accent bg-[length:200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(138,123,255,0.5)]"
+                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(138,123,255,0.5)]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
@@ -168,7 +168,7 @@ function HeroSection(): ReactElement {
             transition={{ duration: 0.6, delay: 0.15 }}
           >
             <div className="relative rounded-2xl border border-border/60 bg-surface/80 p-4 lg:p-6 shadow-soft overflow-hidden">
-              <div className="aspect-square relative rounded-xl overflow-hidden bg-gradient-to-br from-accent/20 to-accent/5 animate-photo-pulse">
+              <div className="aspect-square relative rounded-xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5 animate-photo-pulse">
                 <Image
                   src="/Sayan_Roor_Web_Dev.jpg"
                   alt={t("home.hero.imageAlt")}
@@ -263,7 +263,7 @@ function TypewriterText({
     <span ref={ref} className="inline font-mono">
       {displayedText}
       {showCursor && isTyping && (
-        <span className="inline-block w-[2px] h-4 bg-accent ml-0.5 align-middle typewriter-cursor" />
+        <span className="inline-block w-0.5 h-4 bg-accent ml-0.5 align-middle typewriter-cursor" />
       )}
     </span>
   );
@@ -358,7 +358,7 @@ function StatsCard({ stat }: StatsCardProps): ReactElement {
     >
       {/* Animated background gradient on hover */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/10 opacity-0"
+        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       />
@@ -486,7 +486,7 @@ function ExpertiseSection(): ReactElement {
       {/* Background with gradient orbs and grid pattern */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
         {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
 
         {/* Animated gradient orbs */}
         <div className="absolute inset-0">
@@ -563,7 +563,7 @@ function ExpertiseSection(): ReactElement {
               variants={fadeInUp}
             >
               <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-accent/10 p-3 flex-shrink-0">
+                <div className="rounded-lg bg-accent/10 p-3 shrink-0">
                   <item.icon className="w-6 h-6 text-accent" />
                 </div>
                 <div className="flex-1 space-y-3">
@@ -638,7 +638,7 @@ function WhyMeCard({ advantage, t }: WhyMeCardProps): ReactElement {
     >
       {/* Animated background gradient on hover */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/10 opacity-0"
+        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       />
@@ -646,7 +646,7 @@ function WhyMeCard({ advantage, t }: WhyMeCardProps): ReactElement {
       <div className="flex flex-col h-full gap-5 relative z-10">
         <div className="flex items-start gap-4">
           <motion.div
-            className="why-me-icon-small-wrapper flex-shrink-0"
+            className="why-me-icon-small-wrapper shrink-0"
             style={{
               '--icon-bg-color': advantage.colorBright,
             } as React.CSSProperties}
@@ -840,7 +840,7 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
     >
       {/* Animated background gradient on hover */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/10 opacity-0"
+        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       />
@@ -919,7 +919,7 @@ function ProcessSection(): ReactElement {
       {/* Background with gradient orbs and grid pattern */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
         {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
 
         {/* Animated gradient orbs */}
         <div className="absolute inset-0">
@@ -1051,7 +1051,7 @@ function GuaranteeCard({ guarantee, t }: GuaranteeCardProps): ReactElement {
     >
       {/* Animated background gradient on hover */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/10 opacity-0"
+        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       />
@@ -1176,7 +1176,7 @@ function PortfolioSection(): ReactElement {
       {/* Background with gradient orbs and grid pattern */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
         {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
 
         {/* Animated gradient orbs */}
         <div className="absolute inset-0">
@@ -1279,7 +1279,7 @@ function PortfolioSection(): ReactElement {
           >
             <Link
               href="/cases"
-              className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-surface/80 px-6 py-3 text-sm font-semibold normal-case text-foreground transition-all hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-surface/80 px-6 py-3 text-sm font-semibold normal-case text-foreground transition-all hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               {t("common.cta.viewAllCases")}
               <ArrowRight className="w-4 h-4" />
@@ -1295,7 +1295,7 @@ function ProjectCardContent({ project }: { readonly project: PortfolioProject })
   return (
     <>
       {/* Image */}
-      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-accent/20 to-accent/5">
+      <div className="relative aspect-video overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
         <Image
           src={project.image}
           alt={project.imageAlt}
@@ -1311,7 +1311,7 @@ function ProjectCardContent({ project }: { readonly project: PortfolioProject })
             <h3 className="font-heading text-xl group-hover:text-accent transition-colors">
               {project.title}
             </h3>
-            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors flex-shrink-0 mt-0.5" />
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0 mt-0.5" />
           </div>
           <p className="text-sm text-muted-foreground line-clamp-2">
             {project.shortDescription}
@@ -1341,7 +1341,7 @@ function FinalCTASection(): ReactElement {
     <section className="relative border-t border-border/60 py-section overflow-hidden">
       {/* Static background (video removed for improved UX) */}
       <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
       </div>
 
       <CTAParticlesCTA />
@@ -1396,7 +1396,7 @@ function FinalCTASection(): ReactElement {
                 variants={fadeInUp}
                 transition={{ delay: index * 0.1 }}
               >
-                <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                 <span className="text-foreground">{text}</span>
               </motion.div>
             ))}
@@ -1411,7 +1411,7 @@ function FinalCTASection(): ReactElement {
               <button
                 type="button"
                 onClick={() => setIsContactModalOpen(true)}
-                className="btn-accent inline-flex items-center justify-center rounded-lg bg-accent px-10 py-5 text-base font-semibold normal-case border-2 shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="btn-accent inline-flex items-center justify-center rounded-lg bg-accent px-10 py-5 text-base font-semibold normal-case border-2 shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {t("common.cta.getFreeConsultation")}
               </button>
@@ -1438,7 +1438,7 @@ function FinalCTASection(): ReactElement {
               <button
                 type="button"
                 onClick={() => setIsContactModalOpen(false)}
-                className="rounded-full border border-border/60 p-2 text-muted-foreground transition hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="rounded-full border border-border/60 p-2 text-muted-foreground transition hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 aria-label="Close contact options"
               >
                 <ArrowRight className="h-4 w-4 rotate-45" />
@@ -1458,7 +1458,7 @@ function FinalCTASection(): ReactElement {
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="flex items-center justify-between rounded-xl border border-border/60 bg-surface px-4 py-3 text-sm font-semibold text-foreground shadow-soft transition hover:border-accent hover:bg-accent/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="flex items-center justify-between rounded-xl border border-border/60 bg-surface px-4 py-3 text-sm font-semibold text-foreground shadow-soft transition hover:border-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   <span className="flex items-center gap-3">
                     <Icon className="h-5 w-5 text-accent" />
@@ -1498,7 +1498,7 @@ export default function Home(): ReactElement {
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
         <button
           type="button"
-          className="rounded-full border border-border/60 bg-surface/80 p-3 text-foreground shadow-soft transition hover:-translate-y-1 hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="rounded-full border border-border/60 bg-surface/80 p-3 text-foreground shadow-soft transition hover:-translate-y-1 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           aria-label="Scroll to top"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1508,7 +1508,7 @@ export default function Home(): ReactElement {
         </button>
         <button
           type="button"
-          className="rounded-full border border-border/60 bg-surface/80 p-3 text-foreground shadow-soft transition hover:translate-y-1 hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="rounded-full border border-border/60 bg-surface/80 p-3 text-foreground shadow-soft transition hover:translate-y-1 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           aria-label="Scroll to bottom"
           onClick={() => {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
