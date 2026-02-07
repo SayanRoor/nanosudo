@@ -4,7 +4,7 @@
     "nav": {
       "home": "Home",
       "cases": "Cases",
-      "about": "About",
+      "about": "Who I am",
       "blog": "Blog",
       "contact": "Contact"
     },
@@ -25,7 +25,7 @@
       }
     },
     "cta": {
-      "submitRequest": "Submit Request",
+      "submitRequest": "Request",
       "getFreeConsultation": "Get Free Consultation",
       "cost": "Cost",
       "howIWork": "How I Work",
@@ -36,6 +36,21 @@
     "pitch": {
       "title": "I build websites & web apps that grow revenue.",
       "description": "One‑month delivery: strategy, development, integrations, launch & analytics. Focus on speed, conversion and ROI."
+    },
+    "branding": {
+      "description": "From ideation to deployment, I build high-performance applications that scale businesses."
+    },
+    "widgets": {
+      "location": {
+        "title": "Location"
+      },
+      "contact": {
+        "title": "Get in Touch",
+        "emailLabel": "E-mail"
+      },
+      "explore": {
+        "title": "Explore"
+      }
     }
   },
   "cases": {
@@ -100,7 +115,7 @@
   },
   "about": {
     "hero": {
-      "label": "about",
+      "label": "who i am",
       "title": "From education to independent development",
       "description": "I build web apps that solve business problems and deliver measurable results. From code to launch — full development cycle."
     },
@@ -202,24 +217,24 @@
   "home": {
     "hero": {
       "subtitle": "Full-stack developer · Almaty",
-      "title": "I develop solutions that <highlight>deliver results</highlight>",
-      "description": "High-performance web applications on Next.js and TypeScript. Full cycle: development, integrations with CRM/1C/Kaspi, marketing. ROI 2-3 months.",
+      "title": "Building digital products that <highlight>scale businesses</highlight>",
+      "description": "Modern web applications with Next.js, TypeScript and Node.js. From MVP to enterprise solutions with CRM, 1C, payment integrations.",
       "photoPlaceholder": "Photo — Sayan Roor",
-      "mainTitle": "Full-cycle development",
+      "mainTitle": "Full stack developer",
       "imageAlt": "Sayan Roor - Full-stack developer",
       "rotatingPhrases": {
-        "0": "CLEAN CODE",
-        "1": "DATABASES",
-        "2": "INTEGRATIONS",
-        "3": "ANALYTICS"
+        "0": "NEXT.JS",
+        "1": "TYPESCRIPT",
+        "2": "NODE.JS",
+        "3": "REACT"
       },
       "resume": "Resume",
       "commercialProposal": "Commercial Proposal",
       "dynamic": {
-        "prefix": "I develop <wave>solutions</wave> that",
+        "prefix": "Building <wave>products</wave> that",
         "phrases": {
-          "results": "deliver results",
-          "scale": "scale revenue",
+          "results": "scale businesses",
+          "scale": "increase revenue",
           "convert": "boost conversion",
           "automate": "automate processes"
         }
@@ -290,7 +305,7 @@
         "transparency": {
           "title": "Guarantees & transparency",
           "description": "Contract, staged payments, weekly reports, access to staging. 12-month warranty.",
-          "benefit": "Transparent process without surprises"
+          "benefit": "Transparent process"
         }
       }
     },
@@ -301,7 +316,7 @@
       "outputLabel": "What you get:",
       "steps": {
         "consult": {
-          "title": "Free consultation",
+          "title": "Consultation",
           "duration": "30–60 minutes",
           "description": "Understand your case, analyze competitors. Give rough estimate and timing.",
           "output": "Clarity on next steps. Free."
@@ -310,7 +325,7 @@
           "title": "Strategy & spec",
           "duration": "3–5 days",
           "description": "Detailed spec with wireframes, development plan, marketing strategy, contract & payment schedule.",
-          "output": "Full project picture. We adjust before start."
+          "output": "Full project picture. If you don't like something — we change it."
         },
         "development": {
           "title": "Development",
@@ -323,12 +338,6 @@
           "duration": "3–5 days",
           "description": "Production deploy, analytics setup, ads launch, team onboarding.",
           "output": "Working tool + first leads"
-        },
-        "growth": {
-          "title": "Growth & optimization",
-          "duration": "Ongoing",
-          "description": "Weekly analytics check, ads optimization, improvement suggestions, 24/7 support.",
-          "output": "Stable sales growth"
         }
       }
     },

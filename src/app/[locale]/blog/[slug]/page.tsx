@@ -12,6 +12,11 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { getPostBySlug, getAllPosts, type AppLocale } from "@/lib/blog-data";
 import { MarkdownContent } from "@/components/blog/markdown-content";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
+import {
+  StructuredData,
+  generateBlogPostStructuredData,
+  generateBreadcrumbStructuredData
+} from "@/components/seo/structured-data";
 
 type BlogPostPageParams = {
   readonly slug: string;
@@ -37,7 +42,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === 'ru' 
+  const url = locale === 'ru'
     ? `${baseUrl}/blog/${slug}`
     : `${baseUrl}/${locale}/blog/${slug}`;
 
@@ -70,9 +75,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
 
   return (
     <SiteShell>
-      <main id="main-content" className="flex flex-1 flex-col">
+      <StructuredData data={generateBlogPostStructuredData({
+        ...post,
+        url: `https://nanosudo.com${locale === 'ru' ? '' : `/${locale}`}/blog/${slug}`,
+      })} />
+      <StructuredData data={generateBreadcrumbStructuredData([
+        { name: t("common.home"), item: "/" },
+        { name: t("common.blog"), item: "/blog" },
+        { name: post.title, item: `/blog/${slug}` },
+      ])} />
+      <main id="main-content" className="flex flex-1 flex-col pt-24 md:pt-32">
         {/* Header */}
-        <section className="border-b border-border/60 py-8 bg-surface/40">
+        <section className="border-b border-border/60 py-12 md:py-16 bg-surface/40">
           <Container className="max-w-4xl">
             <div className="space-y-6">
               <Link
@@ -124,9 +138,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
         </section>
 
         {/* Hero Image */}
-        <section className="border-b border-border/60 py-section bg-gradient-to-b from-surface/20 to-background">
-          <Container className="max-w-5xl">
-            <div className="relative aspect-video overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-accent/20 to-accent/5 shadow-soft">
+        <section className="border-b border-border/60 py-12 md:py-20 bg-gradient-to-b from-surface/20 to-background">
+          <Container className="max-w-4xl">
+            <div className="relative aspect-[21/9] overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-accent/20 to-accent/5 shadow-soft">
               <Image
                 src={post.image}
                 alt={post.imageAlt}

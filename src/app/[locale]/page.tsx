@@ -16,15 +16,8 @@ import {
   CreditCard,
   Eye,
   CheckCircle2,
-  TrendingUp,
-  Gauge,
   ArrowRight,
   MessageCircle,
-  DollarSign,
-  UserCheck,
-  Rocket,
-  Handshake,
-  ShieldCheck,
   Linkedin,
   Instagram,
   Github,
@@ -35,10 +28,9 @@ import {
 
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
-import CTAParticles from "@/components/background/cta-particles-clean";
-import CTAParticlesCTA from "@/components/background/cta-particles-cta";
 import { SiteShell } from "@/components/layout/site-shell";
 import { TechnologiesMarquee } from "@/components/technologies-marquee";
+// import { HeroBackground } from "@/components/hero-background";
 import { getFeaturedProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
 
 // Animation variants
@@ -83,131 +75,139 @@ function HeroSection(): ReactElement {
   const activePhrase = t(`home.hero.rotatingPhrases.${phraseIndex}` as any);
 
   return (
-    <section className="relative py-section overflow-hidden min-h-[80vh] md:min-h-screen flex items-center justify-center">
-      {/* Background gradient layer */}
-      <div className="absolute inset-0 -z-20 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/10" />
-      </div>
-
-      {/* Particle animation layer - positioned behind content */}
-      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <CTAParticles
-          baseCount={360}
-          text="NANO"
-          mode="text"
-          followCursor={true}
-          center={false}
-          trail={true}
-          trailBurst={8}
-        />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center pt-32 pb-16 overflow-hidden">
+      {/* Animated Hero Background with Floating Tech Icons - Replaced by Global Background */}
 
       <Container className="relative z-10 w-full">
-        <div className="mx-auto max-w-4xl text-center space-y-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
+
+          {/* Left Column - Content */}
           <motion.div
-            className="space-y-6"
+            className="space-y-8 text-center lg:text-left pt-10 lg:pt-0"
+            variants={staggerContainer}
             initial="initial"
             animate="animate"
-            variants={staggerContainer}
           >
-            <p className="text-xs md:text-sm font-bold uppercase tracking-[0.35em] text-muted-foreground/80 opacity-90">
-              {t("home.hero.subtitle")}
-            </p>
 
-            <motion.h1
-              className="font-heading text-5xl md:text-6xl lg:text-7xl leading-tight"
-              variants={fadeInUp}
-            >
-              <span className="block text-foreground">
+            {/* Main Heading */}
+            <motion.div className="space-y-6" variants={fadeInUp}>
+              <h1 className="text-foreground tracking-tighter">
                 {t("home.hero.mainTitle")}
-              </span>
-              <span className="block mt-2" role="status" aria-live="polite" aria-atomic="true">
+              </h1>
+
+              {/* Rotating Phrases with Gradient */}
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight font-extrabold" role="status" aria-live="polite" aria-atomic="true">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={phraseIndex}
-                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(138,123,255,0.5)]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                    className="block tech-gradient-text"
                   >
                     {activePhrase}
                   </motion.span>
                 </AnimatePresence>
-              </span>
-            </motion.h1>
+              </div>
+            </motion.div>
 
+            {/* Description */}
             <motion.p
-              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+              className="max-w-xl mx-auto lg:mx-0"
               variants={fadeInUp}
             >
               {t("home.hero.description")}
             </motion.p>
 
-            <motion.div className="flex flex-col sm:flex-row gap-4 pt-2 justify-center" variants={fadeInUp}>
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+              variants={fadeInUp}
+            >
               <Link
                 href="/brief"
-                className="btn-accent inline-flex items-center justify-center rounded-lg bg-accent px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wider text-background border-2 border-accent shadow-lg transition-all duration-300 hover:bg-accent/90 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+                className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-base font-semibold text-accent-foreground shadow-lg shadow-accent/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent/30 hover:-translate-y-0.5 active:translate-y-0"
               >
                 {t("common.cta.cost")}
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
+
               <a
                 href="#process"
-                className="inline-flex items-center justify-center rounded-lg border-2 border-border px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wider text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border-2 border-border bg-surface px-8 py-4 text-base font-semibold text-foreground transition-all duration-300 hover:bg-muted hover:border-accent/50"
               >
                 {t("common.cta.howIWork")}
               </a>
             </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              className="flex items-center justify-center lg:justify-start gap-4 pt-4"
+              variants={fadeInUp}
+            >
+              {[
+                { icon: Linkedin, href: "https://www.linkedin.com/in/sayan-roor/", label: "LinkedIn" },
+                { icon: Github, href: "https://github.com/SayanWD", label: "GitHub" },
+                { icon: Instagram, href: "https://instagram.com/satoshi_iam", label: "Instagram" },
+                { icon: Send, href: "https://t.me/satoshi_iam", label: "Telegram" },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-12 h-12 rounded-xl bg-surface border border-border text-muted-foreground transition-all duration-300 hover:text-accent hover:border-accent hover:-translate-y-1 shadow-sm"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </motion.div>
           </motion.div>
 
+          {/* Right Column - Image Card */}
           <motion.div
-            className="relative mx-auto w-full max-w-[360px] space-y-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            className="relative"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
           >
-            <div className="relative rounded-2xl border border-border/60 bg-surface/80 p-4 lg:p-6 shadow-soft overflow-hidden">
-              <div className="aspect-square relative rounded-xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5 animate-photo-pulse">
-                <Image
-                  src="/Sayan_Roor_Web_Dev.jpg"
-                  alt={t("home.hero.imageAlt")}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 1024px) 300px, 400px"
-                />
+            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-accent/10 to-secondary/10 shadow-2xl">
+              {/* Image */}
+              <Image
+                src="/Sayan_Roor_Web_Dev.jpg"
+                alt={t("home.hero.imageAlt")}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+
+              {/* Tech Badges */}
+              <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-2">
+                <span className="px-4 py-2 rounded-full bg-background/90 backdrop-blur-sm border border-border text-sm font-semibold text-foreground shadow-lg">
+                  Database
+                </span>
+                <span className="px-4 py-2 rounded-full bg-background/90 backdrop-blur-sm border border-border text-sm font-semibold text-foreground shadow-lg">
+                  Frontend
+                </span>
+                <span className="px-4 py-2 rounded-full bg-background/90 backdrop-blur-sm border border-border text-sm font-semibold text-foreground shadow-lg">
+                  Backend
+                </span>
+                <span className="px-4 py-2 rounded-full bg-background/90 backdrop-blur-sm border border-border text-sm font-semibold text-foreground shadow-lg">
+                  API
+                </span>
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-4">
-              <motion.a
-                href="https://www.linkedin.com/in/sayan-roor/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-icon-link"
-                aria-label="LinkedIn"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <Linkedin className="w-5 h-5" />
-              </motion.a>
-              <motion.a href="https://instagram.com/satoshi_iam" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.25 }} whileHover={{ scale: 1.05 }}>
-                <Instagram className="w-5 h-5" />
-              </motion.a>
-              <motion.a href="https://t.me/satoshi_iam" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Telegram" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }} whileHover={{ scale: 1.05 }}>
-                <Send className="w-5 h-5" />
-              </motion.a>
-              <motion.a href="https://wa.me/77478277485" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="WhatsApp" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.35 }} whileHover={{ scale: 1.05 }}>
-                <MessageCircle className="w-5 h-5" />
-              </motion.a>
-              <motion.a href="https://github.com/SayanWD" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="GitHub" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }} whileHover={{ scale: 1.05 }}>
-                <Github className="w-5 h-5" />
-              </motion.a>
-            </div>
+            {/* Decorative Elements */}
+            <div className="absolute -inset-4 -z-10 bg-gradient-to-br from-accent/20 to-secondary/20 blur-3xl opacity-30 rounded-3xl" />
           </motion.div>
+
         </div>
       </Container>
     </section>
@@ -269,184 +269,6 @@ function TypewriterText({
   );
 }
 
-/**
- * Animated number component that counts from 0 to target
- */
-function AnimatedNumber({
-  value
-}: {
-  readonly value: string;
-}): ReactElement {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, getViewportSettings(0.2));
-
-  // Parse value to extract number and suffix
-  const match = value.match(/^([\d.]+)(.*)$/);
-
-  const spring = useSpring(0, { stiffness: 50, damping: 30 });
-  const [display, setDisplay] = useState(0);
-
-  const numStr = match?.[1] ?? '';
-  const suffix = match?.[2] ?? '';
-  const targetNum = match ? parseFloat(numStr) : 0;
-  const hasDecimals = numStr.includes('.');
-  const decimalPlaces = hasDecimals ? (numStr.split('.')[1]?.length ?? 1) : 0;
-
-  useEffect(() => {
-    if (isInView && match) {
-      spring.set(targetNum);
-    }
-  }, [isInView, targetNum, spring, match]);
-
-  useMotionValueEvent(spring, "change", (latest) => {
-    if (match) {
-      if (hasDecimals) {
-        setDisplay(parseFloat(latest.toFixed(decimalPlaces)));
-      } else {
-        setDisplay(Math.round(latest));
-      }
-    }
-  });
-
-  // If value doesn't match pattern, return as-is
-  if (!match) {
-    return <span ref={ref}>{value}</span>;
-  }
-
-  // Format number (preserve decimals if original had them)
-  const formattedNum = hasDecimals
-    ? display.toFixed(decimalPlaces)
-    : display.toString();
-
-  return <span ref={ref}>{formattedNum}{suffix}</span>;
-}
-
-type StatItem = {
-  readonly value: string;
-  readonly label: string;
-  readonly icon: LucideIcon;
-};
-
-type StatsCardProps = {
-  readonly stat: StatItem;
-};
-
-// Animation variants for stats cards
-const statsCardVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-};
-
-function StatsCard({ stat }: StatsCardProps): ReactElement {
-  const Icon = stat.icon;
-
-  return (
-    <motion.div
-      className="rounded-xl border border-border/60 bg-surface/80 p-6 shadow-soft text-center cursor-pointer overflow-hidden relative"
-      initial="initial"
-      whileInView="animate"
-      viewport={getViewportSettings(0.2)}
-      variants={statsCardVariants}
-      whileHover={{
-        scale: 1.05,
-        y: -8,
-        transition: {
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1] as const,
-        },
-      }}
-    >
-      {/* Animated background gradient on hover */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      <div className="relative z-10">
-        <div className="flex justify-center mb-2">
-          <motion.div
-            whileHover={{
-              scale: 1.2,
-              rotate: [0, -10, 10, -10, 10, 0],
-              transition: {
-                duration: 0.6,
-                ease: [0.4, 0, 0.2, 1] as const,
-              },
-            }}
-          >
-            <Icon className="w-6 h-6 text-accent" />
-          </motion.div>
-        </div>
-        <motion.p
-          className="text-2xl md:text-3xl font-heading text-accent mb-1"
-          whileHover={{
-            scale: 1.1,
-            transition: {
-              duration: 0.2,
-              ease: [0.4, 0, 0.2, 1] as const,
-            },
-          }}
-        >
-          <AnimatedNumber value={stat.value} />
-        </motion.p>
-        <p className="text-xs text-muted-foreground">{stat.label}</p>
-      </div>
-    </motion.div>
-  );
-}
-
-function StatsSection(): ReactElement {
-  const t = useTranslations();
-  const stats: Array<StatItem> = [
-    { value: '20+', label: t('home.stats.items.successfulProjects'), icon: TrendingUp },
-    { value: '95+', label: t('home.stats.items.pageSpeed'), icon: Gauge },
-    { value: '1.2с', label: t('home.stats.items.avgLoad'), icon: Zap },
-    { value: '12 мес', label: t('home.stats.items.codeWarranty'), icon: Shield },
-  ];
-
-  return (
-    <section className="border-t border-border/60 py-section bg-surface/40">
-      <Container className="space-y-12">
-        <motion.div
-          className="space-y-4 text-balance text-center"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.1)}
-          variants={staggerContainer}
-        >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.stats.label")}
-          </motion.p>
-          <motion.h2
-            className="font-heading text-3xl md:text-4xl"
-            variants={fadeInUp}
-          >
-            {t("home.stats.title")}
-          </motion.h2>
-        </motion.div>
-
-        <motion.div
-          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 max-w-5xl mx-auto"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.2)}
-          variants={staggerContainer}
-        >
-          {stats.map((stat) => (
-            <StatsCard
-              key={stat.label}
-              stat={stat}
-            />
-          ))}
-        </motion.div>
-      </Container>
-    </section>
-  );
-}
 
 function ExpertiseSection(): ReactElement {
   const t = useTranslations();
@@ -469,7 +291,7 @@ function ExpertiseSection(): ReactElement {
       id: 'performance',
       title: 'Производительность и SEO',
       description: 'Скорость загрузки 1-1.5 сек, Core Web Vitals в зелёной зоне. Техническая оптимизация.',
-      tech: ['Core Web Vitals', 'SSR/SSG', 'Image Optimization'],
+      tech: ['Core Web Vitals', 'SSR/SSG', 'Optimization'],
       icon: Zap,
     },
     {
@@ -482,49 +304,8 @@ function ExpertiseSection(): ReactElement {
   ];
 
   return (
-    <section id="expertise" className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Background with gradient orbs and grid pattern */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0">
-          {/* Orb 1 - Azure (top-left) */}
-          <div
-            className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
-          />
-
-          {/* Orb 2 - Spring Green (top-right) */}
-          <div
-            className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 3 - Flamingo (bottom-left) */}
-          <div
-            className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 4 - Lime (bottom-right) */}
-          <div
-            className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
-          />
-        </div>
-
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, currentColor 1px, transparent 1px),
-              linear-gradient(to bottom, currentColor 1px, transparent 1px)
-            `,
-            backgroundSize: '48px 48px',
-          }}
-        />
-      </div>
-
-      <Container className="relative z-10 space-y-12">
+    <section id="expertise" className="relative border-t border-border/5 py-section overflow-hidden bg-background/20 backdrop-blur-[1px]">
+      <Container className="relative z-10 space-y-16">
         <motion.div
           className="space-y-4 text-balance text-center"
           initial="initial"
@@ -532,60 +313,62 @@ function ExpertiseSection(): ReactElement {
           viewport={getViewportSettings(0.1)}
           variants={staggerContainer}
         >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.expertise.label")}
-          </motion.p>
+          <motion.div variants={fadeInUp}>
+            <span className="label-caps">
+              {t("home.expertise.label")}
+            </span>
+          </motion.div>
           <motion.h2
-            className="font-heading text-3xl md:text-4xl"
+            className="tracking-tight"
             variants={fadeInUp}
           >
             {t("home.expertise.title")}
           </motion.h2>
           <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="max-w-2xl mx-auto"
             variants={fadeInUp}
           >
             {t("home.expertise.description")}
           </motion.p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+        <div className="grid gap-8 md:grid-cols-2 max-w-6xl mx-auto">
           {expertise.map((item, index) => (
             <motion.article
               key={index}
-              className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft transition hover:-translate-y-1 hover:border-accent/70"
+              className="glass-card group rounded-3xl p-10 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
               initial="initial"
               whileInView="animate"
               viewport={getViewportSettings(0.2)}
               variants={fadeInUp}
             >
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-accent/10 p-3 shrink-0">
-                  <item.icon className="w-6 h-6 text-accent" />
-                </div>
-                <div className="flex-1 space-y-3">
-                  <h3 className="font-heading text-xl">{t(`home.expertise.items.${item.id}.title`)}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    <TypewriterText
-                      text={t(`home.expertise.items.${item.id}.description`)}
-                      speed={15}
-                      delay={index * 300}
-                      showCursor={true}
-                    />
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.tech.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium text-muted-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+              <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
+                <item.icon className="w-32 h-32" />
+              </div>
+
+              <div className="relative z-10 space-y-6">
+                <div className="flex items-center gap-5">
+                  <div className="rounded-2xl bg-accent/10 p-4 border border-accent/20 text-accent group-hover:bg-accent group-hover:text-black dark:group-hover:text-white transition-all duration-500">
+                    <item.icon className="w-8 h-8" />
                   </div>
+                  <h3 className="font-heading text-2xl group-hover:tech-gradient-text transition-all duration-300">
+                    {t(`home.expertise.items.${item.id}.title`)}
+                  </h3>
+                </div>
+
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  {t(`home.expertise.items.${item.id}.description`)}
+                </p>
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {item.tech.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full border border-accent/10 bg-accent/5 px-4 py-1.5 text-xs font-bold text-accent/80 uppercase tracking-widest"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               </div>
             </motion.article>
@@ -596,209 +379,6 @@ function ExpertiseSection(): ReactElement {
   );
 }
 
-type Advantage = {
-  readonly id: string;
-  readonly title: string;
-  readonly description: string;
-  readonly benefit: string;
-  readonly icon: LucideIcon;
-  readonly color: string;
-  readonly colorBright: string;
-};
-
-type WhyMeCardProps = {
-  readonly advantage: Advantage;
-  readonly t: ReturnType<typeof useTranslations>;
-};
-
-// Animation variants for why me cards (same as guarantee cards)
-const whyMeCardVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-};
-
-function WhyMeCard({ advantage, t }: WhyMeCardProps): ReactElement {
-  const Icon = advantage.icon;
-
-  return (
-    <motion.div
-      className="h-full rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft why-me-card-static overflow-hidden relative cursor-pointer"
-      initial="initial"
-      whileInView="animate"
-      viewport={getViewportSettings(0.2)}
-      variants={whyMeCardVariants}
-      whileHover={{
-        scale: 1.05,
-        y: -8,
-        transition: {
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1] as const,
-        },
-      }}
-    >
-      {/* Animated background gradient on hover */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      <div className="flex flex-col h-full gap-5 relative z-10">
-        <div className="flex items-start gap-4">
-          <motion.div
-            className="why-me-icon-small-wrapper shrink-0"
-            style={{
-              '--icon-bg-color': advantage.colorBright,
-            } as React.CSSProperties}
-            whileHover={{
-              scale: 1.1,
-              opacity: 0.8,
-              transition: {
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1] as const,
-              },
-            }}
-          >
-            <motion.div
-              whileHover={{
-                scale: 1.2,
-                rotate: [0, -10, 10, -10, 10, 0],
-                transition: {
-                  duration: 0.6,
-                  ease: [0.4, 0, 0.2, 1] as const,
-                },
-              }}
-            >
-              <Icon className="w-6 h-6 why-me-icon" />
-            </motion.div>
-          </motion.div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-heading text-lg md:text-xl text-foreground leading-tight mb-3">
-              {t(`home.whyMe.items.${advantage.id}.title`)}
-            </h3>
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-              {t(`home.whyMe.items.${advantage.id}.description`)}
-            </p>
-          </div>
-        </div>
-        <div
-          className="why-me-benefit mt-auto"
-          style={{
-            '--benefit-color': advantage.color,
-            '--benefit-bg-color': advantage.colorBright,
-          } as React.CSSProperties}
-        >
-          <p className="why-me-benefit-text">
-            {t(`home.whyMe.items.${advantage.id}.benefit`)}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function WhyMeSection(): ReactElement {
-  const t = useTranslations();
-  const advantages: Array<Advantage> = [
-    {
-      id: 'direct',
-      title: 'Прямая коммуникация',
-      description: 'Общаетесь напрямую с разработчиком. Нет менеджеров и задержек — решения принимаются сразу.',
-      benefit: 'Задачи решаются в 2-3 раза быстрее',
-      icon: MessageCircle,
-      color: '#3b82f6', // Blue - хорошо виден в обоих режимах
-      colorBright: '#60a5fa', // Lighter blue
-    },
-    {
-      id: 'savings',
-      title: 'Экономия бюджета на 30-50%',
-      description: 'Один разработчик = без накладных расходов. Платите за работу, а не за офис и маржу агентства.',
-      benefit: 'Качество по лучшей цене',
-      icon: DollarSign,
-      color: '#10b981', // Green - хорошо виден в обоих режимах
-      colorBright: '#34d399', // Lighter green
-    },
-    {
-      id: 'responsibility',
-      title: 'Личная ответственность',
-      description: 'Пишу код сам = отвечаю за результат. Знаю каждую строчку, быстро исправлю любую проблему.',
-      benefit: 'Меньше багов, быстрее поддержка',
-      icon: UserCheck,
-      color: '#ec4899', // Pink - хорошо виден в обоих режимах
-      colorBright: '#f472b6', // Lighter pink
-    },
-    {
-      id: 'speed',
-      title: 'Гибкость и скорость',
-      description: 'Срочные изменения и новые идеи — обсудим и сделаем за день. Без бюрократии и согласований.',
-      benefit: 'Быстрые решения',
-      icon: Rocket,
-      color: '#f59e0b', // Amber - хорошо виден в обоих режимах
-      colorBright: '#fbbf24', // Lighter amber
-    },
-    {
-      id: 'partnership',
-      title: 'Долгосрочное партнёрство',
-      description: 'В курсе вашего бизнеса, предлагаю улучшения сам. На связи всегда — получаете партнёра.',
-      benefit: 'Помогу и после проекта с советом',
-      icon: Handshake,
-      color: '#8b5cf6', // Purple - хорошо виден в обоих режимах
-      colorBright: '#a78bfa', // Lighter purple
-    },
-    {
-      id: 'transparency',
-      title: 'Гарантии и прозрачность',
-      description: 'Договор, поэтапная оплата, еженедельные отчёты, доступ к тестовой версии. Гарантия 12 месяцев.',
-      benefit: 'Прозрачный процесс без сюрпризов',
-      icon: ShieldCheck,
-      color: '#06b6d4', // Cyan - хорошо виден в обоих режимах
-      colorBright: '#22d3ee', // Lighter cyan
-    },
-  ];
-
-  return (
-    <section id="why-me" className="relative z-10 border-t border-border/60 py-section">
-      <Container className="space-y-12">
-        <motion.div
-          className="space-y-4 text-balance text-center"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.1)}
-          variants={staggerContainer}
-        >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.whyMe.label")}
-          </motion.p>
-          <motion.h2
-            className="font-heading text-3xl md:text-4xl"
-            variants={fadeInUp}
-          >
-            {t("home.whyMe.title")}
-          </motion.h2>
-        </motion.div>
-
-        <motion.div
-          className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.2)}
-          variants={staggerContainer}
-        >
-          {advantages.map((advantage) => (
-            <WhyMeCard
-              key={advantage.id}
-              advantage={advantage}
-              t={t}
-            />
-          ))}
-        </motion.div>
-      </Container>
-    </section>
-  );
-}
 
 type ProcessStep = {
   readonly id: string;
@@ -824,41 +404,37 @@ const processStepCardVariants = {
 function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
   return (
     <motion.article
-      className="rounded-2xl border border-border/60 bg-surface/80 p-6 md:p-8 shadow-soft cursor-pointer overflow-hidden relative"
+      className="glass-card group h-full rounded-3xl p-8 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden border-border/40"
       initial="initial"
       whileInView="animate"
-      viewport={getViewportSettings(0.2)}
+      viewport={getViewportSettings(0.1)}
       variants={processStepCardVariants}
-      whileHover={{
-        scale: 1.05,
-        y: -8,
-        transition: {
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1] as const,
-        },
-      }}
     >
-      {/* Animated background gradient on hover */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
+      <div className="absolute top-0 right-0 p-6 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity decoration-accent pointer-events-none">
+        <span className="text-8xl font-heading font-black select-none tracking-tighter">
+          {step.number}
+        </span>
+      </div>
 
-      <div className="grid gap-6 md:grid-cols-[100px_1fr] relative z-10">
-        <div className="flex flex-col items-center md:items-start">
-          <span className="text-4xl font-heading text-accent mb-2">{step.number}</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            {step.duration}
-          </span>
-        </div>
-        <div className="space-y-3">
-          <h3 className="font-heading text-2xl">{step.title}</h3>
-          <p className="text-muted-foreground">{t(`home.process.steps.${step.id}.description`)}</p>
-          <div className="rounded-lg border border-accent/40 bg-accent/10 p-4 mt-4">
-            <p className="text-sm font-semibold text-accent mb-1">{t("home.process.outputLabel")}</p>
-            <p className="text-sm text-muted-foreground">{t(`home.process.steps.${step.id}.output`)}</p>
+      <div className="relative z-10 space-y-6 flex flex-col h-full">
+        <div className="flex items-center justify-between">
+          <div className="rounded-2xl bg-accent/10 px-4 py-2 border border-accent/20 text-accent group-hover:bg-accent group-hover:text-black dark:group-hover:text-white transition-all duration-500">
+            <span className="text-xs font-black uppercase tracking-[0.2em]">{step.duration}</span>
           </div>
+        </div>
+
+        <div className="space-y-3 flex-grow">
+          <h3 className="font-heading text-2xl group-hover:tech-gradient-text transition-all duration-300 leading-tight">
+            {step.title}
+          </h3>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {t(`home.process.steps.${step.id}.description`)}
+          </p>
+        </div>
+
+        <div className="relative p-4 rounded-2xl bg-accent/[0.03] border border-accent/10 mt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent/60 mb-1">{t("home.process.outputLabel")}</p>
+          <p className="text-xs text-foreground/80 leading-relaxed font-bold">{t(`home.process.steps.${step.id}.output`)}</p>
         </div>
       </div>
     </motion.article>
@@ -872,91 +448,38 @@ function ProcessSection(): ReactElement {
       id: 'consult',
       number: '01',
       title: t('home.process.steps.consult.title'),
-      description: 'Разбираю вашу ситуацию, анализирую конкурентов. Озвучиваю примерную стоимость и сроки.',
+      description: t('home.process.steps.consult.description'),
       duration: t('home.process.steps.consult.duration'),
-      output: 'Понимание, что нужно делать. Бесплатно.',
+      output: t('home.process.steps.consult.output'),
     },
     {
       id: 'scope',
       number: '02',
       title: t('home.process.steps.scope.title'),
-      description: 'Детальное ТЗ с прототипами, план разработки, стратегия маркетинга, договор и график платежей.',
+      description: t('home.process.steps.scope.description'),
       duration: t('home.process.steps.scope.duration'),
-      output: 'Полная картина проекта. Если что-то не нравится — меняем до старта.',
-      payment: '30% от стоимости',
+      output: t('home.process.steps.scope.output'),
     },
     {
       id: 'development',
       number: '03',
       title: t('home.process.steps.development.title'),
-      description: 'Пишу код, каждую неделю — созвон с отчётом, доступ к тестовой версии, вносим правки по ходу.',
+      description: t('home.process.steps.development.description'),
       duration: t('home.process.steps.development.duration'),
-      output: 'Видите прогресс. Никаких "чёрных ящиков".',
-      payment: '40% по готовности 50% функционала',
+      output: t('home.process.steps.development.output'),
     },
     {
       id: 'launch',
       number: '04',
       title: t('home.process.steps.launch.title'),
-      description: 'Переносим на боевой сервер, настраиваю аналитику, запускаю рекламу, обучаю вашу команду.',
+      description: t('home.process.steps.launch.description'),
       duration: t('home.process.steps.launch.duration'),
-      output: 'Работающий инструмент + первые заявки',
-      payment: '30% после запуска',
-    },
-    {
-      id: 'growth',
-      number: '05',
-      title: t('home.process.steps.growth.title'),
-      description: 'Смотрю аналитику еженедельно, оптимизирую рекламу, предлагаю улучшения, поддержка 24/7.',
-      duration: t('home.process.steps.growth.duration'),
-      output: 'Стабильный рост продаж',
-      payment: 'Абонентка от 112,000₸/мес (если нужна)',
+      output: t('home.process.steps.launch.output'),
     },
   ];
 
   return (
-    <section id="process" className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Background with gradient orbs and grid pattern */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0">
-          {/* Orb 1 - Azure (top-left) */}
-          <div
-            className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
-          />
-
-          {/* Orb 2 - Spring Green (top-right) */}
-          <div
-            className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 3 - Flamingo (bottom-left) */}
-          <div
-            className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 4 - Lime (bottom-right) */}
-          <div
-            className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
-          />
-        </div>
-
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, currentColor 1px, transparent 1px),
-              linear-gradient(to bottom, currentColor 1px, transparent 1px)
-            `,
-            backgroundSize: '48px 48px',
-          }}
-        />
-      </div>
-
+    <section id="process" className="relative border-t border-border/5 py-section overflow-hidden">
       <Container className="relative z-10 space-y-12">
         <motion.div
           className="space-y-4 text-balance text-center"
@@ -988,7 +511,7 @@ function ProcessSection(): ReactElement {
         </motion.div>
 
         <motion.div
-          className="space-y-8"
+          className="grid gap-6 md:grid-cols-2 max-w-6xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.15)}
@@ -998,7 +521,7 @@ function ProcessSection(): ReactElement {
             <motion.div
               key={step.id}
               variants={fadeInUp}
-              transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <ProcessStepCard
                 step={step}
@@ -1035,60 +558,23 @@ function GuaranteeCard({ guarantee, t }: GuaranteeCardProps): ReactElement {
 
   return (
     <motion.div
-      className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft text-center cursor-pointer overflow-hidden relative"
+      className="glass-card rounded-2xl p-8 text-center group cursor-pointer relative overflow-hidden"
       initial="initial"
       whileInView="animate"
-      viewport={getViewportSettings(0.2)}
+      viewport={getViewportSettings(0.1)}
       variants={guaranteeCardVariants}
-      whileHover={{
-        scale: 1.05,
-        y: -8,
-        transition: {
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1] as const,
-        },
-      }}
+      whileHover={{ y: -10 }}
     >
-      {/* Animated background gradient on hover */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
       <div className="relative z-10">
-        <div className="flex justify-center mb-4">
-          <motion.div
-            className="rounded-lg bg-accent/10 p-3"
-            whileHover={{
-              scale: 1.1,
-              opacity: 0.8,
-              transition: {
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1] as const,
-              },
-            }}
-          >
-            <motion.div
-              whileHover={{
-                scale: 1.2,
-                rotate: [0, -10, 10, -10, 10, 0],
-                transition: {
-                  duration: 0.6,
-                  ease: [0.4, 0, 0.2, 1] as const,
-                },
-              }}
-            >
-              <Icon className="w-8 h-8 text-accent" />
-            </motion.div>
-          </motion.div>
+        <div className="flex justify-center mb-6">
+          <div className="rounded-2xl bg-accent/10 p-4 transition-transform group-hover:scale-110 group-hover:rotate-12 group-hover:bg-accent/20">
+            <Icon className="w-8 h-8 text-accent" />
+          </div>
         </div>
-        <motion.h3
-          className="font-heading text-lg mb-2 text-foreground"
-        >
+        <h3 className="font-heading text-xl mb-3 text-foreground group-hover:text-accent transition-colors">
           {t(`home.guarantees.items.${guarantee.id}.title`)}
-        </motion.h3>
-        <p className="text-sm text-muted-foreground">{t(`home.guarantees.items.${guarantee.id}.description`)}</p>
+        </h3>
+        <p className="text-muted-foreground font-medium leading-relaxed">{t(`home.guarantees.items.${guarantee.id}.description`)}</p>
       </div>
     </motion.div>
   );
@@ -1124,8 +610,8 @@ function GuaranteesSection(): ReactElement {
   ];
 
   return (
-    <section className="border-t border-border/60 py-section">
-      <Container className="space-y-12">
+    <section className="relative border-t border-border/5 py-section overflow-hidden">
+      <Container className="relative z-10 space-y-16">
         <motion.div
           className="space-y-4 text-balance text-center"
           initial="initial"
@@ -1133,14 +619,13 @@ function GuaranteesSection(): ReactElement {
           viewport={getViewportSettings(0.1)}
           variants={staggerContainer}
         >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.guarantees.label")}
-          </motion.p>
+          <motion.div variants={fadeInUp}>
+            <span className="text-xs font-bold uppercase tracking-[0.4em] text-accent/80">
+              {t("home.guarantees.label")}
+            </span>
+          </motion.div>
           <motion.h2
-            className="font-heading text-3xl md:text-4xl"
+            className="font-heading text-4xl md:text-5xl lg:text-6xl tracking-tight"
             variants={fadeInUp}
           >
             {t("home.guarantees.title")}
@@ -1148,7 +633,7 @@ function GuaranteesSection(): ReactElement {
         </motion.div>
 
         <motion.div
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto"
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.2)}
@@ -1172,84 +657,42 @@ function PortfolioSection(): ReactElement {
   const projects = getFeaturedProjects();
 
   return (
-    <section className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Background with gradient orbs and grid pattern */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0">
-          {/* Orb 1 - Azure (top-left) */}
-          <div
-            className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
-          />
-
-          {/* Orb 2 - Spring Green (top-right) */}
-          <div
-            className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 3 - Flamingo (bottom-left) */}
-          <div
-            className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 4 - Lime (bottom-right) */}
-          <div
-            className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
-          />
-        </div>
-
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, currentColor 1px, transparent 1px),
-              linear-gradient(to bottom, currentColor 1px, transparent 1px)
-            `,
-            backgroundSize: '48px 48px',
-          }}
-        />
-      </div>
-
-      <Container className="relative z-10 space-y-12">
+    <section className="relative border-t border-border/5 py-section overflow-hidden bg-background/40 backdrop-blur-[1px]">
+      <Container className="relative z-10 space-y-20">
         <motion.div
-          className="space-y-4 text-balance text-center"
+          className="space-y-6 text-balance text-center"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.1)}
           variants={staggerContainer}
         >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.portfolio.label")}
-          </motion.p>
+          <motion.div variants={fadeInUp}>
+            <span className="label-caps">
+              {t("home.portfolio.label")}
+            </span>
+          </motion.div>
           <motion.h2
-            className="font-heading text-3xl md:text-4xl"
+            className="tracking-tighter"
             variants={fadeInUp}
           >
             {t("home.portfolio.title")}
           </motion.h2>
           <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="max-w-3xl mx-auto"
             variants={fadeInUp}
           >
             {t("home.portfolio.description")}
           </motion.p>
         </motion.div>
 
-        <div className="flex justify-center">
-          <div className="grid gap-6 max-w-2xl w-full">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid gap-12 sm:grid-cols-2">
             {projects.map((project, index) => {
               const translatedProject = getTranslatedProject(project.id, t) ?? project;
               return (
                 <motion.article
                   key={project.id}
-                  className="group relative rounded-2xl border border-border/60 bg-surface/80 overflow-hidden shadow-soft transition-all hover:-translate-y-2 hover:border-accent/70 hover:shadow-lg"
+                  className="glass-card group rounded-[2.5rem] overflow-hidden hover:-translate-y-3 transition-all duration-700 shadow-2xl relative"
                   initial="initial"
                   whileInView="animate"
                   viewport={getViewportSettings(0.2)}
@@ -1258,7 +701,7 @@ function PortfolioSection(): ReactElement {
                 >
                   <Link
                     href={`/cases/${translatedProject.id}`}
-                    className="block"
+                    className="block h-full"
                     aria-label={t("cases.list.openCaseAria", { title: translatedProject.title })}
                   >
                     <ProjectCardContent project={translatedProject} />
@@ -1269,23 +712,21 @@ function PortfolioSection(): ReactElement {
           </div>
         </div>
 
-        {projects.length > 1 && (
-          <motion.div
-            className="text-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeInUp}
+        <motion.div
+          className="text-center pt-8"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <Link
+            href="/cases"
+            className="inline-flex items-center gap-3 rounded-2xl glass-card px-10 py-5 text-sm font-bold uppercase tracking-widest text-foreground transition-all hover:bg-accent/10 hover:text-accent group"
           >
-            <Link
-              href="/cases"
-              className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-surface/80 px-6 py-3 text-sm font-semibold normal-case text-foreground transition-all hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              {t("common.cta.viewAllCases")}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-        )}
+            {t("common.cta.viewAllCases")}
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
       </Container>
     </section>
   );
@@ -1338,85 +779,92 @@ function FinalCTASection(): ReactElement {
   const t = useTranslations();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
-    <section className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Static background (video removed for improved UX) */}
-      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
+    <section className="relative border-t border-border/60 py-section overflow-hidden bg-background">
+      {/* Dynamic Aura Background */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="mesh-gradient opacity-60 dark:opacity-40 scale-125">
+          <div className="mesh-orb w-[1200px] h-[1200px] -bottom-1/4 -right-1/4 bg-accent/20 blur-[150px]" />
+          <div className="mesh-orb w-[800px] h-[800px] top-1/4 -left-1/4 bg-secondary/15 blur-[120px]" />
+        </div>
+        <div className="absolute inset-0 bg-background/40 backdrop-blur-[80px]" />
       </div>
 
-      <CTAParticlesCTA />
-
-      <Container className="relative z-10 max-w-4xl">
+      <Container className="relative z-10">
         <motion.div
-          className="space-y-10 text-balance"
+          className="space-y-12 md:space-y-20"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.1)}
           variants={staggerContainer}
         >
-          {/* Header */}
-          <motion.div
-            className="space-y-4 text-center"
-            variants={fadeInUp}
-          >
-            <motion.p
-              className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-              variants={fadeInUp}
-            >
-              {t("home.finalCta.label")}
-            </motion.p>
+          {/* Header with improved typography */}
+          <div className="space-y-6 text-center max-w-4xl mx-auto">
+            <motion.div variants={fadeInUp}>
+              <span className="label-caps px-4 py-2 rounded-full bg-accent/5 border border-accent/10">
+                {t("home.finalCta.label")}
+              </span>
+            </motion.div>
             <motion.h2
-              className="font-heading text-3xl md:text-4xl lg:text-5xl"
+              className="text-4xl md:text-6xl lg:text-7xl font-heading tracking-tighter leading-[0.9] text-balance"
               variants={fadeInUp}
             >
               {t("home.finalCta.title")}
             </motion.h2>
             <motion.p
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-muted-foreground mx-auto leading-relaxed"
               variants={fadeInUp}
             >
               {t("home.finalCta.description")}
             </motion.p>
-          </motion.div>
+          </div>
 
-          {/* Benefits Grid */}
-          <motion.div
-            className="grid gap-4 md:grid-cols-2 max-w-2xl mx-auto"
-            variants={fadeInUp}
-          >
-            {[
-              t("home.finalCta.benefits.item1"),
-              t("home.finalCta.benefits.item2"),
-              t("home.finalCta.benefits.item3"),
-              t("home.finalCta.benefits.item4"),
-            ].map((text, index) => (
-              <motion.div
-                key={index}
-                className="flex items-start gap-3 rounded-xl border border-border/60 bg-surface/80 p-4 shadow-soft"
-                variants={fadeInUp}
-                transition={{ delay: index * 0.1 }}
-              >
-                <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
-                <span className="text-foreground">{text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* CTA Section */}
-          <motion.div className="space-y-4 text-center" variants={fadeInUp}>
-            <motion.p className="text-sm text-muted-foreground" variants={fadeInUp}>
-              {t("home.finalCta.subtitle")}
-            </motion.p>
-            <motion.div variants={fadeInUp}>
-              <button
-                type="button"
-                onClick={() => setIsContactModalOpen(true)}
-                className="btn-accent inline-flex items-center justify-center rounded-lg bg-accent px-10 py-5 text-base font-semibold normal-case border-2 shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {t("common.cta.getFreeConsultation")}
-              </button>
+          <div className="max-w-4xl mx-auto space-y-12">
+            {/* Benefits Grid */}
+            <motion.div
+              className="grid gap-4 sm:grid-cols-2"
+              variants={fadeInUp}
+            >
+              {[
+                t("home.finalCta.benefits.item1"),
+                t("home.finalCta.benefits.item2"),
+                t("home.finalCta.benefits.item3"),
+                t("home.finalCta.benefits.item4"),
+              ].map((text, index) => (
+                <motion.div
+                  key={index}
+                  className="glass-card flex items-center gap-4 p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] group transition-all hover:bg-accent/5 border-border/40"
+                  variants={fadeInUp}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="shrink-0 p-2.5 rounded-2xl bg-accent text-accent-foreground group-hover:scale-110 transition-transform duration-500 shadow-glow">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <span className="text-base md:text-lg font-bold text-foreground/90 leading-tight">{text}</span>
+                </motion.div>
+              ))}
             </motion.div>
-          </motion.div>
+
+            {/* CTA Section */}
+            <motion.div className="space-y-10 text-center" variants={fadeInUp}>
+              <div className="flex flex-col items-center gap-8">
+                <button
+                  type="button"
+                  onClick={() => setIsContactModalOpen(true)}
+                  className="group relative inline-flex h-20 items-center justify-center rounded-[2.5rem] bg-accent px-12 text-lg font-black uppercase tracking-[0.2em] text-[#020617] shadow-[0_20px_50px_-10px_rgba(51,153,51,0.5)] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_25px_60px_-10px_rgba(51,153,51,0.6)] active:scale-95 overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center gap-3">
+                    {t("common.cta.getFreeConsultation")}
+                    <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+                  </span>
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                </button>
+
+                <p className="text-muted-foreground font-black uppercase tracking-[0.4em] text-[10px]">
+                  {t("home.finalCta.subtitle")}
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
       </Container>
 
@@ -1480,19 +928,14 @@ export default function Home(): ReactElement {
 
   return (
     <SiteShell>
-      <StructuredData data={generatePersonStructuredData(locale)} />
-      <StructuredData data={generateWebsiteStructuredData(locale)} />
       <StructuredData data={generateServiceStructuredData()} />
       <main id="main-content" className="flex flex-1 flex-col">
         <HeroSection />
-        <StatsSection />
-        <TechnologiesMarquee />
         <ExpertiseSection />
-        <TechnologiesMarquee direction="right" />
-        <WhyMeSection />
         <ProcessSection />
         <GuaranteesSection />
         <PortfolioSection />
+        <TechnologiesMarquee />
         <FinalCTASection />
       </main>
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">

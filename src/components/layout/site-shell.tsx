@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 // Dynamic background removed to simplify hero visuals and avoid intrusive animations
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { GlobalTechBackground } from "../global-tech-background";
 
 type SiteShellProps = {
   readonly children: ReactNode;
@@ -34,12 +35,9 @@ export function SiteShell({
         className,
       )}
     >
+      <GlobalTechBackground />
       {/* Static background only; dynamic background removed to improve UX */}
-      {resolvedHeader ? (
-        <header className="sticky top-0 z-20 border-b border-border/60 bg-surface/60 backdrop-blur-xl">
-          {resolvedHeader}
-        </header>
-      ) : null}
+      {resolvedHeader}
       <div className="relative z-10 flex flex-1 flex-col">{children}</div>
       {resolvedFooter ? (
         <footer className="relative z-10 border-t border-border/60 bg-surface/80">

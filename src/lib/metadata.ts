@@ -2,8 +2,24 @@ import type { Metadata } from 'next';
 import { routing } from '@/i18n/routing';
 
 const BASE_URL = 'https://nanosudo.com';
-const SITE_NAME = 'Sayan Roor — Full-stack разработчик';
-const DEFAULT_DESCRIPTION = 'Создаю высокопроизводительные веб-приложения на Next.js и TypeScript с фокусом на конверсию. Полный цикл: разработка, интеграции с CRM/1С/Kaspi, маркетинг.';
+
+const SITE_NAMES: Record<string, string> = {
+  ru: 'Sayan Roor — Full-stack разработчик',
+  en: 'Sayan Roor — Full-stack Developer',
+  kk: 'Sayan Roor — Full-stack әзірлеуші',
+};
+
+const DEFAULT_DESCRIPTIONS: Record<string, string> = {
+  ru: 'Создаю высокопроизводительные веб-приложения на Next.js и TypeScript с фокусом на конверсию. Полный цикл: разработка, интеграции с CRM/1С/Kaspi, маркетинг.',
+  en: 'Building high-performance web applications with Next.js and TypeScript. Full-cycle development: from strategy to launch and marketing. Focus on conversion and performance.',
+  kk: 'Next.js және TypeScript-те жоғары өнімді веб-қосымшаларды әзірлеймін. Толық цикл: әзірлеу, CRM/1С/Kaspi интеграциясы, маркетинг.',
+};
+
+const KEYWORDS: Record<string, string[]> = {
+  ru: ['Full-stack разработчик', 'Next.js', 'TypeScript', 'React', 'Node.js', 'Разработка сайтов Алматы', 'Создание веб-приложений', 'Интеграция Kaspi API', 'Интеграция 1С', 'CRM интеграция'],
+  en: ['Full-stack developer', 'Next.js', 'TypeScript', 'React', 'Node.js', 'Web development', 'Custom web applications', 'Kaspi API integration', '1C integration', 'CRM integration'],
+  kk: ['Full-stack әзірлеуші', 'Next.js', 'TypeScript', 'React', 'Node.js', 'Сайт әзірлеу Алматы', 'Веб-қосымшаларды жасау', 'Kaspi API интеграциясы', '1С интеграциясы', 'CRM интеграциясы'],
+};
 
 type GenerateMetadataOptions = {
   readonly title?: string;
@@ -15,11 +31,13 @@ type GenerateMetadataOptions = {
   readonly publishedTime?: string;
   readonly modifiedTime?: string;
   readonly author?: string;
+  readonly keywords?: string[];
+  readonly noIndex?: boolean;
 };
 
 export function generateMetadata({
   title,
-  description = DEFAULT_DESCRIPTION,
+  description,
   image = `${BASE_URL}/Sayan_Roor_Web_Dev.jpg`,
   url,
   locale = routing.defaultLocale,
@@ -27,13 +45,25 @@ export function generateMetadata({
   publishedTime,
   modifiedTime,
   author = 'Sayan Roor',
+  keywords,
+  noIndex = false,
 }: GenerateMetadataOptions = {}): Metadata {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
-  const canonicalUrl = url || (locale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${locale}`);
+  const currentLocale = (locale && routing.locales.includes(locale as any)) ? locale : routing.defaultLocale;
+  const siteName = SITE_NAMES[currentLocale] || SITE_NAMES[routing.defaultLocale];
+  const defaultDesc = DEFAULT_DESCRIPTIONS[currentLocale] || DEFAULT_DESCRIPTIONS[routing.defaultLocale];
+  const defaultKeywords = KEYWORDS[currentLocale] || KEYWORDS[routing.defaultLocale];
+
+  const finalDescription = description || defaultDesc;
+  const fullTitle = title ? `${title} | ${siteName}` : siteName;
+
+  // Attempt to build a path-safe canonical and alternate URLs
+  // This assumes url passed is the full URL without locale prefix if it's the default locale
+  const canonicalUrl = url || (currentLocale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${currentLocale}`);
 
   return {
     title: fullTitle,
-    description,
+    description: finalDescription,
+    keywords: keywords || defaultKeywords,
     metadataBase: new URL(BASE_URL),
     alternates: {
       canonical: canonicalUrl,
@@ -41,21 +71,22 @@ export function generateMetadata({
         'ru': `${BASE_URL}/ru`,
         'en': `${BASE_URL}/en`,
         'kk': `${BASE_URL}/kk`,
+        'x-default': BASE_URL,
       },
     },
     openGraph: {
       type,
-      locale: locale === 'ru' ? 'ru_RU' : locale === 'en' ? 'en_US' : 'kk_KZ',
+      locale: currentLocale === 'ru' ? 'ru_RU' : currentLocale === 'en' ? 'en_US' : 'kk_KZ',
       url: canonicalUrl,
       title: fullTitle,
-      description,
-      siteName: SITE_NAME,
+      description: finalDescription,
+      siteName: siteName,
       images: [
         {
           url: image,
           width: 1200,
           height: 630,
-          alt: title || SITE_NAME,
+          alt: title || siteName,
         },
       ],
       ...(publishedTime && { publishedTime }),
@@ -64,16 +95,17 @@ export function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
-      description,
+      description: finalDescription,
       images: [image],
       creator: '@satoshi_iam',
     },
     robots: {
-      index: true,
-      follow: true,
+      index: !noIndex,
+      follow: !noIndex,
+      notranslate: false,
       googleBot: {
-        index: true,
-        follow: true,
+        index: !noIndex,
+        follow: !noIndex,
         'max-video-preview': -1,
         'max-image-preview': 'large',
         'max-snippet': -1,
@@ -82,6 +114,7 @@ export function generateMetadata({
     ...(author && {
       authors: [{ name: author }],
     }),
+    category: 'technology',
   };
 }
 

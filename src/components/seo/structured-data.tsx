@@ -107,3 +107,88 @@ export function generateServiceStructuredData(): Record<string, unknown> {
   };
 }
 
+/**
+ * Generate Organization structured data
+ */
+export function generateOrganizationStructuredData(): Record<string, unknown> {
+  const baseUrl = 'https://nanosudo.com';
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Nano Sudo',
+    url: baseUrl,
+    logo: `${baseUrl}/Nano_sudo_logo_dark.png`,
+    sameAs: [
+      'https://www.linkedin.com/in/sayan-roor/',
+      'https://instagram.com/satoshi_iam',
+      'https://t.me/satoshi_iam',
+      'https://github.com/SayanWD',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+7-747-827-7485',
+      contactType: 'customer service',
+      email: 'roorsayan@gmail.com',
+    },
+  };
+}
+
+/**
+ * Generate Breadcrumb structured data
+ */
+export function generateBreadcrumbStructuredData(
+  items: Array<{ name: string; item: string }>,
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.item.startsWith('http') ? item.item : `https://nanosudo.com${item.item}`,
+    })),
+  };
+}
+
+/**
+ * Generate BlogPost structured data
+ */
+export function generateBlogPostStructuredData(post: {
+  readonly title: string;
+  readonly description: string;
+  readonly image: string;
+  readonly publishedAt: string;
+  readonly updatedAt?: string;
+  readonly author: string;
+  readonly url: string;
+}): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    image: post.image.startsWith('http') ? post.image : `https://nanosudo.com${post.image}`,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: {
+      '@type': 'Person',
+      name: post.author,
+      url: 'https://nanosudo.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nano Sudo',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://nanosudo.com/Nano_sudo_logo_dark.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': post.url,
+    },
+  };
+}
+

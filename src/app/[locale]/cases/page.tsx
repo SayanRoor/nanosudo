@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { Container } from "@/components/layout/container";
 import { SiteShell } from "@/components/layout/site-shell";
 import { getAllProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
+import { StructuredData, generateBreadcrumbStructuredData } from "@/components/seo/structured-data";
 
 // Animation variants
 const fadeInUp = {
@@ -93,6 +94,10 @@ export default function CasesPage(): ReactElement {
 
   return (
     <SiteShell>
+      <StructuredData data={generateBreadcrumbStructuredData([
+        { name: t("common.home"), item: "/" },
+        { name: t("common.cases"), item: "/cases" },
+      ])} />
       <main id="main-content" className="flex flex-1 flex-col">
         {!isSingleProject && (
           <section className="border-b border-border/60 py-section bg-surface/40">

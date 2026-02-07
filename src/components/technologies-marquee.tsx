@@ -33,7 +33,7 @@ type TechnologiesMarqueeProps = {
 export function TechnologiesMarquee({ direction = 'left' }: TechnologiesMarqueeProps): ReactElement {
   const animationClass = direction === 'right' ? 'animate-marquee-reverse' : 'animate-marquee';
   const flexDirection = direction === 'right' ? 'flex-row-reverse' : 'flex-row';
-  
+
   return (
     <div className="relative w-full overflow-hidden py-6 border-t border-border/60">
       <div className={`flex ${flexDirection} ${animationClass} gap-8 w-fit`}>
@@ -41,7 +41,7 @@ export function TechnologiesMarquee({ direction = 'left' }: TechnologiesMarqueeP
         {technologies.map((tech, i) => (
           <div
             key={`first-${i}`}
-            className="flex items-center gap-3 rounded-xl border border-border/60 bg-surface/80 px-6 py-4 shadow-soft flex-shrink-0"
+            className="flex items-center gap-3 rounded-xl glass-card px-6 py-4 flex-shrink-0 hover:-translate-y-1 transition-transform"
           >
             <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center">
               <Image
@@ -62,7 +62,7 @@ export function TechnologiesMarquee({ direction = 'left' }: TechnologiesMarqueeP
         {technologies.map((tech, i) => (
           <div
             key={`second-${i}`}
-            className="flex items-center gap-3 rounded-xl border border-border/60 bg-surface/80 px-6 py-4 shadow-soft flex-shrink-0"
+            className="flex items-center gap-3 rounded-xl glass-card px-6 py-4 flex-shrink-0 hover:-translate-y-1 transition-transform"
           >
             <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center">
               <Image
@@ -83,7 +83,7 @@ export function TechnologiesMarquee({ direction = 'left' }: TechnologiesMarqueeP
         {technologies.map((tech, i) => (
           <div
             key={`third-${i}`}
-            className="flex items-center gap-3 rounded-xl border border-border/60 bg-surface/80 px-6 py-4 shadow-soft flex-shrink-0"
+            className="flex items-center gap-3 rounded-xl glass-card px-6 py-4 flex-shrink-0 hover:-translate-y-1 transition-transform"
           >
             <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center">
               <Image
