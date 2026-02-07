@@ -20,11 +20,6 @@ import {
   Gauge,
   ArrowRight,
   MessageCircle,
-  DollarSign,
-  UserCheck,
-  Rocket,
-  Handshake,
-  ShieldCheck,
   Linkedin,
   Instagram,
   Github,
@@ -594,210 +589,6 @@ function ExpertiseSection(): ReactElement {
   );
 }
 
-type Advantage = {
-  readonly id: string;
-  readonly title: string;
-  readonly description: string;
-  readonly benefit: string;
-  readonly icon: LucideIcon;
-  readonly color: string;
-  readonly colorBright: string;
-};
-
-type WhyMeCardProps = {
-  readonly advantage: Advantage;
-  readonly t: ReturnType<typeof useTranslations>;
-};
-
-// Animation variants for why me cards (same as guarantee cards)
-const whyMeCardVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-};
-
-function WhyMeCard({ advantage, t }: WhyMeCardProps): ReactElement {
-  const Icon = advantage.icon;
-
-  return (
-    <motion.div
-      className="h-full rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft why-me-card-static overflow-hidden relative cursor-pointer"
-      initial="initial"
-      whileInView="animate"
-      viewport={getViewportSettings(0.2)}
-      variants={whyMeCardVariants}
-      whileHover={{
-        scale: 1.05,
-        y: -8,
-        transition: {
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1] as const,
-        },
-      }}
-    >
-      {/* Animated background gradient on hover */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      <div className="flex flex-col h-full gap-5 relative z-10">
-        <div className="flex items-start gap-4">
-          <motion.div
-            className="why-me-icon-small-wrapper shrink-0"
-            style={{
-              '--icon-bg-color': advantage.colorBright,
-            } as React.CSSProperties}
-            whileHover={{
-              scale: 1.1,
-              opacity: 0.8,
-              transition: {
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1] as const,
-              },
-            }}
-          >
-            <motion.div
-              whileHover={{
-                scale: 1.2,
-                rotate: [0, -10, 10, -10, 10, 0],
-                transition: {
-                  duration: 0.6,
-                  ease: [0.4, 0, 0.2, 1] as const,
-                },
-              }}
-            >
-              <Icon className="w-6 h-6 why-me-icon" />
-            </motion.div>
-          </motion.div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-heading text-lg md:text-xl text-foreground leading-tight mb-3">
-              {t(`home.whyMe.items.${advantage.id}.title`)}
-            </h3>
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-              {t(`home.whyMe.items.${advantage.id}.description`)}
-            </p>
-          </div>
-        </div>
-        <div
-          className="why-me-benefit mt-auto"
-          style={{
-            '--benefit-color': advantage.color,
-            '--benefit-bg-color': advantage.colorBright,
-          } as React.CSSProperties}
-        >
-          <p className="why-me-benefit-text">
-            {t(`home.whyMe.items.${advantage.id}.benefit`)}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function WhyMeSection(): ReactElement {
-  const t = useTranslations();
-  const advantages: Array<Advantage> = [
-    {
-      id: 'direct',
-      title: 'Прямая коммуникация',
-      description: 'Общаетесь напрямую с разработчиком. Нет менеджеров и задержек — решения принимаются сразу.',
-      benefit: 'Задачи решаются в 2-3 раза быстрее',
-      icon: MessageCircle,
-      color: '#3b82f6', // Blue - хорошо виден в обоих режимах
-      colorBright: '#60a5fa', // Lighter blue
-    },
-    {
-      id: 'savings',
-      title: 'Экономия бюджета на 30-50%',
-      description: 'Один разработчик = без накладных расходов. Платите за работу, а не за офис и маржу агентства.',
-      benefit: 'Качество по лучшей цене',
-      icon: DollarSign,
-      color: '#10b981', // Green - хорошо виден в обоих режимах
-      colorBright: '#34d399', // Lighter green
-    },
-    {
-      id: 'responsibility',
-      title: 'Личная ответственность',
-      description: 'Пишу код сам = отвечаю за результат. Знаю каждую строчку, быстро исправлю любую проблему.',
-      benefit: 'Меньше багов, быстрее поддержка',
-      icon: UserCheck,
-      color: '#ec4899', // Pink - хорошо виден в обоих режимах
-      colorBright: '#f472b6', // Lighter pink
-    },
-    {
-      id: 'speed',
-      title: 'Гибкость и скорость',
-      description: 'Срочные изменения и новые идеи — обсудим и сделаем за день. Без бюрократии и согласований.',
-      benefit: 'Быстрые решения',
-      icon: Rocket,
-      color: '#f59e0b', // Amber - хорошо виден в обоих режимах
-      colorBright: '#fbbf24', // Lighter amber
-    },
-    {
-      id: 'partnership',
-      title: 'Долгосрочное партнёрство',
-      description: 'В курсе вашего бизнеса, предлагаю улучшения сам. На связи всегда — получаете партнёра.',
-      benefit: 'Помогу и после проекта с советом',
-      icon: Handshake,
-      color: '#8b5cf6', // Purple - хорошо виден в обоих режимах
-      colorBright: '#a78bfa', // Lighter purple
-    },
-    {
-      id: 'transparency',
-      title: 'Гарантии и прозрачность',
-      description: 'Договор, поэтапная оплата, еженедельные отчёты, доступ к тестовой версии. Гарантия 12 месяцев.',
-      benefit: 'Прозрачный процесс без сюрпризов',
-      icon: ShieldCheck,
-      color: '#06b6d4', // Cyan - хорошо виден в обоих режимах
-      colorBright: '#22d3ee', // Lighter cyan
-    },
-  ];
-
-  return (
-    <section id="why-me" className="relative z-10 border-t border-border/60 py-section">
-      <Container className="space-y-12">
-        <motion.div
-          className="space-y-4 text-balance text-center"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.1)}
-          variants={staggerContainer}
-        >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.whyMe.label")}
-          </motion.p>
-          <motion.h2
-            className="font-heading text-3xl md:text-4xl"
-            variants={fadeInUp}
-          >
-            {t("home.whyMe.title")}
-          </motion.h2>
-        </motion.div>
-
-        <motion.div
-          className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.2)}
-          variants={staggerContainer}
-        >
-          {advantages.map((advantage) => (
-            <WhyMeCard
-              key={advantage.id}
-              advantage={advantage}
-              t={t}
-            />
-          ))}
-        </motion.div>
-      </Container>
-    </section>
-  );
-}
-
 type ProcessStep = {
   readonly id: string;
   readonly number: string;
@@ -822,14 +613,11 @@ const processStepCardVariants = {
 function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
   return (
     <motion.article
-      className="rounded-2xl border border-border/60 bg-surface/80 p-6 md:p-8 shadow-soft cursor-pointer overflow-hidden relative"
-      initial="initial"
-      whileInView="animate"
-      viewport={getViewportSettings(0.2)}
+      className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft cursor-pointer overflow-hidden relative group"
       variants={processStepCardVariants}
       whileHover={{
-        scale: 1.05,
-        y: -8,
+        scale: 1.02,
+        y: -4,
         transition: {
           duration: 0.3,
           ease: [0.4, 0, 0.2, 1] as const,
@@ -838,26 +626,44 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
     >
       {/* Animated background gradient on hover */}
       <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       />
 
-      <div className="grid gap-6 md:grid-cols-[100px_1fr] relative z-10">
-        <div className="flex flex-col items-center md:items-start">
-          <span className="text-4xl font-heading text-accent mb-2">{step.number}</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <div className="relative z-10 space-y-4">
+        {/* Number Badge */}
+        <div className="flex items-center justify-between">
+          <span className="text-5xl font-heading font-black text-accent/20 group-hover:text-accent/40 transition-colors">
+            {step.number}
+          </span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-1 rounded-full bg-muted/30">
             {step.duration}
           </span>
         </div>
-        <div className="space-y-3">
-          <h3 className="font-heading text-2xl">{step.title}</h3>
-          <p className="text-muted-foreground">{t(`home.process.steps.${step.id}.description`)}</p>
-          <div className="rounded-lg border border-accent/40 bg-accent/10 p-4 mt-4">
-            <p className="text-sm font-semibold text-accent mb-1">{t("home.process.outputLabel")}</p>
-            <p className="text-sm text-muted-foreground">{t(`home.process.steps.${step.id}.output`)}</p>
-          </div>
+
+        {/* Title */}
+        <h3 className="font-heading text-xl font-bold leading-tight">{step.title}</h3>
+
+        {/* Description */}
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {t(`home.process.steps.${step.id}.description`)}
+        </p>
+
+        {/* Output Box */}
+        <div className="rounded-lg border border-accent/30 bg-accent/5 p-3 space-y-1">
+          <p className="text-[10px] font-black uppercase tracking-wider text-accent">
+            {t("home.process.outputLabel")}
+          </p>
+          <p className="text-xs text-foreground/80 font-medium">
+            {t(`home.process.steps.${step.id}.output`)}
+          </p>
         </div>
+
+        {/* Payment info if exists */}
+        {step.payment && (
+          <p className="text-xs text-muted-foreground font-semibold">
+            💰 {step.payment}
+          </p>
+        )}
       </div>
     </motion.article>
   );
@@ -900,15 +706,6 @@ function ProcessSection(): ReactElement {
       duration: t('home.process.steps.launch.duration'),
       output: 'Работающий инструмент + первые заявки',
       payment: '30% после запуска',
-    },
-    {
-      id: 'growth',
-      number: '05',
-      title: t('home.process.steps.growth.title'),
-      description: 'Смотрю аналитику еженедельно, оптимизирую рекламу, предлагаю улучшения, поддержка 24/7.',
-      duration: t('home.process.steps.growth.duration'),
-      output: 'Стабильный рост продаж',
-      payment: 'Абонентка от 112,000₸/мес (если нужна)',
     },
   ];
 
@@ -986,23 +783,18 @@ function ProcessSection(): ReactElement {
         </motion.div>
 
         <motion.div
-          className="space-y-8"
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.15)}
           variants={staggerContainer}
         >
-          {steps.map((step, index) => (
-            <motion.div
+          {steps.map((step) => (
+            <ProcessStepCard
               key={step.id}
-              variants={fadeInUp}
-              transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <ProcessStepCard
-                step={step}
-                t={t}
-              />
-            </motion.div>
+              step={step}
+              t={t}
+            />
           ))}
         </motion.div>
       </Container>
@@ -1487,7 +1279,6 @@ export default function Home(): ReactElement {
         <TechnologiesMarquee />
         <ExpertiseSection />
         <TechnologiesMarquee direction="right" />
-        <WhyMeSection />
         <ProcessSection />
         <GuaranteesSection />
         <PortfolioSection />
