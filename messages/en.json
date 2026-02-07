@@ -1,6 +1,8 @@
 {
   "common": {
     "skipToContent": "Skip to main content",
+    "home": "Home",
+    "blog": "Blog",
     "nav": {
       "home": "Home",
       "cases": "Cases",
