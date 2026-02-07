@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { unstable_noStore as noStore } from "next/cache";
-import { BriefPageClientWrapper } from "./brief-page-client-wrapper";
+import BriefSimplePage from "./page-simple-client";
 
 // CRITICAL: This page MUST NOT be prerendered
 // generateStaticParams in layout.tsx forces Next.js to prerender all pages
@@ -24,6 +24,6 @@ export default function BriefPage(): ReactElement {
   // This ensures the page is always rendered dynamically at request time
   // unstable_noStore is safe to use and doesn't throw errors during build
   noStore();
-  
-  return <BriefPageClientWrapper />;
+
+  return <BriefSimplePage />;
 }

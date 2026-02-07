@@ -7,7 +7,7 @@
 
 import { createContext, useState, useEffect, type ReactNode, type ReactElement } from 'react';
 import { useForm, type UseFormReturn } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@/lib/zod-resolver';
 import { briefSimpleSchema, type BriefSimpleFormValues } from '../schemas/brief-simple';
 import { BRIEF_SIMPLE_DEFAULT_VALUES } from '../constants/defaults-simple';
 import type { BriefSimpleStepId } from '../types/brief-simple';
