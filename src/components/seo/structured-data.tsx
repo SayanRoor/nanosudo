@@ -36,7 +36,7 @@ export function generatePersonStructuredData(locale: string): Record<string, unk
       'https://www.linkedin.com/in/sayan-roor/',
       'https://instagram.com/satoshi_iam',
       'https://t.me/satoshi_iam',
-      'https://github.com/SayanWD',
+      'https://github.com/SayanRoor',
     ],
     email: 'roorsayan@gmail.com',
     address: {
@@ -123,7 +123,7 @@ export function generateOrganizationStructuredData(): Record<string, unknown> {
       'https://www.linkedin.com/in/sayan-roor/',
       'https://instagram.com/satoshi_iam',
       'https://t.me/satoshi_iam',
-      'https://github.com/SayanWD',
+      'https://github.com/SayanRoor',
     ],
     contactPoint: {
       '@type': 'ContactPoint',

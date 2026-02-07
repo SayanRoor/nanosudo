@@ -148,7 +148,7 @@ function HeroSection(): ReactElement {
             >
               {[
                 { icon: Linkedin, href: "https://www.linkedin.com/in/sayan-roor/", label: "LinkedIn" },
-                { icon: Github, href: "https://github.com/SayanWD", label: "GitHub" },
+                { icon: Github, href: "https://github.com/SayanRoor", label: "GitHub" },
                 { icon: Instagram, href: "https://instagram.com/satoshi_iam", label: "Instagram" },
                 { icon: Send, href: "https://t.me/satoshi_iam", label: "Telegram" },
               ].map((social) => (
@@ -898,7 +898,7 @@ function FinalCTASection(): ReactElement {
                 { icon: Send, label: t("common.footer.telegram"), href: "https://t.me/satoshi_iam" },
                 { icon: Instagram, label: t("common.footer.instagram"), href: "https://instagram.com/satoshi_iam" },
                 { icon: Linkedin, label: t("common.footer.linkedin"), href: "https://www.linkedin.com/in/sayan-roor/" },
-                { icon: Github, label: t("common.footer.github"), href: "https://github.com/SayanWD" },
+                { icon: Github, label: t("common.footer.github"), href: "https://github.com/SayanRoor" },
                 { icon: Mail, label: t("common.footer.email"), href: "mailto:roorsayan@gmail.com" },
               ].map(({ icon: Icon, label, href }) => (
                 <a

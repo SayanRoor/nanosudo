@@ -125,7 +125,7 @@ export function SiteFooter(): ReactElement {
                   </a>
                   <div className="flex gap-4">
                     {[
-                      { icon: Github, href: "https://github.com/SayanWD" },
+                      { icon: Github, href: "https://github.com/SayanRoor" },
                       { icon: Linkedin, href: "https://www.linkedin.com/in/sayan-roor/" },
                       { icon: Instagram, href: "https://instagram.com/satoshi_iam" },
                       { icon: Send, href: "https://t.me/satoshi_iam" },
