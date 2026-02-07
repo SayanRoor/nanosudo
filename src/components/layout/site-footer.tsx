@@ -2,21 +2,13 @@
 
 import { type ReactElement, useEffect, useState } from "react";
 import Image from "next/image";
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Link } from "@/i18n/routing";
-import { motion } from "framer-motion";
 import {
   Github,
-  Mail,
   Send,
-  MessageCircle,
   Instagram,
   Linkedin,
-  FileText,
-  Briefcase,
-  User,
-  BookOpen,
-  MessageSquare,
   ArrowUpRight,
   Globe,
   MapPin,
@@ -160,7 +152,7 @@ export function SiteFooter(): ReactElement {
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
-                      href={link.href as any}
+                      href={link.href as "/cases" | "/about" | "/blog" | "/contact"}
                       className="group flex items-center gap-2 text-xl md:text-2xl font-heading font-black text-foreground hover:text-accent transition-all duration-300"
                     >
                       <span className="uppercase tracking-tighter">{link.label}</span>

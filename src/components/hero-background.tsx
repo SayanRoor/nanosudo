@@ -17,7 +17,7 @@ const techIcons = [
     'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg',
 ];
 
-export function HeroBackground() {
+export function HeroBackground(): React.ReactElement | null {
     const [mounted, setMounted] = useState(false);
     const [icons, setIcons] = useState<Array<{
         x: number;

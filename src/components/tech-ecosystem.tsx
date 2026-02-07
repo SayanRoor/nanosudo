@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 
 const technologies = [
@@ -18,8 +18,8 @@ const technologies = [
     { name: 'Framer', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg', category: 'frontend' },
 ];
 
-export function TechEcosystem() {
-    const t = useTranslations();
+export function TechEcosystem(): React.ReactElement | null {
+    useTranslations();
     const [mounted, setMounted] = useState(false);
     const [radius, setRadius] = useState(320); // Default to desktop radius
 
@@ -29,7 +29,7 @@ export function TechEcosystem() {
     useEffect(() => {
         setMounted(true);
 
-        const updateRadius = () => {
+        const updateRadius = (): void => {
             if (window.innerWidth < 640) setRadius(160); // Mobile
             else if (window.innerWidth < 1024) setRadius(220); // Tablet
             else setRadius(320); // Desktop
@@ -52,7 +52,7 @@ export function TechEcosystem() {
             });
         }, 5000);
 
-        return () => {
+        return (): void => {
             window.removeEventListener('resize', updateRadius);
             clearInterval(interval);
         };

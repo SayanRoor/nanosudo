@@ -4,13 +4,12 @@ import { useState, useEffect } from "react";
 import type { ReactElement } from "react";
 import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 
 import { cn } from "@/lib/cn";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Link } from "@/i18n/routing";
-import { Container } from "./container";
 
 const NAV_LINKS: Array<{ readonly href: string; readonly labelKey: string }> = [
   { href: "/", labelKey: "common.nav.home" },
@@ -21,14 +20,6 @@ const NAV_LINKS: Array<{ readonly href: string; readonly labelKey: string }> = [
 ];
 
 const BRIEF_ROUTE = "/brief";
-
-function AnimatedLogoText(): ReactElement {
-  return (
-    <span className="inline-block font-heading text-xl tracking-tighter normal-case font-bold">
-      NANOSUDO<span className="text-accent">.</span>
-    </span>
-  );
-}
 
 export function SiteHeader(): ReactElement {
   const t = useTranslations();
@@ -53,7 +44,7 @@ export function SiteHeader(): ReactElement {
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => {
+    return (): void => {
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);

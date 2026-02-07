@@ -22,7 +22,7 @@ const technologies = [
     { name: 'Bun', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg' },
 ];
 
-export function GlobalTechBackground() {
+export function GlobalTechBackground(): React.ReactElement | null {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {

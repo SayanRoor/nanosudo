@@ -48,7 +48,7 @@ export function generateMetadata({
   keywords,
   noIndex = false,
 }: GenerateMetadataOptions = {}): Metadata {
-  const currentLocale = (locale && routing.locales.includes(locale as any)) ? locale : routing.defaultLocale;
+  const currentLocale = (locale && routing.locales.includes(locale as (typeof routing.locales)[number])) ? locale : routing.defaultLocale;
   const siteName = SITE_NAMES[currentLocale] || SITE_NAMES[routing.defaultLocale];
   const defaultDesc = DEFAULT_DESCRIPTIONS[currentLocale] || DEFAULT_DESCRIPTIONS[routing.defaultLocale];
   const defaultKeywords = KEYWORDS[currentLocale] || KEYWORDS[routing.defaultLocale];

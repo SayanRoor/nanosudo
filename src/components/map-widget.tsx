@@ -11,7 +11,7 @@ interface MapWidgetProps {
     className?: string;
 }
 
-export function MapWidget({ className }: MapWidgetProps) {
+export function MapWidget({ className }: MapWidgetProps): React.ReactElement {
     const mapContainer = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
 
@@ -51,7 +51,7 @@ export function MapWidget({ className }: MapWidgetProps) {
         // Disable scroll zoom for footer widget
         map.current.scrollZoom.disable();
 
-        return () => {
+        return (): void => {
             map.current?.remove();
             map.current = null;
         };
