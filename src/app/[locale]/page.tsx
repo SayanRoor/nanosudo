@@ -77,13 +77,13 @@ function HeroSection(): ReactElement {
   const activePhrase = t(`home.hero.rotatingPhrases.${phraseIndex}` as any);
 
   return (
-    <section className="relative py-section overflow-hidden min-h-[80vh] md:min-h-screen flex items-center justify-center">
+    <section className="relative py-20 md:py-32 overflow-hidden min-h-screen flex items-center">
       {/* Background gradient layer */}
       <div className="absolute inset-0 -z-20 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/10" />
       </div>
 
-      {/* Particle animation layer - positioned behind content */}
+      {/* Particle animation layer */}
       <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
         <CTAParticles
           baseCount={360}
@@ -96,29 +96,37 @@ function HeroSection(): ReactElement {
       </div>
 
       <Container className="relative z-10 w-full">
-        <div className="mx-auto max-w-4xl text-center space-y-10">
+        {/* Two-column grid */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
+
+          {/* LEFT COLUMN - Content */}
           <motion.div
-            className="space-y-6"
+            className="space-y-8"
             initial="initial"
             animate="animate"
             variants={staggerContainer}
           >
-            <p className="text-xs md:text-sm font-bold uppercase tracking-[0.35em] text-muted-foreground/80 opacity-90">
-              {t("home.hero.subtitle")}
-            </p>
-
-            <motion.h1
-              className="font-heading text-5xl md:text-6xl lg:text-7xl leading-tight"
+            {/* Subtitle badge */}
+            <motion.p
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/70"
               variants={fadeInUp}
             >
-              <span className="block text-foreground">
+              {t("home.hero.subtitle")}
+            </motion.p>
+
+            {/* Main title with rotating phrases */}
+            <motion.h1
+              className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] tracking-tight"
+              variants={fadeInUp}
+            >
+              <span className="block text-foreground font-black">
                 {t("home.hero.mainTitle")}
               </span>
-              <span className="block mt-2" role="status" aria-live="polite" aria-atomic="true">
+              <span className="block mt-4" role="status" aria-live="polite" aria-atomic="true">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={phraseIndex}
-                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(138,123,255,0.5)]"
+                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(138,123,255,0.3)] font-black"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
@@ -130,73 +138,101 @@ function HeroSection(): ReactElement {
               </span>
             </motion.h1>
 
+            {/* Description */}
             <motion.p
-              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+              className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-xl"
               variants={fadeInUp}
             >
               {t("home.hero.description")}
             </motion.p>
 
-            <motion.div className="flex flex-col sm:flex-row gap-4 pt-2 justify-center" variants={fadeInUp}>
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 pt-4"
+              variants={fadeInUp}
+            >
               <Link
                 href="/brief"
-                className="btn-accent inline-flex items-center justify-center rounded-lg bg-accent px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wider text-background border-2 border-accent shadow-lg transition-all duration-300 hover:bg-accent/90 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+                className="group relative inline-flex items-center justify-center"
               >
-                {t("common.cta.cost")}
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                <div className="px-10 py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.2em] text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
+                  {t("common.cta.cost")}
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </div>
               </Link>
               <a
                 href="#process"
-                className="inline-flex items-center justify-center rounded-lg border-2 border-border px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wider text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+                className="inline-flex items-center justify-center px-10 py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.2em] text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
               >
                 {t("common.cta.howIWork")}
               </a>
             </motion.div>
           </motion.div>
 
+          {/* RIGHT COLUMN - Photo & Social */}
           <motion.div
-            className="relative mx-auto w-full max-w-[360px] space-y-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            className="relative w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto space-y-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="relative rounded-2xl border border-border/60 bg-surface/80 p-4 lg:p-6 shadow-soft overflow-hidden">
-              <div className="aspect-square relative rounded-xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5 animate-photo-pulse">
+            {/* Photo Card - matching footer style */}
+            <div className="glass-card rounded-[2.5rem] p-8 border-border/40 overflow-hidden relative group">
+              {/* Decorative blur */}
+              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-accent/10 blur-[80px] rounded-full" />
+
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
                 <Image
                   src="/Sayan_Roor_Web_Dev.jpg"
                   alt={t("home.hero.imageAlt")}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                   priority
-                  sizes="(max-width: 1024px) 300px, 400px"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
                 />
               </div>
             </div>
 
+            {/* Social Links - matching footer style */}
             <div className="flex items-center justify-center gap-4">
               <motion.a
                 href="https://www.linkedin.com/in/sayan-roor/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-icon-link"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
                 aria-label="LinkedIn"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
               >
                 <Linkedin className="w-5 h-5" />
               </motion.a>
-              <motion.a href="https://instagram.com/satoshi_iam" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.25 }} whileHover={{ scale: 1.05 }}>
+              <motion.a
+                href="https://instagram.com/satoshi_iam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                aria-label="Instagram"
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
                 <Instagram className="w-5 h-5" />
               </motion.a>
-              <motion.a href="https://t.me/satoshi_iam" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Telegram" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }} whileHover={{ scale: 1.05 }}>
+              <motion.a
+                href="https://t.me/satoshi_iam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                aria-label="Telegram"
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
                 <Send className="w-5 h-5" />
               </motion.a>
-              <motion.a href="https://wa.me/77478277485" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="WhatsApp" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.35 }} whileHover={{ scale: 1.05 }}>
-                <MessageCircle className="w-5 h-5" />
-              </motion.a>
-              <motion.a href="https://github.com/SayanWD" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="GitHub" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }} whileHover={{ scale: 1.05 }}>
+              <motion.a
+                href="https://github.com/SayanRoor"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                aria-label="GitHub"
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
                 <Github className="w-5 h-5" />
               </motion.a>
             </div>
