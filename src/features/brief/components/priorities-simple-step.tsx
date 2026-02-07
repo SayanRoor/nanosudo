@@ -8,35 +8,37 @@
 import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import { Target, DollarSign, Clock, CheckSquare } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
 
 const mainGoals = [
-  { value: 'sales', label: 'Продажи', description: 'Продавать товары/услуги онлайн' },
-  { value: 'leads', label: 'Заявки', description: 'Собирать контакты потенциальных клиентов' },
-  { value: 'awareness', label: 'Узнаваемость', description: 'Повысить знание о бренде' },
-  { value: 'automation', label: 'Автоматизация', description: 'Оптимизировать бизнес-процессы' },
+  { value: 'sales' },
+  { value: 'leads' },
+  { value: 'awareness' },
+  { value: 'automation' },
 ] as const;
 
 const budgetOptions = [
-  { value: 'exact', label: 'Есть чёткий бюджет' },
-  { value: 'approximate', label: 'Есть примерное понимание' },
-  { value: 'no_idea', label: 'Пока не знаю' },
+  { value: 'exact' },
+  { value: 'approximate' },
+  { value: 'no_idea' },
 ] as const;
 
 const timelineOptions = [
-  { value: 'urgent', label: 'Срочно (до месяца)', note: '+30% к стоимости' },
-  { value: 'normal', label: 'Нормально (2-3 месяца)' },
-  { value: 'flexible', label: 'Не горит (можем подождать)', note: '-10% к стоимости' },
+  { value: 'urgent', hasNote: true },
+  { value: 'normal', hasNote: false },
+  { value: 'flexible', hasNote: true },
 ] as const;
 
 const whatYouHave = [
-  { key: 'hasDesign', label: 'Готовый дизайн или брендбук', discount: '-15%' },
-  { key: 'hasContent', label: 'Готовые тексты и изображения', discount: '-10%' },
-  { key: 'hasDomain', label: 'Доменное имя и хостинг' },
+  { key: 'hasDesign', hasDiscount: true },
+  { key: 'hasContent', hasDiscount: true },
+  { key: 'hasDomain', hasDiscount: false },
 ] as const;
 
 export function PrioritiesSimpleStep(): ReactElement {
+  const t = useTranslations('brief.simple.priorities');
   const { form } = useBriefSimpleStep('priorities');
   const { register, watch, setValue, formState: { errors } } = form;
 
@@ -51,7 +53,7 @@ export function PrioritiesSimpleStep(): ReactElement {
         <div className="flex items-center gap-2">
           <Target className="w-5 h-5 text-accent" />
           <label className="block text-sm font-semibold text-foreground">
-            Главная цель проекта <span className="text-destructive">*</span>
+            {t('mainGoal.label')} <span className="text-destructive">*</span>
           </label>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -68,8 +70,8 @@ export function PrioritiesSimpleStep(): ReactElement {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <p className={`font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>{goal.label}</p>
-                <p className="text-xs text-muted-foreground mt-1">{goal.description}</p>
+                <p className={`font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>{t(`mainGoal.options.${goal.value}.label`)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t(`mainGoal.options.${goal.value}.description`)}</p>
               </motion.button>
             );
           })}
@@ -82,7 +84,7 @@ export function PrioritiesSimpleStep(): ReactElement {
         <div className="flex items-center gap-2">
           <DollarSign className="w-5 h-5 text-accent" />
           <label className="block text-sm font-semibold text-foreground">
-            Понимание бюджета <span className="text-destructive">*</span>
+            {t('budget.label')} <span className="text-destructive">*</span>
           </label>
         </div>
         <div className="space-y-2">
@@ -99,7 +101,7 @@ export function PrioritiesSimpleStep(): ReactElement {
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <p className={`text-sm font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>{option.label}</p>
+                <p className={`text-sm font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>{t(`budget.options.${option.value}`)}</p>
               </motion.button>
             );
           })}
@@ -112,7 +114,7 @@ export function PrioritiesSimpleStep(): ReactElement {
         <div className="flex items-center gap-2">
           <Clock className="w-5 h-5 text-accent" />
           <label className="block text-sm font-semibold text-foreground">
-            Желаемый срок <span className="text-destructive">*</span>
+            {t('timeline.label')} <span className="text-destructive">*</span>
           </label>
         </div>
         <div className="space-y-2">
@@ -130,8 +132,8 @@ export function PrioritiesSimpleStep(): ReactElement {
                 whileTap={{ scale: 0.99 }}
               >
                 <div className="flex items-center justify-between">
-                  <p className={`text-sm font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>{option.label}</p>
-                  {option.note && <span className="text-xs text-muted-foreground">{option.note}</span>}
+                  <p className={`text-sm font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>{t(`timeline.options.${option.value}`)}</p>
+                  {option.hasNote && <span className="text-xs text-muted-foreground">{t(option.value === 'urgent' ? 'timeline.urgentNote' : 'timeline.flexibleNote')}</span>}
                 </div>
               </motion.button>
             );
@@ -145,7 +147,7 @@ export function PrioritiesSimpleStep(): ReactElement {
         <div className="flex items-center gap-2">
           <CheckSquare className="w-5 h-5 text-accent" />
           <label className="block text-sm font-semibold text-foreground">
-            Что у вас уже есть?
+            {t('whatYouHave.label')}
           </label>
         </div>
         <div className="space-y-2">
@@ -157,15 +159,14 @@ export function PrioritiesSimpleStep(): ReactElement {
                   {...register(item.key as 'hasDesign' | 'hasContent' | 'hasDomain')}
                   className="w-4 h-4 rounded border-border/60 text-accent focus:ring-accent"
                 />
-                <span className="text-sm font-medium text-foreground">{item.label}</span>
+                <span className="text-sm font-medium text-foreground">{t(`whatYouHave.${item.key}.label`)}</span>
               </div>
-              {item.discount && (
-                <span className="text-xs font-semibold text-green-600 dark:text-green-400">{item.discount}</span>
+              {item.hasDiscount && (
+                <span className="text-xs font-semibold text-green-600 dark:text-green-400">{t(`whatYouHave.${item.key}.discount`)}</span>
               )}
             </label>
           ))}
         </div>
-        <p className="text-xs text-muted-foreground">Это поможет сократить сроки и стоимость проекта</p>
       </div>
 
       <BriefSimpleStepNavigator stepId="priorities" />

@@ -8,7 +8,8 @@
 import { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DollarSign, Clock, CheckCircle2, Tag } from 'lucide-react';
+import { Clock, CheckCircle2, Tag } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import type { BriefSimpleFormValues } from '../schemas/brief-simple';
 import { calculateSimpleCost, formatPriceRange, formatTimeEstimate } from '../utils/calculation-simple';
 
@@ -21,6 +22,7 @@ export function CalculationPreviewSimple({
   values,
   locale = 'ru',
 }: CalculationPreviewSimpleProps): ReactElement {
+  const t = useTranslations('brief.simple.calculation');
   const [isMounted, setIsMounted] = useState(false);
 
   // Avoid hydration mismatch
@@ -31,7 +33,7 @@ export function CalculationPreviewSimple({
   if (!isMounted) {
     return (
       <div className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft">
-        <p className="text-sm text-muted-foreground">Загрузка расчёта...</p>
+        <p className="text-sm text-muted-foreground">{t('title')}</p>
       </div>
     );
   }
@@ -50,7 +52,7 @@ export function CalculationPreviewSimple({
         {/* Header */}
         <div className="space-y-2">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">
-            Ориентировочная стоимость
+            {t('title')}
           </p>
           <AnimatePresence mode="wait">
             {hasMinimalData ? (
@@ -73,7 +75,7 @@ export function CalculationPreviewSimple({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                Заполните форму для расчёта
+                {t('note')}
               </motion.p>
             )}
           </AnimatePresence>
@@ -85,7 +87,7 @@ export function CalculationPreviewSimple({
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/20">
               <Clock className="w-5 h-5 text-accent shrink-0" />
               <div className="flex-1">
-                <p className="text-xs font-semibold text-muted-foreground">Срок реализации</p>
+                <p className="text-xs font-semibold text-muted-foreground">{t('timeEstimate', { min: calculation.timeEstimate.min, max: calculation.timeEstimate.max })}</p>
                 <p className="text-sm font-bold text-foreground">
                   {formatTimeEstimate(calculation.timeEstimate, locale)}
                 </p>
@@ -97,23 +99,23 @@ export function CalculationPreviewSimple({
               <div className="space-y-2">
                 <p className="text-xs font-semibold text-muted-foreground flex items-center gap-2">
                   <Tag className="w-4 h-4" />
-                  Применённые коэффициенты
+                  {t('discounts.title')}
                 </p>
                 <div className="space-y-1 text-xs">
                   {calculation.discounts.hasDesign && (
-                    <p className="text-green-600 dark:text-green-400">✓ Есть дизайн: -15%</p>
+                    <p className="text-green-600 dark:text-green-400">✓ {t('discounts.hasDesign')}</p>
                   )}
                   {calculation.discounts.hasContent && (
-                    <p className="text-green-600 dark:text-green-400">✓ Есть контент: -10%</p>
+                    <p className="text-green-600 dark:text-green-400">✓ {t('discounts.hasContent')}</p>
                   )}
                   {calculation.discounts.urgency > 1.0 && (
                     <p className="text-orange-600 dark:text-orange-400">
-                      ⚡ Срочность: +{Math.round((calculation.discounts.urgency - 1) * 100)}%
+                      ⚡ {t('discounts.urgency', { percent: Math.round((calculation.discounts.urgency - 1) * 100) })}
                     </p>
                   )}
                   {calculation.discounts.urgency < 1.0 && (
                     <p className="text-green-600 dark:text-green-400">
-                      ⏱️ Гибкие сроки: {Math.round((calculation.discounts.urgency - 1) * 100)}%
+                      ⏱️ {t('discounts.flexible', { percent: Math.abs(Math.round((calculation.discounts.urgency - 1) * 100)) })}
                     </p>
                   )}
                 </div>
@@ -123,7 +125,7 @@ export function CalculationPreviewSimple({
             {/* What's Included */}
             <div className="space-y-3">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">
-                Что входит
+                {t('included.title')}
               </p>
               <ul className="space-y-2">
                 {calculation.included.map((feature, index) => (
@@ -144,8 +146,7 @@ export function CalculationPreviewSimple({
             {/* Important Note */}
             <div className="p-4 rounded-lg bg-accent/5 border border-accent/20">
               <p className="text-xs text-muted-foreground leading-relaxed">
-                💡 <span className="font-semibold">Важно:</span> Это предварительная оценка.
-                Точная стоимость определяется после детального обсуждения требований.
+                💡 {t('note')}
               </p>
             </div>
           </>

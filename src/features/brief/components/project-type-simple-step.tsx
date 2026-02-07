@@ -8,18 +8,20 @@
 import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Building2, ShoppingCart, Zap, Rocket } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
 
 const projectTypes = [
-  { value: 'landing', label: 'Лендинг', description: 'Одностраничный сайт для продажи продукта/услуги', icon: FileText },
-  { value: 'corporate', label: 'Корпоративный сайт', description: 'Многостраничный сайт компании с информацией о услугах', icon: Building2 },
-  { value: 'ecommerce', label: 'Интернет-магазин', description: 'Каталог товаров с корзиной и приёмом платежей', icon: ShoppingCart },
-  { value: 'service', label: 'Веб-сервис', description: 'Платформа с личным кабинетом и API', icon: Zap },
-  { value: 'mvp', label: 'MVP / Стартап', description: 'Минимально жизнеспособный продукт для проверки идеи', icon: Rocket },
+  { value: 'landing', icon: FileText },
+  { value: 'corporate', icon: Building2 },
+  { value: 'ecommerce', icon: ShoppingCart },
+  { value: 'service', icon: Zap },
+  { value: 'mvp', icon: Rocket },
 ] as const;
 
 export function ProjectTypeSimpleStep(): ReactElement {
+  const t = useTranslations('brief.simple.projectType');
   const { form } = useBriefSimpleStep('projectType');
   const { register, watch, setValue, formState: { errors } } = form;
 
@@ -31,7 +33,7 @@ export function ProjectTypeSimpleStep(): ReactElement {
       {/* Project Type Selection */}
       <div className="space-y-4">
         <label className="block text-sm font-semibold text-foreground">
-          Какой тип проекта вам нужен? <span className="text-destructive">*</span>
+          {t('subtitle')} <span className="text-destructive">*</span>
         </label>
         <div className="grid gap-3 sm:grid-cols-2">
           {projectTypes.map((type) => {
@@ -54,9 +56,9 @@ export function ProjectTypeSimpleStep(): ReactElement {
                   <Icon className={`w-5 h-5 shrink-0 ${isSelected ? 'text-accent' : 'text-muted-foreground'}`} />
                   <div>
                     <p className={`font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>
-                      {type.label}
+                      {t(`types.${type.value}.label`)}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">{type.description}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{t(`types.${type.value}.description`)}</p>
                   </div>
                 </div>
               </motion.button>
@@ -71,21 +73,18 @@ export function ProjectTypeSimpleStep(): ReactElement {
       {/* Description */}
       <div className="space-y-2">
         <label htmlFor="description" className="block text-sm font-semibold text-foreground">
-          Опишите проект в 2-3 предложениях <span className="text-destructive">*</span>
+          {t('description.label')} <span className="text-destructive">*</span>
         </label>
         <textarea
           id="description"
           {...register('description')}
           rows={4}
           className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors resize-none"
-          placeholder="Например: Нужен лендинг для продажи онлайн-курсов. Главная цель - сбор заявок через форму. Есть видео-отзывы и описание программы."
+          placeholder={t('description.placeholder')}
         />
         {errors.description && (
           <p className="text-sm text-destructive">{errors.description.message}</p>
         )}
-        <p className="text-xs text-muted-foreground">
-          Не нужно технических деталей - просто расскажите, что должно получиться
-        </p>
       </div>
 
       {/* Examples Checkbox */}
@@ -97,7 +96,7 @@ export function ProjectTypeSimpleStep(): ReactElement {
             className="w-4 h-4 rounded border-border/60 text-accent focus:ring-accent"
           />
           <span className="text-sm font-medium text-foreground">
-            У меня есть примеры сайтов, которые нравятся
+            {t('examples.label')}
           </span>
         </label>
 
@@ -112,11 +111,8 @@ export function ProjectTypeSimpleStep(): ReactElement {
               type="text"
               {...register('examplesUrls')}
               className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
-              placeholder="Вставьте ссылки через запятую или пробел"
+              placeholder={t('examples.urls.placeholder')}
             />
-            <p className="text-xs text-muted-foreground">
-              Это поможет лучше понять ваши ожидания по дизайну и функционалу
-            </p>
           </motion.div>
         )}
       </div>

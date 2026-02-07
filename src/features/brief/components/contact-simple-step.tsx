@@ -9,17 +9,20 @@ import type { ReactElement } from 'react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Phone, Building2, MessageCircle, Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
 
 const contactMethods = [
-  { value: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
-  { value: 'telegram', label: 'Telegram', icon: Send },
-  { value: 'email', label: 'Email', icon: Mail },
-  { value: 'phone', label: 'Звонок', icon: Phone },
+  { value: 'whatsapp', icon: MessageCircle },
+  { value: 'telegram', icon: Send },
+  { value: 'email', icon: Mail },
+  { value: 'phone', icon: Phone },
 ] as const;
 
 export function ContactSimpleStep(): ReactElement {
+  const t = useTranslations('brief.simple.contact');
+  const tNav = useTranslations('brief.simple.navigation');
   const { form } = useBriefSimpleStep('contact');
   const { register, watch, setValue, formState: { errors } } = form;
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,14 +42,14 @@ export function ContactSimpleStep(): ReactElement {
       <div className="space-y-2">
         <label htmlFor="name" className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <User className="w-4 h-4 text-accent" />
-          Как вас зовут? <span className="text-destructive">*</span>
+          {t('name.label')} <span className="text-destructive">*</span>
         </label>
         <input
           id="name"
           type="text"
           {...register('name')}
           className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
-          placeholder="Иван Иванов"
+          placeholder={t('name.placeholder')}
         />
         {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
       </div>
@@ -55,14 +58,14 @@ export function ContactSimpleStep(): ReactElement {
       <div className="space-y-2">
         <label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <Mail className="w-4 h-4 text-accent" />
-          Email <span className="text-destructive">*</span>
+          {t('email.label')} <span className="text-destructive">*</span>
         </label>
         <input
           id="email"
           type="email"
           {...register('email')}
           className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
-          placeholder="ivan@example.com"
+          placeholder={t('email.placeholder')}
         />
         {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
       </div>
@@ -71,14 +74,14 @@ export function ContactSimpleStep(): ReactElement {
       <div className="space-y-2">
         <label htmlFor="phone" className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <Phone className="w-4 h-4 text-accent" />
-          Телефон <span className="text-xs text-muted-foreground font-normal">(необязательно)</span>
+          {t('phone.label')} <span className="text-xs text-muted-foreground font-normal">{t('phone.optional')}</span>
         </label>
         <input
           id="phone"
           type="tel"
           {...register('phone')}
           className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
-          placeholder="+7 (777) 123-45-67"
+          placeholder={t('phone.placeholder')}
         />
         {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
       </div>
@@ -87,14 +90,14 @@ export function ContactSimpleStep(): ReactElement {
       <div className="space-y-2">
         <label htmlFor="company" className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <Building2 className="w-4 h-4 text-accent" />
-          Компания <span className="text-xs text-muted-foreground font-normal">(необязательно)</span>
+          {t('company.label')} <span className="text-xs text-muted-foreground font-normal">{t('company.optional')}</span>
         </label>
         <input
           id="company"
           type="text"
           {...register('company')}
           className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
-          placeholder="ТОО 'Рога и Копыта'"
+          placeholder={t('company.placeholder')}
         />
         {errors.company && <p className="text-sm text-destructive">{errors.company.message}</p>}
       </div>
@@ -102,7 +105,7 @@ export function ContactSimpleStep(): ReactElement {
       {/* Preferred Contact Method */}
       <div className="space-y-4">
         <label className="block text-sm font-semibold text-foreground">
-          Как удобнее связаться? <span className="text-destructive">*</span>
+          {t('preferredContact.label')} <span className="text-destructive">*</span>
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {contactMethods.map((method) => {
@@ -121,7 +124,7 @@ export function ContactSimpleStep(): ReactElement {
               >
                 <Icon className={`w-6 h-6 mx-auto mb-2 ${isSelected ? 'text-accent' : 'text-muted-foreground'}`} />
                 <p className={`text-xs font-semibold ${isSelected ? 'text-accent' : 'text-foreground'}`}>
-                  {method.label}
+                  {t(`preferredContact.options.${method.value}`)}
                 </p>
               </motion.button>
             );
@@ -133,8 +136,7 @@ export function ContactSimpleStep(): ReactElement {
       {/* Privacy Note */}
       <div className="p-4 rounded-lg bg-muted/20 border border-border/40">
         <p className="text-xs text-muted-foreground leading-relaxed">
-          🔒 Ваши данные используются только для связи по проекту и не передаются третьим лицам.
-          Отправляя заявку, вы соглашаетесь с обработкой персональных данных.
+          {t('privacy')}
         </p>
       </div>
 
@@ -144,7 +146,7 @@ export function ContactSimpleStep(): ReactElement {
 
       {isSubmitting && (
         <div className="text-center">
-          <p className="text-sm text-muted-foreground">Отправляем заявку...</p>
+          <p className="text-sm text-muted-foreground">{tNav('submitting')}</p>
         </div>
       )}
     </div>

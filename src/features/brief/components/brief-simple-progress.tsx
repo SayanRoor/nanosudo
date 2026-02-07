@@ -8,11 +8,13 @@ import type { ReactElement } from 'react';
 import { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { BriefSimpleFormContext } from './brief-simple-form-provider';
 import { BRIEF_SIMPLE_STEPS } from '../constants/steps-simple';
 
 export function BriefSimpleProgress(): ReactElement {
   const context = useContext(BriefSimpleFormContext);
+  const t = useTranslations('brief.simple.steps');
 
   if (!context) {
     throw new Error('BriefSimpleProgress must be used within BriefSimpleFormProvider');
@@ -82,7 +84,7 @@ export function BriefSimpleProgress(): ReactElement {
                   isActive ? 'text-accent' : 'text-muted-foreground'
                 }`}
               >
-                {step.label}
+                {t(step.id)}
               </p>
             </div>
           );

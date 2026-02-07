@@ -407,6 +407,184 @@
     "label": "brief",
     "title": "Interactive Commercial Proposal Generator",
     "description": "Fill out the form and we'll automatically calculate an estimated cost and timeline for your project. After filling out, submit your request and we'll contact you to clarify details.",
+    "simple": {
+      "header": {
+        "label": "Free Estimate",
+        "title": "Get Your Project Cost",
+        "description": "Answer 3 simple questions — get estimated cost and timeline. No registration or manager calls required."
+      },
+      "steps": {
+        "projectType": "Project Type",
+        "priorities": "What Matters",
+        "contact": "Contact"
+      },
+      "projectType": {
+        "title": "What do you want?",
+        "subtitle": "Choose your project type and tell us about it",
+        "types": {
+          "landing": {
+            "label": "Landing Page",
+            "description": "Single-page website to promote a product or service"
+          },
+          "corporate": {
+            "label": "Corporate Website",
+            "description": "Multi-page business card website with company information"
+          },
+          "ecommerce": {
+            "label": "E-commerce Store",
+            "description": "Full-featured store with catalog, cart and payments"
+          },
+          "service": {
+            "label": "Web Service / SaaS",
+            "description": "Platform with user accounts and subscriptions"
+          },
+          "mvp": {
+            "label": "MVP / Startup",
+            "description": "Minimum viable product to test your idea"
+          }
+        },
+        "description": {
+          "label": "Tell us about your project",
+          "placeholder": "e.g., Need a website to sell natural cosmetics with delivery across Kazakhstan..."
+        },
+        "examples": {
+          "label": "Do you have examples of websites you like?",
+          "urls": {
+            "label": "Example links",
+            "placeholder": "https://example.com"
+          }
+        }
+      },
+      "priorities": {
+        "title": "What matters to you?",
+        "subtitle": "This helps us calculate more accurately",
+        "mainGoal": {
+          "label": "Main project goal",
+          "options": {
+            "sales": {
+              "label": "Sales",
+              "description": "Sell products or services online"
+            },
+            "leads": {
+              "label": "Lead Generation",
+              "description": "Collect potential customer contacts"
+            },
+            "awareness": {
+              "label": "Brand Awareness",
+              "description": "Increase company prestige"
+            },
+            "automation": {
+              "label": "Automation",
+              "description": "Streamline business processes"
+            }
+          }
+        },
+        "budget": {
+          "label": "Approximate budget",
+          "options": {
+            "exact": "Know exactly",
+            "approximate": "Have rough amount",
+            "no_idea": "Not sure yet"
+          }
+        },
+        "timeline": {
+          "label": "When do you need it launched?",
+          "options": {
+            "urgent": "Urgent (up to 4 weeks)",
+            "normal": "Normal (4-8 weeks)",
+            "flexible": "Flexible schedule (>8 weeks)"
+          },
+          "urgentNote": "+30% to cost",
+          "flexibleNote": "-10% to cost"
+        },
+        "whatYouHave": {
+          "label": "What do you already have?",
+          "hasDesign": {
+            "label": "Ready design or brandbook",
+            "discount": "-15%"
+          },
+          "hasContent": {
+            "label": "Ready texts and images",
+            "discount": "-10%"
+          },
+          "hasDomain": {
+            "label": "Domain name and hosting"
+          }
+        }
+      },
+      "contact": {
+        "title": "Let's get acquainted",
+        "subtitle": "How can we reach you?",
+        "name": {
+          "label": "What's your name?",
+          "placeholder": "John Doe"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "john@example.com"
+        },
+        "phone": {
+          "label": "Phone",
+          "placeholder": "+1 234 567 8900",
+          "optional": "(optional)"
+        },
+        "company": {
+          "label": "Company",
+          "placeholder": "ACME Corp",
+          "optional": "(optional)"
+        },
+        "preferredContact": {
+          "label": "How would you prefer to be contacted?",
+          "options": {
+            "whatsapp": "WhatsApp",
+            "telegram": "Telegram",
+            "email": "Email",
+            "phone": "Phone Call"
+          }
+        },
+        "privacy": "🔒 Your data is used only for project communication and is not shared with third parties. By submitting, you agree to personal data processing."
+      },
+      "calculation": {
+        "title": "Estimated Cost",
+        "priceRange": "${min}–${max}",
+        "timeEstimate": "{min}–{max} weeks",
+        "included": {
+          "title": "What's included",
+          "discovery": "Consultation & planning",
+          "development": "Development & testing",
+          "deployment": "Launch & setup",
+          "warranty": "12-month warranty"
+        },
+        "discounts": {
+          "title": "Applied discounts",
+          "hasDesign": "Have design: -15%",
+          "hasContent": "Have content: -10%",
+          "urgency": "Urgency: +{percent}%",
+          "flexible": "Flexible schedule: -{percent}%"
+        },
+        "note": "This is a rough estimate. We'll provide exact cost after discussing details."
+      },
+      "navigation": {
+        "back": "Back",
+        "next": "Next",
+        "submit": "Submit Request",
+        "submitting": "Submitting request..."
+      },
+      "trustSignals": {
+        "free": {
+          "value": "$0",
+          "label": "Free cost calculation"
+        },
+        "time": {
+          "value": "~2 min",
+          "label": "Form completion time"
+        },
+        "response": {
+          "value": "24 hours",
+          "label": "We'll respond within a day"
+        }
+      }
+    },
     "tips": {
       "title": "Filling Tips",
       "tip1": "Select only necessary modules for accurate calculation.",

@@ -8,6 +8,7 @@
 import type { ReactElement } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import type { BriefSimpleStepId } from '../types/brief-simple';
 
@@ -16,6 +17,7 @@ interface BriefSimpleStepNavigatorProps {
 }
 
 export function BriefSimpleStepNavigator({ stepId }: BriefSimpleStepNavigatorProps): ReactElement {
+  const t = useTranslations('brief.simple.navigation');
   const { goNext, goBack, canGoBack, canGoForward, isLastStep } = useBriefSimpleStep(stepId);
 
   return (
@@ -29,7 +31,7 @@ export function BriefSimpleStepNavigator({ stepId }: BriefSimpleStepNavigatorPro
           whileTap={{ scale: 0.98 }}
         >
           <ArrowLeft className="w-4 h-4" />
-          Назад
+          {t('back')}
         </motion.button>
       ) : (
         <div></div>
@@ -43,7 +45,7 @@ export function BriefSimpleStepNavigator({ stepId }: BriefSimpleStepNavigatorPro
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {isLastStep ? 'Отправить заявку' : 'Далее'}
+          {isLastStep ? t('submit') : t('next')}
           <ArrowRight className="w-4 h-4" />
         </motion.button>
       )}

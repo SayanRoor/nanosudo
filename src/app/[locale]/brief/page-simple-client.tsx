@@ -8,6 +8,7 @@
 import type { ReactElement } from 'react';
 import { useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/layout/container';
 import { SiteShell } from '@/components/layout/site-shell';
 import { BriefSimpleFormProvider, BriefSimpleFormContext } from '@/features/brief/components/brief-simple-form-provider';
@@ -19,6 +20,7 @@ import { CalculationPreviewSimple } from '@/features/brief/components/calculatio
 
 function BriefSimpleFormContent(): ReactElement {
   const context = useContext(BriefSimpleFormContext);
+  const t = useTranslations('brief.simple');
 
   if (!context) {
     throw new Error('BriefSimpleFormContent must be used within BriefSimpleFormProvider');
@@ -45,7 +47,7 @@ function BriefSimpleFormContent(): ReactElement {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
-                Бесплатный расчёт
+                {t('header.label')}
               </motion.p>
               <motion.h1
                 className="font-heading text-3xl md:text-4xl lg:text-5xl font-black"
@@ -53,7 +55,7 @@ function BriefSimpleFormContent(): ReactElement {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                Узнайте стоимость вашего проекта
+                {t('header.title')}
               </motion.h1>
               <motion.p
                 className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
@@ -61,7 +63,7 @@ function BriefSimpleFormContent(): ReactElement {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                Ответьте на 3 простых вопроса — получите ориентировочную стоимость и сроки. Без регистрации и звонков менеджеров.
+                {t('header.description')}
               </motion.p>
             </motion.div>
           </Container>
@@ -113,16 +115,16 @@ function BriefSimpleFormContent(): ReactElement {
           <Container>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <div className="text-center space-y-2">
-                <p className="text-2xl font-heading font-black text-accent">0₽</p>
-                <p className="text-sm text-muted-foreground">Расчёт стоимости бесплатный</p>
+                <p className="text-2xl font-heading font-black text-accent">{t('trustSignals.free.value')}</p>
+                <p className="text-sm text-muted-foreground">{t('trustSignals.free.label')}</p>
               </div>
               <div className="text-center space-y-2">
-                <p className="text-2xl font-heading font-black text-accent">~2 мин</p>
-                <p className="text-sm text-muted-foreground">Время заполнения формы</p>
+                <p className="text-2xl font-heading font-black text-accent">{t('trustSignals.time.value')}</p>
+                <p className="text-sm text-muted-foreground">{t('trustSignals.time.label')}</p>
               </div>
               <div className="text-center space-y-2">
-                <p className="text-2xl font-heading font-black text-accent">24 часа</p>
-                <p className="text-sm text-muted-foreground">Ответим в течение суток</p>
+                <p className="text-2xl font-heading font-black text-accent">{t('trustSignals.response.value')}</p>
+                <p className="text-sm text-muted-foreground">{t('trustSignals.response.label')}</p>
               </div>
             </div>
           </Container>

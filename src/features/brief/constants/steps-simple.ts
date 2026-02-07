@@ -1,13 +1,14 @@
 /**
  * Steps configuration for simplified 3-step brief form
+ * Labels are now retrieved from i18n translations
  */
 
-import type { BriefSimpleStep } from "../types/brief-simple";
+import type { BriefSimpleStep, BriefSimpleStepId } from "../types/brief-simple";
 
-export const BRIEF_SIMPLE_STEPS: readonly BriefSimpleStep[] = [
-  { id: 'projectType', label: 'Что вы хотите?', order: 1 },
-  { id: 'priorities', label: 'Что важно для вас?', order: 2 },
-  { id: 'contact', label: 'Давайте познакомимся', order: 3 },
+export const BRIEF_SIMPLE_STEPS: readonly { id: BriefSimpleStepId; order: number }[] = [
+  { id: 'projectType', order: 1 },
+  { id: 'priorities', order: 2 },
+  { id: 'contact', order: 3 },
 ] as const;
 
 export const BRIEF_SIMPLE_STEP_IDS = BRIEF_SIMPLE_STEPS.map((step) => step.id);
