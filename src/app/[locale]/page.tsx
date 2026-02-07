@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactElement } from "react";
-import { motion, useSpring, useMotionValueEvent, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
@@ -16,8 +16,6 @@ import {
   CreditCard,
   Eye,
   CheckCircle2,
-  TrendingUp,
-  Gauge,
   ArrowRight,
   MessageCircle,
   Linkedin,
@@ -298,184 +296,6 @@ function TypewriterText({
   );
 }
 
-/**
- * Animated number component that counts from 0 to target
- */
-function AnimatedNumber({
-  value
-}: {
-  readonly value: string;
-}): ReactElement {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, getViewportSettings(0.2));
-
-  // Parse value to extract number and suffix
-  const match = value.match(/^([\d.]+)(.*)$/);
-
-  const spring = useSpring(0, { stiffness: 50, damping: 30 });
-  const [display, setDisplay] = useState(0);
-
-  const numStr = match?.[1] ?? '';
-  const suffix = match?.[2] ?? '';
-  const targetNum = match ? parseFloat(numStr) : 0;
-  const hasDecimals = numStr.includes('.');
-  const decimalPlaces = hasDecimals ? (numStr.split('.')[1]?.length ?? 1) : 0;
-
-  useEffect(() => {
-    if (isInView && match) {
-      spring.set(targetNum);
-    }
-  }, [isInView, targetNum, spring, match]);
-
-  useMotionValueEvent(spring, "change", (latest) => {
-    if (match) {
-      if (hasDecimals) {
-        setDisplay(parseFloat(latest.toFixed(decimalPlaces)));
-      } else {
-        setDisplay(Math.round(latest));
-      }
-    }
-  });
-
-  // If value doesn't match pattern, return as-is
-  if (!match) {
-    return <span ref={ref}>{value}</span>;
-  }
-
-  // Format number (preserve decimals if original had them)
-  const formattedNum = hasDecimals
-    ? display.toFixed(decimalPlaces)
-    : display.toString();
-
-  return <span ref={ref}>{formattedNum}{suffix}</span>;
-}
-
-type StatItem = {
-  readonly value: string;
-  readonly label: string;
-  readonly icon: LucideIcon;
-};
-
-type StatsCardProps = {
-  readonly stat: StatItem;
-};
-
-// Animation variants for stats cards
-const statsCardVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-};
-
-function StatsCard({ stat }: StatsCardProps): ReactElement {
-  const Icon = stat.icon;
-
-  return (
-    <motion.div
-      className="rounded-xl border border-border/60 bg-surface/80 p-6 shadow-soft text-center cursor-pointer overflow-hidden relative"
-      initial="initial"
-      whileInView="animate"
-      viewport={getViewportSettings(0.2)}
-      variants={statsCardVariants}
-      whileHover={{
-        scale: 1.05,
-        y: -8,
-        transition: {
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1] as const,
-        },
-      }}
-    >
-      {/* Animated background gradient on hover */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      <div className="relative z-10">
-        <div className="flex justify-center mb-2">
-          <motion.div
-            whileHover={{
-              scale: 1.2,
-              rotate: [0, -10, 10, -10, 10, 0],
-              transition: {
-                duration: 0.6,
-                ease: [0.4, 0, 0.2, 1] as const,
-              },
-            }}
-          >
-            <Icon className="w-6 h-6 text-accent" />
-          </motion.div>
-        </div>
-        <motion.p
-          className="text-2xl md:text-3xl font-heading text-accent mb-1"
-          whileHover={{
-            scale: 1.1,
-            transition: {
-              duration: 0.2,
-              ease: [0.4, 0, 0.2, 1] as const,
-            },
-          }}
-        >
-          <AnimatedNumber value={stat.value} />
-        </motion.p>
-        <p className="text-xs text-muted-foreground">{stat.label}</p>
-      </div>
-    </motion.div>
-  );
-}
-
-function StatsSection(): ReactElement {
-  const t = useTranslations();
-  const stats: Array<StatItem> = [
-    { value: '20+', label: t('home.stats.items.successfulProjects'), icon: TrendingUp },
-    { value: '95+', label: t('home.stats.items.pageSpeed'), icon: Gauge },
-    { value: '1.2с', label: t('home.stats.items.avgLoad'), icon: Zap },
-    { value: '12 мес', label: t('home.stats.items.codeWarranty'), icon: Shield },
-  ];
-
-  return (
-    <section className="border-t border-border/60 py-section bg-surface/40">
-      <Container className="space-y-12">
-        <motion.div
-          className="space-y-4 text-balance text-center"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.1)}
-          variants={staggerContainer}
-        >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.stats.label")}
-          </motion.p>
-          <motion.h2
-            className="font-heading text-3xl md:text-4xl"
-            variants={fadeInUp}
-          >
-            {t("home.stats.title")}
-          </motion.h2>
-        </motion.div>
-
-        <motion.div
-          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 max-w-5xl mx-auto"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.2)}
-          variants={staggerContainer}
-        >
-          {stats.map((stat) => (
-            <StatsCard
-              key={stat.label}
-              stat={stat}
-            />
-          ))}
-        </motion.div>
-      </Container>
-    </section>
-  );
-}
 
 function ExpertiseSection(): ReactElement {
   const t = useTranslations();
@@ -1311,7 +1131,6 @@ export default function Home(): ReactElement {
       <StructuredData data={generateServiceStructuredData()} />
       <main id="main-content" className="flex flex-1 flex-col">
         <HeroSection />
-        <StatsSection />
         <TechnologiesMarquee />
         <ExpertiseSection />
         <TechnologiesMarquee direction="right" />
