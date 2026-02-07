@@ -98,7 +98,7 @@ export default function CasesPage(): ReactElement {
         { name: t("common.home"), item: "/" },
         { name: t("common.cases"), item: "/cases" },
       ])} />
-      <main id="main-content" className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col pt-24 md:pt-32">
         {!isSingleProject && (
           <section className="border-b border-border/60 py-section bg-surface/40">
             <Container className="max-w-4xl">
