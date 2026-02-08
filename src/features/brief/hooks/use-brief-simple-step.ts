@@ -30,7 +30,6 @@ export function useBriefSimpleStep(stepId: BriefSimpleStepId): UseBriefSimpleSte
   const { form, currentStep, setCurrentStep } = context;
 
   const currentStepIndex = BRIEF_SIMPLE_STEPS.findIndex((s) => s.id === currentStep);
-  const stepIndex = BRIEF_SIMPLE_STEPS.findIndex((s) => s.id === stepId);
 
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === BRIEF_SIMPLE_STEPS.length - 1;

@@ -3,7 +3,7 @@
  * Labels are now retrieved from i18n translations
  */
 
-import type { BriefSimpleStep, BriefSimpleStepId } from "../types/brief-simple";
+import type { BriefSimpleStepId } from "../types/brief-simple";
 
 export const BRIEF_SIMPLE_STEPS: readonly { id: BriefSimpleStepId; order: number }[] = [
   { id: 'projectType', order: 1 },
