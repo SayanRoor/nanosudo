@@ -75,7 +75,7 @@ function HeroSection(): ReactElement {
   const activePhrase = t(`home.hero.rotatingPhrases.${phraseIndex}` as any);
 
   return (
-    <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden min-h-[90vh] md:min-h-screen flex items-center">
+    <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 lg:pb-32 overflow-hidden flex items-center">
       {/* Animated gradient background with theme colors */}
       <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden" aria-hidden="true">
         {/* Base gradient */}
