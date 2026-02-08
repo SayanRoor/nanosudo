@@ -75,38 +75,75 @@ function HeroSection(): ReactElement {
   const activePhrase = t(`home.hero.rotatingPhrases.${phraseIndex}` as any);
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden min-h-screen flex items-center">
-      {/* Background gradient layer */}
-      <div className="absolute inset-0 -z-20 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/10" />
+    <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden min-h-[90vh] md:min-h-screen flex items-center">
+      {/* Animated gradient background with theme colors */}
+      <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/20" />
+
+        {/* Animated gradient orbs matching theme colors */}
+        <div className="absolute inset-0">
+          {/* Accent color orb - top left */}
+          <motion.div
+            className="absolute -left-1/4 -top-1/4 h-[500px] w-[500px] md:h-[700px] md:w-[700px] rounded-full bg-accent/20 dark:bg-accent/10 blur-[100px]"
+            animate={{
+              x: [0, 50, 0],
+              y: [0, 30, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+
+          {/* Secondary orb - bottom right */}
+          <motion.div
+            className="absolute -bottom-1/4 -right-1/4 h-[400px] w-[400px] md:h-[600px] md:w-[600px] rounded-full bg-accent/15 dark:bg-accent/8 blur-[120px]"
+            animate={{
+              x: [0, -30, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          />
+
+          {/* Center glow */}
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] md:h-[500px] md:w-[500px] rounded-full bg-accent/10 dark:bg-accent/5 blur-[80px]"
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </div>
       </div>
 
-      {/* Particle animation layer */}
-      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <CTAParticles
-          baseCount={360}
-          text="NANO"
-          mode="text"
-          followCursor={true}
-          center={false}
-          trail={true}
-        />
-      </div>
-
-      <Container className="relative z-10 w-full">
+      <Container className="relative z-10 w-full px-4 md:px-6">
         {/* Two-column grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
 
           {/* LEFT COLUMN - Content */}
           <motion.div
-            className="space-y-8"
+            className="space-y-6 md:space-y-8 text-center lg:text-left"
             initial="initial"
             animate="animate"
             variants={staggerContainer}
           >
             {/* Subtitle badge */}
             <motion.p
-              className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/70"
+              className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-muted-foreground/70"
               variants={fadeInUp}
             >
               {t("home.hero.subtitle")}
@@ -114,17 +151,17 @@ function HeroSection(): ReactElement {
 
             {/* Main title with rotating phrases */}
             <motion.h1
-              className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] tracking-tight"
+              className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] tracking-tight"
               variants={fadeInUp}
             >
               <span className="block text-foreground font-black">
                 {t("home.hero.mainTitle")}
               </span>
-              <span className="block mt-4" role="status" aria-live="polite" aria-atomic="true">
+              <span className="block mt-3 md:mt-4" role="status" aria-live="polite" aria-atomic="true">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={phraseIndex}
-                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(138,123,255,0.3)] font-black"
+                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(138,123,255,0.3)] md:drop-shadow-[0_0_30px_rgba(138,123,255,0.3)] font-black"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
@@ -138,7 +175,7 @@ function HeroSection(): ReactElement {
 
             {/* Description */}
             <motion.p
-              className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-xl"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0"
               variants={fadeInUp}
             >
               {t("home.hero.description")}
@@ -146,21 +183,21 @@ function HeroSection(): ReactElement {
 
             {/* CTA Buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 pt-4"
+              className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start"
               variants={fadeInUp}
             >
               <Link
                 href="/brief"
                 className="group relative inline-flex items-center justify-center"
               >
-                <div className="px-10 py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.2em] text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
+                <div className="px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
                   {t("common.cta.cost")}
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </div>
               </Link>
               <a
                 href="#process"
-                className="inline-flex items-center justify-center px-10 py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.2em] text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
+                className="inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
               >
                 {t("common.cta.howIWork")}
               </a>
@@ -169,69 +206,73 @@ function HeroSection(): ReactElement {
 
           {/* RIGHT COLUMN - Photo & Social */}
           <motion.div
-            className="relative w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto space-y-6"
+            className="relative w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:ml-auto space-y-4 md:space-y-6 mt-8 lg:mt-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             {/* Photo Card - matching footer style */}
-            <div className="glass-card rounded-[2.5rem] p-8 border-border/40 overflow-hidden relative group">
+            <div className="glass-card rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-6 lg:p-8 border-border/40 overflow-hidden relative group">
               {/* Decorative blur */}
-              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-accent/10 blur-[80px] rounded-full" />
+              <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-32 h-32 md:w-48 md:h-48 bg-accent/10 blur-[60px] md:blur-[80px] rounded-full" />
 
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
+              <div className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
                 <Image
                   src="/Sayan_Roor_Web_Dev.jpg"
                   alt={t("home.hero.imageAlt")}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+                  sizes="(max-width: 640px) 90vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 600px"
                 />
               </div>
             </div>
 
             {/* Social Links - matching footer style */}
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-3 md:gap-4">
               <motion.a
                 href="https://www.linkedin.com/in/sayan-roor/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                className="w-11 h-11 md:w-12 md:h-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
                 aria-label="LinkedIn"
                 whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-4 h-4 md:w-5 md:h-5" />
               </motion.a>
               <motion.a
                 href="https://instagram.com/satoshi_iam"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                className="w-11 h-11 md:w-12 md:h-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
                 aria-label="Instagram"
                 whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="w-4 h-4 md:w-5 md:h-5" />
               </motion.a>
               <motion.a
                 href="https://t.me/satoshi_iam"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                className="w-11 h-11 md:w-12 md:h-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
                 aria-label="Telegram"
                 whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4 md:w-5 md:h-5" />
               </motion.a>
               <motion.a
                 href="https://github.com/SayanRoor"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
+                className="w-11 h-11 md:w-12 md:h-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
                 aria-label="GitHub"
                 whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-4 h-4 md:w-5 md:h-5" />
               </motion.a>
             </div>
           </motion.div>
@@ -452,7 +493,6 @@ type ProcessStep = {
   readonly description: string;
   readonly duration: string;
   readonly output: string;
-  readonly payment?: string;
 };
 
 type ProcessStepCardProps = {
@@ -469,7 +509,7 @@ const processStepCardVariants = {
 function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
   return (
     <motion.article
-      className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft cursor-pointer overflow-hidden relative group"
+      className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft cursor-pointer overflow-hidden relative group h-full flex flex-col"
       variants={processStepCardVariants}
       whileHover={{
         scale: 1.02,
@@ -485,7 +525,7 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
         className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       />
 
-      <div className="relative z-10 space-y-4">
+      <div className="relative z-10 space-y-4 flex-1 flex flex-col">
         {/* Number Badge */}
         <div className="flex items-center justify-between">
           <span className="text-5xl font-heading font-black text-accent/20 group-hover:text-accent/40 transition-colors">
@@ -497,29 +537,22 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
         </div>
 
         {/* Title */}
-        <h3 className="font-heading text-xl font-bold leading-tight">{step.title}</h3>
+        <h3 className="font-heading text-xl font-bold leading-tight min-h-[56px] flex items-center">{step.title}</h3>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-relaxed min-h-[80px]">
           {t(`home.process.steps.${step.id}.description`)}
         </p>
 
-        {/* Output Box */}
-        <div className="rounded-lg border border-accent/30 bg-accent/5 p-3 space-y-1">
+        {/* Output Box - pushed to bottom */}
+        <div className="rounded-lg border border-accent/30 bg-accent/5 p-3 space-y-1 mt-auto">
           <p className="text-[10px] font-black uppercase tracking-wider text-accent">
             {t("home.process.outputLabel")}
           </p>
-          <p className="text-xs text-foreground/80 font-medium">
+          <p className="text-xs text-foreground/80 font-medium min-h-[32px]">
             {t(`home.process.steps.${step.id}.output`)}
           </p>
         </div>
-
-        {/* Payment info if exists */}
-        {step.payment && (
-          <p className="text-xs text-muted-foreground font-semibold">
-            💰 {step.payment}
-          </p>
-        )}
       </div>
     </motion.article>
   );
@@ -543,7 +576,6 @@ function ProcessSection(): ReactElement {
       description: 'Детальное ТЗ с прототипами, план разработки, стратегия маркетинга, договор и график платежей.',
       duration: t('home.process.steps.scope.duration'),
       output: 'Полная картина проекта. Если что-то не нравится — меняем до старта.',
-      payment: '30% от стоимости',
     },
     {
       id: 'development',
@@ -552,7 +584,6 @@ function ProcessSection(): ReactElement {
       description: 'Пишу код, каждую неделю — созвон с отчётом, доступ к тестовой версии, вносим правки по ходу.',
       duration: t('home.process.steps.development.duration'),
       output: 'Видите прогресс. Никаких "чёрных ящиков".',
-      payment: '40% по готовности 50% функционала',
     },
     {
       id: 'launch',
@@ -561,7 +592,6 @@ function ProcessSection(): ReactElement {
       description: 'Переносим на боевой сервер, настраиваю аналитику, запускаю рекламу, обучаю вашу команду.',
       duration: t('home.process.steps.launch.duration'),
       output: 'Работающий инструмент + первые заявки',
-      payment: '30% после запуска',
     },
   ];
 
