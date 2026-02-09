@@ -28,7 +28,6 @@ import {
 
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
-import CTAParticles from "@/components/background/cta-particles-clean";
 import { SiteShell } from "@/components/layout/site-shell";
 // import { TechnologiesMarquee } from "@/components/technologies-marquee";
 // import { getFeaturedProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
@@ -280,38 +279,45 @@ function ExpertiseSection(): ReactElement {
           </motion.p>
         </motion.div>
 
-        {/* Expertise Grid - Modern card design */}
-        <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:gap-8">
+        {/* Expertise Grid - Modern bento-style cards */}
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
           {expertise.map((item, index) => (
             <motion.article
               key={item.id}
-              className="group relative rounded-3xl border border-border/60 bg-surface/40 backdrop-blur-sm p-6 md:p-8 transition-all duration-300 hover:border-accent/40 hover:bg-surface/60 hover:shadow-lg"
+              className="group relative overflow-hidden rounded-2xl border border-border/40 bg-linear-to-br from-surface/80 via-surface/60 to-surface/40 p-8 transition-all duration-500 hover:border-accent/60 hover:shadow-xl"
               initial="initial"
               whileInView="animate"
               viewport={getViewportSettings(0.2)}
               variants={fadeInUp}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -4 }}
+              whileHover={{ y: -8, scale: 1.02 }}
             >
-              {/* Icon with gradient background */}
-              <div className="mb-6">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-linear-to-br from-accent/20 to-accent/5 group-hover:from-accent/30 group-hover:to-accent/10 transition-all duration-300">
-                  <item.icon className="w-7 h-7 text-accent" />
+              {/* Accent bar on left */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-linear-to-b from-accent/80 via-accent/40 to-transparent" />
+
+              {/* Glowing effect on hover */}
+              <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Content wrapper */}
+              <div className="relative space-y-6">
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-accent/10 ring-1 ring-accent/20 group-hover:bg-accent/20 group-hover:ring-accent/40 group-hover:scale-110 transition-all duration-500">
+                  <item.icon className="w-8 h-8 text-accent" strokeWidth={1.5} />
+                </div>
+
+                {/* Text content */}
+                <div className="space-y-3">
+                  <h3 className="font-heading text-2xl font-bold leading-tight text-foreground group-hover:text-accent transition-colors duration-300">
+                    {t(`home.expertise.items.${item.id}.title`)}
+                  </h3>
+                  <p className="text-base text-muted-foreground/90 leading-relaxed">
+                    {t(`home.expertise.items.${item.id}.description`)}
+                  </p>
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="space-y-4">
-                <h3 className="font-heading text-xl md:text-2xl font-bold leading-tight">
-                  {t(`home.expertise.items.${item.id}.title`)}
-                </h3>
-                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                  {t(`home.expertise.items.${item.id}.description`)}
-                </p>
-              </div>
-
-              {/* Decorative gradient overlay on hover */}
-              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-accent/0 via-accent/0 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              {/* Corner decoration */}
+              <div className="absolute -bottom-12 -right-12 w-32 h-32 rounded-full bg-accent/5 blur-2xl group-hover:bg-accent/10 transition-all duration-500" />
             </motion.article>
           ))}
         </div>
@@ -849,13 +855,12 @@ function FinalCTASection(): ReactElement {
   const t = useTranslations();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
-    <section className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Static background (video removed for improved UX) */}
+    <section className="relative py-section overflow-hidden">
+      {/* Modern gradient background */}
       <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
+        <div className="absolute inset-0 bg-linear-to-b from-background via-accent/5 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
       </div>
-
-      <CTAParticles />
 
       <Container className="relative z-10 max-w-4xl">
         <motion.div
@@ -995,58 +1000,11 @@ export default function Home(): ReactElement {
       <StructuredData data={generateWebsiteStructuredData(locale)} />
       <StructuredData data={generateServiceStructuredData()} />
       <main id="main-content" className="relative flex flex-1 flex-col">
-        {/* Global animated gradient background for entire page */}
+        {/* Modern static gradient background */}
         <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden" aria-hidden="true">
-          {/* Base gradient */}
-          <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/20" />
-
-          {/* Animated gradient orbs matching theme colors */}
-          <div className="absolute inset-0">
-            {/* Accent color orb - top left */}
-            <motion.div
-              className="absolute -left-1/4 -top-1/4 h-[500px] w-[500px] md:h-[700px] md:w-[700px] rounded-full bg-accent/20 dark:bg-accent/10 blur-[100px]"
-              animate={{
-                x: [0, 50, 0],
-                y: [0, 30, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-
-            {/* Secondary orb - bottom right */}
-            <motion.div
-              className="absolute -bottom-1/4 -right-1/4 h-[400px] w-[400px] md:h-[600px] md:w-[600px] rounded-full bg-accent/15 dark:bg-accent/8 blur-[120px]"
-              animate={{
-                x: [0, -30, 0],
-                y: [0, -50, 0],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-            />
-
-            {/* Center glow */}
-            <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] md:h-[500px] md:w-[500px] rounded-full bg-accent/10 dark:bg-accent/5 blur-[80px]"
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </div>
+          <div className="absolute inset-0 bg-linear-to-br from-background via-background to-accent/5" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-border/50 to-transparent" />
         </div>
 
         <HeroSection />
