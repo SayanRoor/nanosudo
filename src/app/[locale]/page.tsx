@@ -855,14 +855,8 @@ function FinalCTASection(): ReactElement {
   const t = useTranslations();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
-    <section className="relative py-section overflow-hidden">
-      {/* Modern gradient background */}
-      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-linear-to-b from-background via-accent/5 to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
-      </div>
-
-      <Container className="relative z-10 max-w-4xl">
+    <section className="py-section">
+      <Container className="max-w-4xl">
         <motion.div
           className="space-y-10 text-balance"
           initial="initial"
@@ -999,14 +993,7 @@ export default function Home(): ReactElement {
       <StructuredData data={generatePersonStructuredData(locale)} />
       <StructuredData data={generateWebsiteStructuredData(locale)} />
       <StructuredData data={generateServiceStructuredData()} />
-      <main id="main-content" className="relative flex flex-1 flex-col">
-        {/* Modern static gradient background */}
-        <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-0 bg-linear-to-br from-background via-background to-accent/5" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-border/50 to-transparent" />
-        </div>
-
+      <main id="main-content" className="flex flex-1 flex-col">
         <HeroSection />
         <ExpertiseSection />
         <ProcessSection />
