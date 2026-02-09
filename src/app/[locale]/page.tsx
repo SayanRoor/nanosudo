@@ -1,8 +1,8 @@
 'use client';
 
 import type { ReactElement } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
 import { StructuredData, generatePersonStructuredData, generateWebsiteStructuredData, generateServiceStructuredData } from "@/components/seo/structured-data";
@@ -228,202 +228,90 @@ function HeroSection(): ReactElement {
   );
 }
 
-/**
- * Typewriter text component that types out text character by character
- */
-type TypewriterTextProps = {
-  readonly text: string;
-  readonly speed?: number; // milliseconds per character
-  readonly delay?: number; // delay before starting
-  readonly showCursor?: boolean;
-};
-
-function TypewriterText({
-  text,
-  speed = 30,
-  delay = 0,
-  showCursor = true
-}: TypewriterTextProps): ReactElement {
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, getViewportSettings(0.2));
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    const startTyping = (): void => {
-      setIsTyping(true);
-      setDisplayedText('');
-      let currentIndex = 0;
-
-      const typeChar = (): void => {
-        if (currentIndex < text.length) {
-          setDisplayedText(text.slice(0, currentIndex + 1));
-          currentIndex++;
-          setTimeout(typeChar, speed);
-        } else {
-          setIsTyping(false);
-        }
-      };
-
-      setTimeout(typeChar, delay);
-    };
-
-    startTyping();
-  }, [isInView, text, speed, delay]);
-
-  return (
-    <span ref={ref} className="inline font-mono">
-      {displayedText}
-      {showCursor && isTyping && (
-        <span className="inline-block w-0.5 h-4 bg-accent ml-0.5 align-middle typewriter-cursor" />
-      )}
-    </span>
-  );
-}
-
-
 function ExpertiseSection(): ReactElement {
   const t = useTranslations();
   const expertise = [
     {
       id: 'dev',
-      title: 'Разработка полного цикла',
-      description: 'Frontend, Backend, Database, API — весь стек в одних руках. От архитектуры до деплоя.',
-      tech: ['Next.js 16', 'TypeScript', 'PostgreSQL'],
       icon: Code,
     },
     {
       id: 'integrations',
-      title: 'Интеграции и автоматизация',
-      description: 'CRM, 1С, Kaspi API, платежи — связываю все системы в единый рабочий процесс.',
-      tech: ['1С интеграция', 'Kaspi API', 'CRM системы'],
       icon: Link2,
     },
     {
       id: 'performance',
-      title: 'Производительность и SEO',
-      description: 'Скорость загрузки 1-1.5 сек, Core Web Vitals в зелёной зоне. Техническая оптимизация.',
-      tech: ['Core Web Vitals', 'SSR/SSG', 'Image Optimization'],
       icon: Zap,
     },
     {
       id: 'marketing',
-      title: 'Маркетинг и аналитика',
-      description: 'Настройка рекламы, аналитика, A/B тесты — видите полную картину эффективности.',
-      tech: ['Google Ads', 'Яндекс.Директ', 'GA4'],
       icon: BarChart3,
     },
   ];
 
   return (
-    <section id="expertise" className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Background with gradient orbs and grid pattern */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0">
-          {/* Orb 1 - Azure (top-left) */}
-          <div
-            className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
-          />
-
-          {/* Orb 2 - Spring Green (top-right) */}
-          <div
-            className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 3 - Flamingo (bottom-left) */}
-          <div
-            className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 4 - Lime (bottom-right) */}
-          <div
-            className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
-          />
-        </div>
-
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, currentColor 1px, transparent 1px),
-              linear-gradient(to bottom, currentColor 1px, transparent 1px)
-            `,
-            backgroundSize: '48px 48px',
-          }}
-        />
-      </div>
-
-      <Container className="relative z-10 space-y-12">
+    <section id="expertise" className="relative py-section">
+      <Container className="space-y-12 md:space-y-16">
+        {/* Section Header */}
         <motion.div
-          className="space-y-4 text-balance text-center"
+          className="space-y-4 text-center max-w-3xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.1)}
           variants={staggerContainer}
         >
           <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
+            className="text-xs font-bold uppercase tracking-[0.2em] text-accent"
             variants={fadeInUp}
           >
             {t("home.expertise.label")}
           </motion.p>
           <motion.h2
-            className="font-heading text-3xl md:text-4xl"
+            className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold"
             variants={fadeInUp}
           >
             {t("home.expertise.title")}
           </motion.h2>
           <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-base md:text-lg text-muted-foreground leading-relaxed"
             variants={fadeInUp}
           >
             {t("home.expertise.description")}
           </motion.p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+        {/* Expertise Grid - Modern card design */}
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:gap-8">
           {expertise.map((item, index) => (
             <motion.article
-              key={index}
-              className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft transition hover:-translate-y-1 hover:border-accent/70"
+              key={item.id}
+              className="group relative rounded-3xl border border-border/60 bg-surface/40 backdrop-blur-sm p-6 md:p-8 transition-all duration-300 hover:border-accent/40 hover:bg-surface/60 hover:shadow-lg"
               initial="initial"
               whileInView="animate"
               viewport={getViewportSettings(0.2)}
               variants={fadeInUp}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -4 }}
             >
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-accent/10 p-3 shrink-0">
-                  <item.icon className="w-6 h-6 text-accent" />
-                </div>
-                <div className="flex-1 space-y-3">
-                  <h3 className="font-heading text-xl">{t(`home.expertise.items.${item.id}.title`)}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    <TypewriterText
-                      text={t(`home.expertise.items.${item.id}.description`)}
-                      speed={15}
-                      delay={index * 300}
-                      showCursor={true}
-                    />
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.tech.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium text-muted-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              {/* Icon with gradient background */}
+              <div className="mb-6">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-linear-to-br from-accent/20 to-accent/5 group-hover:from-accent/30 group-hover:to-accent/10 transition-all duration-300">
+                  <item.icon className="w-7 h-7 text-accent" />
                 </div>
               </div>
+
+              {/* Content */}
+              <div className="space-y-4">
+                <h3 className="font-heading text-xl md:text-2xl font-bold leading-tight">
+                  {t(`home.expertise.items.${item.id}.title`)}
+                </h3>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                  {t(`home.expertise.items.${item.id}.description`)}
+                </p>
+              </div>
+
+              {/* Decorative gradient overlay on hover */}
+              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-accent/0 via-accent/0 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             </motion.article>
           ))}
         </div>
