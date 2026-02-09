@@ -27,7 +27,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         { name: t("common.cases"), item: "/cases" },
         { name: project.id.toUpperCase(), item: `/cases/${id}` },
       ])} />
-      <main id="main-content" className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col pt-24 md:pt-32">
         <ProjectDetailContent project={project} />
       </main>
     </SiteShell>

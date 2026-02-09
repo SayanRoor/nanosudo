@@ -31,7 +31,7 @@ import { Container } from "@/components/layout/container";
 import CTAParticles from "@/components/background/cta-particles-clean";
 import { SiteShell } from "@/components/layout/site-shell";
 import { TechnologiesMarquee } from "@/components/technologies-marquee";
-import { getFeaturedProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
+// import { getFeaturedProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
 
 // Animation variants
 const fadeInUp = {
@@ -843,172 +843,173 @@ function GuaranteesSection(): ReactElement {
   );
 }
 
-function PortfolioSection(): ReactElement {
-  const t = useTranslations();
-  const projects = getFeaturedProjects();
+// Portfolio section - hidden from homepage
+// function PortfolioSection(): ReactElement {
+//   const t = useTranslations();
+//   const projects = getFeaturedProjects();
+//
+//   return (
+//     <section className="relative border-t border-border/60 py-section overflow-hidden">
+//       {/* Background with gradient orbs and grid pattern */}
+//       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+//         {/* Base gradient background */}
+//         <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
+//
+//         {/* Animated gradient orbs */}
+//         <div className="absolute inset-0">
+//           {/* Orb 1 - Azure (top-left) */}
+//           <div
+//             className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
+//           />
+//
+//           {/* Orb 2 - Spring Green (top-right) */}
+//           <div
+//             className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
+//           />
+//
+//           {/* Orb 3 - Flamingo (bottom-left) */}
+//           <div
+//             className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
+//           />
+//
+//           {/* Orb 4 - Lime (bottom-right) */}
+//           <div
+//             className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
+//           />
+//         </div>
+//
+//         {/* Subtle grid pattern overlay */}
+//         <div
+//           className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
+//           style={{
+//             backgroundImage: `
+//               linear-gradient(to right, currentColor 1px, transparent 1px),
+//               linear-gradient(to bottom, currentColor 1px, transparent 1px)
+//             `,
+//             backgroundSize: '48px 48px',
+//           }}
+//         />
+//       </div>
+//
+//       <Container className="relative z-10 space-y-12">
+//         <motion.div
+//           className="space-y-4 text-balance text-center"
+//           initial="initial"
+//           whileInView="animate"
+//           viewport={getViewportSettings(0.1)}
+//           variants={staggerContainer}
+//         >
+//           <motion.p
+//             className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
+//             variants={fadeInUp}
+//           >
+//             {t("home.portfolio.label")}
+//           </motion.p>
+//           <motion.h2
+//             className="font-heading text-3xl md:text-4xl"
+//             variants={fadeInUp}
+//           >
+//             {t("home.portfolio.title")}
+//           </motion.h2>
+//           <motion.p
+//             className="text-lg text-muted-foreground max-w-2xl mx-auto"
+//             variants={fadeInUp}
+//           >
+//             {t("home.portfolio.description")}
+//           </motion.p>
+//         </motion.div>
+//
+//         <div className="flex justify-center">
+//           <div className="grid gap-6 max-w-2xl w-full">
+//             {projects.map((project, index) => {
+//               const translatedProject = getTranslatedProject(project.id, t) ?? project;
+//               return (
+//                 <motion.article
+//                   key={project.id}
+//                   className="group relative rounded-2xl border border-border/60 bg-surface/80 overflow-hidden shadow-soft transition-all hover:-translate-y-2 hover:border-accent/70 hover:shadow-lg"
+//                   initial="initial"
+//                   whileInView="animate"
+//                   viewport={getViewportSettings(0.2)}
+//                   variants={fadeInUp}
+//                   transition={{ delay: index * 0.1 }}
+//                 >
+//                   <Link
+//                     href={`/cases/${translatedProject.id}`}
+//                     className="block"
+//                     aria-label={t("cases.list.openCaseAria", { title: translatedProject.title })}
+//                   >
+//                     <ProjectCardContent project={translatedProject} />
+//                   </Link>
+//                 </motion.article>
+//               );
+//             })}
+//           </div>
+//         </div>
+//
+//         {projects.length > 1 && (
+//           <motion.div
+//             className="text-center"
+//             initial="initial"
+//             whileInView="animate"
+//             viewport={{ once: true }}
+//             variants={fadeInUp}
+//           >
+//             <Link
+//               href="/cases"
+//               className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-surface/80 px-6 py-3 text-sm font-semibold normal-case text-foreground transition-all hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+//             >
+//               {t("common.cta.viewAllCases")}
+//               <ArrowRight className="w-4 h-4" />
+//             </Link>
+//           </motion.div>
+//         )}
+//       </Container>
+//     </section>
+//   );
+// }
 
-  return (
-    <section className="relative border-t border-border/60 py-section overflow-hidden">
-      {/* Background with gradient orbs and grid pattern */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0">
-          {/* Orb 1 - Azure (top-left) */}
-          <div
-            className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
-          />
-
-          {/* Orb 2 - Spring Green (top-right) */}
-          <div
-            className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 3 - Flamingo (bottom-left) */}
-          <div
-            className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-          />
-
-          {/* Orb 4 - Lime (bottom-right) */}
-          <div
-            className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
-          />
-        </div>
-
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, currentColor 1px, transparent 1px),
-              linear-gradient(to bottom, currentColor 1px, transparent 1px)
-            `,
-            backgroundSize: '48px 48px',
-          }}
-        />
-      </div>
-
-      <Container className="relative z-10 space-y-12">
-        <motion.div
-          className="space-y-4 text-balance text-center"
-          initial="initial"
-          whileInView="animate"
-          viewport={getViewportSettings(0.1)}
-          variants={staggerContainer}
-        >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-            variants={fadeInUp}
-          >
-            {t("home.portfolio.label")}
-          </motion.p>
-          <motion.h2
-            className="font-heading text-3xl md:text-4xl"
-            variants={fadeInUp}
-          >
-            {t("home.portfolio.title")}
-          </motion.h2>
-          <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-            variants={fadeInUp}
-          >
-            {t("home.portfolio.description")}
-          </motion.p>
-        </motion.div>
-
-        <div className="flex justify-center">
-          <div className="grid gap-6 max-w-2xl w-full">
-            {projects.map((project, index) => {
-              const translatedProject = getTranslatedProject(project.id, t) ?? project;
-              return (
-                <motion.article
-                  key={project.id}
-                  className="group relative rounded-2xl border border-border/60 bg-surface/80 overflow-hidden shadow-soft transition-all hover:-translate-y-2 hover:border-accent/70 hover:shadow-lg"
-                  initial="initial"
-                  whileInView="animate"
-                  viewport={getViewportSettings(0.2)}
-                  variants={fadeInUp}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={`/cases/${translatedProject.id}`}
-                    className="block"
-                    aria-label={t("cases.list.openCaseAria", { title: translatedProject.title })}
-                  >
-                    <ProjectCardContent project={translatedProject} />
-                  </Link>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-
-        {projects.length > 1 && (
-          <motion.div
-            className="text-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <Link
-              href="/cases"
-              className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-surface/80 px-6 py-3 text-sm font-semibold normal-case text-foreground transition-all hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              {t("common.cta.viewAllCases")}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-        )}
-      </Container>
-    </section>
-  );
-}
-
-function ProjectCardContent({ project }: { readonly project: PortfolioProject }): ReactElement {
-  return (
-    <>
-      {/* Image */}
-      <div className="relative aspect-video overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
-        <Image
-          src={project.image}
-          alt={project.imageAlt}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-      </div>
-
-      {/* Content */}
-      <div className="p-6 space-y-4">
-        <div className="space-y-2">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-heading text-xl group-hover:text-accent transition-colors">
-              {project.title}
-            </h3>
-            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0 mt-0.5" />
-          </div>
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {project.shortDescription}
-          </p>
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2">
-          {project.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium text-muted-foreground"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-}
+// function ProjectCardContent({ project }: { readonly project: PortfolioProject }): ReactElement {
+//   return (
+//     <>
+//       {/* Image */}
+//       <div className="relative aspect-video overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
+//         <Image
+//           src={project.image}
+//           alt={project.imageAlt}
+//           fill
+//           className="object-cover transition-transform duration-300 group-hover:scale-105"
+//         />
+//       </div>
+//
+//       {/* Content */}
+//       <div className="p-6 space-y-4">
+//         <div className="space-y-2">
+//           <div className="flex items-start justify-between gap-2">
+//             <h3 className="font-heading text-xl group-hover:text-accent transition-colors">
+//               {project.title}
+//             </h3>
+//             <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0 mt-0.5" />
+//           </div>
+//           <p className="text-sm text-muted-foreground line-clamp-2">
+//             {project.shortDescription}
+//           </p>
+//         </div>
+//
+//         {/* Tags */}
+//         <div className="flex flex-wrap gap-2">
+//           {project.tags.slice(0, 3).map((tag) => (
+//             <span
+//               key={tag}
+//               className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium text-muted-foreground"
+//             >
+//               {tag}
+//             </span>
+//           ))}
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
 
 function FinalCTASection(): ReactElement {
   const t = useTranslations();
@@ -1166,7 +1167,7 @@ export default function Home(): ReactElement {
         <TechnologiesMarquee direction="right" />
         <ProcessSection />
         <GuaranteesSection />
-        <PortfolioSection />
+        {/* <PortfolioSection /> */}
         <FinalCTASection />
       </main>
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
