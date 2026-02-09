@@ -30,7 +30,7 @@ import Image from "next/image";
 import { Container } from "@/components/layout/container";
 import CTAParticles from "@/components/background/cta-particles-clean";
 import { SiteShell } from "@/components/layout/site-shell";
-import { TechnologiesMarquee } from "@/components/technologies-marquee";
+// import { TechnologiesMarquee } from "@/components/technologies-marquee";
 // import { getFeaturedProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
 
 // Animation variants
@@ -76,60 +76,6 @@ function HeroSection(): ReactElement {
 
   return (
     <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 lg:pb-32 overflow-hidden flex items-center">
-      {/* Animated gradient background with theme colors */}
-      <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/20" />
-
-        {/* Animated gradient orbs matching theme colors */}
-        <div className="absolute inset-0">
-          {/* Accent color orb - top left */}
-          <motion.div
-            className="absolute -left-1/4 -top-1/4 h-[500px] w-[500px] md:h-[700px] md:w-[700px] rounded-full bg-accent/20 dark:bg-accent/10 blur-[100px]"
-            animate={{
-              x: [0, 50, 0],
-              y: [0, 30, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-
-          {/* Secondary orb - bottom right */}
-          <motion.div
-            className="absolute -bottom-1/4 -right-1/4 h-[400px] w-[400px] md:h-[600px] md:w-[600px] rounded-full bg-accent/15 dark:bg-accent/8 blur-[120px]"
-            animate={{
-              x: [0, -30, 0],
-              y: [0, -50, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1,
-            }}
-          />
-
-          {/* Center glow */}
-          <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] md:h-[500px] md:w-[500px] rounded-full bg-accent/10 dark:bg-accent/5 blur-[80px]"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </div>
-      </div>
-
       <Container className="relative z-10 w-full px-4 md:px-6">
         {/* Two-column grid */}
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
@@ -1160,11 +1106,63 @@ export default function Home(): ReactElement {
       <StructuredData data={generatePersonStructuredData(locale)} />
       <StructuredData data={generateWebsiteStructuredData(locale)} />
       <StructuredData data={generateServiceStructuredData()} />
-      <main id="main-content" className="flex flex-1 flex-col">
+      <main id="main-content" className="relative flex flex-1 flex-col">
+        {/* Global animated gradient background for entire page */}
+        <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden" aria-hidden="true">
+          {/* Base gradient */}
+          <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/20" />
+
+          {/* Animated gradient orbs matching theme colors */}
+          <div className="absolute inset-0">
+            {/* Accent color orb - top left */}
+            <motion.div
+              className="absolute -left-1/4 -top-1/4 h-[500px] w-[500px] md:h-[700px] md:w-[700px] rounded-full bg-accent/20 dark:bg-accent/10 blur-[100px]"
+              animate={{
+                x: [0, 50, 0],
+                y: [0, 30, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+
+            {/* Secondary orb - bottom right */}
+            <motion.div
+              className="absolute -bottom-1/4 -right-1/4 h-[400px] w-[400px] md:h-[600px] md:w-[600px] rounded-full bg-accent/15 dark:bg-accent/8 blur-[120px]"
+              animate={{
+                x: [0, -30, 0],
+                y: [0, -50, 0],
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+            />
+
+            {/* Center glow */}
+            <motion.div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] md:h-[500px] md:w-[500px] rounded-full bg-accent/10 dark:bg-accent/5 blur-[80px]"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.6, 0.3],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </div>
+        </div>
+
         <HeroSection />
-        <TechnologiesMarquee />
         <ExpertiseSection />
-        <TechnologiesMarquee direction="right" />
         <ProcessSection />
         <GuaranteesSection />
         {/* <PortfolioSection /> */}
