@@ -49,7 +49,7 @@ type BlogPostSource = {
 export const BLOG_POSTS: readonly BlogPostSource[] = [
   {
     slug: "kz-tax-2026-developer-advantages",
-    image: "/blog/kz-tax-2026.jpg",
+    image: "/kazakhstan-tax-regime-2026-it-services.jpg",
     publishedAt: "2026-02-09",
     author: "Sayan Roor",
     tags: ["Kazakhstan", "Taxes", "Business", "IT Services"],
