@@ -6,7 +6,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { briefSimpleSchema, type BriefSimpleFormValues } from '@/features/brief/schemas/brief-simple';
 import { supabaseAdmin } from '@/lib/supabase-admin';
-import { serverEnv } from '@/config/env.server';
+import { serverEnv } from '@/config';
 import { sendBrevoEmail } from '@/server/email/brevo';
 
 export const runtime = 'nodejs';
