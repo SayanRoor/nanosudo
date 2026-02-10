@@ -43,10 +43,10 @@
     --base-spacing-section: clamp(4rem, 10vw, 10rem);
     --base-spacing-block: clamp(3rem, 8vw, 6rem);
 
-    /* Typography */
-    --font-sans-stack: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-heading-stack: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono-stack: "JetBrains Mono", "Fira Code", "SF Mono", monospace;
+    /* Typography - Geist supports Latin, Cyrillic (ru, kk), and Latin Extended */
+    --font-sans-stack: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-heading-stack: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono-stack: var(--font-mono), "SF Mono", "Consolas", monospace;
 
     --font-weight-heading: 800;
     --font-weight-subheading: 600;

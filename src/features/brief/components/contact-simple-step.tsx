@@ -238,18 +238,17 @@ export function ContactSimpleStep(): ReactElement {
         </motion.div>
       )}
 
-      <div onClick={() => void handleSubmit()}>
-        <BriefSimpleStepNavigator
-          stepId="contact"
-          isSubmitting={submissionState === 'submitting'}
-        />
-      </div>
+      <BriefSimpleStepNavigator
+        stepId="contact"
+        isSubmitting={submissionState === 'submitting'}
+        onSubmit={handleSubmit}
+      />
 
       {submissionState === 'submitting' && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center"
+          className="text-center mt-4"
         >
           <p className="text-sm text-muted-foreground">{tNav('submitting')}</p>
         </motion.div>

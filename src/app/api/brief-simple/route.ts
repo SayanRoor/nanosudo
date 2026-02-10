@@ -146,13 +146,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body = await request.json();
 
+    console.log('Received body:', JSON.stringify(body, null, 2));
+
     // Validate request body
     const validation = briefSimpleSchema.safeParse(body);
     if (!validation.success) {
+      console.error('Validation failed:', validation.error.flatten());
       return NextResponse.json(
         {
           error: 'Validation failed',
-          details: validation.error.flatten().fieldErrors
+          details: validation.error.flatten().fieldErrors,
+          message: 'Проверьте правильность заполнения всех обязательных полей формы'
         },
         { status: 400 }
       );
