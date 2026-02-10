@@ -38,7 +38,7 @@ function BriefSimpleFormContent(): ReactElement {
       }
     });
 
-    return () => {
+    return (): void => {
       backgrounds.forEach((el) => {
         if (el instanceof HTMLElement) {
           el.style.display = '';
