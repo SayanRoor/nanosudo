@@ -63,7 +63,7 @@ function PDFViewer({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm p-4">
-      <div className="relative w-full h-full max-w-5xl max-h-[90vh] rounded-2xl border border-border/60 bg-surface/80 shadow-soft flex flex-col">
+      <div className="glass-card relative w-full h-full max-w-5xl max-h-[90vh] rounded-2xl flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border/60">
           <h3 className="font-heading text-lg">{title}</h3>
           <button

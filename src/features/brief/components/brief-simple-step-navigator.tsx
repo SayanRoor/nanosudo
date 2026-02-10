@@ -47,19 +47,21 @@ export function BriefSimpleStepNavigator({ stepId, isSubmitting = false, onSubmi
         <div></div>
       )}
 
-      {canGoForward && (
-        <motion.button
-          type="button"
-          onClick={() => void handleClick()}
-          disabled={isSubmitting}
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-accent-foreground font-bold hover:bg-accent/90 transition-all ml-auto disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-          whileHover={isSubmitting ? {} : { scale: 1.05 }}
-          whileTap={isSubmitting ? {} : { scale: 0.95 }}
-        >
-          {isSubmitting ? t('submitting') : (isLastStep ? t('submit') : t('next'))}
-          <ArrowRight className="w-4 h-4" />
-        </motion.button>
-      )}
+      <motion.button
+        type="button"
+        onClick={() => void handleClick()}
+        disabled={!canGoForward || isSubmitting}
+        className={`inline-flex items-center gap-2 px-8 py-3 rounded-full font-black uppercase tracking-wider text-sm transition-all ml-auto shadow-2xl ${
+          !canGoForward || isSubmitting
+            ? 'bg-muted/40 text-muted-foreground cursor-not-allowed border-2 border-border/40'
+            : 'bg-accent text-black hover:bg-accent/90 hover:scale-105 active:scale-95'
+        }`}
+        whileHover={(!canGoForward || isSubmitting) ? {} : { scale: 1.05 }}
+        whileTap={(!canGoForward || isSubmitting) ? {} : { scale: 0.95 }}
+      >
+        {isSubmitting ? t('submitting') : (isLastStep ? t('submit') : t('next'))}
+        <ArrowRight className="w-4 h-4" />
+      </motion.button>
     </div>
   );
 }

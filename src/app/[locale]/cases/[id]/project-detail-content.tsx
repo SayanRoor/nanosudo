@@ -151,7 +151,7 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps): Re
                   {translatedProject.goals.map((goal, index) => (
                     <motion.li
                       key={index}
-                      className="flex items-start gap-4 rounded-xl border border-border/40 bg-surface/40 p-4 transition-colors hover:border-accent/40 hover:bg-surface/60"
+                      className="flex items-start gap-4 glass-card rounded-xl p-4 transition-colors hover:border-accent/40 hover:bg-surface/60"
                       variants={fadeInUp}
                     >
                       <div className="rounded-full bg-accent/10 p-1.5 flex-shrink-0 mt-0.5">
@@ -183,7 +183,7 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps): Re
                   {translatedProject.tasks.map((task, index) => (
                     <motion.li
                       key={index}
-                      className="flex items-start gap-4 rounded-xl border border-border/40 bg-surface/40 p-4 transition-colors hover:border-accent/40 hover:bg-surface/60"
+                      className="flex items-start gap-4 glass-card rounded-xl p-4 transition-colors hover:border-accent/40 hover:bg-surface/60"
                       variants={fadeInUp}
                     >
                       <div className="flex-shrink-0 mt-1.5">

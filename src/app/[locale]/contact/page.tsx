@@ -106,7 +106,7 @@ export default function ContactPage(): ReactElement {
                 return (
                   <motion.div
                     key={index}
-                    className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-accent/70 hover:shadow-lg"
+                    className="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1 hover:border-accent/70 hover:shadow-xl"
                     initial="initial"
                     whileInView="animate"
                     viewport={{ once: true, margin: "-50px" }}
@@ -157,7 +157,7 @@ export default function ContactPage(): ReactElement {
 
               {/* Location Card */}
               <motion.div
-                className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft"
+                className="glass-card rounded-2xl p-6"
                 initial="initial"
                 whileInView="animate"
                 viewport={{ once: true, margin: "-50px" }}
@@ -232,7 +232,7 @@ export default function ContactPage(): ReactElement {
                   {workingHours.map((item, index) => (
                     <motion.li
                       key={index}
-                      className="flex items-start gap-4 rounded-xl border border-border/40 bg-surface/40 p-4"
+                      className="glass-card flex items-start gap-4 rounded-xl p-4"
                       variants={fadeInUp}
                     >
                       <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />

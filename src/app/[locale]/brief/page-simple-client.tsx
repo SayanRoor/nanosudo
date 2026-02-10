@@ -96,7 +96,7 @@ function BriefSimpleFormContent(): ReactElement {
               <div className="grid lg:grid-cols-[1fr,400px] gap-8 lg:gap-12">
                 {/* Form Steps */}
                 <motion.div
-                  className="rounded-2xl border border-border/60 bg-surface/80 p-6 md:p-8 shadow-soft"
+                  className="glass-card rounded-2xl p-6 md:p-8"
                   layout
                 >
                   <AnimatePresence mode="wait">

@@ -32,7 +32,7 @@ export function CalculationPreviewSimple({
 
   if (!isMounted) {
     return (
-      <div className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft">
+      <div className="glass-card rounded-2xl p-6">
         <p className="text-sm text-muted-foreground">{t('title')}</p>
       </div>
     );
@@ -44,7 +44,7 @@ export function CalculationPreviewSimple({
   return (
     <div className="sticky top-24 space-y-4">
       <motion.div
-        className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft space-y-6"
+        className="glass-card rounded-2xl p-6 space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

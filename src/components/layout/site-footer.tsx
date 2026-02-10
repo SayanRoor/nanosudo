@@ -166,20 +166,36 @@ export function SiteFooter(): ReactElement {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-12 border-t border-border/10 flex flex-col md:flex-row items-center justify-between gap-10">
-            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-muted-foreground/40 text-center md:text-left flex flex-wrap items-center justify-center md:justify-start gap-4">
-              <span>© {currentYear} NANOSUDO<span className="text-accent/40">.</span></span>
-              <span className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground/30 shrink-0">
-                Designed & Developed by Sayan Roor
-              </span>
-            </p>
+          <div className="pt-12 border-t border-border/10 space-y-8">
+            {/* Legal & Copyright Row */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-left space-y-2">
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-muted-foreground/40">
+                  © {currentYear} NANOSUDO<span className="text-accent/40">.</span>
+                </p>
+                <p className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground/30">
+                  Designed & Developed by Sayan Roor
+                </p>
+              </div>
 
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
               <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">
                 <Link href="/privacy-policy" className="hover:text-accent transition-colors duration-300">
                   {t('common.footer.privacyPolicy')}
                 </Link>
               </div>
+            </div>
+
+            {/* Legal Entity Information */}
+            <div className="flex flex-col items-center text-center space-y-1 pt-6 border-t border-border/5">
+              <p className="text-[9px] font-bold tracking-[0.15em] text-muted-foreground/50">
+                ИП Tengri Tech Dev
+              </p>
+              <p className="text-[8px] tracking-widest text-muted-foreground/40">
+                ИИН/БИН: 960808350018
+              </p>
+              <p className="text-[8px] tracking-widest text-muted-foreground/35 max-w-2xl">
+                Республика Казахстан, город Астана, район Нұра, улица Санжар Асфендияров дом №3
+              </p>
             </div>
           </div>
         </Container>

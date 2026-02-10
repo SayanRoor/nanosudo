@@ -124,7 +124,7 @@ export function AdminDashboard(): ReactElement {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-4 rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft md:flex-row md:items-center md:justify-between">
+      <header className="flex flex-col gap-4 glass-card rounded-2xl p-6 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="font-heading text-2xl text-foreground">Заявки</h1>
           <p className="text-sm text-muted-foreground">
@@ -231,7 +231,7 @@ export function AdminDashboard(): ReactElement {
             </table>
           </div>
         </div>
-        <div className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft">
+        <div className="glass-card rounded-2xl p-6">
           {selectedSubmission ? (
             <SubmissionDetails
               submission={selectedSubmission}

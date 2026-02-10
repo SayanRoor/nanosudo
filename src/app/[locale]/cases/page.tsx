@@ -33,7 +33,7 @@ function ProjectCard({ project }: { readonly project: PortfolioProject }): React
   const translatedProject = getTranslatedProject(project.id, t) ?? project;
   return (
     <motion.article
-      className="group relative rounded-2xl border border-border/60 bg-surface/80 overflow-hidden shadow-soft transition-all hover:-translate-y-2 hover:border-accent/70 hover:shadow-lg"
+      className="group relative glass-card rounded-2xl overflow-hidden transition-all hover:-translate-y-2 hover:border-accent/70 hover:shadow-lg"
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, margin: "-50px" }}

@@ -18,6 +18,14 @@ export const serverEnvSchema = z.object({
     .string()
     .email("BREVO_NOTIFICATION_EMAIL must be a valid email address.")
     .optional(),
+  BREVO_SMTP_USER: z
+    .string()
+    .min(1, "BREVO_SMTP_USER is required for SMTP email delivery.")
+    .optional(),
+  BREVO_SMTP_PASS: z
+    .string()
+    .min(1, "BREVO_SMTP_PASS is required for SMTP email delivery.")
+    .optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

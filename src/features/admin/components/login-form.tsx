@@ -47,7 +47,7 @@ export function AdminLoginForm(): ReactElement {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto flex w-full max-w-sm flex-col gap-4 rounded-2xl border border-border/60 bg-surface/80 p-8 shadow-soft"
+      className="mx-auto flex w-full max-w-sm flex-col gap-4 glass-card rounded-2xl p-8"
     >
       <div className="space-y-2 text-center">
         <h2 className="font-heading text-xl text-foreground">Админ-панель</h2>

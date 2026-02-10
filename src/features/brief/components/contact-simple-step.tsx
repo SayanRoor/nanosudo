@@ -14,6 +14,7 @@ import { Link } from '@/i18n/routing';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
 import type { BriefSimpleFormValues } from '../schemas/brief-simple';
+import { INPUT_FIELD, CARD_ERROR, CARD_SUCCESS, CARD_SECONDARY, BUTTON_PRIMARY, BUTTON_SECONDARY } from '@/lib/card-styles';
 
 const contactMethods = [
   { value: 'whatsapp', icon: MessageCircle },
@@ -85,7 +86,7 @@ export function ContactSimpleStep(): ReactElement {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-accent/50 bg-accent/10 p-8 text-center shadow-lg"
+          className={CARD_SUCCESS}
         >
           <CheckCircle className="w-16 h-16 mx-auto mb-4 text-accent" />
           <h2 className="font-heading text-2xl text-foreground mb-3">
@@ -135,7 +136,7 @@ export function ContactSimpleStep(): ReactElement {
           id="name"
           type="text"
           {...register('name')}
-          className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
+          className={INPUT_FIELD}
           placeholder={t('name.placeholder')}
         />
         {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
@@ -151,7 +152,7 @@ export function ContactSimpleStep(): ReactElement {
           id="email"
           type="email"
           {...register('email')}
-          className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
+          className={INPUT_FIELD}
           placeholder={t('email.placeholder')}
         />
         {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
@@ -167,7 +168,7 @@ export function ContactSimpleStep(): ReactElement {
           id="phone"
           type="tel"
           {...register('phone')}
-          className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
+          className={INPUT_FIELD}
           placeholder={t('phone.placeholder')}
         />
         {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
@@ -183,7 +184,7 @@ export function ContactSimpleStep(): ReactElement {
           id="company"
           type="text"
           {...register('company')}
-          className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
+          className={INPUT_FIELD}
           placeholder={t('company.placeholder')}
         />
         {errors.company && <p className="text-sm text-destructive">{errors.company.message}</p>}
@@ -221,7 +222,7 @@ export function ContactSimpleStep(): ReactElement {
       </div>
 
       {/* Privacy Note */}
-      <div className="p-4 rounded-lg bg-muted/20 border border-border/40">
+      <div className={CARD_SECONDARY}>
         <p className="text-xs text-muted-foreground leading-relaxed">
           {t('privacy')}
         </p>
@@ -232,9 +233,9 @@ export function ContactSimpleStep(): ReactElement {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
+          className={CARD_ERROR}
         >
-          {errorMessage}
+          <p className="text-sm text-destructive">{errorMessage}</p>
         </motion.div>
       )}
 

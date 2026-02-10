@@ -34,7 +34,8 @@ export function useBriefSimpleStep(stepId: BriefSimpleStepId): UseBriefSimpleSte
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === BRIEF_SIMPLE_STEPS.length - 1;
   const canGoBack = currentStepIndex > 0;
-  const canGoForward = currentStepIndex < BRIEF_SIMPLE_STEPS.length - 1;
+  // On last step, show submit button (canGoForward should be true)
+  const canGoForward = currentStepIndex < BRIEF_SIMPLE_STEPS.length || isLastStep;
 
   const goNext = useCallback(async (): Promise<void> => {
     // Validate current step before proceeding

@@ -162,7 +162,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
 
             {/* Author Info */}
             <div className="mt-16 pt-12 border-t border-border/60">
-              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-surface/80 p-6">
+              <div className="flex items-start gap-4 glass-card rounded-2xl p-6">
                 <div className="rounded-full bg-accent/10 p-3">
                   <User className="w-6 h-6 text-accent" />
                 </div>
@@ -181,7 +181,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
                 {prevPost ? (
                   <Link
                     href={`/blog/${prevPost.slug}` as Route}
-                    className="group flex items-center gap-4 rounded-xl border border-border/60 bg-surface/80 p-4 transition-all hover:border-accent/70 hover:bg-surface"
+                    className="group flex items-center gap-4 glass-card rounded-xl p-4 transition-all hover:border-accent/70 hover:bg-surface"
                   >
                     <div className="flex-shrink-0">
                       <ArrowLeft className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
@@ -199,7 +199,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
                 {nextPost ? (
                   <Link
                     href={`/blog/${nextPost.slug}` as Route}
-                    className="group flex items-center gap-4 rounded-xl border border-border/60 bg-surface/80 p-4 transition-all hover:border-accent/70 hover:bg-surface md:ml-auto"
+                    className="group flex items-center gap-4 glass-card rounded-xl p-4 transition-all hover:border-accent/70 hover:bg-surface md:ml-auto"
                   >
                     <div className="min-w-0 flex-1 text-right">
                       <p className="text-xs text-muted-foreground mb-1">{t("blog.post.nextArticle")}

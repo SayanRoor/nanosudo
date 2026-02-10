@@ -8,7 +8,7 @@ import { useBriefStep } from "../hooks/use-brief-step";
 import { BriefStepNavigator } from "./brief-step-navigator";
 
 const SECTION_CARD_CLASS =
-  "rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft";
+  "glass-card rounded-2xl p-6";
 
 export function BriefMetricsStep(): ReactElement {
   const {

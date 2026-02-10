@@ -7,7 +7,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { briefSimpleSchema, type BriefSimpleFormValues } from '@/features/brief/schemas/brief-simple';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { serverEnv } from '@/config';
-import { sendBrevoEmail } from '@/server/email/brevo';
+import { sendBrevoSMTPEmail } from '@/server/email/brevo-smtp';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -203,9 +203,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (!isTestMode) {
       // Send emails via Brevo
+      console.log('=== Sending emails via Brevo ===');
+      console.log('Admin email:', serverEnv.BREVO_NOTIFICATION_EMAIL);
+      console.log('Client email:', values.email);
+
       const emailResults = await Promise.allSettled([
         // Admin notification
-        sendBrevoEmail({
+        sendBrevoSMTPEmail({
           to: [{
             email: serverEnv.BREVO_NOTIFICATION_EMAIL ?? values.email,
           }],
@@ -217,7 +221,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           },
         }),
         // Client confirmation
-        sendBrevoEmail({
+        sendBrevoSMTPEmail({
           to: [{
             email: values.email,
             name: values.name,
@@ -227,12 +231,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }),
       ]);
 
-      // Log email errors but don't fail the request
+      // Log email results
+      let emailsSent = 0;
       emailResults.forEach((result, index) => {
+        const emailType = index === 0 ? 'Admin notification' : 'Client confirmation';
         if (result.status === 'rejected') {
-          console.error(`Email ${index + 1} failed:`, result.reason);
+          console.error(`❌ ${emailType} failed:`, result.reason);
+        } else {
+          console.log(`✅ ${emailType} sent successfully`);
+          emailsSent++;
         }
       });
+
+      // Log summary
+      if (emailsSent === 0) {
+        console.warn('⚠️  Email отправка не удалась - проверьте активацию SMTP в Brevo');
+        console.warn('⚠️  Заявка сохранена в базе данных, но уведомления не отправлены');
+      } else if (emailsSent < 2) {
+        console.warn(`⚠️  Отправлено только ${emailsSent} из 2 писем`);
+      }
     }
 
     return NextResponse.json({

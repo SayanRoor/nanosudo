@@ -284,7 +284,7 @@ function ExpertiseSection(): ReactElement {
           {expertise.map((item, index) => (
             <motion.article
               key={item.id}
-              className="group relative overflow-hidden rounded-2xl border border-border/40 bg-linear-to-br from-surface/80 via-surface/60 to-surface/40 p-8 transition-all duration-500 hover:border-accent/60 hover:shadow-xl"
+              className="glass-card group relative overflow-hidden rounded-2xl p-8 transition-all duration-500 hover:border-accent/60 hover:shadow-xl"
               initial="initial"
               whileInView="animate"
               viewport={getViewportSettings(0.2)}
@@ -349,7 +349,7 @@ const processStepCardVariants = {
 function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
   return (
     <motion.article
-      className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft cursor-pointer overflow-hidden relative group h-full flex flex-col"
+      className="glass-card rounded-2xl p-6 cursor-pointer overflow-hidden relative group h-full flex flex-col"
       variants={processStepCardVariants}
       whileHover={{
         scale: 1.02,
@@ -551,7 +551,7 @@ function GuaranteeCard({ guarantee, t }: GuaranteeCardProps): ReactElement {
 
   return (
     <motion.div
-      className="rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft text-center cursor-pointer overflow-hidden relative"
+      className="glass-card rounded-2xl p-6 text-center cursor-pointer overflow-hidden relative"
       initial="initial"
       whileInView="animate"
       viewport={getViewportSettings(0.2)}
@@ -902,7 +902,7 @@ function FinalCTASection(): ReactElement {
             ].map((text, index) => (
               <motion.div
                 key={index}
-                className="flex items-start gap-3 rounded-xl border border-border/60 bg-surface/80 p-4 shadow-soft"
+                className="glass-card flex items-start gap-3 rounded-xl p-4"
                 variants={fadeInUp}
                 transition={{ delay: index * 0.1 }}
               >
@@ -936,7 +936,7 @@ function FinalCTASection(): ReactElement {
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-md space-y-6 rounded-2xl border border-border/60 bg-surface/95 p-6 shadow-soft text-left">
+          <div className="glass-card w-full max-w-md space-y-6 rounded-2xl p-6 text-left">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
@@ -968,7 +968,7 @@ function FinalCTASection(): ReactElement {
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="flex items-center justify-between rounded-xl border border-border/60 bg-surface px-4 py-3 text-sm font-semibold text-foreground shadow-soft transition hover:border-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="glass-card flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition hover:border-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   <span className="flex items-center gap-3">
                     <Icon className="h-5 w-5 text-accent" />

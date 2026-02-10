@@ -12,7 +12,7 @@ import { useBriefFormContext } from "./brief-form-provider";
 type SubmissionState = "idle" | "submitting" | "success" | "error";
 
 const SECTION_CARD_CLASS =
-  "rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft";
+  "glass-card rounded-2xl p-6";
 
 const CONTACT_METHOD_OPTIONS: ReadonlyArray<{
   value: "email" | "telegram" | "whatsapp" | "phone";

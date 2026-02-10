@@ -30,7 +30,7 @@ export function BriefProgress(): ReactElement {
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="rounded-xl border border-border/60 bg-surface/80 p-4 shadow-soft space-y-3 md:hidden">
+      <div className="glass-card rounded-xl p-4 space-y-3 md:hidden">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
             {t("activeStep")}

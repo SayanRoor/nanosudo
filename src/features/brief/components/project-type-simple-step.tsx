@@ -11,6 +11,7 @@ import { FileText, Building2, ShoppingCart, Zap, Rocket } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
+import { INPUT_FIELD } from '@/lib/card-styles';
 
 const projectTypes = [
   { value: 'landing', icon: FileText },
@@ -79,7 +80,7 @@ export function ProjectTypeSimpleStep(): ReactElement {
           id="description"
           {...register('description')}
           rows={4}
-          className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors resize-none"
+          className={`${INPUT_FIELD} resize-none`}
           placeholder={t('description.placeholder')}
         />
         {errors.description && (
@@ -110,7 +111,7 @@ export function ProjectTypeSimpleStep(): ReactElement {
             <input
               type="text"
               {...register('examplesUrls')}
-              className="w-full px-4 py-3 rounded-xl border border-border/60 bg-background focus:border-accent focus:outline-none transition-colors"
+              className={INPUT_FIELD}
               placeholder={t('examples.urls.placeholder')}
             />
           </motion.div>
