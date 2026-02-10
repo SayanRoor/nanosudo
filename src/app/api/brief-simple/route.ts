@@ -146,8 +146,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body = await request.json();
 
-    console.log('Received body:', JSON.stringify(body, null, 2));
-
     // Validate request body
     const validation = briefSimpleSchema.safeParse(body);
     if (!validation.success) {
@@ -202,11 +200,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const isTestMode = process.env.E2E_TEST_MODE === 'true';
 
     if (!isTestMode) {
-      // Send emails via Brevo
-      console.log('=== Sending emails via Brevo ===');
-      console.log('Admin email:', serverEnv.BREVO_NOTIFICATION_EMAIL);
-      console.log('Client email:', values.email);
-
+      // Send emails via Brevo SMTP
       const emailResults = await Promise.allSettled([
         // Admin notification
         sendBrevoSMTPEmail({
@@ -238,7 +232,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         if (result.status === 'rejected') {
           console.error(`❌ ${emailType} failed:`, result.reason);
         } else {
-          console.log(`✅ ${emailType} sent successfully`);
           emailsSent++;
         }
       });

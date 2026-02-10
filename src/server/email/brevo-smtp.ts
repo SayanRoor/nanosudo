@@ -67,8 +67,7 @@ export async function sendBrevoSMTPEmail({
   };
 
   try {
-    const info = await transport.sendMail(mailOptions);
-    console.log('📧 Email sent via SMTP:', info.messageId);
+    await transport.sendMail(mailOptions);
   } catch (error) {
     console.error('❌ SMTP send error:', error);
     throw error;

@@ -14,7 +14,7 @@ import { Link } from '@/i18n/routing';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
 import type { BriefSimpleFormValues } from '../schemas/brief-simple';
-import { INPUT_FIELD, CARD_ERROR, CARD_SUCCESS, CARD_SECONDARY, BUTTON_PRIMARY, BUTTON_SECONDARY } from '@/lib/card-styles';
+import { INPUT_FIELD, CARD_ERROR, CARD_SUCCESS, CARD_SECONDARY } from '@/lib/card-styles';
 
 const contactMethods = [
   { value: 'whatsapp', icon: MessageCircle },
