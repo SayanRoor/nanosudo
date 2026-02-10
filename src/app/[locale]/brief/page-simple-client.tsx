@@ -6,7 +6,7 @@
  */
 
 import type { ReactElement } from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { Container } from '@/components/layout/container';
@@ -28,6 +28,24 @@ function BriefSimpleFormContent(): ReactElement {
 
   const { currentStep, form } = context;
   const formValues = form.watch();
+
+  // Hide background animations on brief page for clean, readable experience
+  useEffect(() => {
+    const backgrounds = document.querySelectorAll('[class*="fixed"][class*="inset-0"][class*="pointer-events-none"]');
+    backgrounds.forEach((el) => {
+      if (el instanceof HTMLElement) {
+        el.style.display = 'none';
+      }
+    });
+
+    return () => {
+      backgrounds.forEach((el) => {
+        if (el instanceof HTMLElement) {
+          el.style.display = '';
+        }
+      });
+    };
+  }, []);
 
   return (
     <SiteShell>

@@ -8,10 +8,12 @@
 import type { ReactElement } from 'react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, Building2, MessageCircle, Send } from 'lucide-react';
+import { User, Mail, Phone, Building2, MessageCircle, Send, CheckCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
+import type { BriefSimpleFormValues } from '../schemas/brief-simple';
 
 const contactMethods = [
   { value: 'whatsapp', icon: MessageCircle },
@@ -20,21 +22,106 @@ const contactMethods = [
   { value: 'phone', icon: Phone },
 ] as const;
 
+type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
+
 export function ContactSimpleStep(): ReactElement {
   const t = useTranslations('brief.simple.contact');
   const tNav = useTranslations('brief.simple.navigation');
   const { form } = useBriefSimpleStep('contact');
-  const { register, watch, setValue, formState: { errors } } = form;
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, watch, setValue, getValues, formState: { errors } } = form;
+
+  const [submissionState, setSubmissionState] = useState<SubmissionState>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [submissionId, setSubmissionId] = useState<string | null>(null);
 
   const selectedMethod = watch('preferredContact');
 
   const handleSubmit = async (): Promise<void> => {
-    setIsSubmitting(true);
-    // Form submission will be handled by parent component
-    // This is just for UI feedback
-    setTimeout(() => setIsSubmitting(false), 2000);
+    setSubmissionState('submitting');
+    setErrorMessage(null);
+
+    try {
+      const formValues = getValues() as BriefSimpleFormValues;
+
+      const response = await fetch('/api/brief-simple', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formValues),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => null);
+        throw new Error(
+          errorBody?.message ?? 'Не удалось отправить бриф. Попробуйте ещё раз или свяжитесь со мной напрямую.'
+        );
+      }
+
+      const result = (await response.json()) as { id: string };
+      setSubmissionId(result.id);
+
+      // Clear localStorage draft
+      localStorage.removeItem('nanosudo.brief.simple.draft');
+
+      setSubmissionState('success');
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Brief submission error:', error);
+      }
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Возникла техническая ошибка. Попробуйте ещё раз позже.'
+      );
+      setSubmissionState('error');
+    }
   };
+
+  // Show success state after submission
+  if (submissionState === 'success') {
+    return (
+      <div className="space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-2xl border border-accent/50 bg-accent/10 p-8 text-center shadow-lg"
+        >
+          <CheckCircle className="w-16 h-16 mx-auto mb-4 text-accent" />
+          <h2 className="font-heading text-2xl text-foreground mb-3">
+            {t('success.title')}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-2">
+            {t('success.message')}
+          </p>
+          {submissionId && (
+            <p className="text-xs text-muted-foreground mt-2">
+              ID заявки: <span className="font-semibold text-foreground">{submissionId}</span>
+            </p>
+          )}
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-bold text-black shadow-lg transition hover:bg-accent/90"
+            >
+              {t('success.home')}
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setSubmissionId(null);
+                setSubmissionState('idle');
+                form.reset();
+              }}
+              className="inline-flex items-center justify-center rounded-full border-2 border-border px-6 py-3 text-sm font-bold text-foreground transition hover:border-accent hover:text-accent"
+            >
+              {t('success.another')}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -140,14 +227,32 @@ export function ContactSimpleStep(): ReactElement {
         </p>
       </div>
 
+      {/* Error Message */}
+      {errorMessage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
+        >
+          {errorMessage}
+        </motion.div>
+      )}
+
       <div onClick={() => void handleSubmit()}>
-        <BriefSimpleStepNavigator stepId="contact" />
+        <BriefSimpleStepNavigator
+          stepId="contact"
+          isSubmitting={submissionState === 'submitting'}
+        />
       </div>
 
-      {isSubmitting && (
-        <div className="text-center">
+      {submissionState === 'submitting' && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
           <p className="text-sm text-muted-foreground">{tNav('submitting')}</p>
-        </div>
+        </motion.div>
       )}
     </div>
   );

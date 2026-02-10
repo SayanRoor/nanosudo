@@ -14,9 +14,10 @@ import type { BriefSimpleStepId } from '../types/brief-simple';
 
 interface BriefSimpleStepNavigatorProps {
   readonly stepId: BriefSimpleStepId;
+  readonly isSubmitting?: boolean;
 }
 
-export function BriefSimpleStepNavigator({ stepId }: BriefSimpleStepNavigatorProps): ReactElement {
+export function BriefSimpleStepNavigator({ stepId, isSubmitting = false }: BriefSimpleStepNavigatorProps): ReactElement {
   const t = useTranslations('brief.simple.navigation');
   const { goNext, goBack, canGoBack, canGoForward, isLastStep } = useBriefSimpleStep(stepId);
 
@@ -41,11 +42,12 @@ export function BriefSimpleStepNavigator({ stepId }: BriefSimpleStepNavigatorPro
         <motion.button
           type="button"
           onClick={() => void goNext()}
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-black font-bold hover:bg-accent/90 transition-all ml-auto"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          disabled={isSubmitting}
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-black font-bold hover:bg-accent/90 transition-all ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
+          whileHover={isSubmitting ? {} : { scale: 1.05 }}
+          whileTap={isSubmitting ? {} : { scale: 0.95 }}
         >
-          {isLastStep ? t('submit') : t('next')}
+          {isSubmitting ? t('submitting') : (isLastStep ? t('submit') : t('next'))}
           <ArrowRight className="w-4 h-4" />
         </motion.button>
       )}
