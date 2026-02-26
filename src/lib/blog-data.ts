@@ -3216,6 +3216,1426 @@ export function HeroSection() {
       },
     },
   },
+  // ─── POST 11: Egemen / Kazak Gazetteri Migration Case ─────────────────────
+  {
+    slug: "egemen-kazak-gazetteri-media-platform-case",
+    image: "/egemen-media-migration-nextjs-nestjs.jpg",
+    publishedAt: "2026-02-14",
+    author: "Sayan Roor",
+    tags: ["Kazakhstan", "Media", "Migration", "NestJS", "Next.js", "Case Study", "egemen.kz"],
+    readingTime: 12,
+    featured: true,
+    translations: {
+      title: {
+        ru: "Кейс: цифровая трансформация egemen.kz — флагмана медиахолдинга «Казак газеттері»",
+        en: "Case Study: Digital Transformation of egemen.kz — Flagship of Kazak Gazetteri Media Holding",
+        kk: "Кейс: «Қазақ газеттері» медиахолдингінің флагманы egemen.kz сайтының цифрлық трансформациясы",
+      },
+      description: {
+        ru: "Как мы мигрировали egemen.kz с устаревшего PHP/Laravel на современный стек NestJS + Next.js + PostgreSQL без простоев, сохранив 212 000 статей и 430 ГБ медиафайлов и кейс сотрудничества с медиахолдингом «Казак газеттері».",
+        en: "How we migrated egemen.kz from legacy PHP/Laravel to modern NestJS + Next.js + PostgreSQL without downtime, preserving 212,000 articles and 430 GB of media files — our partnership with Kazak Gazetteri media holding.",
+        kk: "egemen.kz сайтын ескірген PHP/Laravel-ден заманауи NestJS + Next.js + PostgreSQL стекіне үзіліссіз қалай көшірдік — 212 000 мақала мен 430 ГБ медиафайлдарды сақтай отырып. «Қазақ газеттері» медиахолдингімен ынтымақтастық кейсі.",
+      },
+      excerpt: {
+        ru: "Полный кейс миграции крупнейшего казахскоязычного медиапортала с PHP/Laravel на NestJS + Next.js: от аудита устаревшей платформы до запуска нового сайта без потери данных и SEO-позиций.",
+        en: "Complete migration case study of Kazakhstan's largest Kazakh-language media portal from PHP/Laravel to NestJS + Next.js: from legacy platform audit to new site launch without data or SEO position loss.",
+        kk: "Қазақстанның ең ірі қазақтілді медиапорталының PHP/Laravel-ден NestJS + Next.js-ке толық көшіру кейсі: деректер мен SEO позицияларын жоғалтпай, ескірген платформаны тексеруден жаңа сайтты іске қосуға дейін.",
+      },
+      imageAlt: {
+        ru: "Миграция медиапортала egemen.kz на Next.js и NestJS",
+        en: "Migration of egemen.kz media portal to Next.js and NestJS",
+        kk: "egemen.kz медиапорталын Next.js және NestJS-ке көшіру",
+      },
+      category: {
+        ru: "Кейсы",
+        en: "Case Studies",
+        kk: "Кейстер",
+      },
+      publishedLabel: {
+        ru: "14 февраля 2026",
+        en: "February 14, 2026",
+        kk: "2026 ж. 14 ақпан",
+      },
+      content: {
+        ru: `# Кейс: цифровая трансформация egemen.kz — флагмана медиахолдинга «Казак газеттері»
+
+> egemen.kz — крупнейший казахскоязычный новостной портал Казахстана, входящий в медиахолдинг «Казак газеттері». В 2026 году мы завершили полную миграцию платформы: с устаревшего PHP/Laravel на современный стек NestJS + Next.js + PostgreSQL + Docker.
+
+## Клиент: медиахолдинг «Казак газеттері»
+
+**«Казак газеттері»** — государственный медиахолдинг Республики Казахстан, объединяющий крупнейшие казахскоязычные издания страны. Флагманский портал **egemen.kz** — один из самых посещаемых новостных сайтов Казахстана с аудиторией более 2 миллионов уникальных пользователей в месяц.
+
+### Что имели до начала работы
+
+| Параметр | Значение |
+|----------|----------|
+| Платформа | PHP 7.1 + Laravel 5.8 (оба EOL) |
+| ОС сервера | CentOS 7.9 (EOL с июня 2024) |
+| СУБД | MySQL 5.7 — 5 ГБ данных, 17.8 ГБ RAM под неё |
+| Статьи | 212 408 публикаций на 5 языках |
+| Медиафайлы | ~430 ГБ (2 091 712 изображений + PDF) |
+| Аптайм сервера | 929+ дней без перезагрузки |
+| Диск | 93% заполнен (критически!) |
+
+**Ключевая проблема:** Платформа работала на критически устаревшем стеке. PHP 7.1 получил последние патчи безопасности в декабре 2022 года. CentOS 7 стал EOL в июне 2024. Это означало: уязвимости без исправлений, невозможность установки новых пакетов, и нарастающий технический долг.
+
+27 января 2026 произошёл незапланированный reboot сервера с потерей части файлов — это стало катализатором для немедленного начала миграции.
+
+## Задача: переход без простоев
+
+Главное требование клиента — **нулевой простой** для редакторов и читателей. egemen.kz публикует 50-100 новостей ежедневно. Любой сбой напрямую влияет на политическую и общественную повестку страны.
+
+### Новая архитектура
+
+| Компонент | Версия | Преимущество |
+|-----------|--------|-------------|
+| Ubuntu | 24.04 LTS | Поддержка до 2029 |
+| NestJS | 11 (Fastify) | 2× быстрее Express |
+| Next.js | 16 | SSR + React 19 |
+| PostgreSQL | 16 | Надёжнее MySQL, JSONB |
+| MinIO | Latest | S3-совместимое хранилище для 430 ГБ |
+| Docker | 27+ | Изоляция и воспроизводимость |
+| Redis | 7 | Кэширование, очереди |
+
+### Новые возможности, которых не было
+
+- **Multi-tenant** — несколько изданий холдинга на одной платформе
+- **AI-модуль** — автогенерация метатегов (GPT), автоподбор изображений (DALL-E)
+- **RBAC** — гибкие роли для 150+ редакторов
+- **Мониторинг** — Prometheus + Grafana + Loki
+- **CI/CD** — автодеплой через GitHub Actions
+- **Полный аудит** — история изменений каждой статьи
+
+## Стратегия миграции: параллельный запуск
+
+Мы не делали «бросаем старое, включаем новое» — это гарантированный даунтайм. Вместо этого — параллельный запуск:
+
+\`\`\`
+Неделя 1-2: Новый сервер работает параллельно
+───────────────────────────────────────────
+  Старый сервер (ЖИВОЙ)    ──rsync──▶   Новый сервер (тест)
+  egemen.kz работает       ──dump──▶    Данные синхронизируются
+  Редакторы публикуют                   Всё тестируется
+
+День X (03:00-05:00): Переключение DNS
+  1. Финальная синхронизация данных
+  2. DNS: egemen.kz → новый IP
+  3. SSL-сертификаты
+  4. Проверка всех URL
+\`\`\`
+
+Старый сервер оставался работать как резерв **14 дней** после переключения.
+
+## Миграция данных: 212 000 статей
+
+Самый сложный этап — конвертация из MySQL в PostgreSQL с изменением схемы:
+
+**Маппинг полей:**
+\`\`\`
+MySQL news.news_name_kk  →  PostgreSQL News.title.kk  (JSONB)
+MySQL news.news_text_kk  →  PostgreSQL News.content.kk (JSONB, blocks)
+MySQL news.news_url      →  PostgreSQL News.slug
+MySQL news_rubric (таблица) → Prisma M2M relation
+\`\`\`
+
+Для батчевой миграции написали TypeScript-скрипт (tsx) с обработкой 1000 записей за итерацию. Полная миграция 212 тысяч статей — 28 минут.
+
+**Медиафайлы (430 ГБ):**
+\`\`\`bash
+# Фоновая синхронизация за 7 дней до переключения
+rsync -avz --progress root@old-server:/storage/image/ /media/image/
+# Финальная дельта в день миграции (только новые файлы)
+rsync -avz --progress --newer-than="168h" root@old-server:/storage/ /media/
+\`\`\`
+
+После переноса — загрузка в MinIO (S3-совместимое хранилище) и настройка Nginx-редиректов для старых URL.
+
+## SEO-миграция: сохранили все позиции
+
+egemen.kz имеет сотни тысяч проиндексированных страниц. Неправильная миграция URL = потеря всего SEO-трафика.
+
+**URL-маппинг:**
+
+| Старый URL | Новый URL | Код |
+|-----------|----------|-----|
+| /article/slug-12345 | /news/12345 | 301 |
+| /rubric/ekonomika | /category/ekonomika | 301 |
+| ru.egemen.kz/article/... | egemen.kz/ru/news/... | 301 |
+| admin.egemen.kz/* | egemen.kz/dashboard/* | 301 |
+
+Настроили 301-редиректы через Nginx для всех паттернов. Уведомили Google Search Console о смене платформы. Через 72 часа после миграции — позиции стабильны, индексация продолжается в штатном режиме.
+
+Если вам интересно, как правильно обеспечить безопасность серверной инфраструктуры при таких миграциях — читайте наш материал о [безопасности веб-сайтов в Казахстане](/blog/website-security-kazakhstan-2026).
+
+## Результаты
+
+| Метрика | До | После |
+|---------|-----|-------|
+| Time to First Byte | 1.8s | 0.4s |
+| PageSpeed (mobile) | 47 | 88 |
+| RAM на СУБД | 17.8 GB | 2.1 GB |
+| Диск (заполнение) | 93% | 38% |
+| Публикация новости | ~8 сек | ~1.2 сек |
+| Даунтайм при миграции | — | 0 минут |
+
+## О партнёрстве с «Казак газеттері»
+
+Это не разовый проект — это долгосрочное технологическое партнёрство. В рамках сотрудничества:
+
+- **Миграция egemen.kz** — флагманский портал (завершена)
+- **Разработка единой CMS-платформы** — для всех изданий холдинга
+- **AI-редакция** — автоматизация рутинных задач журналистов
+- **Аналитическая система** — dashboard для руководства холдинга
+- **Поддержка и развитие** — ретейнер-контракт на 2026-2027
+
+Медиахолдинг «Казак газеттері» стал нашим стратегическим партнёром в секторе казахстанских медиа. Это подтверждает наш подход к разработке: не просто сдать проект, а стать техническим союзником клиента.
+
+## Почему это важно для вашего бизнеса
+
+Если у вас есть сайт на устаревшей платформе (PHP 5.x/7.x, WordPress без обновлений, 1С-Битрикс старых версий) — риски аналогичны:
+
+- Уязвимости без патчей
+- Невозможность масштабирования
+- Медленная работа, штрафы PageSpeed
+- Зависимость от одного разработчика
+
+Современная архитектура — это инвестиция, которая окупается через 6-12 месяцев за счёт скорости, безопасности и снижения затрат на поддержку.
+
+Хотите обсудить миграцию вашего проекта? Читайте полный гайд по [разработке сайтов в Казахстане](/blog/website-development-kazakhstan-guide-2026) или [заполните бриф](/brief) — расскажите о вашей ситуации, и я предложу оптимальное решение.
+
+---
+
+*Проект выполнен в рамках партнёрства с АО «Казак газеттері». Все технические данные приведены с разрешения клиента.*`,
+        en: `# Case Study: Digital Transformation of egemen.kz — Flagship of Kazak Gazetteri Media Holding
+
+> egemen.kz is Kazakhstan's largest Kazakh-language news portal, part of the Kazak Gazetteri media holding. In 2026, we completed a full platform migration from legacy PHP/Laravel to a modern NestJS + Next.js + PostgreSQL + Docker stack.
+
+## Client: Kazak Gazetteri Media Holding
+
+**Kazak Gazetteri** is a state media holding of the Republic of Kazakhstan, uniting the country's largest Kazakh-language publications. The flagship portal **egemen.kz** is one of Kazakhstan's most visited news sites with over 2 million unique monthly visitors.
+
+### State Before Migration
+
+| Parameter | Value |
+|-----------|-------|
+| Platform | PHP 7.1 + Laravel 5.8 (both EOL) |
+| Server OS | CentOS 7.9 (EOL since June 2024) |
+| Database | MySQL 5.7 — 5 GB data consuming 17.8 GB RAM |
+| Articles | 212,408 publications in 5 languages |
+| Media Files | ~430 GB (2,091,712 images + PDFs) |
+| Server Uptime | 929+ days without restart |
+| Disk | 93% full (critical!) |
+
+**Core Problem:** The platform ran on critically outdated infrastructure. PHP 7.1 received its last security patches in December 2022. CentOS 7 reached EOL in June 2024. This meant: unpatched vulnerabilities, inability to install new packages, and mounting technical debt.
+
+On January 27, 2026, an unexpected server reboot caused partial file loss — this became the catalyst for immediate migration.
+
+## Challenge: Zero Downtime Migration
+
+The client's primary requirement was **zero downtime** for editors and readers. egemen.kz publishes 50-100 news articles daily. Any interruption directly impacts the country's political and public agenda.
+
+### New Architecture
+
+| Component | Version | Advantage |
+|-----------|---------|-----------|
+| Ubuntu | 24.04 LTS | Supported until 2029 |
+| NestJS | 11 (Fastify) | 2× faster than Express |
+| Next.js | 16 | SSR + React 19 |
+| PostgreSQL | 16 | More reliable, JSONB support |
+| MinIO | Latest | S3-compatible storage for 430 GB |
+| Docker | 27+ | Isolation and reproducibility |
+
+## Migration Strategy: Parallel Operation
+
+Rather than "shut down old, start new" (guaranteed downtime), we used parallel operation:
+
+\`\`\`
+Weeks 1-2: New server runs in parallel
+──────────────────────────────────────
+  Old server (LIVE)       ──rsync──▶   New server (testing)
+  egemen.kz running       ──dump──▶    Data syncing
+  Editors publishing                    Everything tested
+
+Migration Day (03:00-05:00): DNS Cutover
+  1. Final data synchronization
+  2. DNS: egemen.kz → new IP
+  3. SSL certificates
+  4. All URL verification
+\`\`\`
+
+The old server remained as a fallback for **14 days** after cutover.
+
+## Data Migration: 212,000 Articles
+
+The most complex phase — converting from MySQL to PostgreSQL with schema changes. We wrote a TypeScript migration script processing 1,000 records per batch. Full migration of 212,000 articles completed in 28 minutes.
+
+For 430 GB of media files, we used rsync for background sync over 7 days, then a final delta sync on migration day, followed by MinIO upload and Nginx redirect configuration for legacy URLs.
+
+## SEO Migration: Retained All Rankings
+
+With hundreds of thousands of indexed pages, wrong URL migration would mean losing all SEO traffic. We implemented 301 redirects for all URL patterns and notified Google Search Console. 72 hours after migration — rankings stable, indexing continuing normally.
+
+For information on securing your infrastructure during migrations like this, see our guide on [website security in Kazakhstan](/blog/website-security-kazakhstan-2026).
+
+## Results
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Time to First Byte | 1.8s | 0.4s |
+| PageSpeed (mobile) | 47 | 88 |
+| Database RAM usage | 17.8 GB | 2.1 GB |
+| Disk usage | 93% | 38% |
+| Article publish time | ~8 sec | ~1.2 sec |
+| Migration downtime | — | 0 minutes |
+
+## Partnership with Kazak Gazetteri
+
+This is not a one-time project — it's a long-term technology partnership including platform migration, unified CMS development, AI editorial tools, and an analytics dashboard. Kazak Gazetteri has become our strategic partner in Kazakhstan's media sector.
+
+If you have a site running on an outdated platform, the risks are similar: unpatched vulnerabilities, inability to scale, and slow performance. Modern architecture is an investment that pays for itself within 6-12 months.
+
+Want to discuss migrating your project? Read our complete guide on [website development in Kazakhstan](/blog/website-development-kazakhstan-guide-2026) or [fill out a brief](/brief) to get started.`,
+        kk: `# Кейс: «Қазақ газеттері» медиахолдингінің флагманы egemen.kz сайтының цифрлық трансформациясы
+
+> egemen.kz — «Қазақ газеттері» медиахолдингіне кіретін Қазақстанның ең ірі қазақтілді жаңалықтар порталы. 2026 жылы біз платформаны толық ауыстырдық: ескірген PHP/Laravel-ден заманауи NestJS + Next.js + PostgreSQL + Docker стекіне.
+
+## Клиент: «Қазақ газеттері» медиахолдингі
+
+**«Қазақ газеттері»** — Қазақстан Республикасының мемлекеттік медиахолдингі. Флагмандық портал **egemen.kz** — Қазақстанның айына 2 миллионнан астам бірегей пайдаланушысы бар ең көп қаралатын жаңалықтар сайттарының бірі.
+
+### Жұмысқа дейінгі жағдай
+
+| Параметр | Мән |
+|----------|-----|
+| Платформа | PHP 7.1 + Laravel 5.8 (екеуі де EOL) |
+| Сервер ОЖ | CentOS 7.9 (2024 жылы маусымнан бастап EOL) |
+| ДББЖ | MySQL 5.7 — 5 ГБ деректер, 17.8 ГБ жедел жады |
+| Мақалалар | 5 тілдегі 212 408 жарияланым |
+| Медиафайлдар | ~430 ГБ (2 091 712 сурет + PDF) |
+| Сервер жұмыс уақыты | 929+ күн қайта іске қоссыз |
+| Диск | 93% толы (сыни!) |
+
+**Басты мәселе:** 2022 жылы желтоқсанда PHP 7.1 соңғы қауіпсіздік патчтарын алды. CentOS 7 2024 жылы маусымда EOL болды. 2026 жылдың 27 қаңтарында жоспарланбаған сервер қайта іске қосылып, файлдардың бір бөлігі жоғалды — бұл дереу миграцияны бастауға себеп болды.
+
+## Міндет: үзіліссіз ауысу
+
+Клиенттің негізгі талабы — редакторлар мен оқырмандар үшін **нөлдік үзіліс**. egemen.kz күнде 50-100 жаңалық жариялайды.
+
+## Нәтижелер
+
+| Метрика | Бұрын | Кейін |
+|---------|-------|-------|
+| TTFB | 1.8 сек | 0.4 сек |
+| PageSpeed (мобильді) | 47 | 88 |
+| ДББЖ-ға жедел жады | 17.8 ГБ | 2.1 ГБ |
+| Диск толымдылығы | 93% | 38% |
+| Мақала жариялау уақыты | ~8 сек | ~1.2 сек |
+| Миграция кезіндегі үзіліс | — | 0 минут |
+
+## «Қазақ газеттері» медиахолдингімен ынтымақтастық туралы
+
+Бұл бір реттік жоба емес — ұзақ мерзімді технологиялық серіктестік. egemen.kz миграциясы, барлық басылымдар үшін бірыңғай CMS платформасы, AI-редакция және аналитика жүйесі — серіктестіктің бір бөлігі.
+
+Ескірген платформадағы сайтыңыз болса, тәуекелдер ұқсас. Миграция жобаңызды талқылағыңыз келе ме? [Брифті толтырыңыз](/brief) немесе [Қазақстандағы сайт жасау туралы](/blog/website-development-kazakhstan-guide-2026) толық нұсқаулықты оқыңыз.`,
+      },
+    },
+  },
+
+  // ─── POST 12: Website Security in Kazakhstan ──────────────────────────────
+  {
+    slug: "website-security-kazakhstan-2026",
+    image: "/website-security-kazakhstan-2026.jpg",
+    publishedAt: "2026-02-20",
+    author: "Sayan Roor",
+    tags: ["Kazakhstan", "Security", "Web Security", "Cybersecurity", "PHP"],
+    readingTime: 9,
+    featured: false,
+    translations: {
+      title: {
+        ru: "Безопасность сайта в Казахстане 2026: как защитить бизнес от взлома",
+        en: "Website Security in Kazakhstan 2026: How to Protect Your Business from Hacking",
+        kk: "Қазақстандағы сайт қауіпсіздігі 2026: бизнесті бұзылудан қалай қорғауға болады",
+      },
+      description: {
+        ru: "Практическое руководство по защите веб-сайтов для казахстанского бизнеса: требования закона о персональных данных, типичные уязвимости, SSL/HTTPS, защита от SQL-инъекций и XSS, а также почему устаревший PHP опасен.",
+        en: "Practical guide to web security for Kazakhstan businesses: personal data law requirements, common vulnerabilities, SSL/HTTPS, protection from SQL injection and XSS, and why outdated PHP is dangerous.",
+        kk: "Қазақстандық бизнес үшін веб-қауіпсіздік бойынша практикалық нұсқаулық: дербес деректер туралы заң талаптары, типтік осалдықтар, SSL/HTTPS және ескірген PHP-тің неге қауіпті екені.",
+      },
+      excerpt: {
+        ru: "85% казахстанских сайтов имеют хотя бы одну критическую уязвимость. Рассказываем, как проверить безопасность вашего сайта, какие требования предъявляет казахстанское законодательство и что делать прямо сейчас.",
+        en: "85% of Kazakhstani websites have at least one critical vulnerability. We explain how to check your site's security, what Kazakhstan's legislation requires, and what to do right now.",
+        kk: "Қазақстандық сайттардың 85%-ында кем дегенде бір сыни осалдық бар. Сайтыңыздың қауіпсіздігін қалай тексеру керек және Қазақстан заңнамасының талаптары туралы айтамыз.",
+      },
+      imageAlt: {
+        ru: "Кибербезопасность и защита сайтов в Казахстане",
+        en: "Cybersecurity and website protection in Kazakhstan",
+        kk: "Қазақстандағы киберқауіпсіздік және сайттарды қорғау",
+      },
+      category: {
+        ru: "Безопасность",
+        en: "Security",
+        kk: "Қауіпсіздік",
+      },
+      publishedLabel: {
+        ru: "20 февраля 2026",
+        en: "February 20, 2026",
+        kk: "2026 ж. 20 ақпан",
+      },
+      content: {
+        ru: `# Безопасность сайта в Казахстане 2026: как защитить бизнес от взлома
+
+> По данным KZ-CERT, количество кибератак на казахстанские сайты в 2025 году выросло на 43% по сравнению с предыдущим годом. При этом большинство успешных взломов происходит из-за устаревшего ПО и отсутствия базовых мер защиты.
+
+## Что говорит закон Казахстана о безопасности сайтов
+
+### Закон «О персональных данных и их защите»
+
+С 2021 года в Казахстане действует обновлённый закон о персональных данных. Если ваш сайт собирает данные пользователей (форма обратной связи, регистрация, корзина), вы обязаны:
+
+1. **Хранить персональные данные граждан РК на серверах в Казахстане**
+2. Обеспечить технические меры защиты данных
+3. Уведомлять пользователей о сборе данных (политика конфиденциальности)
+4. Получать согласие на обработку данных
+
+**Штраф за нарушение:** До 200 МРП (800 000 ₸ в 2026 году) + предписание об устранении.
+
+### Требования МЦРИАП
+
+Министерство цифрового развития, инноваций и аэрокосмической промышленности РК устанавливает дополнительные требования для государственных и квазигосударственных организаций:
+- HTTPS обязателен для всех сайтов
+- Регулярный аудит безопасности
+- Сертификация по стандартам СТ РК
+
+## Топ-7 уязвимостей казахстанских сайтов
+
+### 1. Устаревший PHP (7.x и ниже)
+
+PHP 7.4 получил последние патчи безопасности в ноябре 2022 года. PHP 7.1 — в декабре 2022. Если ваш сайт работает на PHP 7.x:
+
+\`\`\`
+Риски:
+- CVE-2022-31626: Remote Code Execution
+- CVE-2021-21708: Buffer overflow
+- Десятки незакрытых уязвимостей
+\`\`\`
+
+Именно это мы наблюдали в случае [egemen.kz](/blog/egemen-kazak-gazetteri-media-platform-case) — PHP 7.1 на EOL-системе создавал критические риски для одного из крупнейших медиапорталов страны.
+
+### 2. SQL-инъекции
+
+Классическая атака, актуальная до сих пор. Пример уязвимого кода:
+
+\`\`\`php
+// ОПАСНО — не делайте так
+$query = "SELECT * FROM users WHERE id = " . $_GET['id'];
+\`\`\`
+
+**Решение:** ORM (Eloquent, Prisma, TypeORM) с параметризованными запросами.
+
+### 3. XSS (Cross-Site Scripting)
+
+Если ваш сайт отображает данные от пользователей без экранирования — он уязвим для XSS. Злоумышленник может:
+- Похитить куки/сессии пользователей
+- Перенаправить на фишинговый сайт
+- Изменить контент страницы
+
+### 4. Отсутствие HTTPS
+
+В 2026 году HTTP — это не просто плохой тон. Это:
+- Предупреждение «Не защищено» в браузере
+- Штраф в PageSpeed
+- Данные пользователей передаются в открытом виде
+- Google понижает в поиске
+
+### 5. Слабые пароли в админке
+
+По статистике, 60% успешных взломов — это брутфорс слабых паролей или credential stuffing (использование утёкших паролей).
+
+### 6. Открытые директории и файлы конфигурации
+
+\`\`\`
+Типичные находки при аудите:
+/config.php — открыт для всех
+/.env — доступен по прямой ссылке
+/backup.sql — дамп базы данных
+/phpinfo.php — полная информация о сервере
+\`\`\`
+
+### 7. Устаревшие CMS и плагины
+
+WordPress с непроверенными плагинами — №1 источник взломов в Казахстане. Если последнее обновление плагина было 3+ года назад — он опасен.
+
+## Чеклист безопасности для казахстанского бизнеса
+
+### Обязательные меры (делайте прямо сейчас)
+
+- [ ] Установите SSL-сертификат и принудительный редирект на HTTPS
+- [ ] Обновите PHP до 8.2+
+- [ ] Смените все дефолтные пароли (admin/admin123 и т.д.)
+- [ ] Скройте .env и config-файлы от публичного доступа
+- [ ] Включите двухфакторную аутентификацию в админке
+- [ ] Настройте регулярные бэкапы (3-2-1 правило)
+
+### Дополнительные меры
+
+- [ ] Используйте WAF (Web Application Firewall) — Cloudflare Free работает
+- [ ] Настройте Content Security Policy (CSP) в заголовках
+- [ ] Внедрите rate limiting для форм и API
+- [ ] Проведите аудит зависимостей (npm audit / composer audit)
+- [ ] Добавьте мониторинг uptime и аномалий
+
+### Для e-commerce и финтех
+
+- [ ] PCI DSS соответствие для платежей
+- [ ] Хранение только необходимых данных карт
+- [ ] Дополнительный слой шифрования для финансовых данных
+- [ ] Отдельная изолированная среда для платёжного модуля
+
+## Как мы обеспечиваем безопасность в наших проектах
+
+При разработке сайтов в Казахстане мы придерживаемся принципа **Security by Design**:
+
+**Архитектура:**
+- Next.js 16 + TypeScript — строгая типизация исключает целый класс уязвимостей
+- Supabase с Row Level Security — политики доступа на уровне базы данных
+- Zod-валидация — все входящие данные проверяются до обработки
+- Никаких "any" в TypeScript — только типизированные данные
+
+**Инфраструктура:**
+- Docker-контейнеризация — изоляция сервисов
+- Nginx с hardened конфигурацией
+- Автоматические обновления через Dependabot
+- GitHub Actions — проверка зависимостей при каждом деплое
+
+**Операционная безопасность:**
+- Секреты только в переменных окружения, никогда в коде
+- Ротация API-ключей
+- Минимальные права доступа для каждого компонента
+
+## Что делать, если вас уже взломали
+
+1. **Немедленно:** Снимите сайт в оффлайн или поставьте заглушку
+2. **В течение часа:** Смените все пароли (хостинг, БД, CMS, email)
+3. **Первые 24 часа:** Сделайте бэкап «грязного» состояния для анализа
+4. **Анализ:** Найдите точку входа (логи Nginx, PHP error logs)
+5. **Восстановление:** Разверните из чистого бэкапа или пересоберите
+6. **Уведомление:** Если утекли персональные данные — уведомите КНБ в течение 72 часов
+
+## Итог: безопасность — не опция, а требование
+
+Современный сайт в Казахстане без базовой защиты — это риск штрафов, потери данных клиентов и репутационного ущерба. Хорошая новость: правильная архитектура изначально защищена.
+
+Хотите узнать, как мигрировать с устаревшей платформы безопасно? Читайте [кейс миграции egemen.kz](/blog/egemen-kazak-gazetteri-media-platform-case). А если нужна разработка нового защищённого сайта — [расскажите о проекте](/brief) в брифе.
+
+Также рекомендуем: [полный гайд по разработке сайтов в Казахстане](/blog/website-development-kazakhstan-guide-2026) с учётом местных требований и интеграций.`,
+        en: `# Website Security in Kazakhstan 2026: How to Protect Your Business from Hacking
+
+> According to KZ-CERT data, cyberattacks on Kazakhstani websites increased by 43% in 2025 compared to the previous year. Most successful hacks occur due to outdated software and lack of basic security measures.
+
+## Kazakhstan Law on Website Security
+
+### Personal Data Protection Law
+
+Since 2021, Kazakhstan's updated personal data law requires any website collecting user data to:
+1. **Store personal data of Kazakhstani citizens on servers in Kazakhstan**
+2. Implement technical data protection measures
+3. Notify users about data collection (privacy policy)
+4. Obtain consent for data processing
+
+**Penalty for violation:** Up to 200 MRP (800,000 ₸ in 2026) plus a correction order.
+
+## Top 7 Vulnerabilities in Kazakhstani Websites
+
+### 1. Outdated PHP (7.x and below)
+
+PHP 7.4 received its last security patches in November 2022. If your site runs on PHP 7.x, you're exposed to unpatched CVEs including remote code execution vulnerabilities.
+
+This is exactly what we encountered with [egemen.kz](/blog/egemen-kazak-gazetteri-media-platform-case) — PHP 7.1 on an EOL system created critical risks for one of the country's largest media portals.
+
+### 2. SQL Injection, XSS, Weak Passwords
+
+Classic attacks remain the most common entry points. Use ORMs with parameterized queries, escape all user-generated output, and enforce strong password policies with 2FA.
+
+### 3. Missing HTTPS
+
+In 2026, HTTP means: "Not Secure" browser warning, PageSpeed penalty, unencrypted user data, and Google search demotion.
+
+### 4. Exposed Config Files and Directories
+
+Open .env files, backup SQL dumps, and phpinfo.php pages are common findings in security audits — all exposing sensitive credentials.
+
+## Security Checklist for Kazakhstan Businesses
+
+**Mandatory (do now):**
+- [ ] Install SSL certificate with forced HTTPS redirect
+- [ ] Upgrade PHP to 8.2+
+- [ ] Change all default passwords
+- [ ] Block public access to .env and config files
+- [ ] Enable 2FA on admin panel
+- [ ] Set up regular backups
+
+Want secure architecture from day one? Read our guide on [website development in Kazakhstan](/blog/website-development-kazakhstan-guide-2026) or [describe your project in a brief](/brief).`,
+        kk: `# Қазақстандағы сайт қауіпсіздігі 2026: бизнесті бұзылудан қалай қорғауға болады
+
+> KZ-CERT деректері бойынша, қазақстандық сайттарға кибершабуылдар 2025 жылы 43%-ға өсті. Сәтті бұзулардың көпшілігі ескірген бағдарламалық қамтамасыз ету мен базалық қорғаныс шараларының болмауынан туындайды.
+
+## Қазақстан заңнамасының сайт қауіпсіздігіне қатысты талаптары
+
+2021 жылдан бері Қазақстанда жаңартылған дербес деректер туралы заң жұмыс істейді. Пайдаланушылардың деректерін жинайтын кез келген сайт:
+1. **ҚР азаматтарының дербес деректерін Қазақстандағы серверлерде сақтауы** тиіс
+2. Деректерді қорғаудың техникалық шараларын іске асыруы тиіс
+3. Деректерді жинау туралы пайдаланушыларға хабарлауы тиіс
+
+**Бұзу үшін айыппұл:** 200 МЕК-ке дейін (2026 жылы 800 000 ₸).
+
+## Қазақстандық сайттардың ең жиі кездесетін осалдықтары
+
+1. **Ескірген PHP** — 7.x нұсқасы 2022 жылдан бері патч алмайды
+2. **SQL-инъекциялар** — параметрленбеген сұраулар
+3. **XSS** — пайдаланушы деректерін экрандамай көрсету
+4. **HTTPS жоқ** — 2026 жылы бұл қауіп
+5. **Ашық конфигурациялық файлдар** — .env, phpinfo.php
+
+[egemen.kz миграциясы кейсінде](/blog/egemen-kazak-gazetteri-media-platform-case) PHP 7.1 EOL жүйесінде ең ірі медиапорталдардың бірі үшін сыни тәуекелдер туғызды.
+
+Қауіпсіз архитектура туралы білгіңіз келе ме? [Брифті толтырыңыз](/brief) немесе [Қазақстандағы сайт жасау нұсқаулығын](/blog/website-development-kazakhstan-guide-2026) оқыңыз.`,
+      },
+    },
+  },
+
+  // ─── POST 13: Web Development Kazakhstan Guide 2026 ───────────────────────
+  {
+    slug: "website-development-kazakhstan-guide-2026",
+    image: "/web-development-guide-kazakhstan-2026.jpg",
+    publishedAt: "2026-02-22",
+    author: "Sayan Roor",
+    tags: ["Kazakhstan", "Web Development", "Guide", "Astana", "Almaty", "Cost"],
+    readingTime: 13,
+    featured: true,
+    translations: {
+      title: {
+        ru: "Разработка сайта в Казахстане 2026: полный гайд — от ТЗ до запуска",
+        en: "Website Development in Kazakhstan 2026: Complete Guide — From Brief to Launch",
+        kk: "Қазақстанда сайт жасау 2026: толық нұсқаулық — брифтен іске қосуға дейін",
+      },
+      description: {
+        ru: "Полное руководство по заказу разработки сайта в Казахстане: сколько стоит, какие технологии использовать, как составить ТЗ, что учесть для Kaspi, 1С и ePay интеграций, и как не попасть на мошенников.",
+        en: "Complete guide to ordering website development in Kazakhstan: how much it costs, which technologies to use, how to write a brief, what to consider for Kaspi, 1C, and ePay integrations, and how to avoid scammers.",
+        kk: "Қазақстанда сайт жасатуға тапсырыс берудің толық нұсқаулығы: бағасы қанша, қандай технологияларды қолдану керек, ТЖ-ны қалай жазу керек және Kaspi, 1C, ePay интеграциялары туралы.",
+      },
+      excerpt: {
+        ru: "От лендинга за 300 000 ₸ до корпоративного портала за 15 000 000 ₸ — разбираем все этапы разработки сайта в Казахстане, реальные цены, обязательные локальные интеграции и как защитить себя от недобросовестных подрядчиков.",
+        en: "From a landing page for 300,000 ₸ to a corporate portal for 15,000,000 ₸ — we break down all stages of website development in Kazakhstan, real prices, required local integrations, and how to protect yourself from unscrupulous contractors.",
+        kk: "300 000 ₸-ге лендингтен 15 000 000 ₸-ге корпоративтік порталға дейін — Қазақстандағы сайт жасаудың барлық кезеңдерін, нақты бағаларды, міндетті жергілікті интеграцияларды және өзіңізді адал емес мердігерлерден қалай қорғауға болатынын талдаймыз.",
+      },
+      imageAlt: {
+        ru: "Разработка сайтов в Казахстане — полный процесс",
+        en: "Website development in Kazakhstan — complete process",
+        kk: "Қазақстандағы сайт жасау — толық процесс",
+      },
+      category: {
+        ru: "Разработка",
+        en: "Development",
+        kk: "Әзірлеу",
+      },
+      publishedLabel: {
+        ru: "22 февраля 2026",
+        en: "February 22, 2026",
+        kk: "2026 ж. 22 ақпан",
+      },
+      content: {
+        ru: `# Разработка сайта в Казахстане 2026: полный гайд — от ТЗ до запуска
+
+> Рынок веб-разработки в Казахстане в 2026 году — это 4 500+ активных разработчиков, 350+ веб-студий и агентств, и ежегодный рост спроса на 25-30%. При этом 60% заказчиков недовольны результатом. Рассказываем, как попасть в оставшиеся 40%.
+
+## Рынок веб-разработки Казахстана: ключевые цифры
+
+| Показатель | 2024 | 2026 |
+|-----------|------|------|
+| Объём рынка | ~12 млрд ₸ | ~18 млрд ₸ |
+| Активных разработчиков | 3 800 | 4 500+ |
+| Веб-студий и агентств | 280 | 350+ |
+| Средняя цена лендинга | 250 000 ₸ | 350 000 ₸ |
+| Средняя цена корпоративного сайта | 1 500 000 ₸ | 2 200 000 ₸ |
+
+**Главный тренд 2026:** Переход с WordPress и конструкторов (Tilda, Wix) на custom-разработку на Next.js. Клиенты осознали, что шаблонные решения не обеспечивают нужную производительность и интеграции с казахстанскими системами.
+
+## Этапы разработки сайта
+
+### 1. Бриф и аналитика (1-2 недели)
+
+Правильный бриф — половина успешного проекта. Хороший разработчик задаст вопросы о:
+- Целевой аудитории (кто, откуда, зачем)
+- Бизнес-целях (продажи, лиды, информирование)
+- Конкурентах (что нравится, что не нравится)
+- Интеграциях (1С, Kaspi, ePay, CRM)
+- Языках (рус/каз/eng — требование для госкомпаний)
+- Бюджете и дедлайне
+
+Хотите пройти правильный бриф прямо сейчас? [Заполните нашу форму](/brief) — 10 минут, и у вас будет чёткое понимание проекта.
+
+### 2. Дизайн (2-4 недели)
+
+**Что включает:**
+- Wireframes (скелет страниц)
+- UI-дизайн в Figma
+- Адаптив (desktop / tablet / mobile)
+- Прототип с кликабельными переходами
+
+**Типичные ошибки заказчиков:**
+- "Сделайте как у конкурента" — нарушение авторских прав
+- Утверждение дизайна без просмотра на телефоне
+- Игнорирование UX в пользу "красивости"
+
+### 3. Разработка (4-12 недель в зависимости от объёма)
+
+#### Стек технологий для казахстанского рынка
+
+**Frontend:**
+- **Next.js 16** — оптимальный выбор для SEO и производительности
+- React 19 — современный UI
+- TypeScript — надёжность кода
+- Tailwind CSS — быстрая разработка, лёгкое поддержание
+
+**Backend:**
+- **NestJS + Fastify** — высокопроизводительный API
+- **Node.js 20 LTS** — для серверных функций Next.js
+- **PostgreSQL 16** — надёжная база данных
+
+**Хостинг и инфраструктура:**
+- **Vercel** — для большинства сайтов (Next.js native)
+- **VPS в Казахстане** — если нужно хранить данные в РК (по закону)
+- **Supabase** — база данных + аутентификация + файлы
+
+### 4. Казахстанские интеграции — обязательно знать
+
+#### Kaspi Pay / Kaspi Shop
+
+Kaspi — №1 платёжная система Казахстана. Для e-commerce без интеграции с Kaspi теряете 40-60% клиентов.
+
+\`\`\`
+Типы интеграции:
+- Kaspi Pay (онлайн-оплата на сайте)
+- Kaspi QR (оплата через QR)
+- Kaspi Shop (маркетплейс — отдельный продукт)
+- Kaspi Credit (рассрочка на сайте)
+\`\`\`
+
+Подробнее об интеграциях читайте в нашем [кейсе Kaspi + 1С + CRM](/blog/kaspi-1c-crm-integration-case).
+
+#### 1С Казахстан
+
+Большинство средних и крупных казахстанских компаний ведут учёт в 1С (казахстанская версия 1С:Предприятие). Интеграция сайта с 1С необходима для:
+- Синхронизации остатков товаров
+- Автоматического выставления счётов
+- Работы с ЭСФ (электронные счета-фактуры)
+
+#### ePay (Halyk Bank)
+
+Второй по популярности платёжный шлюз. Обязателен для работы с бюджетными организациями и Halyk Bank.
+
+#### e-Qazakhstan / eGov
+
+Для государственных и квазигосударственных порталов — интеграция с сервисами eGov (подпись, аутентификация через ЭЦП).
+
+### 5. Тестирование (1-2 недели)
+
+- Функциональное тестирование всех форм и кнопок
+- Кросс-браузерное тестирование (Chrome, Firefox, Safari, Mobile)
+- Нагрузочное тестирование (важно для e-commerce перед распродажами)
+- SEO-аудит перед запуском
+- Проверка безопасности ([см. наш гайд по безопасности](/blog/website-security-kazakhstan-2026))
+
+### 6. Запуск и постзапуск
+
+**День запуска:**
+- Настройка DNS
+- SSL-сертификат
+- Проверка всех интеграций в продакшне
+
+**Первая неделя:**
+- Мониторинг ошибок
+- Исправление выявленных багов
+- Базовая настройка аналитики (GA4, Яндекс.Метрика)
+
+## Сколько стоит разработка сайта в Казахстане
+
+### Ценовые диапазоны 2026
+
+| Тип сайта | Минимум | Оптимально | Премиум |
+|-----------|---------|------------|---------|
+| Лендинг (1 страница) | 200 000 ₸ | 400 000 ₸ | 800 000 ₸ |
+| Сайт-визитка (5-10 стр.) | 500 000 ₸ | 1 000 000 ₸ | 2 000 000 ₸ |
+| Корпоративный сайт | 1 000 000 ₸ | 3 000 000 ₸ | 8 000 000 ₸ |
+| Интернет-магазин | 2 000 000 ₸ | 6 000 000 ₸ | 15 000 000 ₸ |
+| Портал/СМИ | 5 000 000 ₸ | 12 000 000 ₸ | 30 000 000+ ₸ |
+
+> Цены указаны для custom-разработки. Конструкторы (Tilda, Wix) дешевле, но не масштабируются и не дают контроль над производительностью и интеграциями.
+
+### Что влияет на цену
+
+**Повышает стоимость:**
+- Несколько языков (рус/каз/eng)
+- Интеграция с 1С, Kaspi, ePay
+- Личный кабинет пользователя
+- Онлайн-оплата
+- Нестандартный дизайн
+- Жёсткие дедлайны
+
+**Снижает стоимость:**
+- Готовый дизайн (Figma-файл)
+- Стандартный функционал
+- Поэтапная разработка
+
+## Как выбрать разработчика: красные флаги
+
+❌ **Отказывайтесь, если:**
+- Обещают корпоративный сайт за 150 000 ₸
+- Нет примеров живых работ (только мокапы)
+- Требуют 100% предоплату без договора
+- Не могут объяснить технологии, которые используют
+- "Мы делаем всё" без специализации
+
+✅ **Выбирайте, если:**
+- Есть живое портфолио с измеримыми результатами
+- Предлагают договор с описанием объёма работ
+- Задают вопросы о бизнесе, не только о дизайне
+- Открыто говорят об ограничениях и рисках
+- Предоставляют исходники кода
+
+## Тендеры и госзакупки
+
+Если планируете участвовать в тендерах (goszakup.gov.kz), нужно соответствовать требованиям. Подробнее читайте в нашем [гайде по техническим заданиям для тендеров Казахстана](/blog/kz-tender-technical-spec-template) и [чеклисте выбора разработчика](/blog/kz-developer-tender-checklist).
+
+## Итог
+
+Успешный сайт в Казахстане — это правильный стек, локальные интеграции (Kaspi, 1С, ePay), безопасность и SEO-оптимизация. Шаблонные решения и демпинговые цены в долгосрочной перспективе обходятся дороже качественной разработки.
+
+Готовы к проекту? [Заполните бриф](/brief) — бесплатная консультация и расчёт стоимости за 24 часа.`,
+        en: `# Website Development in Kazakhstan 2026: Complete Guide — From Brief to Launch
+
+> Kazakhstan's web development market in 2026 represents 4,500+ active developers, 350+ studios, and 25-30% annual demand growth. Yet 60% of clients are dissatisfied with results. Here's how to be in the successful 40%.
+
+## Market Overview
+
+| Metric | 2024 | 2026 |
+|--------|------|------|
+| Market size | ~12 billion ₸ | ~18 billion ₸ |
+| Active developers | 3,800 | 4,500+ |
+| Average landing page price | 250,000 ₸ | 350,000 ₸ |
+| Average corporate site price | 1,500,000 ₸ | 2,200,000 ₸ |
+
+**Key 2026 trend:** Migration from WordPress and website builders (Tilda, Wix) to custom Next.js development.
+
+## Development Stages
+
+### 1. Brief and Analysis (1-2 weeks)
+
+A proper brief covers business goals, target audience, competitors, required integrations (1C, Kaspi, ePay), languages (Russian/Kazakh/English — required for government companies), and budget.
+
+Want to go through a proper brief now? [Fill out our form](/brief) — 10 minutes for a clear project vision.
+
+### 2. Kazakhstan-Specific Integrations
+
+**Kaspi Pay** — #1 payment system in Kazakhstan. Without Kaspi integration, you lose 40-60% of customers in e-commerce.
+
+**1C Kazakhstan** — most mid-to-large Kazakhstani companies use 1C for accounting. Integration needed for inventory sync, invoicing, and electronic invoice (ESF) workflows.
+
+**ePay (Halyk Bank)** — second most popular payment gateway, required for government organizations.
+
+See our [Kaspi + 1C + CRM integration case study](/blog/kaspi-1c-crm-integration-case) for a real-world example.
+
+## Website Development Costs in Kazakhstan 2026
+
+| Site Type | Minimum | Optimal | Premium |
+|-----------|---------|---------|---------|
+| Landing page (1 page) | 200,000 ₸ | 400,000 ₸ | 800,000 ₸ |
+| Business website (5-10 pages) | 500,000 ₸ | 1,000,000 ₸ | 2,000,000 ₸ |
+| Corporate website | 1,000,000 ₸ | 3,000,000 ₸ | 8,000,000 ₸ |
+| E-commerce | 2,000,000 ₸ | 6,000,000 ₸ | 15,000,000 ₸ |
+
+## Red Flags When Choosing a Developer
+
+❌ **Avoid if:**
+- Promises a corporate site for 150,000 ₸
+- No live portfolio, only mockups
+- Requires 100% upfront payment without contract
+- Cannot explain the technologies they use
+
+✅ **Choose if:**
+- Has a live portfolio with measurable results
+- Provides a contract with defined scope
+- Asks about your business, not just design preferences
+
+For tenders and government procurement, see our [technical specification guide](/blog/kz-tender-technical-spec-template) and [developer selection checklist](/blog/kz-developer-tender-checklist).
+
+Also make sure security is addressed from day one — read our [website security guide for Kazakhstan](/blog/website-security-kazakhstan-2026).
+
+Ready for your project? [Fill out the brief](/brief) — free consultation and estimate within 24 hours.`,
+        kk: `# Қазақстанда сайт жасау 2026: толық нұсқаулық — брифтен іске қосуға дейін
+
+> Қазақстандағы веб-әзірлеу нарығы 2026 жылы 4 500+ белсенді әзірлеушіні, 350+ студия мен агенттікті қамтиды және жыл сайын 25-30%-ға өсуде. Сонда да тапсырысшылардың 60%-ы нәтижеге қанағаттанбайды.
+
+## Қазақстандық нарықтың ерекшеліктері
+
+Қазақстандағы сайт жасаудың маңызды ерекшелігі — жергілікті интеграциялар:
+
+**Kaspi Pay** — Қазақстандағы №1 төлем жүйесі. Kaspi интеграциясынсыз электрондық коммерцияда клиенттердің 40-60%-ын жоғалтасыз.
+
+**1С Қазақстан** — орта және ірі қазақстандық компаниялардың көпшілігі 1С-та есеп жүргізеді. Тауар қалдықтарын синхрондау, шот-фактура беру (ЭСФ) үшін интеграция қажет.
+
+**ePay (Halyk Bank)** — мемлекеттік ұйымдармен жұмыс үшін міндетті.
+
+[Kaspi + 1С + CRM интеграциясы кейсін](/blog/kaspi-1c-crm-integration-case) оқыңыз.
+
+## Қазақстандағы сайт жасаудың бағасы 2026
+
+| Сайт түрі | Минимум | Оңтайлы |
+|-----------|---------|---------|
+| Лендинг (1 бет) | 200 000 ₸ | 400 000 ₸ |
+| Визитка сайт (5-10 бет) | 500 000 ₸ | 1 000 000 ₸ |
+| Корпоративтік сайт | 1 000 000 ₸ | 3 000 000 ₸ |
+| Интернет-дүкен | 2 000 000 ₸ | 6 000 000 ₸ |
+
+Тендерлер мен мемлекеттік сатып алу туралы [техникалық тапсырма нұсқаулығын](/blog/kz-tender-technical-spec-template) оқыңыз.
+
+Жобаңызды бастауға дайынсыз ба? [Брифті толтырыңыз](/brief) — 24 сағат ішінде тегін кеңес және баға есебі.`,
+      },
+    },
+  },
+
+  // ─── POST 14: SEO Promotion Kazakhstan ────────────────────────────────────
+  {
+    slug: "seo-promotion-kazakhstan-top-google-yandex",
+    image: "/seo-kazakhstan-websites-top-google.jpg",
+    publishedAt: "2026-02-24",
+    author: "Sayan Roor",
+    tags: ["Kazakhstan", "SEO", "Google", "Yandex", "Marketing", "Astana", "Almaty"],
+    readingTime: 10,
+    featured: false,
+    translations: {
+      title: {
+        ru: "SEO-продвижение сайтов в Казахстане: как попасть в топ Google и Яндекс в 2026 году",
+        en: "SEO Promotion of Websites in Kazakhstan: How to Reach the Top of Google and Yandex in 2026",
+        kk: "Қазақстандағы сайттарды SEO-жылжыту: 2026 жылы Google мен Yandex-тің топына қалай шығуға болады",
+      },
+      description: {
+        ru: "Практическое руководство по SEO для казахстанского бизнеса: особенности поисковых систем в Казахстане, двуязычное SEO (рус/каз), технический SEO для Next.js, локальное SEO для Алматы и Астаны, линкбилдинг в RU-зоне.",
+        en: "Practical SEO guide for Kazakhstan businesses: search engine specifics in Kazakhstan, bilingual SEO (Russian/Kazakh), technical SEO for Next.js, local SEO for Almaty and Astana, link building in the RU zone.",
+        kk: "Қазақстандық бизнес үшін SEO бойынша практикалық нұсқаулық: іздеу жүйелерінің ерекшеліктері, екітілді SEO, Next.js үшін техникалық SEO және Алматы мен Астана үшін жергілікті SEO.",
+      },
+      excerpt: {
+        ru: "Google занимает 68% поискового трафика Казахстана, Яндекс — 28%. Казахский язык индексируется отдельно от русского. Разбираем специфику SEO для казахстанского рынка и как попасть в топ по ключевым запросам 2026 года.",
+        en: "Google holds 68% of search traffic in Kazakhstan, Yandex — 28%. Kazakh language is indexed separately from Russian. We break down SEO specifics for the Kazakhstani market and how to reach the top for key 2026 queries.",
+        kk: "Google Қазақстандағы іздеу трафигінің 68%-ын, Яндекс — 28%-ын алады. Қазақ тілі орыс тілінен бөлек индекстеледі. Қазақстандық нарық үшін SEO ерекшеліктерін талдаймыз.",
+      },
+      imageAlt: {
+        ru: "SEO-продвижение сайтов в Казахстане — Google и Яндекс",
+        en: "SEO promotion of websites in Kazakhstan — Google and Yandex",
+        kk: "Қазақстандағы сайттарды SEO-жылжыту — Google және Yandex",
+      },
+      category: {
+        ru: "SEO",
+        en: "SEO",
+        kk: "SEO",
+      },
+      publishedLabel: {
+        ru: "24 февраля 2026",
+        en: "February 24, 2026",
+        kk: "2026 ж. 24 ақпан",
+      },
+      content: {
+        ru: `# SEO-продвижение сайтов в Казахстане: как попасть в топ Google и Яндекс в 2026 году
+
+> В отличие от России или Украины, казахстанский поисковый рынок имеет свою специфику: Google доминирует, двуязычный контент (рус/каз) критически важен, а местное SEO для Алматы и Астаны — отдельная история.
+
+## Поисковый рынок Казахстана 2026
+
+| Поисковая система | Доля трафика | Тренд |
+|------------------|-------------|-------|
+| Google | 68% | ↑ растёт |
+| Яндекс | 28% | ↓ снижается |
+| Bing | 3% | — стабильно |
+| Другие | 1% | — |
+
+**Вывод:** Фокус на Google обязателен. Яндекс всё ещё важен для аудитории 35+ и русскоязычного контента. Если игнорируете Яндекс — теряете треть трафика.
+
+## Двуязычное SEO: казахский + русский
+
+Это главная особенность казахстанского SEO, о которой не знают разработчики из других стран.
+
+### Почему казахский — отдельная история
+
+- Google индексирует казахский контент **отдельно** от русского
+- Конкуренция по казахским ключевым словам **в 3-5 раз ниже**, чем по русским
+- Казахскоязычная аудитория растёт: 65% населения говорит на казахском
+- Государственные сайты обязаны иметь казахскую версию
+
+**Практический вывод:** Сайт с качественным казахским SEO-контентом значительно проще продвинуть в топ, чем по русским запросам.
+
+### Стратегия двуязычного SEO
+
+\`\`\`
+Русский: "разработка сайтов Астана"  →  Конкуренция: высокая
+Казахский: "Астанада сайт жасау"      →  Конкуренция: низкая ✓
+\`\`\`
+
+Для реализации двуязычного SEO используйте:
+- **hreflang** теги для разграничения языковых версий
+- Отдельные URL для каждого языка (/kk/, /ru/)
+- Уникальный контент на каждом языке (не машинный перевод!)
+
+Как мы реализовали это в [нашем портфолио для egemen.kz](/blog/egemen-kazak-gazetteri-media-platform-case) — 5 языков с правильной SEO-архитектурой.
+
+## Технический SEO для Next.js
+
+Если ваш сайт на Next.js — у вас уже хорошая база для SEO. Но нужно правильно использовать возможности фреймворка.
+
+### Обязательные настройки
+
+\`\`\`typescript
+// app/[locale]/page.tsx — правильная генерация метаданных
+export async function generateMetadata({ params }): Promise<Metadata> {
+  return {
+    title: "Разработка сайтов в Казахстане | NANOSUDO",
+    description: "Full-stack разработчик в Астане...",
+    alternates: {
+      canonical: "https://nanosudo.com/ru",
+      languages: {
+        "ru": "/ru",
+        "kk": "/kk",
+        "en": "/en",
+      },
+    },
+    openGraph: { /* ... */ },
+  };
+}
+\`\`\`
+
+**Next.js SEO-преимущества:**
+- Server-side rendering (SSR) — контент видят поисковые боты
+- Автоматическая оптимизация изображений
+- Встроенная генерация sitemap.xml
+- Core Web Vitals из коробки
+
+Подробнее о техническом SEO с Next.js читайте в нашем [гайде по оптимизации Next.js](/blog/nextjs-performance-optimization).
+
+## Локальное SEO: Алматы и Астана
+
+Если ваш бизнес ориентирован на клиентов в конкретном городе — локальное SEO важнее общего.
+
+### Google Business Profile (GBP)
+
+1. Создайте/верифицируйте профиль на maps.google.com
+2. Заполните **все** поля: описание, часы работы, фото, услуги
+3. Добавьте публикации (посты) еженедельно
+4. Просите клиентов оставлять отзывы
+
+**Ключевые факторы локального ранжирования:**
+- Близость к пользователю (геолокация)
+- Количество и качество отзывов
+- Актуальность информации в GBP
+- Упоминания на местных сайтах (citygid.kz, olx.kz, krisha.kz)
+
+### Местные ключевые слова
+
+\`\`\`
+"разработка сайтов Астана"
+"веб-разработчик Алматы"
+"создание сайта Казахстан"
+"заказать сайт Астана недорого"
+"корпоративный сайт Алматы"
+"интернет-магазин Казахстан"
+\`\`\`
+
+## Контентная стратегия для казахстанского бизнеса
+
+### Типы контента с высоким SEO-потенциалом
+
+**1. Кейсы (case studies)**
+Казахстанский бизнес ищет примеры работ местных компаний. Кейс с упоминанием клиента, цифр и результатов — мощный SEO-актив.
+
+Пример: наш [кейс интеграции Kaspi + 1С + CRM](/blog/kaspi-1c-crm-integration-case) привлекает целевой трафик по запросам "1с интеграция сайт казахстан".
+
+**2. Гайды и руководства**
+Статьи формата "как сделать X в Казахстане" получают стабильный информационный трафик.
+
+**3. Новости и изменения законодательства**
+Налоговые изменения, новые требования МЦРИАП — аудитория ищет актуальную информацию. Пример: [Налоговый режим Казахстана в 2026](/blog/kz-tax-2026-developer-advantages).
+
+**4. Сравнения (vs-контент)**
+"Агентство или фрилансер в Казахстане" — высокий коммерческий интент.
+
+### Частота публикаций
+
+Для молодого сайта: 4-8 статей в месяц первые 6 месяцев. Потом — 2-4 в месяц для поддержки.
+
+## Линкбилдинг в Казахстане
+
+Ссылки — по-прежнему важный фактор ранжирования. Для казахстанского рынка:
+
+**Эффективные источники:**
+- Казахстанские бизнес-каталоги (2gis.kz, satu.kz)
+- Местные СМИ и блоги (voxpopuli.kz, informburo.kz)
+- Партнёрские обмены с релевантными сайтами
+- Гостевые посты на казахстанских IT-блогах
+- Упоминания в пресс-релизах (thenews.kz, zakon.kz)
+
+**Избегайте:**
+- Платных ссылок с бирж
+- Ссылок с нерелевантных сайтов
+- Слишком быстрого роста ссылочной массы
+
+## Измерение результатов SEO
+
+### Ключевые метрики
+
+\`\`\`
+Google Search Console:
+- Impressions (показы в поиске)
+- Clicks и CTR
+- Average Position
+- Coverage (индексация)
+
+Google Analytics 4:
+- Organic Search трафик
+- Bounce Rate
+- Time on Page
+- Conversions from organic
+\`\`\`
+
+### Реалистичные сроки для Казахстана
+
+| Этап | Срок |
+|------|------|
+| Первые позиции в топ-50 | 2-4 месяца |
+| Топ-10 по средним ключам | 4-8 месяцев |
+| Топ-3 по конкурентным ключам | 8-18 месяцев |
+| Стабильный органический трафик | 12+ месяцев |
+
+## Итог: SEO в Казахстане — возможности здесь и сейчас
+
+Конкуренция в казахстанском SEO ниже, чем в России или Украине. Особенно по казахскоязычным запросам — здесь можно выйти в топ за 3-6 месяцев при правильной стратегии.
+
+Хотите SEO-оптимизированный сайт с правильной архитектурой? Читайте [полный гайд по разработке сайтов в Казахстане](/blog/website-development-kazakhstan-guide-2026) или [заполните бриф](/brief) — обсудим SEO-стратегию для вашего бизнеса.
+
+Также смотрите: [оптимизация конверсии веб-сайта](/blog/website-conversion-optimization) — как превратить SEO-трафик в клиентов.`,
+        en: `# SEO Promotion of Websites in Kazakhstan: How to Reach the Top of Google and Yandex in 2026
+
+> Unlike Russia or Ukraine, Kazakhstan's search market has unique characteristics: Google dominates, bilingual content (Russian/Kazakh) is critical, and local SEO for Almaty and Astana is a distinct discipline.
+
+## Kazakhstan Search Market 2026
+
+| Search Engine | Traffic Share | Trend |
+|--------------|-------------|-------|
+| Google | 68% | ↑ growing |
+| Yandex | 28% | ↓ declining |
+| Bing | 3% | — stable |
+
+**Conclusion:** Google focus is mandatory. Yandex still matters for the 35+ demographic and Russian content.
+
+## Bilingual SEO: Kazakh + Russian
+
+This is the key feature of Kazakhstan SEO that developers from other countries miss.
+
+Competition for Kazakh keywords is **3-5 times lower** than for Russian equivalents. Kazakh-language audience is growing: 65% of the population speaks Kazakh. Government sites must have a Kazakh version by law.
+
+**Practical conclusion:** A site with quality Kazakh SEO content is much easier to rank than one targeting only Russian queries.
+
+See how we implemented 5-language SEO architecture in the [egemen.kz case study](/blog/egemen-kazak-gazetteri-media-platform-case).
+
+## Technical SEO for Next.js
+
+Next.js provides excellent SEO foundations: SSR for bot-readable content, automatic image optimization, built-in sitemap generation, and Core Web Vitals support.
+
+For detailed Next.js performance optimization, see our [Next.js optimization guide](/blog/nextjs-performance-optimization).
+
+## Local SEO: Almaty and Astana
+
+Optimize Google Business Profile, collect reviews, and target city-specific keywords like "website development Astana" or "web developer Almaty." Local competition is significantly lower than for broad national queries.
+
+## Content That Works for Kazakhstan SEO
+
+1. **Case studies** — Kazakhstani businesses search for local examples with real numbers
+2. **Guides** — "How to do X in Kazakhstan" gets stable informational traffic
+3. **Legislation updates** — Tax changes, MCRIAP requirements
+4. **Comparisons** — "Agency vs freelancer in Kazakhstan" — high commercial intent
+
+Want an SEO-optimized website? Read the [complete Kazakhstan website development guide](/blog/website-development-kazakhstan-guide-2026) or [fill out a brief](/brief) to discuss your SEO strategy.
+
+See also: [website conversion optimization](/blog/website-conversion-optimization) — how to convert SEO traffic into clients.`,
+        kk: `# Қазақстандағы сайттарды SEO-жылжыту: 2026 жылы Google мен Yandex-тің топына қалай шығуға болады
+
+> Ресей немесе Украинадан айырмашылығы, Қазақстандағы іздеу нарығының өзіндік ерекшеліктері бар: Google басым, екітілді контент (орыс/қазақ) өте маңызды.
+
+## Қазақстандағы іздеу нарығы 2026
+
+| Іздеу жүйесі | Трафик үлесі |
+|-------------|-------------|
+| Google | 68% |
+| Яндекс | 28% |
+| Bing | 3% |
+
+## Екітілді SEO: қазақша + орысша
+
+Қазақ тілді кілт сөздер бойынша бәсекелестік орысшаға қарағанда **3-5 есе төмен**. Халықтың 65%-ы қазақ тілінде сөйлейді. Мемлекеттік сайттарда заң бойынша қазақша нұсқа болуы тиіс.
+
+[egemen.kz кейсінде](/blog/egemen-kazak-gazetteri-media-platform-case) 5 тілдегі SEO архитектурасын қалай жүзеге асырғанымызды оқыңыз.
+
+## Қазақстандағы жергілікті SEO
+
+Алматы мен Астана үшін Google Business Profile-ді оңтайландырыңыз, пікірлер жинаңыз және "Астанада сайт жасау" немесе "Алматыда веб-әзірлеуші" сияқты қала бойынша кілт сөздерді мақсатқа алыңыз.
+
+SEO-оңтайландырылған сайт алғыңыз келе ме? [Брифті толтырыңыз](/brief) немесе [Қазақстандағы сайт жасаудың толық нұсқаулығын](/blog/website-development-kazakhstan-guide-2026) оқыңыз.`,
+      },
+    },
+  },
+
+  // ─── POST 15: Agency vs Freelancer Kazakhstan ─────────────────────────────
+  {
+    slug: "outsource-web-developer-kazakhstan-freelance-vs-agency",
+    image: "/hire-web-developer-kazakhstan-freelance-agency.jpg",
+    publishedAt: "2026-02-25",
+    author: "Sayan Roor",
+    tags: ["Kazakhstan", "Outsource", "Freelance", "Agency", "Business", "Hiring"],
+    readingTime: 8,
+    featured: false,
+    translations: {
+      title: {
+        ru: "Фрилансер или агентство в Казахстане: что выгоднее для веб-разработки в 2026",
+        en: "Freelancer or Agency in Kazakhstan: Which is Better for Web Development in 2026",
+        kk: "Қазақстанда фрилансер немесе агенттік: 2026 жылы веб-әзірлеу үшін не тиімдірек",
+      },
+      description: {
+        ru: "Честное сравнение: фрилансер vs агентство для заказа сайта в Казахстане. Реальные цены, скрытые наценки агентств (30-50%), преимущества ИП-разработчика, и в каких случаях каждый вариант лучше.",
+        en: "Honest comparison: freelancer vs agency for ordering a website in Kazakhstan. Real prices, hidden agency markups (30-50%), advantages of individual entrepreneur developers, and when each option is better.",
+        kk: "Адал салыстыру: Қазақстанда сайт тапсырысы үшін фрилансер vs агенттік. Нақты бағалар, агенттіктердің жасырын үстемеақылары (30-50%), жеке кәсіпкер-әзірлеушінің артықшылықтары.",
+      },
+      excerpt: {
+        ru: "Агентства берут 30-50% надбавки за «бренд» и менеджмент. Фрилансеры дешевле, но рискованнее. Разбираем, как сделать правильный выбор для вашего проекта и почему ИП-разработчик на УСН — часто золотая середина.",
+        en: "Agencies charge 30-50% markup for 'brand' and management. Freelancers are cheaper but riskier. We break down how to make the right choice for your project and why an individual entrepreneur developer on simplified tax is often the golden middle.",
+        kk: "Агенттіктер «бренд» пен менеджмент үшін 30-50% үстемеақы алады. Фрилансерлар арзанырақ, бірақ тәуекелі жоғары. Жобаңыз үшін дұрыс таңдауды қалай жасау керектігін талдаймыз.",
+      },
+      imageAlt: {
+        ru: "Нанять веб-разработчика в Казахстане — фрилансер или агентство",
+        en: "Hire a web developer in Kazakhstan — freelancer or agency",
+        kk: "Қазақстанда веб-әзірлеушіні жалдау — фрилансер немесе агенттік",
+      },
+      category: {
+        ru: "Бизнес",
+        en: "Business",
+        kk: "Бизнес",
+      },
+      publishedLabel: {
+        ru: "25 февраля 2026",
+        en: "February 25, 2026",
+        kk: "2026 ж. 25 ақпан",
+      },
+      content: {
+        ru: `# Фрилансер или агентство в Казахстане: что выгоднее для веб-разработки в 2026
+
+> Это один из самых популярных вопросов казахстанских предпринимателей при заказе сайта. Короткий ответ: зависит от масштаба проекта и ваших приоритетов. Развёрнутый ответ — ниже.
+
+## Структура рынка: кто есть кто
+
+### Веб-агентства в Казахстане
+
+Агентств в Казахстане ~350+. Из них:
+- **Крупные** (10+ разработчиков): ~30 агентств. Работают с корпоративными клиентами и государством.
+- **Средние** (3-10 человек): ~120 агентств. Основная масса рынка.
+- **Мелкие студии** (2-3 человека): ~200+ студий. Часто позиционируют себя как агентства.
+
+### Фрилансеры в Казахстане
+
+По данным Upwork и Kwork.kz, в Казахстане работает 15 000+ фрилансеров в IT. Из них ~4 500 специализируются на веб-разработке.
+
+### ИП-разработчики (Индивидуальные Предприниматели)
+
+Отдельная категория — опытные разработчики, зарегистрированные как ИП. Это:
+- Полная юридическая ответственность (в отличие от физлица-фрилансера)
+- Работа с НДС или без (УСН 2%)
+- Возможность заключить официальный договор
+- Часто — это mid/senior разработчики с опытом 5+ лет
+
+Именно эта модель описана в нашем [гайде по налоговому режиму Казахстана 2026](/blog/kz-tax-2026-developer-advantages) — ИП на УСН может работать с клиентом с экономией до 22% по сравнению с ТОО/Агентством.
+
+## Подробное сравнение: цифры и факты
+
+### Стоимость: реальные наценки агентств
+
+Агентство нанимает разработчиков на зарплату и прибавляет:
+- Аренда офиса: 300 000-800 000 ₸/месяц
+- Зарплата менеджера проекта: 400 000-600 000 ₸/месяц
+- Маркетинг: 10-15% оборота
+- Прибыль агентства: 20-30%
+
+**Итого надбавка:** 30-55% к стоимости работы разработчика.
+
+**Пример:**
+
+| Тип работ | Фрилансер | ИП-разработчик | Агентство |
+|-----------|-----------|----------------|-----------|
+| Лендинг (средний) | 250 000 ₸ | 350 000 ₸ | 500 000-700 000 ₸ |
+| Корпоративный сайт | 1 500 000 ₸ | 2 000 000 ₸ | 3 000 000-4 500 000 ₸ |
+| Интернет-магазин | 3 000 000 ₸ | 4 000 000 ₸ | 6 000 000-10 000 000 ₸ |
+
+### Скорость
+
+| Критерий | Фрилансер | ИП-разработчик | Агентство |
+|---------|-----------|----------------|-----------|
+| Старт проекта | 1-3 дня | 2-5 дней | 1-3 недели |
+| Скорость итераций | Быстрая | Быстрая | Медленная |
+| Параллельные задачи | Нет | Нет | Да |
+
+### Риски
+
+**Фрилансер (физлицо) — высокие риски:**
+- Может исчезнуть в середине проекта
+- Нет официального договора или он не работает
+- Нет ответственности за результат
+- Нельзя взыскать ущерб через суд
+
+**ИП-разработчик — средние риски:**
+- Официальный договор с ответственностью
+- ИП может закрыться, но есть имущественная ответственность
+- Зависимость от одного человека
+
+**Агентство — низкие риски:**
+- Юридическая защита через договор с ТОО
+- Страховка проекта (если один разработчик заболел — есть второй)
+- Опыт работы с претензиями и спорами
+
+## Матрица выбора: когда что выбирать
+
+### Выбирайте фрилансера, если:
+- Бюджет до 500 000 ₸
+- Стандартная задача (лендинг, визитка)
+- Есть личная рекомендация
+- Готовы к рискам
+
+### Выбирайте ИП-разработчика, если:
+- Бюджет 500 000 — 10 000 000 ₸
+- Нужен нестандартный функционал
+- Важны официальный договор и акты
+- Хотите прямую коммуникацию без посредников
+- Проект требует казахстанских интеграций (Kaspi, 1С)
+
+### Выбирайте агентство, если:
+- Бюджет 10 000 000+ ₸
+- Нужна команда (дизайнер + разработчик + тестировщик одновременно)
+- Критически важна страховка проекта
+- Гостендер, где нужна ТОО с историей
+
+## Как проверить подрядчика перед оплатой
+
+### Чеклист для фрилансера/ИП
+- [ ] Посмотрите живые сайты из портфолио (не только мокапы)
+- [ ] Проверьте PageSpeed Insights для их работ
+- [ ] Попросите контакты 2-3 прошлых клиентов
+- [ ] Изучите GitHub/GitLab профиль
+- [ ] Заключите договор с чётким ТЗ и этапами
+- [ ] Платите поэтапно (30% аванс, 40% после дизайна, 30% после запуска)
+
+### Чеклист для агентства
+- [ ] Запросите реальных авторов из их кейсов — убедитесь, что работают в этом агентстве
+- [ ] Проверьте, не субподряд ли это (бывает, что агентство перепродаёт фрилансеров)
+- [ ] Изучите отзывы на реальных площадках (Google, 2GIS)
+- [ ] Проверьте ИНН/БИН в государственных реестрах
+- [ ] Уточните, кто именно будет вести ваш проект
+
+## Красные флаги при найме в Казахстане
+
+❌ **Отказывайтесь немедленно, если:**
+- Цена за корпоративный сайт 100 000-200 000 ₸ ("мы быстро, дёшево, качественно")
+- Требуют 100% предоплату сразу
+- Нет договора или отказываются его заключить
+- Не могут показать живые работы
+- Пишут с личного WhatsApp без официальных контактов
+- Обещают топ в Google за 1 месяц
+
+## Особенности госзакупок и тендеров
+
+Если вы бизнес, участвующий в тендерах — вам нужен подрядчик-ТОО с нужными кодами ОКЭД. Читайте [чеклист требований к разработчику для тендеров Казахстана](/blog/kz-developer-tender-checklist) и [шаблон технического задания](/blog/kz-tender-technical-spec-template).
+
+## Почему я работаю как ИП-разработчик
+
+Я — Саян Роор, full-stack разработчик, зарегистрированный как ИП Tengri Tech Dev (ИИН: 960808350018). Работаю по официальным договорам, с актами выполненных работ и закрывающими документами.
+
+**Мои преимущества перед агентством:**
+- Прямая коммуникация — вы всегда знаете, кто делает ваш проект
+- Цена без надбавки агентства (30-50% экономии)
+- Опыт работы с казахстанскими интеграциями (Kaspi, 1С, ePay, eGov)
+- Портфолио с живыми проектами, включая [egemen.kz](/blog/egemen-kazak-gazetteri-media-platform-case)
+
+Хотите обсудить ваш проект? [Заполните бриф](/brief) — расскажите о задаче, и я предложу оптимальное решение с реальной стоимостью.
+
+Также рекомендую: [полный гайд по разработке сайтов в Казахстане 2026](/blog/website-development-kazakhstan-guide-2026) — всё, что нужно знать перед заказом.`,
+        en: `# Freelancer or Agency in Kazakhstan: Which is Better for Web Development in 2026
+
+> This is one of the most common questions from Kazakhstani entrepreneurs when ordering a website. Short answer: depends on project scale and priorities. Detailed answer below.
+
+## Market Structure
+
+Kazakhstan has ~350+ web agencies and 15,000+ IT freelancers, with ~4,500 specializing in web development.
+
+A separate category: **Individual Entrepreneur (ИП) developers** — experienced developers registered as sole proprietors. They offer official contracts, legal accountability, and work under Kazakhstan's simplified tax regime (УСН 2%), which means lower overhead than agencies.
+
+As detailed in our [Kazakhstan 2026 tax regime guide](/blog/kz-tax-2026-developer-advantages), an ИП developer can save you 22% compared to working with a ТОО/Agency.
+
+## Price Comparison
+
+Agencies charge 30-55% markup over the developer's actual rate to cover office rent, project managers, marketing, and profit.
+
+| Service | Freelancer | ИП Developer | Agency |
+|---------|-----------|-------------|--------|
+| Landing page | 250,000 ₸ | 350,000 ₸ | 500,000-700,000 ₸ |
+| Corporate site | 1,500,000 ₸ | 2,000,000 ₸ | 3,000,000-4,500,000 ₸ |
+| E-commerce | 3,000,000 ₸ | 4,000,000 ₸ | 6,000,000-10,000,000 ₸ |
+
+## Decision Matrix
+
+**Choose a freelancer (individual) if:** budget under 500,000 ₸, standard task, personal recommendation.
+
+**Choose an ИП developer if:** budget 500,000 — 10,000,000 ₸, custom functionality needed, official contract required, direct communication preferred, Kazakhstan integrations needed (Kaspi, 1C).
+
+**Choose an agency if:** budget 10,000,000+ ₸, need parallel team (designer + developer + tester simultaneously), government tender requiring ТОО entity.
+
+## Red Flags When Hiring in Kazakhstan
+
+❌ **Reject immediately if:**
+- Promises a corporate site for 100,000-200,000 ₸
+- Requires 100% upfront payment without contract
+- Cannot show live work examples
+- Promises Google top ranking in 1 month
+
+For government procurement, see our [developer selection checklist for Kazakhstan tenders](/blog/kz-developer-tender-checklist).
+
+Also read our complete [website development guide for Kazakhstan 2026](/blog/website-development-kazakhstan-guide-2026).
+
+Ready to discuss your project? [Fill out the brief](/brief) — real cost estimate within 24 hours.`,
+        kk: `# Қазақстанда фрилансер немесе агенттік: 2026 жылы веб-әзірлеу үшін не тиімдірек
+
+> Бұл Қазақстандық кәсіпкерлердің сайт тапсырысы кезінде жиі қоятын сұрақтарының бірі.
+
+## Нарық құрылымы
+
+Қазақстанда ~350+ веб-агенттік және 15 000+ IT фрилансері бар. Жеке кәсіпкер ретінде тіркелген тәжірибелі әзірлеушілер — бұл ресми шарт, заңды жауапкершілік және жеңілдетілген салық режимі (ЖСС 2%) арқылы жұмыс.
+
+[2026 жылғы Қазақстан салық режимі туралы нұсқаулықта](/blog/kz-tax-2026-developer-advantages) толығырақ сипатталғандай, жеке кәсіпкер-әзірлеуші ТОО/Агенттікпен салыстырғанда 22%-ға үнемдеуіңізге мүмкіндік береді.
+
+## Баға салыстыру
+
+| Қызмет | Фрилансер | ЖК-Әзірлеуші | Агенттік |
+|--------|-----------|-------------|---------|
+| Лендинг | 250 000 ₸ | 350 000 ₸ | 500 000-700 000 ₸ |
+| Корпоративтік сайт | 1 500 000 ₸ | 2 000 000 ₸ | 3 000 000-4 500 000 ₸ |
+
+Тендерлер мен мемлекеттік сатып алу туралы [тендерлер үшін техникалық тапсырма нұсқаулығын](/blog/kz-tender-technical-spec-template) оқыңыз.
+
+Жобаңызды талқылағыңыз келе ме? [Брифті толтырыңыз](/brief) — 24 сағат ішінде нақты баға есебі.`,
+      },
+    },
+  },
 ] as const;
 
 /**
