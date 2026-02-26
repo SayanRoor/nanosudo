@@ -21,6 +21,7 @@ export type PortfolioProject = {
     readonly label: string;
     readonly value: string;
   }[];
+  readonly metricKeys?: readonly string[];
 };
 
 /**
@@ -76,6 +77,90 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       { label: 'Защита от спама', value: '1 заявка/день' },
       { label: 'Этапы реализации', value: '3 фазы' },
     ],
+    metricKeys: ['userRoles', 'requestStatuses', 'spamProtection', 'implementationPhases'],
+  },
+  {
+    id: 'amiray-kz',
+    title: 'AMIRAY.KZ — Сайт цифрового агентства',
+    description: 'Корпоративный сайт для цифрового агентства из Алматы. Разработка на стеке Next.js/TypeScript с серверным рендерингом, анимациями и полной адаптивностью. Реализованы страницы услуг, портфолио и интеграция с CRM.',
+    shortDescription: 'Корпоративный сайт для IT-агентства на Next.js с анимациями и SSR',
+    image: '/amiray-kz-portfolio.jpg',
+    imageAlt: 'AMIRAY.KZ — Корпоративный сайт цифрового агентства',
+    url: 'https://amiray.kz',
+    tags: ['Next.js', 'React', 'TypeScript', 'Node.js', 'AWS', 'Docker'],
+    category: 'Корпоративный сайт',
+    year: 2025,
+    featured: true,
+    goals: [
+      'Создать современный корпоративный сайт с высокой скоростью загрузки',
+      'Реализовать страницы услуг с детальным описанием и ценами',
+      'Обеспечить SEO-оптимизацию для привлечения клиентов из поиска',
+      'Интегрировать форму заявки с CRM-системой агентства',
+    ],
+    tasks: [
+      'Разработать дизайн-систему и компонентную библиотеку',
+      'Реализовать серверный рендеринг (SSR) для ключевых страниц',
+      'Создать анимированные секции с использованием Framer Motion',
+      'Настроить SEO-метаданные, structured data и sitemap',
+      'Интегрировать форму связи с отправкой уведомлений',
+      'Настроить деплой через Docker/AWS с CI/CD пайплайном',
+    ],
+    results: [
+      'Сайт запущен с показателем Lighthouse Performance 95+',
+      'Реализованы страницы 8+ услуг с детальным описанием',
+      'Настроена SEO-оптимизация для ключевых запросов',
+      'Время загрузки первого экрана — менее 1.5 секунды',
+      'Внедрена система заявок с автоматическими уведомлениями',
+    ],
+    metrics: [
+      { label: 'Проектов в портфолио', value: '50+' },
+      { label: 'Довольных клиентов', value: '98%' },
+      { label: 'Лет на рынке', value: '5+' },
+      { label: 'Lighthouse Score', value: '95+' },
+    ],
+    metricKeys: ['totalProjects', 'clientSatisfaction', 'yearsInMarket', 'lighthouseScore'],
+  },
+  {
+    id: 'egemen-kz',
+    title: 'EGEMEN.KZ — Миграция медиаплатформы',
+    description: 'Полная миграция медиаплатформы «Казак газеттері» холдинга с устаревшего стека Laravel 5.8/PHP 7.1/MySQL на современный NestJS 11/Next.js/PostgreSQL 16/Docker. Обеспечена нулевая потеря данных и непрерывность работы.',
+    shortDescription: 'Миграция новостного портала с Laravel/PHP на NestJS/Next.js для Казак газеттері',
+    image: '/egemen-kz-migration-portfolio.png',
+    imageAlt: 'EGEMEN.KZ — Миграция медиаплатформы Казак газеттері',
+    url: 'https://staging.zakyat.kz',
+    tags: ['NestJS', 'Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Migration', 'Media'],
+    category: 'Миграция и рефакторинг',
+    year: 2026,
+    featured: true,
+    goals: [
+      'Мигрировать с Laravel 5.8/PHP 7.1 на NestJS 11/Next.js без потери данных',
+      'Переехать с MySQL на PostgreSQL 16 с сохранением всей истории публикаций',
+      'Внедрить Docker-контейнеризацию для надёжного деплоя',
+      'Обеспечить SEO-совместимость и сохранение позиций в поиске',
+    ],
+    tasks: [
+      'Аудит существующей архитектуры Laravel: маршруты, модели, контроллеры',
+      'Разработка схемы миграции MySQL → PostgreSQL с маппингом типов данных',
+      'Написание NestJS-модулей для замены PHP-контроллеров',
+      'Реализация Next.js фронтенда с SSR для SEO',
+      'Настройка 301-редиректов для сохранения SEO-позиций',
+      'Докеризация: nginx + app + db + redis в docker-compose',
+      'Тестирование производительности и нагрузочное тестирование',
+    ],
+    results: [
+      'Успешная миграция 100% данных без потерь из MySQL в PostgreSQL',
+      'Скорость загрузки улучшена на 60% по сравнению с Laravel-версией',
+      'SEO-позиции сохранены благодаря корректным 301-редиректам',
+      'Деплой автоматизирован через Docker Compose и CI/CD',
+      'Система работает на Ubuntu 24.04 LTS с нулевым простоем при обновлениях',
+    ],
+    metrics: [
+      { label: 'Статей перенесено', value: '100%' },
+      { label: 'Прирост скорости', value: '+60%' },
+      { label: 'Простой при миграции', value: '0 мин' },
+      { label: 'Версия Node.js', value: '22 LTS' },
+    ],
+    metricKeys: ['articlesMigrated', 'speedImprovement', 'downtime', 'nodeVersion'],
   },
 ] as const;
 
@@ -140,16 +225,15 @@ export function getTranslatedProject(
   // Build metrics array from translated data
   let metrics: Array<{ readonly label: string; readonly value: string }> | undefined;
   if (baseProject.metrics && translatedMetrics) {
-    // Map metrics by index to translated labels
-    const metricKeys = ['userRoles', 'requestStatuses', 'spamProtection', 'implementationPhases'];
+    const projectMetricKeys = baseProject.metricKeys ?? [];
     metrics = baseProject.metrics.map((metric, index) => {
-      const metricKey = metricKeys[index];
+      const metricKey = projectMetricKeys[index];
       const translatedLabel = metricKey && translatedMetrics[metricKey]
         ? (translatedMetrics[metricKey] as string)
         : metric.label;
       return {
         label: translatedLabel,
-        value: metric.value, // Value stays the same (e.g., "4 типа")
+        value: metric.value,
       };
     });
   }

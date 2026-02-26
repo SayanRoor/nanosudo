@@ -113,6 +113,75 @@
           "spamProtection": "Spam protection",
           "implementationPhases": "Implementation phases"
         }
+      },
+      "amiray-kz": {
+        "title": "AMIRAY.KZ — Digital Agency Website",
+        "description": "Corporate website for a digital agency from Almaty. Built on Next.js/TypeScript stack with server-side rendering, animations and full responsiveness. Implemented service pages, portfolio and CRM integration.",
+        "shortDescription": "Corporate website for an IT agency on Next.js with animations and SSR",
+        "imageAlt": "AMIRAY.KZ — Digital Agency Corporate Website",
+        "category": "Corporate Website",
+        "goals": [
+          "Build a modern corporate website with high loading speed",
+          "Implement service pages with detailed descriptions and pricing",
+          "Ensure SEO optimization to attract clients from search",
+          "Integrate contact form with the agency CRM system"
+        ],
+        "tasks": [
+          "Develop design system and component library",
+          "Implement server-side rendering (SSR) for key pages",
+          "Create animated sections using Framer Motion",
+          "Configure SEO metadata, structured data and sitemap",
+          "Integrate contact form with notification dispatch",
+          "Set up deployment via Docker/AWS with CI/CD pipeline"
+        ],
+        "results": [
+          "Site launched with Lighthouse Performance score 95+",
+          "Implemented 8+ service pages with detailed descriptions",
+          "SEO optimization configured for key search queries",
+          "First screen load time — under 1.5 seconds",
+          "Request system deployed with automated notifications"
+        ],
+        "metrics": {
+          "totalProjects": "Portfolio projects",
+          "clientSatisfaction": "Client satisfaction",
+          "yearsInMarket": "Years in market",
+          "lighthouseScore": "Lighthouse Score"
+        }
+      },
+      "egemen-kz": {
+        "title": "EGEMEN.KZ — Media Platform Migration",
+        "description": "Full migration of the Kazak Gazetteri media holding platform from the legacy Laravel 5.8/PHP 7.1/MySQL stack to modern NestJS 11/Next.js/PostgreSQL 16/Docker. Zero data loss and continuous uptime ensured.",
+        "shortDescription": "News portal migration from Laravel/PHP to NestJS/Next.js for Kazak Gazetteri",
+        "imageAlt": "EGEMEN.KZ — Kazak Gazetteri Media Platform Migration",
+        "category": "Migration & Refactoring",
+        "goals": [
+          "Migrate from Laravel 5.8/PHP 7.1 to NestJS 11/Next.js with zero data loss",
+          "Move from MySQL to PostgreSQL 16 preserving all publication history",
+          "Implement Docker containerization for reliable deployment",
+          "Ensure SEO compatibility and preservation of search rankings"
+        ],
+        "tasks": [
+          "Audit existing Laravel architecture: routes, models, controllers",
+          "Develop MySQL → PostgreSQL migration schema with data type mapping",
+          "Write NestJS modules to replace PHP controllers",
+          "Implement Next.js frontend with SSR for SEO",
+          "Configure 301 redirects to preserve SEO rankings",
+          "Dockerization: nginx + app + db + redis in docker-compose",
+          "Performance and load testing"
+        ],
+        "results": [
+          "Successful migration of 100% data without losses from MySQL to PostgreSQL",
+          "Loading speed improved by 60% compared to the Laravel version",
+          "SEO rankings preserved with correct 301 redirects",
+          "Deployment automated via Docker Compose and CI/CD",
+          "System runs on Ubuntu 24.04 LTS with zero downtime during updates"
+        ],
+        "metrics": {
+          "articlesMigrated": "Articles migrated",
+          "speedImprovement": "Speed improvement",
+          "downtime": "Migration downtime",
+          "nodeVersion": "Node.js version"
+        }
       }
     }
   },
@@ -382,6 +451,12 @@
         "item3": "Get specific recommendations",
         "item4": "Estimate cost and timeline"
       }
+    },
+    "latestCase": {
+      "label": "Latest Case Study",
+      "title": "Recent Work",
+      "newLabel": "New",
+      "cta": "View Project Details"
     }
   },
   "blog": {
