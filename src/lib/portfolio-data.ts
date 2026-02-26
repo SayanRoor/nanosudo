@@ -84,7 +84,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
     title: 'AMIRAY.KZ — Сайт цифрового агентства',
     description: 'Корпоративный сайт для цифрового агентства из Алматы. Разработка на стеке Next.js/TypeScript с серверным рендерингом, анимациями и полной адаптивностью. Реализованы страницы услуг, портфолио и интеграция с CRM.',
     shortDescription: 'Корпоративный сайт для IT-агентства на Next.js с анимациями и SSR',
-    image: '/amiray-kz-portfolio.jpg',
+    image: '/amiray-kz-portfolio.png',
     imageAlt: 'AMIRAY.KZ — Корпоративный сайт цифрового агентства',
     url: 'https://amiray.kz',
     tags: ['Next.js', 'React', 'TypeScript', 'Node.js', 'AWS', 'Docker'],
