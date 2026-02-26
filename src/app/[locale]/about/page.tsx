@@ -2,7 +2,7 @@
 
 import type { ReactElement } from "react";
 import { motion } from "framer-motion";
-import { Code, GraduationCap, Briefcase, Award, FileText, X, ExternalLink } from "lucide-react";
+import { Code, GraduationCap, Briefcase, Award, FileText, X, ExternalLink, Compass } from "lucide-react";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -324,6 +324,35 @@ export default function AboutPage(): ReactElement {
                   <p>{t('about.story.p2')}</p>
                   <p>{t('about.story.p3')}</p>
                   <p className="pt-2 text-foreground font-medium">{t('about.story.p4')}</p>
+                </motion.div>
+              </motion.section>
+
+              {/* Philosophy Section */}
+              <motion.section
+                className="space-y-6"
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={staggerContainer}
+              >
+                <motion.div className="flex items-center gap-3 pb-4 border-b border-border/60" variants={fadeInUp}>
+                  <div className="rounded-xl bg-accent/10 p-3">
+                    <Compass className="w-6 h-6 text-accent" />
+                  </div>
+                  <h2 className="font-heading text-2xl md:text-3xl">{t('about.philosophy.title')}</h2>
+                </motion.div>
+                <motion.div className="space-y-5" variants={fadeInUp}>
+                  <p className="text-lg font-semibold text-foreground">{t('about.philosophy.age')}</p>
+                  <p className="text-muted-foreground leading-relaxed">{t('about.philosophy.p1')}</p>
+                  <p className="text-muted-foreground leading-relaxed">{t('about.philosophy.p2')}</p>
+                  <p className="text-muted-foreground leading-relaxed">{t('about.philosophy.p3')}</p>
+                  <p className="text-muted-foreground leading-relaxed">{t('about.philosophy.p4')}</p>
+                  <div className="my-6 space-y-2 border-l-2 border-accent pl-6">
+                    <p className="text-lg font-heading text-foreground">{t('about.philosophy.highlight1')}</p>
+                    <p className="text-lg font-heading text-accent">{t('about.philosophy.highlight2')}</p>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">{t('about.philosophy.p5')}</p>
+                  <p className="text-muted-foreground leading-relaxed italic">{t('about.philosophy.p6')}</p>
                 </motion.div>
               </motion.section>
             </div>

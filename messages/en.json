@@ -227,6 +227,18 @@
         "description": "Hobby became profession. End‑to‑end delivery from design to launch. Next.js, TypeScript, CRM/1C/Kaspi integrations. Focus on conversion and performance."
       }
     },
+    "philosophy": {
+      "title": "Philosophy",
+      "age": "I'm 30 years old.",
+      "p1": "I'm a systems thinker and strategist by nature. I'm drawn to mechanisms — how processes, people, and structures work. I don't seek publicity, but I value influence — through the architecture of solutions, not through words.",
+      "p2": "I don't believe in randomness as magic. I believe in patterns and in the ability to shape the environment so that the right outcomes become probable.",
+      "p3": "There's a stoic part in me — I strive to maintain inner stability regardless of circumstances. I'm not inclined to dramatize and prefer analysis over reaction.",
+      "p4": "I'm not fully defined by labels and roles — and I consider that normal. I don't want to freeze in a ready-made identity. Growth and depth of understanding matter to me.",
+      "highlight1": "My goal is not to be noticed.",
+      "highlight2": "My goal is to be precise.",
+      "p5": "I value clarity, structure, independent thinking, and inner harmony. I work not for approval, but for the quality and sustainability of the result.",
+      "p6": "I don't control reality — I study its laws and try to act in accordance with them."
+    },
     "story": {
       "title": "How I became a developer",
       "p1": "Before development, I worked in the quasi‑public sector — at <kaz>Kazatomprom</kaz>, <alt>Altynalmas</alt> and <sk>Samruk‑Kazyna</sk>. This was experience in large organizations with strict requirements and responsibility.",

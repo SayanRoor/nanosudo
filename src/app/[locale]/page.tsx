@@ -17,12 +17,10 @@ import {
   Eye,
   CheckCircle2,
   ArrowRight,
-  MessageCircle,
   Linkedin,
   Instagram,
   Github,
   Send,
-  Mail,
   type LucideIcon,
 } from "lucide-react";
 
@@ -975,7 +973,6 @@ function LatestCaseSection(): ReactElement {
 
 function FinalCTASection(): ReactElement {
   const t = useTranslations();
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <section className="py-section">
       <Container className="max-w-4xl">
@@ -1011,98 +1008,47 @@ function FinalCTASection(): ReactElement {
             </motion.p>
           </motion.div>
 
-          {/* Benefits Grid */}
+          {/* CTA Card — contact page style */}
           <motion.div
-            className="grid gap-4 md:grid-cols-2 max-w-2xl mx-auto"
+            className="rounded-3xl border-2 border-accent/40 bg-gradient-to-br from-accent/10 via-accent/5 to-surface/40 p-8 md:p-12 shadow-soft text-center"
             variants={fadeInUp}
           >
-            {[
-              t("home.finalCta.benefits.item1"),
-              t("home.finalCta.benefits.item2"),
-              t("home.finalCta.benefits.item3"),
-              t("home.finalCta.benefits.item4"),
-            ].map((text, index) => (
-              <motion.div
-                key={index}
-                className="glass-card flex items-start gap-3 rounded-xl p-4"
-                variants={fadeInUp}
-                transition={{ delay: index * 0.1 }}
-              >
-                <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
-                <span className="text-foreground">{text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* CTA Section */}
-          <motion.div className="space-y-4 text-center" variants={fadeInUp}>
-            <motion.p className="text-sm text-muted-foreground" variants={fadeInUp}>
-              {t("home.finalCta.subtitle")}
-            </motion.p>
-            <motion.div variants={fadeInUp}>
-              <button
-                type="button"
-                onClick={() => setIsContactModalOpen(true)}
-                className="btn-accent inline-flex items-center justify-center rounded-lg bg-accent px-10 py-5 text-base font-semibold normal-case border-2 shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {t("common.cta.getFreeConsultation")}
-              </button>
-            </motion.div>
+            <div className="space-y-6 max-w-2xl mx-auto">
+              <div className="rounded-xl bg-accent p-3 w-fit mx-auto">
+                <Send className="w-7 h-7 text-accent-foreground" />
+              </div>
+              <div className="grid gap-4 md:grid-cols-2 text-left">
+                {[
+                  t("home.finalCta.benefits.item1"),
+                  t("home.finalCta.benefits.item2"),
+                  t("home.finalCta.benefits.item3"),
+                  t("home.finalCta.benefits.item4"),
+                ].map((text, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
+                    <span className="text-foreground">{text}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {t("home.finalCta.subtitle")}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  href="/brief"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-8 py-4 text-base font-semibold normal-case text-accent-foreground shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {t("common.cta.getFreeConsultation")}
+                  <Send className="w-5 h-5" />
+                </Link>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </Container>
-
-      {isContactModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm px-4"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="glass-card w-full max-w-md space-y-6 rounded-2xl p-6 text-left">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                  {t("contact.hero.label")}
-                </p>
-                <h3 className="font-heading text-2xl text-foreground">{t("contact.hero.title")}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{t("contact.hero.description")}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsContactModalOpen(false)}
-                className="rounded-full border border-border/60 p-2 text-muted-foreground transition hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="Close contact options"
-              >
-                <ArrowRight className="h-4 w-4 rotate-45" />
-              </button>
-            </div>
-            <div className="grid gap-3">
-              {[
-                { icon: MessageCircle, label: t("common.footer.whatsapp"), href: "https://wa.me/77478277485" },
-                { icon: Send, label: t("common.footer.telegram"), href: "https://t.me/satoshi_iam" },
-                { icon: Instagram, label: t("common.footer.instagram"), href: "https://instagram.com/satoshi_iam" },
-                { icon: Linkedin, label: t("common.footer.linkedin"), href: "https://www.linkedin.com/in/sayan-roor/" },
-                { icon: Github, label: t("common.footer.github"), href: "https://github.com/SayanWD" },
-                { icon: Mail, label: t("common.footer.email"), href: "mailto:roorsayan@gmail.com" },
-              ].map(({ icon: Icon, label, href }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="glass-card flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition hover:border-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                >
-                  <span className="flex items-center gap-3">
-                    <Icon className="h-5 w-5 text-accent" />
-                    {label}
-                  </span>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
