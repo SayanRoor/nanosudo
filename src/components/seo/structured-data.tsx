@@ -38,7 +38,7 @@ export function generatePersonStructuredData(locale: string): Record<string, unk
       'https://t.me/satoshi_iam',
       'https://github.com/SayanRoor',
     ],
-    email: 'roorsayan@gmail.com',
+    email: 'sales@nanosudo.com',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Almaty',
@@ -129,7 +129,7 @@ export function generateOrganizationStructuredData(): Record<string, unknown> {
       '@type': 'ContactPoint',
       telephone: '+7-747-827-7485',
       contactType: 'customer service',
-      email: 'roorsayan@gmail.com',
+      email: 'sales@nanosudo.com',
     },
   };
 }

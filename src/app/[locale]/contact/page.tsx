@@ -39,16 +39,16 @@ const contactMethods: readonly ContactMethod[] = [
     icon: Mail,
     labelKey: "contact.methods.email.title",
     descriptionKey: "contact.methods.email.description",
-    link: "mailto:sayan@nanosudo.com",
-    linkText: "sayan@nanosudo.com",
+    link: "mailto:sales@nanosudo.com",
+    linkText: "sales@nanosudo.com",
     isExternal: true,
   },
   {
     icon: MessageCircle,
     labelKey: "contact.methods.telegram.title",
     descriptionKey: "contact.methods.telegram.description",
-    link: "https://t.me/sayanroor",
-    linkText: "@sayanroor",
+    link: "https://t.me/satoshi_iam",
+    linkText: "@satoshi_iam",
     isExternal: true,
   },
 ] as const;
@@ -178,7 +178,7 @@ export default function ContactPage(): ReactElement {
 
             {/* CTA Section */}
             <motion.div
-              className="rounded-3xl border-2 border-accent/40 bg-gradient-to-br from-accent/10 via-accent/5 to-surface/40 p-8 md:p-12 shadow-soft text-center"
+              className="rounded-3xl border-2 border-accent/40 bg-linear-to-br from-accent/10 via-accent/5 to-surface/40 p-8 md:p-12 shadow-soft text-center"
               initial="initial"
               whileInView="animate"
               viewport={{ once: true }}
@@ -199,7 +199,7 @@ export default function ContactPage(): ReactElement {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <Link
                     href={"/brief" as Route}
-                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-8 py-4 text-base font-semibold normal-case text-accent-foreground shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-8 py-4 text-base font-semibold normal-case text-accent-foreground shadow-soft transition-all hover:bg-accent/90 hover:shadow-lg hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   >
                     {t("contact.cta.button")}
                     <Send className="w-5 h-5" />
@@ -235,7 +235,7 @@ export default function ContactPage(): ReactElement {
                       className="glass-card flex items-start gap-4 rounded-xl p-4"
                       variants={fadeInUp}
                     >
-                      <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-foreground">{t(item.dayKey)}</p>
                         <p className="text-sm text-muted-foreground">{t(item.timeKey)}</p>
@@ -258,19 +258,19 @@ export default function ContactPage(): ReactElement {
                 </motion.h2>
                 <motion.div className="space-y-4 text-muted-foreground" variants={fadeInUp}>
                   <p className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                     <span>{t("contact.next.points.responseTime")}</span>
                   </p>
                   <p className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                     <span>{t("contact.next.points.freeConsultation")}</span>
                   </p>
                   <p className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                     <span>{t("contact.next.points.worldwide")}</span>
                   </p>
                   <p className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                     <span>{t("contact.next.points.channels")}</span>
                   </p>
                 </motion.div>

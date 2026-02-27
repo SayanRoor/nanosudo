@@ -111,7 +111,7 @@ export function SiteFooter(): ReactElement {
               <div className="glass-card rounded-[2.5rem] p-8 border-border/40 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group flex-1">
                 <h3 className="label-caps mb-8">{t('footer.widgets.contact.title')}</h3>
                 <div className="space-y-8 relative z-10">
-                  <a href="mailto:roorsayan@gmail.com" className="group/link block">
+                  <a href="mailto:sales@nanosudo.com" className="group/link block">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50 mb-1">{t('footer.widgets.contact.emailLabel')}</p>
                     <p className="text-base font-heading font-bold text-foreground group-hover/link:text-accent transition-colors break-all leading-tight">ROORSAYAN@GMAIL.COM</p>
                   </a>

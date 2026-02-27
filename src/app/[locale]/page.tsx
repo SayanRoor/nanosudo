@@ -1010,7 +1010,7 @@ function FinalCTASection(): ReactElement {
 
           {/* CTA Card — contact page style */}
           <motion.div
-            className="rounded-3xl border-2 border-accent/40 bg-gradient-to-br from-accent/10 via-accent/5 to-surface/40 p-8 md:p-12 shadow-soft text-center"
+            className="rounded-3xl border-2 border-accent/40 bg-linear-to-br from-accent/10 via-accent/5 to-surface/40 p-8 md:p-12 shadow-soft text-center"
             variants={fadeInUp}
           >
             <div className="space-y-6 max-w-2xl mx-auto">

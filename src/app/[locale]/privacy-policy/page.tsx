@@ -101,8 +101,8 @@ export default async function PrivacyPolicyPage(): Promise<ReactElement> {
                 <h2 className="font-heading text-2xl text-foreground">{t("sections.contact.title")}</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {t("sections.contact.content")}{" "}
-                  <a href="mailto:roorsayan@gmail.com" className="font-medium text-accent underline-offset-4 hover:underline">
-                    roorsayan@gmail.com
+                  <a href="mailto:sales@nanosudo.com" className="font-medium text-accent underline-offset-4 hover:underline">
+                    sales@nanosudo.com
                   </a>
                 </p>
               </section>

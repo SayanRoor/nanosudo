@@ -502,7 +502,7 @@ export async function POST(
     doc.moveDown();
     doc.fontSize(12).text("Sayan Roor", { underline: true });
     doc.fontSize(11).text("Full-stack разработчик");
-    doc.fontSize(11).text("Email: roorsayan@gmail.com");
+    doc.fontSize(11).text("Email: sales@nanosudo.com");
     doc.fontSize(11).text("Телефон: +7 747 827 74 85");
     doc.fontSize(11).text("Сайт: https://nanosudo.com");
 
