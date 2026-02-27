@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   typedRoutes: true,
+  serverExternalPackages: ['pdfkit'],
   images: {
     remotePatterns: [
       {
@@ -18,16 +19,6 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.simpleicons.org',
       },
     ],
-  },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      // Fix for pdfkit font loading in Next.js
-      // Ensure font files are accessible
-      config.resolve.alias = {
-        ...config.resolve.alias,
-      };
-    }
-    return config;
   },
 };
 
