@@ -155,7 +155,7 @@ export async function POST(request: Request): Promise<Response> {
       content: pdfBuffer.toString("base64"),
     };
 
-    await Promise.allSettled([
+    const emailResults = await Promise.allSettled([
       sendEmail({
         to: [
           {
@@ -184,6 +184,12 @@ export async function POST(request: Request): Promise<Response> {
         attachments: [pdfAttachment],
       }),
     ]);
+
+    emailResults.forEach((result, i) => {
+      if (result.status === "rejected") {
+        console.error(`[brief] email[${i}] failed:`, result.reason);
+      }
+    });
 
     return NextResponse.json({ id: submissionId }, { status: 200 });
   } catch (error) {
