@@ -12,7 +12,7 @@ const tableFromMock = vi.fn(() => ({
   insert: insertMock,
 }));
 
-const sendBrevoEmailMock = vi.fn();
+const sendEmailMock = vi.fn();
 const generateBriefPdfMock = vi.fn();
 
 vi.mock("@/lib/supabase-admin", () => ({
@@ -24,8 +24,8 @@ vi.mock("@/lib/supabase-admin", () => ({
   },
 }));
 
-vi.mock("@/server/email/brevo", () => ({
-  sendBrevoEmail: sendBrevoEmailMock,
+vi.mock("@/server/email/resend", () => ({
+  sendEmail: sendEmailMock,
 }));
 
 vi.mock("@/server/pdf/brief-report", () => ({
@@ -76,10 +76,10 @@ const runPost = async (payload: unknown): Promise<Response> => {
   vi.stubEnv("NODE_ENV", "test");
   vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://supabase.test");
   vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "anon-key");
-  vi.stubEnv("NEXT_PUBLIC_BREVO_SENDER_EMAIL", "sender@nanosudo.com");
   vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "service-role-key");
-  vi.stubEnv("BREVO_API_KEY", "brevo-key");
-  vi.stubEnv("BREVO_NOTIFICATION_EMAIL", "notify@nanosudo.com");
+  vi.stubEnv("RESEND_API_KEY", "resend-key");
+  vi.stubEnv("RESEND_FROM_EMAIL", "noreply@nanosudo.com");
+  vi.stubEnv("RESEND_NOTIFICATION_EMAIL", "notify@nanosudo.com");
 
   const { POST } = await import("./route");
   return POST(
@@ -99,14 +99,14 @@ describe("POST /api/brief", () => {
     uploadMock.mockResolvedValue({ data: { path: "brandbooks/test.pdf" }, error: null });
     getPublicUrlMock.mockReturnValue({ data: { publicUrl: "https://cdn.test/brandbook.pdf" } });
     insertMock.mockResolvedValue({ data: null, error: null });
-    sendBrevoEmailMock.mockResolvedValue(undefined);
+    sendEmailMock.mockResolvedValue(undefined);
     generateBriefPdfMock.mockResolvedValue(Buffer.from("PDF"));
     storageFromMock.mockClear();
     tableFromMock.mockClear();
     uploadMock.mockClear();
     getPublicUrlMock.mockClear();
     insertMock.mockClear();
-    sendBrevoEmailMock.mockClear();
+    sendEmailMock.mockClear();
     generateBriefPdfMock.mockClear();
   });
 
@@ -129,7 +129,7 @@ describe("POST /api/brief", () => {
       }),
     );
     expect(generateBriefPdfMock).toHaveBeenCalledTimes(1);
-    expect(sendBrevoEmailMock).toHaveBeenCalledTimes(2);
+    expect(sendEmailMock).toHaveBeenCalledTimes(2);
   });
 
   it("returns 400 when validation fails", async () => {
@@ -154,6 +154,6 @@ describe("POST /api/brief", () => {
     const body = await response.json();
     expect(body).toHaveProperty("message", "Validation failed.");
     expect(insertMock).not.toHaveBeenCalled();
-    expect(sendBrevoEmailMock).not.toHaveBeenCalled();
+    expect(sendEmailMock).not.toHaveBeenCalled();
   });
 });

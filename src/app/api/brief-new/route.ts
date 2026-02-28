@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import { sendBrevoEmail } from "@/server/email/brevo";
+import { sendEmail } from "@/server/email/resend";
 import type { BriefNewFormValues } from "@/features/brief/schemas/brief-new";
 import type { CalculationResult } from "@/features/brief/utils/calculation";
 import { formatCurrency } from "@/lib/currency";
@@ -98,13 +98,12 @@ export async function POST(request: Request): Promise<NextResponse> {
     }
 
     // Отправляем email уведомления
-    const adminEmail = process.env.BREVO_NOTIFICATION_EMAIL;
-    const senderEmail = process.env.NEXT_PUBLIC_BREVO_SENDER_EMAIL;
+    const adminEmail = process.env.RESEND_NOTIFICATION_EMAIL;
 
-    if (adminEmail && senderEmail) {
+    if (adminEmail) {
       await Promise.allSettled([
         // Email администратору
-        sendBrevoEmail({
+        sendEmail({
           to: [{ email: adminEmail }],
           subject: `Новая заявка: ${formData.projectInfo.projectName}`,
           html: buildAdminEmailHtml(formData, calculation, submissionId, locale),
@@ -114,7 +113,7 @@ export async function POST(request: Request): Promise<NextResponse> {
           },
         }),
         // Email клиенту
-        sendBrevoEmail({
+        sendEmail({
           to: [
             {
               email: formData.contact.contactEmail,

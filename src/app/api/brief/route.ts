@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { Buffer } from "node:buffer";
 
-import { clientEnv, serverEnv } from "@/config";
+import { serverEnv } from "@/config";
 import { briefSchema } from "@/features/brief/schemas/brief";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { sendBrevoEmail } from "@/server/email/brevo";
+import { sendEmail } from "@/server/email/resend";
 import { generateBriefPdf } from "@/server/pdf/brief-report";
 
 type BrandbookFilePayload = {
@@ -156,12 +156,11 @@ export async function POST(request: Request): Promise<Response> {
     };
 
     await Promise.allSettled([
-      sendBrevoEmail({
+      sendEmail({
         to: [
           {
             email:
-              serverEnv.BREVO_NOTIFICATION_EMAIL ??
-              clientEnv.NEXT_PUBLIC_BREVO_SENDER_EMAIL ??
+              serverEnv.RESEND_NOTIFICATION_EMAIL ??
               values.contact.contactEmail,
           },
         ],
@@ -173,7 +172,7 @@ export async function POST(request: Request): Promise<Response> {
         },
         attachments: [pdfAttachment],
       }),
-      sendBrevoEmail({
+      sendEmail({
         to: [
           {
             email: values.contact.contactEmail,

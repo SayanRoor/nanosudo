@@ -7,7 +7,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { briefSimpleSchema, type BriefSimpleFormValues } from '@/features/brief/schemas/brief-simple';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { serverEnv } from '@/config';
-import { sendBrevoSMTPEmail } from '@/server/email/brevo-smtp';
+import { sendEmail } from '@/server/email/resend';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -200,12 +200,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const isTestMode = process.env.E2E_TEST_MODE === 'true';
 
     if (!isTestMode) {
-      // Send emails via Brevo SMTP
+      // Send emails via Resend
       const emailResults = await Promise.allSettled([
         // Admin notification
-        sendBrevoSMTPEmail({
+        sendEmail({
           to: [{
-            email: serverEnv.BREVO_NOTIFICATION_EMAIL ?? values.email,
+            email: serverEnv.RESEND_NOTIFICATION_EMAIL ?? values.email,
           }],
           subject: `Новый бриф (упрощенный): ${values.projectType}`,
           html: buildAdminEmailHtml(values, submissionId),
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           },
         }),
         // Client confirmation
-        sendBrevoSMTPEmail({
+        sendEmail({
           to: [{
             email: values.email,
             name: values.name,

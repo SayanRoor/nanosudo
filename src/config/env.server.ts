@@ -10,21 +10,17 @@ export const serverEnvSchema = z.object({
     .string()
     .min(1, "SUPABASE_SERVICE_ROLE_KEY is required for backend operations.")
     .optional(),
-  BREVO_API_KEY: z
+  RESEND_API_KEY: z
     .string()
-    .min(1, "BREVO_API_KEY is required to send transactional emails.")
+    .min(1, "RESEND_API_KEY is required to send transactional emails.")
     .optional(),
-  BREVO_NOTIFICATION_EMAIL: z
+  RESEND_FROM_EMAIL: z
     .string()
-    .email("BREVO_NOTIFICATION_EMAIL must be a valid email address.")
+    .email("RESEND_FROM_EMAIL must be a valid email address.")
     .optional(),
-  BREVO_SMTP_USER: z
+  RESEND_NOTIFICATION_EMAIL: z
     .string()
-    .min(1, "BREVO_SMTP_USER is required for SMTP email delivery.")
-    .optional(),
-  BREVO_SMTP_PASS: z
-    .string()
-    .min(1, "BREVO_SMTP_PASS is required for SMTP email delivery.")
+    .email("RESEND_NOTIFICATION_EMAIL must be a valid email address.")
     .optional(),
 });
 
