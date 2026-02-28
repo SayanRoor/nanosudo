@@ -134,7 +134,7 @@ function buildClientEmailHtml(values: BriefSimpleFormValues): string {
           <p>Здравствуйте, ${values.name}!</p>
           <p>Я получил ваш бриф и изучу все детали. Свяжусь с вами в течение 24 часов через ${values.preferredContact}.</p>
           <p>Если у вас появятся дополнительные вопросы или информация, которую вы хотели бы добавить, просто ответьте на это письмо.</p>
-          <p>С уважением,<br>Сайран</p>
+          <p>С уважением,<br>Sayan Roor</p>
         </div>
       </div>
     </body>
