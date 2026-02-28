@@ -38,6 +38,16 @@ export function ContactSimpleStep(): ReactElement {
   const selectedMethod = watch('preferredContact');
 
   const handleSubmit = async (): Promise<void> => {
+    // Validate all fields before submitting (guards against stale localStorage state)
+    const isValid = await form.trigger([
+      'name', 'email', 'preferredContact',
+      'projectType', 'description',
+      'mainGoal', 'budgetClarity', 'timeline',
+    ]);
+    if (!isValid) {
+      return;
+    }
+
     setSubmissionState('submitting');
     setErrorMessage(null);
 
@@ -54,8 +64,13 @@ export function ContactSimpleStep(): ReactElement {
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => null);
+        const fieldErrors = errorBody?.details
+          ? Object.entries(errorBody.details as Record<string, string[]>)
+              .flatMap(([, errors]) => errors)
+              .join('. ')
+          : null;
         throw new Error(
-          errorBody?.message ?? 'Не удалось отправить бриф. Попробуйте ещё раз или свяжитесь со мной напрямую.'
+          fieldErrors ?? errorBody?.message ?? 'Не удалось отправить бриф. Попробуйте ещё раз или свяжитесь со мной напрямую.'
         );
       }
 
