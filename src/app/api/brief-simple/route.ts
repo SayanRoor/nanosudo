@@ -230,7 +230,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       emailResults.forEach((result, index) => {
         const emailType = index === 0 ? 'Admin notification' : 'Client confirmation';
         if (result.status === 'rejected') {
-          console.error(`❌ ${emailType} failed:`, result.reason);
+          const reason = result.reason as Error;
+          console.error(`❌ [brief-simple] ${emailType} failed:`, reason?.message ?? String(result.reason));
+          console.error(`❌ [brief-simple] RESEND_API_KEY set: ${Boolean(serverEnv.RESEND_API_KEY)}, FROM: ${serverEnv.RESEND_FROM_EMAIL ?? 'NOT SET'}`);
         } else {
           emailsSent++;
         }
@@ -238,10 +240,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       // Log summary
       if (emailsSent === 0) {
-        console.warn('⚠️  Email отправка не удалась - проверьте RESEND_API_KEY и RESEND_FROM_EMAIL');
-        console.warn('⚠️  Заявка сохранена в базе данных, но уведомления не отправлены');
+        console.error('❌ [brief-simple] Все письма не отправлены - проверьте RESEND_API_KEY и RESEND_FROM_EMAIL в Vercel');
       } else if (emailsSent < 2) {
-        console.warn(`⚠️  Отправлено только ${emailsSent} из 2 писем`);
+        console.warn(`⚠️  [brief-simple] Отправлено только ${emailsSent} из 2 писем`);
+      } else {
+        console.warn(`[brief-simple] Письма отправлены (${emailsSent}/2)`);
       }
     }
 
