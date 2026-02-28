@@ -238,7 +238,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       // Log summary
       if (emailsSent === 0) {
-        console.warn('⚠️  Email отправка не удалась - проверьте активацию SMTP в Brevo');
+        console.warn('⚠️  Email отправка не удалась - проверьте RESEND_API_KEY и RESEND_FROM_EMAIL');
         console.warn('⚠️  Заявка сохранена в базе данных, но уведомления не отправлены');
       } else if (emailsSent < 2) {
         console.warn(`⚠️  Отправлено только ${emailsSent} из 2 писем`);
