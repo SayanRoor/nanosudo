@@ -7,4 +7,3 @@ export const config = {
   // Match only internationalized pathnames, exclude API routes and static files
   matcher: ['/', '/(ru|en|kk)/:path*', '/((?!api|_next|_vercel|.*\\..*).*)'],
 };
-
