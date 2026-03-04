@@ -3,6 +3,7 @@
 import type { ReactElement } from "react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Copy, Check } from "lucide-react";
@@ -69,7 +70,40 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
   return (
     <div className="prose prose-invert max-w-none">
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
+          table: ({ children }) => (
+            <div className="overflow-x-auto my-6">
+              <table className="w-full border-collapse text-sm">
+                {children}
+              </table>
+            </div>
+          ),
+          thead: ({ children }) => (
+            <thead className="border-b border-border">
+              {children}
+            </thead>
+          ),
+          tbody: ({ children }) => (
+            <tbody className="divide-y divide-border/50">
+              {children}
+            </tbody>
+          ),
+          tr: ({ children }) => (
+            <tr className="hover:bg-surface/50 transition-colors">
+              {children}
+            </tr>
+          ),
+          th: ({ children }) => (
+            <th className="px-4 py-3 text-left font-semibold text-foreground">
+              {children}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td className="px-4 py-3 text-muted-foreground">
+              {children}
+            </td>
+          ),
           code({ className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '');
             const language = match ? match[1] : undefined;
