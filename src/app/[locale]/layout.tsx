@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -17,8 +17,8 @@ import {
   generateOrganizationStructuredData
 } from "@/components/seo/structured-data";
 
-const geistSans = Geist({
-  subsets: ["latin", "latin-ext", "cyrillic"],
+const interSans = Inter({
+  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   display: "swap",
   variable: "--font-sans",
 });
@@ -84,7 +84,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const t = await getTranslations({ locale });
 
   return (
-    <div lang={locale} className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased scroll-smooth bg-background text-foreground`}>
+    <div lang={locale} className={`${interSans.variable} ${geistMono.variable} font-sans antialiased scroll-smooth bg-background text-foreground`}>
       <ThemeProvider>
         <NextIntlClientProvider messages={messages}>
           <StructuredData data={generatePersonStructuredData(locale)} />
