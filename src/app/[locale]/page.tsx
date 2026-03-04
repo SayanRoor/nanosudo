@@ -154,21 +154,30 @@ function HeroSection(): ReactElement {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {/* Photo Card - matching footer style */}
-            <div className="glass-card rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-6 lg:p-8 border-border/40 overflow-hidden relative group">
-              {/* Decorative blur */}
-              <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-32 h-32 md:w-48 md:h-48 bg-accent/10 blur-[60px] md:blur-[80px] rounded-full" />
+            {/* Photo — no frame, designed background */}
+            <div className="hero-photo-wrap">
+              {/* Adaptive background (light/dark handled via CSS) */}
+              <div className="hero-photo-bg" />
 
-              <div className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
-                <Image
-                  src="/Sayan_Roor_Web_Dev.jpg"
-                  alt={t("home.hero.imageAlt")}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  priority
-                  sizes="(max-width: 640px) 90vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 600px"
-                />
-              </div>
+              {/* Accent glow — bottom */}
+              <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-accent/25 to-transparent" />
+              {/* Accent glow — top-right */}
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-accent/20 blur-[80px] rounded-full" />
+              {/* Accent glow — bottom-left */}
+              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-accent/15 blur-[60px] rounded-full" />
+
+              <Image
+                src="/SayanRoorWebDev.jpg"
+                alt={t("home.hero.imageAlt")}
+                width={832}
+                height={1248}
+                className="hero-photo-img"
+                priority
+                sizes="(max-width: 640px) 90vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 500px"
+              />
+
+              {/* Dark mode: vignette fades photo into background */}
+              <div className="hero-photo-vignette" />
             </div>
 
             {/* Social Links - matching footer style */}
