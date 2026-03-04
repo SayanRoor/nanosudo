@@ -4636,6 +4636,367 @@ Ready to discuss your project? [Fill out the brief](/brief) — real cost estima
       },
     },
   },
+  {
+    slug: "kz-new-constitution-2026-legal-analysis",
+    image: "/kazakhstan-constitution-referendum-2026.jpg",
+    publishedAt: "2026-03-04",
+    author: "Sayan Roor",
+    tags: ["Kazakhstan", "Constitution", "Law", "2026", "Referendum"],
+    readingTime: 12,
+    featured: true,
+    translations: {
+      title: {
+        ru: "Новая Конституция Казахстана 2026: независимый правовой анализ",
+        en: "Kazakhstan's New Constitution 2026: Independent Legal Analysis",
+        kk: "Қазақстанның 2026 жылғы жаңа Конституциясы: тәуелсіз құқықтық талдау",
+      },
+      description: {
+        ru: "Независимая правовая оценка проекта новой Конституции РК: концентрация президентской власти, расширение оснований для ограничения прав граждан и процедурные нарушения при референдуме 2026 года.",
+        en: "Independent legal assessment of Kazakhstan's 2026 constitutional draft: presidential power concentration, expanded grounds for restricting civil rights, and procedural concerns surrounding the March 15 referendum.",
+        kk: "ҚР 2026 жылғы жаңа Конституциясы жобасының тәуелсіз құқықтық бағасы: президенттік биліктің шоғырлануы, азаматтық құқықтарды шектеу негіздерінің кеңеюі және 15 наурыздағы референдумға байланысты процедуралық мәселелер.",
+      },
+      excerpt: {
+        ru: "Поправки затрагивают 84% Конституции РК. Анализирую ключевые риски: концентрацию власти, расширение оснований для ограничения прав и отсутствие независимой экспертизы.",
+        en: "Amendments cover 84% of Kazakhstan's Constitution. I analyze key legal risks: power concentration, expanded rights restrictions, and the absence of independent Venice Commission review.",
+        kk: "Түзетулер Конституцияның 84%-ын қамтиды. Билікті шоғырландыру, құқықтарды шектеу негіздерінің кеңеюі және тәуелсіз сараптама жоқтығын талдаймын.",
+      },
+      imageAlt: {
+        ru: "Новая Конституция Казахстана 2026 — референдум 15 марта",
+        en: "Kazakhstan New Constitution 2026 — March 15 Referendum",
+        kk: "Қазақстанның 2026 жылғы жаңа Конституциясы — 15 наурыздағы референдум",
+      },
+      category: {
+        ru: "Право",
+        en: "Law",
+        kk: "Құқық",
+      },
+      publishedLabel: {
+        ru: "4 марта 2026",
+        en: "March 4, 2026",
+        kk: "2026 жылғы 4 наурыз",
+      },
+      content: {
+        ru: `# Правовая оценка проекта новой Конституции РК (редакция 12.02.2026)
+
+> Это моя независимая правовая оценка на основе критического анализа открытых источников, позиций правозащитников и норм сравнительного конституционного права. Ссылки на источники — в конце статьи.
+
+15 марта 2026 года Казахстан проведёт референдум по новой Конституции. По масштабу это крупнейший конституционный пересмотр за всю историю независимости: поправки затрагивают **84% действующего текста** — президент сам охарактеризовал это как «по сути, новую Конституцию». Ниже — системная правовая оценка ключевых аспектов документа.
+
+---
+
+## I. Контекст и процедурные вопросы
+
+Редактирование действующей конституции и принятие новой — принципиально разные правовые акты с точки зрения легитимности. Это само по себе вызывает серьёзные процедурные вопросы.
+
+Хронология событий предельно наглядна:
+
+- **8 сентября 2025** — Токаев предложил переход к однопалатному парламенту и заявил, что реформа потребует «не менее года обсуждений», а референдум уместно провести в 2027 году.
+- **21 января 2026** — подписан указ о создании Конституционной комиссии.
+- **31 января 2026** — комиссия опубликовала первый проект Конституции — спустя **10 дней** после учреждения.
+- **12 февраля 2026** — опубликована финальная редакция.
+- **11 февраля 2026** — Токаев подписал указ о проведении референдума **15 марта 2026** года.
+
+Правозащитница Татьяна Чернобиль охарактеризовала происходящее прямо: сначала общество убеждали в необходимости парламентской реформы, а затем за неделю поставили перед фактом принятия целой новой Конституции, причём скорость решений не оставляла возможности даже осмыслить происходящее.
+
+**Критическая оценка:** от первоначальной идеи (однопалатный парламент — ~40 статей) до полноценной новой Конституции прошло менее пяти месяцев. По стандартам Венецианской комиссии, это критически короткий срок для конституционной реформы такого масштаба.
+
+---
+
+## II. Баланс властей: главная системная проблема
+
+Политолог Толганай Умбеталиева констатировала: в действующей Конституции президент мог выдвигать кандидатуру премьер-министра четыре раза, Парламент имел возможность выразить президенту вотум недоверия, существовала альтернатива между отставкой президента и роспуском парламента. В новом проекте **всех этих механизмов нет**. Её итоговая оценка: Казахстан движется к «супер-супер-суперпрезидентской» форме правления.
+
+Это ключевой правовой изъян. Устранение механизма вотума недоверия и ограничение сдержек парламента в отношении исполнительной власти нарушает базовый принцип конституционализма — **разделение и взаимоограничение ветвей власти** (checks and balances).
+
+Ключевые структурные изменения:
+
+- Однопалатный парламент — **Курылтай** вместо двухпалатного Парламента
+- Введение должности **вице-президента**
+- Создание **Народного Совета Казахстана** — консультативного органа с размытыми полномочиями
+- Назначение судей всех судов президентом по рекомендации Высшего судебного совета
+
+---
+
+## III. Права и свободы человека — декларации vs. механизмы ограничений
+
+### Позитивные изменения
+
+- Введение аналога **«правила Миранды»** (право на молчание при задержании) — прогресс по стандартам МПГПП.
+- Конституционное закрепление защиты **цифровых прав** граждан и интеллектуальной собственности.
+- **Бесплатная медицина и образование** — конституционный уровень.
+
+### Критические проблемы
+
+**Свобода слова:** правозащитники отмечают, что нормы, содержащиеся в предлагаемой Конституции, уже регулируются другими законами, а их закрепление в Основном законе ещё больше ограничит свободу слова. Медиасообщество направило открытое обращение к Комиссии и президенту с просьбой не менять статью 20 — проект был принят без изменений.
+
+**Свобода собраний:** новый проект расширил перечень оснований для законодательных ограничений, добавив защиту **основ конституционного строя** и **«нравственности общества»**.
+
+**Размытые формулировки:** правозащитница Чернобиль указала, что понятие «нравственность общества» уже, чем «нравственность населения» в международном праве. Это означает закрепление в Конституции **более строгого ограничительного стандарта**, чем предусмотрен международными обязательствами Казахстана.
+
+---
+
+## IV. Международное право: понижение статуса
+
+Проект предусматривает, что порядок действия международных договоров на территории РК «**определяется законами**» — тогда как в большинстве правовых систем ратифицированные договоры имеют **приоритет над обычными законами**. Это создаёт риск избирательного применения норм МПГПП и других обязательств Казахстана.
+
+Казахстанское международное бюро по правам человека [рекомендовало](https://bureau.kz/analiz/sravnitelnyj-analiz-polozhenij-konstituczii-2/) направить проект в Венецианскую комиссию для независимой правовой экспертизы. Этого сделано не было. Human Rights Watch [в своём докладе](https://www.hrw.org/news/2026/02/16/kazakhstan-draft-constitution-raises-rights-concerns) также призвала провести независимую оценку.
+
+---
+
+## V. Иностранное финансирование НКО
+
+Расширяется запрет на иностранное финансирование, вводятся дополнительные требования к прозрачности средств НКО. По международным стандартам (ЕКПЧ, замечания Комитета ООН по правам человека), подобные ограничения допустимы лишь при строгом обосновании. Конституционное закрепление без чётких критериев создаёт **инструмент давления на гражданское общество**.
+
+---
+
+## VI. Процедура принятия: вопрос легитимности
+
+Евгений Жовтис, основатель Казахстанского бюро по правам человека, заметил, что весь массив идей был, по всей видимости, подготовлен заранее и лишь ждал своего часа. Форма консультаций через порталы eGov и e-Otinish не заменяет полноценного учредительного процесса с независимой гражданской дискуссией.
+
+Голосование проходит **единым вопросом** — за весь документ целиком, без возможности выбирать отдельные статьи. По оценке ConstitutionNet, [реформа является фасадом](https://constitutionnet.org/news/voices/new-constitution-kazakhstan-parliamentary-reform-facade-presidential-monopoly) парламентской модернизации, за которым скрывается расширение президентских полномочий.
+
+---
+
+## Итоговая правовая оценка
+
+| Критерий | Оценка |
+|---|---|
+| Разделение властей | ❌ Регресс — усиление президентской власти без контрбалансов |
+| Права человека (декларации) | ✅ Улучшение риторики |
+| Права человека (механизмы ограничений) | ⚠️ Расширение оснований для ограничений |
+| Соответствие международным стандартам | ⚠️ Частичное — понижение статуса договоров |
+| Легитимность процесса | ❌ Критически короткие сроки, отсутствие независимой экспертизы |
+| Гражданское общество | ⚠️ Риски через нормы об НКО |
+
+**Вывод:** проект содержит ряд точечных правовых улучшений (цифровые права, гарантии при задержании, социальные права), однако системно движется в направлении концентрации власти при одновременном расширении конституционных оснований для ограничения гражданских свобод. Отсутствие независимой экспертизы Венецианской комиссии и сжатые сроки референдума (менее 2 месяцев с публикации финального текста) не соответствуют стандартам конституционного строительства в правовом государстве.
+
+---
+
+## Источники
+
+1. [Казахстанское международное бюро по правам человека — сравнительный анализ конституций](https://bureau.kz/analiz/sravnitelnyj-analiz-polozhenij-konstituczii-2/)
+2. [Human Rights Watch — Kazakhstan: Draft Constitution Raises Rights Concerns (16.02.2026)](https://www.hrw.org/news/2026/02/16/kazakhstan-draft-constitution-raises-rights-concerns)
+3. [ConstitutionNet — Parliamentary Reform as a Façade for Presidential Monopoly](https://constitutionnet.org/news/voices/new-constitution-kazakhstan-parliamentary-reform-facade-presidential-monopoly)
+4. [Eurasianet — Tokayev plans new constitution, March 15 referendum](https://eurasianet.org/tokayev-plans-new-constitution-march-15-referendum-with-succession-on-horizon)
+5. [TengriNews — Разбор новой Конституции: что казахстанцам предстоит](https://tengrinews.kz/article/razbor-novoi-konstitucii-cto-kazaxstancam-predstoit-3792/)
+6. [The Diplomat — Kazakhstan's New Draft Constitution: A State-Building Blueprint](https://thediplomat.com/2026/02/kazakhstans-new-draft-constitution-a-state-building-blueprint-with-external-consequences/)
+7. [Wikipedia — 2026 Kazakh constitutional referendum](https://en.wikipedia.org/wiki/2026_Kazakh_constitutional_referendum)
+8. [Exclusive.kz — Какой будет новая Конституция РК](https://exclusive.kz/kakoj-budet-novaja-konstitucija-rk-mjagkoj-ili-zhestkoj/)`,
+        en: `# Legal Assessment of Kazakhstan's New Draft Constitution (Version 12.02.2026)
+
+> This is my independent legal assessment based on critical analysis of open sources, human rights defenders' positions, and comparative constitutional law standards. Sources are listed at the end.
+
+On March 15, 2026, Kazakhstan will hold a referendum on its new Constitution. In scale, this is the largest constitutional revision in the history of Kazakhstan's independence: amendments affect **84% of the current text** — the president himself described it as "essentially a new Constitution." Below is a systematic legal assessment of the document's key aspects.
+
+---
+
+## I. Context and Procedural Issues
+
+Amending an existing constitution and adopting a new one are fundamentally different legal acts from a legitimacy standpoint. This raises serious procedural questions.
+
+The timeline is telling:
+
+- **September 8, 2025** — Tokayev proposed transitioning to a unicameral parliament, stating that reform would require "at least a year of discussion," with a referendum appropriate in 2027.
+- **January 21, 2026** — Decree signed establishing the Constitutional Commission.
+- **January 31, 2026** — The commission published the first draft — just **10 days** after its establishment.
+- **February 12, 2026** — Final version published.
+- **February 11, 2026** — Tokayev signed the decree for a referendum on **March 15, 2026**.
+
+Human rights defender Tatyana Chernobil described the situation directly: society was first persuaded of the need for parliamentary reform, then presented within a week with an entirely new Constitution as a fait accompli, with the speed of decisions leaving no time even to comprehend what was happening.
+
+**Critical assessment:** Less than five months elapsed from the initial idea (unicameral parliament — ~40 articles) to a full new Constitution. By Venice Commission standards, this is a critically short timeframe for a constitutional reform of this scale.
+
+---
+
+## II. Balance of Powers: The Core Systemic Problem
+
+Political scientist Tolgonai Umbetaliyeva noted that under the current Constitution, the president could nominate a prime minister candidate four times, Parliament could pass a vote of no confidence in the president, and there was a balance between presidential resignation and parliamentary dissolution. The new draft **eliminates all these mechanisms**. Her conclusion: Kazakhstan is moving toward a "super-super-super-presidential" form of government.
+
+This is the key legal flaw. Eliminating the vote of no confidence and restricting parliamentary checks on executive power violates the fundamental principle of constitutionalism — **separation and mutual limitation of powers** (checks and balances).
+
+Key structural changes:
+
+- Unicameral Parliament — **Kurultai** replacing the bicameral Parliament
+- Introduction of the **Vice President** position
+- Establishment of the **People's Council of Kazakhstan** — an advisory body with vague powers
+- Presidential appointment of all court judges on the recommendation of the Supreme Judicial Council
+
+---
+
+## III. Human Rights and Freedoms — Declarations vs. Restriction Mechanisms
+
+### Positive Changes
+
+- Introduction of a **Miranda rights** equivalent (right to silence upon detention) — progress by ICCPR standards.
+- Constitutional protection of **digital rights** and intellectual property.
+- **Free healthcare and education** — elevated to constitutional status.
+
+### Critical Issues
+
+**Freedom of expression:** Human rights advocates note that norms in the proposed Constitution are already regulated by other laws, and their entrenchment in the Basic Law will further restrict freedom of speech. The media community sent an open letter to the Commission requesting that Article 20 remain unchanged — the draft was adopted without modification.
+
+**Freedom of assembly:** The new draft expanded the list of grounds for legislative restrictions, adding protection of **the foundations of the constitutional order** and **"societal morality."**
+
+**Vague formulations:** Human rights defender Chernobil noted that "societal morality" is a narrower concept than "public morality" used in international law. This means the Constitution embeds a **stricter restriction standard** than Kazakhstan's international obligations provide.
+
+---
+
+## IV. International Law: Degraded Status
+
+The draft stipulates that the application of international treaties on Kazakhstan's territory "**shall be determined by laws**" — whereas in most legal systems, ratified treaties take **priority over ordinary legislation**. This creates a risk of selective application of ICCPR norms and Kazakhstan's other international obligations.
+
+The Kazakhstan International Bureau for Human Rights [recommended](https://bureau.kz/analiz/sravnitelnyj-analiz-polozhenij-konstituczii-2/) submitting the draft to the Venice Commission for independent legal review. This was not done. Human Rights Watch [in its report](https://www.hrw.org/news/2026/02/16/kazakhstan-draft-constitution-raises-rights-concerns) also called for an independent assessment of the document.
+
+---
+
+## V. Foreign Funding of NGOs
+
+The prohibition on foreign funding is expanded, with additional transparency requirements for NGO funds. Under international standards (ECHR, UN Human Rights Committee comments), such restrictions are only permissible with strict justification. Constitutional entrenchment without clear criteria creates an **instrument of pressure on civil society**.
+
+---
+
+## VI. Adoption Procedure: A Question of Legitimacy
+
+Yevgeny Zhovtis, founder of the Kazakhstan Bureau for Human Rights, noted that the entire body of ideas appears to have been prepared in advance, merely awaiting its moment. Consultations conducted through eGov and e-Otinish portals do not replace a proper constituent process with independent civic deliberation.
+
+Voting will be conducted as **a single question** — for the entire document, with no possibility of selecting individual chapters or articles. According to ConstitutionNet, [the reform is a façade](https://constitutionnet.org/news/voices/new-constitution-kazakhstan-parliamentary-reform-facade-presidential-monopoly) of parliamentary modernization concealing an expansion of presidential powers.
+
+---
+
+## Final Legal Assessment
+
+| Criterion | Assessment |
+|---|---|
+| Separation of powers | ❌ Regression — strengthening presidential power without counterbalances |
+| Human rights (declarations) | ✅ Improvement in rhetoric |
+| Human rights (restriction mechanisms) | ⚠️ Expanded grounds for restrictions |
+| Compliance with international standards | ⚠️ Partial — downgrading treaty status |
+| Legitimacy of process | ❌ Critically short timeframes, no independent review |
+| Civil society | ⚠️ Risks through NGO provisions |
+
+**Conclusion:** The draft contains several targeted legal improvements (digital rights, detention guarantees, social rights), but systematically moves toward concentration of power while expanding constitutional grounds for restricting civil liberties. The absence of independent Venice Commission review and the compressed referendum timeline (less than 2 months from publication) do not meet the standards of constitution-building in a rule-of-law state.
+
+---
+
+## Sources
+
+1. [Kazakhstan International Bureau for Human Rights — Comparative Constitutional Analysis](https://bureau.kz/analiz/sravnitelnyj-analiz-polozhenij-konstituczii-2/)
+2. [Human Rights Watch — Kazakhstan: Draft Constitution Raises Rights Concerns (16.02.2026)](https://www.hrw.org/news/2026/02/16/kazakhstan-draft-constitution-raises-rights-concerns)
+3. [ConstitutionNet — Parliamentary Reform as a Façade for Presidential Monopoly](https://constitutionnet.org/news/voices/new-constitution-kazakhstan-parliamentary-reform-facade-presidential-monopoly)
+4. [Eurasianet — Tokayev plans new constitution, March 15 referendum](https://eurasianet.org/tokayev-plans-new-constitution-march-15-referendum-with-succession-on-horizon)
+5. [TengriNews — Breaking down the new Constitution: what Kazakhstanis should know](https://tengrinews.kz/article/razbor-novoi-konstitucii-cto-kazaxstancam-predstoit-3792/)
+6. [The Diplomat — Kazakhstan's New Draft Constitution: A State-Building Blueprint](https://thediplomat.com/2026/02/kazakhstans-new-draft-constitution-a-state-building-blueprint-with-external-consequences/)
+7. [Wikipedia — 2026 Kazakh constitutional referendum](https://en.wikipedia.org/wiki/2026_Kazakh_constitutional_referendum)
+8. [Exclusive.kz — What Will the New Constitution of Kazakhstan Be Like?](https://exclusive.kz/kakoj-budet-novaja-konstitucija-rk-mjagkoj-ili-zhestkoj/)`,
+        kk: `# ҚР жаңа Конституциясы жобасының құқықтық бағасы (12.02.2026 редакциясы)
+
+> Бұл ашық дереккөздер, құқық қорғаушылардың позициялары және салыстырмалы конституциялық құқық негізіндегі менің тәуелсіз құқықтық бағам. Дереккөздер мақала соңында берілген.
+
+2026 жылғы 15 наурызда Қазақстан жаңа Конституция бойынша референдум өткізеді. Масштабы бойынша бұл тәуелсіздік тарихындағы ең ірі конституциялық қайта қарау: түзетулер **қолданыстағы мәтіннің 84%-ын** қамтиды — президенттің өзі мұны «іс жүзінде жаңа Конституция» деп сипаттады. Төменде — құжаттың негізгі аспектілерінің жүйелі құқықтық бағасы берілген.
+
+---
+
+## I. Контекст және процедуралық мәселелер
+
+Қолданыстағы конституцияны өзгерту мен жаңасын қабылдау — заңдылық тұрғысынан принципті түрде өзгеше құқықтық актілер. Бұл өз алдына елеулі процедуралық сұрақтар туғызады.
+
+Оқиғалар хронологиясы айқын суретті береді:
+
+- **2025 жылғы 8 қыркүйек** — Токаев бір палаталы парламентке өту ұсынысын жасады және реформаның «кемінде бір жыл талқылауды» қажет ететінін, ал референдумды 2027 жылы өткізу орынды болатынын мәлімдеді.
+- **2026 жылғы 21 қаңтар** — Конституциялық комиссия құру жөніндегі жарлыққа қол қойылды.
+- **2026 жылғы 31 қаңтар** — Комиссия Конституция жобасын жариялады — құрылғаннан бері **10 күн** өткен соң.
+- **2026 жылғы 12 ақпан** — Қорытынды редакция жарияланды.
+- **2026 жылғы 11 ақпан** — Токаев **2026 жылғы 15 наурызда** референдум өткізу жөнінде жарлыққа қол қойды.
+
+Құқық қорғаушы Татьяна Чернобиль жағдайды тікелей сипаттады: алдымен қоғамды парламенттік реформаның қажеттілігіне сендірді, сосын апта ішінде тұтастай жаңа Конституцияны қабылдау фактісімен бетпе-бет қойды.
+
+**Сыни баға:** бастапқы идеядан (бір палаталы парламент — шамамен 40 бап) толыққанды жаңа Конституцияға дейін бес айдан аз уақыт өтті. Венеция комиссиясының стандарттары бойынша, бұл осындай ауқымдағы конституциялық реформа үшін өте қысқа мерзім.
+
+---
+
+## II. Биліктер балансы: негізгі жүйелік мәселе
+
+Саясаттанушы Толғанай Үмбеталиева: қолданыстағы Конституция бойынша президент үкімет басшысы кандидатурасын төрт рет ұсына алды, Парламент президентке сенімсіздік білдіру мүмкіндігіне ие болды және президент отставкасы мен парламентті тарату арасындағы балама болды деп атап өтті. Жаңа жобада **осы механизмдердің ешқайсысы жоқ**. Оның қорытынды бағасы: Қазақстан «супер-супер-суперпрезиденттік» билік нысанына қарай жылжуда.
+
+Бұл — негізгі құқықтық кемшілік. Сенімсіздік білдіру механизмін жою және парламенттің атқарушы билікке қатысты тежеулерін шектеу конституционализмнің негізгі принципін — **биліктерді бөлу мен өзара шектеу** (checks and balances) принципін бұзады.
+
+Негізгі құрылымдық өзгерістер:
+
+- Екі палаталы Парламент орнына бір палаталы — **Курылтай**
+- **Вице-президент** лауазымын енгізу
+- **Қазақстан Халық Кеңесін** құру — белгісіз өкілеттіктері бар кеңесші орган
+- Барлық сот судьяларын Жоғарғы сот кеңесінің ұсынысы бойынша президент тағайындауы
+
+---
+
+## III. Адам құқықтары мен бостандықтары — декларациялар мен шектеу механизмдері
+
+### Оң өзгерістер
+
+- **Миранда ережесінің** аналогын енгізу (ұсталу кезіндегі үнсіз қалу құқығы) — АЗЖХП стандарттары бойынша прогресс.
+- Азаматтардың **цифрлық құқықтарын** және зияткерлік меншікті қорғауды конституциялық деңгейде бекіту.
+- **Тегін медицина мен білімнің** конституциялық кепілдігі.
+
+### Сыни мәселелер
+
+**Сөз бостандығы:** Құқық қорғаушылар ұсынылатын Конституцияда бар нормалар басқа заңдармен реттелетінін, ал оларды Негізгі Заңда бекіту сөз бостандығын одан әрі шектейтінін атап өтеді. Медиа қауымдастық 20-бапты өзгертпеу өтінішімен ашық хат жіберді — жоба өзгеріссіз қабылданды.
+
+**Жиналу бостандығы:** Жаңа жоба заңнамалық шектеулер негіздерінің тізімін кеңейтіп, **конституциялық тәртіпті** және **«қоғамдық имандылықты»** қорғауды қосты.
+
+**Бұлыңғыр тұжырымдар:** Чернобиль «қоғамдық имандылық» ұғымы халықаралық құқықта қолданылатын «халықтың имандылығынан» тар екенін атап өтті. Бұл Конституцияға Қазақстанның халықаралық міндеттемелерінде қарастырылғаннан **қатаңырақ шектеу стандарты** бекітілетінін білдіреді.
+
+---
+
+## IV. Халықаралық құқық: мәртебесін төмендету
+
+Жобада ҚР аумағында халықаралық шарттардың қолданысы тәртібі «**заңдармен айқындалады**» деп қарастырылған — ал заң жүйелерінің басым бөлігінде ратификацияланған шарттар **қарапайым заңдардан басымдыққа ие**. Бұл АЗЖХП нормалары мен Қазақстанның басқа міндеттемелерін іріктемелі қолдану тәуекелін туғызады.
+
+Қазақстан халықаралық адам құқықтары бюросы жобаны Венеция комиссиясына тәуелсіз сараптамаға жіберуді [ұсынды](https://bureau.kz/analiz/sravnitelnyj-analiz-polozhenij-konstituczii-2/). Бұл жасалмады. Human Rights Watch [өз баяндамасында](https://www.hrw.org/news/2026/02/16/kazakhstan-draft-constitution-raises-rights-concerns) да тәуелсіз бағалауға шақырды.
+
+---
+
+## V. ҮЕҰ-лардың шетелдік қаржыландыруы
+
+Шетелдік қаржыландыруға тыйым кеңейтіліп, ҮЕҰ қаражатының ашықтығына қосымша талаптар енгізілуде. Халықаралық стандарттар бойынша (АААБ, БҰҰ Адам құқықтары комитетінің ескертпелері) мұндай шектеулер қатаң негіздеме болған жағдайда ғана рұқсат етіледі. Нақты өлшемдерсіз конституциялық бекіту **азаматтық қоғамға қысым жасау құралын** туғызады.
+
+---
+
+## VI. Қабылдау рәсімі: заңдылық мәселесі
+
+Қазақстан адам құқықтары бюросының негізін қалаушы Евгений Жовтис: идеялардың бүкіл жиынтығы алдын ала дайындалып, өз кезегін күтіп тұрды деп атап өтті. eGov және e-Otinish порталдары арқылы консультация жүргізу тәуелсіз азаматтық талқылаумен толыққанды конституциялық процесті алмастыра алмайды.
+
+Дауыс беру **жалғыз сұрақ** ретінде — жеке баптарды таңдау мүмкіндігінсіз, тұтас құжат үшін — өтеді. ConstitutionNet пікірінше, [реформа — президенттік өкілеттіктерді кеңейтуді жасыратын](https://constitutionnet.org/news/voices/new-constitution-kazakhstan-parliamentary-reform-facade-presidential-monopoly) парламенттік жаңғырудың сырт пішіні.
+
+---
+
+## Қорытынды құқықтық баға
+
+| Өлшем | Баға |
+|---|---|
+| Биліктерді бөлу | ❌ Регресс — тежегіштерсіз президенттік билікті күшейту |
+| Адам құқықтары (декларациялар) | ✅ Риторикалық жақсару |
+| Адам құқықтары (шектеу механизмдері) | ⚠️ Шектеу негіздерін кеңейту |
+| Халықаралық стандарттарға сәйкестік | ⚠️ Ішінара — шарттар мәртебесін төмендету |
+| Процестің заңдылығы | ❌ Тым қысқа мерзімдер, тәуелсіз сараптама жоқ |
+| Азаматтық қоғам | ⚠️ ҮЕҰ нормалары арқылы тәуекелдер |
+
+**Қорытынды:** Жоба бірқатар нысаналы құқықтық жақсартуларды (цифрлық құқықтар, ұстау кезіндегі кепілдіктер, әлеуметтік құқықтар) қамтиды, алайда азаматтық бостандықтарды шектеу үшін конституциялық негіздерді кеңейте отырып, билікті шоғырландыру бағытымен жүйелі түрде жылжуда. Венеция комиссиясының тәуелсіз сараптамасының болмауы және референдумның қысқартылған мерзімі (жарияланғаннан бері 2 айдан аз) құқықтық мемлекеттегі конституция қалыптастыру стандарттарына сәйкес келмейді.
+
+---
+
+## Дереккөздер
+
+1. [Қазақстан халықаралық адам құқықтары бюросы — конституциялардың салыстырмалы талдауы](https://bureau.kz/analiz/sravnitelnyj-analiz-polozhenij-konstituczii-2/)
+2. [Human Rights Watch — Қазақстан: Конституция жобасы құқыққа байланысты алаңдаулар туғызады](https://www.hrw.org/news/2026/02/16/kazakhstan-draft-constitution-raises-rights-concerns)
+3. [ConstitutionNet — Парламенттік реформа: президенттік монополияның сырт пішіні](https://constitutionnet.org/news/voices/new-constitution-kazakhstan-parliamentary-reform-facade-presidential-monopoly)
+4. [Eurasianet — Токаев жаңа конституция мен 15 наурыздағы референдумды жоспарлайды](https://eurasianet.org/tokayev-plans-new-constitution-march-15-referendum-with-succession-on-horizon)
+5. [TengriNews — Жаңа Конституция: қазақстандықтарға не күтіп тұр](https://tengrinews.kz/article/razbor-novoi-konstitucii-cto-kazaxstancam-predstoit-3792/)
+6. [The Diplomat — Қазақстанның жаңа конституция жобасы](https://thediplomat.com/2026/02/kazakhstans-new-draft-constitution-a-state-building-blueprint-with-external-consequences/)
+7. [Wikipedia — 2026 жылғы Қазақстан конституциялық референдумы](https://en.wikipedia.org/wiki/2026_Kazakh_constitutional_referendum)
+8. [Exclusive.kz — ҚР жаңа Конституциясы қандай болады?](https://exclusive.kz/kakoj-budet-novaja-konstitucija-rk-mjagkoj-ili-zhestkoj/)`,
+      },
+    },
+  },
 ] as const;
 
 /**
