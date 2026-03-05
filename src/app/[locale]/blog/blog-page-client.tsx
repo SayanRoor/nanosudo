@@ -27,7 +27,7 @@ const staggerContainer = {
   },
 };
 
-function PostCard({ post }: { readonly post: BlogPost }): ReactElement {
+function PostCard({ post, index }: { readonly post: BlogPost; readonly index?: number }): ReactElement {
   const t = useTranslations();
   const excerpt = getExcerpt(post);
 
@@ -52,6 +52,7 @@ function PostCard({ post }: { readonly post: BlogPost }): ReactElement {
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={index === 0}
           />
         </div>
 
@@ -143,8 +144,8 @@ export function BlogPageClient(): ReactElement {
           <Container>
             {posts.length > 0 ? (
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
-                {posts.map((post) => (
-                  <PostCard key={post.slug} post={post} />
+                {posts.map((post, index) => (
+                  <PostCard key={post.slug} post={post} index={index} />
                 ))}
               </div>
             ) : (

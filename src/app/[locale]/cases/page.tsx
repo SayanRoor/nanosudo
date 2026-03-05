@@ -27,7 +27,7 @@ const staggerContainer = {
   },
 };
 
-function ProjectCard({ project }: { readonly project: PortfolioProject }): ReactElement {
+function ProjectCard({ project, index }: { readonly project: PortfolioProject; readonly index?: number }): ReactElement {
   const t = useTranslations();
   // Get translated project data
   const translatedProject = getTranslatedProject(project.id, t) ?? project;
@@ -51,6 +51,8 @@ function ProjectCard({ project }: { readonly project: PortfolioProject }): React
             alt={translatedProject.imageAlt}
             fill
             className="object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={index === 0}
           />
         </div>
 
@@ -135,8 +137,8 @@ export default function CasesPage(): ReactElement {
           <Container>
             <div className="flex justify-center">
               <div className="grid gap-6 max-w-2xl w-full">
-                {projects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
+                {projects.map((project, index) => (
+                  <ProjectCard key={project.id} project={project} index={index} />
                 ))}
               </div>
             </div>
