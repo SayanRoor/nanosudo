@@ -162,7 +162,7 @@ function HeroSection(): ReactElement {
                   src="/Sayan_Roor_Web_Dev.jpg"
                   alt={t("home.hero.imageAlt")}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover"
                   priority
                   sizes="(max-width: 640px) 90vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 600px"
                 />
@@ -885,7 +885,7 @@ function LatestCaseSection(): ReactElement {
                     src={project.image}
                     alt={project.imageAlt}
                     fill
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover object-top"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   {/* Overlay gradient */}
