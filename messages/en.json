@@ -6,6 +6,7 @@
     "cases": "Cases",
     "nav": {
       "home": "Home",
+      "services": "Services",
       "cases": "Cases",
       "about": "Who I am",
       "blog": "Blog",
@@ -300,17 +301,17 @@
   },
   "home": {
     "hero": {
-      "subtitle": "Full-stack developer · Almaty",
+      "subtitle": "Full-stack developer · AI Expert · Almaty",
       "title": "Building digital products that <highlight>scale businesses</highlight>",
-      "description": "Modern web applications with Next.js, TypeScript and Node.js. From MVP to enterprise solutions with CRM, 1C, payment integrations.",
+      "description": "I build web apps and implement AI automation for businesses in Kazakhstan and CIS. Next.js, TypeScript, Claude API, Make.com — from MVPs to enterprise solutions.",
       "photoPlaceholder": "Photo — Sayan Roor",
       "mainTitle": "Full stack developer",
       "imageAlt": "Sayan Roor - Full-stack developer",
       "rotatingPhrases": {
-        "0": "NEXT.JS",
-        "1": "TYPESCRIPT",
-        "2": "NODE.JS",
-        "3": "REACT"
+        "0": "AI AUTOMATION",
+        "1": "CURSOR + CLAUDE",
+        "2": "MAKE.COM",
+        "3": "NEXT.JS"
       },
       "resume": "Resume",
       "commercialProposal": "Commercial Proposal",
@@ -336,30 +337,30 @@
     },
     "expertise": {
       "label": "expertise",
-      "title": "What I can do and what I work with",
-      "description": "One contractor covering design, development, integrations, and marketing. No intermediaries, no unnecessary overhead.",
+      "title": "AI Automation & Web Development",
+      "description": "One contractor: AI agents, process automation, web development and integrations. No intermediaries, no unnecessary overhead.",
       "items": {
+        "ai": {
+          "title": "AI Automation",
+          "description": "Make.com, n8n, Claude API, ChatGPT — I automate routine processes and deploy AI agents into your business."
+        },
         "dev": {
           "title": "Full-cycle development",
           "description": "Frontend, Backend, Database, API — the whole stack in one pair of hands. From architecture to deploy."
         },
         "integrations": {
-          "title": "Integrations & automation",
-          "description": "CRM, 1C, Kaspi API, payments — connecting systems into one workflow."
+          "title": "Integrations & systems",
+          "description": "CRM, 1C, Kaspi API, payments, AI services — connecting all systems into one workflow."
         },
         "performance": {
           "title": "Performance & SEO",
           "description": "Load speed 1–1.5s, Core Web Vitals green. Technical optimizations."
-        },
-        "marketing": {
-          "title": "Marketing & analytics",
-          "description": "Ads setup, analytics, A/B tests — full picture of effectiveness."
         }
       }
     },
     "whyMe": {
       "label": "why me",
-      "title": "Economics: why one developer is better than an agency",
+      "title": "Economics: why an AI expert + developer beats an agency",
       "items": {
         "direct": {
           "title": "Direct communication",
@@ -455,11 +456,11 @@
     "finalCta": {
       "label": "ready to start?",
       "title": "Let's discuss your project?",
-      "description": "First consultation is free. In 30-60 minutes you'll get an action plan and specific recommendations.",
+      "description": "First consultation is free. In 30-60 minutes you'll learn where AI can save your business time and money, and get a concrete action plan.",
       "subtitle": "Even if we don't start working together — you'll get an action plan.",
       "benefits": {
         "item1": "We'll review your case",
-        "item2": "I'll analyze competitors",
+        "item2": "I'll show where AI delivers fast results",
         "item3": "Get specific recommendations",
         "item4": "Estimate cost and timeline"
       }
@@ -531,6 +532,10 @@
           "mvp": {
             "label": "MVP / Startup",
             "description": "Minimum viable product to test your idea"
+          },
+          "ai-automation": {
+            "label": "AI Automation",
+            "description": "AI tools implementation, Make.com/n8n, process automation"
           }
         },
         "description": {
@@ -731,7 +736,8 @@
         "corporate": "Corporate Website",
         "ecommerce": "E-commerce",
         "saas": "SaaS Platform",
-        "customMvp": "Custom MVP"
+        "customMvp": "Custom MVP",
+        "aiAutomation": "AI Automation"
       },
       "description": {
         "label": "Brief Project Description",
@@ -1044,6 +1050,123 @@
         "title": "Contact",
         "content": "If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at:"
       }
+    }
+  },
+  "services": {
+    "meta": {
+      "title": "AI Automation & Web Development in Kazakhstan | Nanosudo",
+      "description": "I implement AI automation and build web products for businesses in Kazakhstan and CIS. Make.com, n8n, Claude API, Next.js. First consultation is free."
+    },
+    "hero": {
+      "label": "services",
+      "title": "AI Automation & Web Development <highlight>for Business</highlight>",
+      "description": "I help businesses in Kazakhstan and CIS implement AI tools and build high-performance web products. Save time, reduce costs, grow revenue.",
+      "cta": "Discuss a Project",
+      "ctaSecondary": "View Cases"
+    },
+    "list": {
+      "label": "what I do",
+      "title": "Services",
+      "description": "From automating routine tasks to full-cycle product development — choose what your business needs.",
+      "items": {
+        "aiAutomation": {
+          "tag": "AI",
+          "title": "AI Automation",
+          "description": "I automate repetitive business processes using AI tools. Saves 10–40 hours per month.",
+          "features": {
+            "0": "Automation with Make.com, n8n, Zapier",
+            "1": "ChatGPT / Claude API integration",
+            "2": "AI agents and prompt chains",
+            "3": "Connect to CRM, Telegram, email",
+            "4": "Document and data processing"
+          }
+        },
+        "webDev": {
+          "tag": "WEB",
+          "title": "Web Development",
+          "description": "I build fast, reliable web applications and websites on a modern tech stack.",
+          "features": {
+            "0": "Next.js, TypeScript, React",
+            "1": "Backend: Node.js, PostgreSQL",
+            "2": "Integrations: CRM, 1C, Kaspi, payments",
+            "3": "PageSpeed 90+, Core Web Vitals",
+            "4": "MVP in 2–3 weeks"
+          }
+        },
+        "aiConsulting": {
+          "tag": "CONSULTING",
+          "title": "AI Consulting",
+          "description": "Business process audit and AI implementation roadmap — a concrete plan with ROI.",
+          "features": {
+            "0": "Process audit (where money is lost)",
+            "1": "AI implementation roadmap",
+            "2": "Tool selection for your tasks",
+            "3": "Automation ROI assessment",
+            "4": "Team training"
+          }
+        },
+        "integrations": {
+          "tag": "INTEGRATIONS",
+          "title": "Integrations & Systems",
+          "description": "I connect disparate systems into a single data and process flow.",
+          "features": {
+            "0": "CRM: Bitrix24, amoCRM, HubSpot",
+            "1": "1C, Kaspi, payment gateways",
+            "2": "Telegram bots and WhatsApp API",
+            "3": "Analytics: GA4, Yandex.Metrica",
+            "4": "API for any services"
+          }
+        }
+      }
+    },
+    "pricing": {
+      "label": "pricing",
+      "title": "Price Estimates",
+      "description": "Final cost depends on the scope of work. Let's discuss on a free consultation.",
+      "note": "* Prices are approximate. Exact cost — after reviewing your task.",
+      "tiers": {
+        "starter": {
+          "name": "Small Business",
+          "price": "from $500",
+          "description": "One automated process or landing page",
+          "features": {
+            "0": "1 Make.com/n8n scenario",
+            "1": "Connect to 2–3 services",
+            "2": "Setup and testing",
+            "3": "Usage guide"
+          }
+        },
+        "business": {
+          "name": "Medium Business",
+          "price": "from $2,000",
+          "description": "Comprehensive automation or web product",
+          "features": {
+            "0": "Multiple automations or web app",
+            "1": "CRM / ERP integrations",
+            "2": "AI features (GPT/Claude API)",
+            "3": "3 months support",
+            "4": "Analytics and reporting"
+          },
+          "badge": "Popular"
+        },
+        "retainer": {
+          "name": "Retainer",
+          "price": "from $800/mo",
+          "description": "Ongoing support and development",
+          "features": {
+            "0": "20 hours per month",
+            "1": "Priority response",
+            "2": "New automations and improvements",
+            "3": "Monitoring and maintenance",
+            "4": "Strategic planning"
+          }
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Automate Your Business?",
+      "description": "In a free consultation, we'll figure out where AI can save your business time and money.",
+      "button": "Get a Consultation"
     }
   }
 }

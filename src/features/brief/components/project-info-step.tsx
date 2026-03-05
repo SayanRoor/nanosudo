@@ -21,6 +21,7 @@ export function ProjectInfoStep(): ReactElement {
     { value: "ecommerce", label: t("brief.projectInfo.projectType.ecommerce"), hours: "80-160h" },
     { value: "saas", label: t("brief.projectInfo.projectType.saas"), hours: "120-240h" },
     { value: "custom-mvp", label: t("brief.projectInfo.projectType.customMvp"), hours: "100-200h" },
+    { value: "ai-automation", label: t("brief.projectInfo.projectType.aiAutomation"), hours: "20-60h" },
   ] as const;
 
   const projectType = watch("projectInfo.projectType");

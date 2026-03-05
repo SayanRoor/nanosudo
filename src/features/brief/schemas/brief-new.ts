@@ -12,6 +12,7 @@ const projectInfoSchema = z.object({
     "ecommerce",
     "saas",
     "custom-mvp",
+    "ai-automation",
   ]),
   description: z
     .string()

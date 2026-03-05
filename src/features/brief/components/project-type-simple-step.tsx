@@ -7,7 +7,7 @@
 
 import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Building2, ShoppingCart, Zap, Rocket } from 'lucide-react';
+import { FileText, Building2, ShoppingCart, Zap, Rocket, BrainCircuit } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
@@ -19,6 +19,7 @@ const projectTypes = [
   { value: 'ecommerce', icon: ShoppingCart },
   { value: 'service', icon: Zap },
   { value: 'mvp', icon: Rocket },
+  { value: 'ai-automation', icon: BrainCircuit },
 ] as const;
 
 export function ProjectTypeSimpleStep(): ReactElement {

@@ -7,7 +7,7 @@ import { z } from "zod";
 
 // Step 1: What do you want? (WHAT)
 export const projectTypeSchema = z.object({
-  projectType: z.enum(['landing', 'corporate', 'ecommerce', 'service', 'mvp'], {
+  projectType: z.enum(['landing', 'corporate', 'ecommerce', 'service', 'mvp', 'ai-automation'], {
     required_error: "Выберите тип проекта",
   }),
   description: z.string()

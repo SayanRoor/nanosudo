@@ -10,7 +10,7 @@ import {
   Code,
   Link2,
   Zap,
-  BarChart3,
+  BrainCircuit,
   Shield,
   FileText,
   CreditCard,
@@ -227,6 +227,10 @@ function ExpertiseSection(): ReactElement {
   const t = useTranslations();
   const expertise = [
     {
+      id: 'ai',
+      icon: BrainCircuit,
+    },
+    {
       id: 'dev',
       icon: Code,
     },
@@ -237,10 +241,6 @@ function ExpertiseSection(): ReactElement {
     {
       id: 'performance',
       icon: Zap,
-    },
-    {
-      id: 'marketing',
-      icon: BarChart3,
     },
   ];
 
