@@ -50,7 +50,7 @@ function ProjectCard({ project }: { readonly project: PortfolioProject }): React
             src={translatedProject.image}
             alt={translatedProject.imageAlt}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover"
           />
         </div>
 
