@@ -164,6 +164,7 @@ function HeroSection(): ReactElement {
                   fill
                   className="object-cover"
                   priority
+                  fetchPriority="high"
                   sizes="(max-width: 640px) 90vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 600px"
                 />
               </div>
