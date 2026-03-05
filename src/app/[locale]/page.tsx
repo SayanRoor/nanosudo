@@ -58,7 +58,7 @@ const getViewportSettings = (amount = 0.2): ViewportSettings => ({ once: true, a
 function HeroSection(): ReactElement {
   const t = useTranslations();
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const PHRASE_COUNT = 5;
+  const PHRASE_COUNT = 3;
 
   useEffect((): (() => void) => {
     const intervalId = window.setInterval(() => {
@@ -72,14 +72,14 @@ function HeroSection(): ReactElement {
   const activePhrase = t(`home.hero.rotatingPhrases.${phraseIndex}` as any);
 
   return (
-    <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 lg:pb-32 overflow-hidden flex items-center">
+    <section className="relative pt-28 md:pt-32 pb-16 md:pb-24 lg:pb-32 overflow-hidden flex items-center">
       <Container className="relative z-10 w-full px-4 md:px-6">
         {/* Two-column grid */}
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
 
-          {/* LEFT COLUMN - Content */}
+          {/* LEFT COLUMN - Content only */}
           <motion.div
-            className="space-y-6 md:space-y-8 text-center lg:text-left"
+            className="space-y-6 md:space-y-8 text-center lg:text-left order-1 lg:order-1"
             initial="initial"
             animate="animate"
             variants={staggerContainer}
@@ -92,13 +92,17 @@ function HeroSection(): ReactElement {
               {t("home.hero.subtitle")}
             </motion.p>
 
-            {/* Main title with rotating phrases */}
+            {/* Main title with highlighted name */}
             <motion.h1
               className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] tracking-tight"
               variants={fadeInUp}
             >
               <span className="block text-foreground font-black">
-                {t("home.hero.mainTitle")}
+                {t("home.hero.mainTitle").split("Sayan").map((part, i, arr) =>
+                  i < arr.length - 1 ? (
+                    <span key={i}><span className="bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent">Sayan</span></span>
+                  ) : part
+                )}
               </span>
             </motion.h1>
 
@@ -130,9 +134,9 @@ function HeroSection(): ReactElement {
               </AnimatePresence>
             </motion.div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - shown on desktop */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start"
+              className="hidden lg:flex flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start"
               variants={fadeInUp}
             >
               <Link
@@ -155,7 +159,7 @@ function HeroSection(): ReactElement {
 
           {/* RIGHT COLUMN - Photo & Social */}
           <motion.div
-            className="relative w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:ml-auto space-y-4 md:space-y-6 mt-8 lg:mt-0"
+            className="relative w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:ml-auto space-y-4 md:space-y-6 mt-8 lg:mt-0 order-2 lg:order-2"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -223,6 +227,30 @@ function HeroSection(): ReactElement {
                 <Github className="w-4 h-4 md:w-5 md:h-5" />
               </motion.a>
             </div>
+
+            {/* CTA Buttons - shown after photo on mobile, hidden on desktop */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 justify-center lg:hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Link
+                href="/brief"
+                className="group relative inline-flex items-center justify-center"
+              >
+                <div className="px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
+                  {t("common.cta.cost")}
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </div>
+              </Link>
+              <a
+                href="#process"
+                className="inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
+              >
+                {t("common.cta.howIWork")}
+              </a>
+            </motion.div>
           </motion.div>
         </div>
       </Container>

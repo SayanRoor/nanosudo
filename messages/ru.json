@@ -552,16 +552,14 @@
     "hero": {
       "subtitle": "Full-stack разработчик · ИИ-эксперт · Алматы",
       "title": "Создаю цифровые продукты, которые <highlight>масштабируют бизнес</highlight>",
-      "description": "Разрабатываю веб-приложения и внедряю ИИ-автоматизацию для бизнеса в Казахстане и СНГ. Next.js, TypeScript, Claude API, Make.com — от MVP до enterprise-решений.",
+      "description": "Разрабатываю веб-приложения и внедряю ИИ-автоматизацию для бизнеса в Казахстане и по всему миру.",
       "photoPlaceholder": "Фото Sayan Roor",
-      "mainTitle": "Привет, я Саян",
+      "mainTitle": "Привет, я Sayan",
       "imageAlt": "Sayan Roor - Full-stack разработчик",
       "rotatingPhrases": {
-        "0": "ИИ АВТОМАТИЗАЦИЯ",
-        "1": "NEXT.JS + TYPESCRIPT",
-        "2": "CLAUDE API",
-        "3": "MAKE.COM",
-        "4": "CURSOR AI"
+        "0": "N8N + MAKE.COM АВТОМАТИЗАЦИЯ",
+        "1": "CLAUDE API + CURSOR AI",
+        "2": "NEXT.JS + TYPESCRIPT"
       },
       "resume": "Резюме",
       "commercialProposal": "Коммерческое предложение",

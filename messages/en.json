@@ -303,16 +303,14 @@
     "hero": {
       "subtitle": "Full-stack developer · AI Expert · Almaty",
       "title": "Building digital products that <highlight>scale businesses</highlight>",
-      "description": "I build web apps and implement AI automation for businesses in Kazakhstan and CIS. Next.js, TypeScript, Claude API, Make.com — from MVPs to enterprise solutions.",
+      "description": "I build web apps and implement AI automation for businesses in Kazakhstan and worldwide.",
       "photoPlaceholder": "Photo — Sayan Roor",
       "mainTitle": "Hi, I'm Sayan",
       "imageAlt": "Sayan Roor - Full-stack developer",
       "rotatingPhrases": {
-        "0": "AI AUTOMATION",
-        "1": "NEXT.JS + TYPESCRIPT",
-        "2": "CLAUDE API",
-        "3": "MAKE.COM",
-        "4": "CURSOR AI"
+        "0": "N8N + MAKE.COM AUTOMATION",
+        "1": "CLAUDE API + CURSOR AI",
+        "2": "NEXT.JS + TYPESCRIPT"
       },
       "resume": "Resume",
       "commercialProposal": "Commercial Proposal",
