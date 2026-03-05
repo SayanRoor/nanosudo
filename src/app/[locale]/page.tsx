@@ -100,29 +100,35 @@ function HeroSection(): ReactElement {
               <span className="block text-foreground font-black">
                 {t("home.hero.mainTitle")}
               </span>
-              <span className="block mt-3 md:mt-4" role="status" aria-live="polite" aria-atomic="true">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={phraseIndex}
-                    className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(138,123,255,0.3)] md:drop-shadow-[0_0_30px_rgba(138,123,255,0.3)] font-black"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    {activePhrase}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
             </motion.h1>
 
-            {/* Description */}
+            {/* Description after main title */}
             <motion.p
               className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0"
               variants={fadeInUp}
             >
               {t("home.hero.description")}
             </motion.p>
+
+            {/* Rotating phrases */}
+            <motion.div
+              className="mt-3 md:mt-4"
+              variants={fadeInUp}
+              role="status" aria-live="polite" aria-atomic="true"
+            >
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={phraseIndex}
+                  className="inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(138,123,255,0.3)] md:drop-shadow-[0_0_30px_rgba(138,123,255,0.3)] font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {activePhrase}
+                </motion.span>
+              </AnimatePresence>
+            </motion.div>
 
             {/* CTA Buttons */}
             <motion.div
