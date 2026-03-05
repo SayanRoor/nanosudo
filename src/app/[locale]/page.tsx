@@ -159,7 +159,7 @@ function HeroSection(): ReactElement {
               <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-32 h-32 md:w-48 md:h-48 bg-accent/10 blur-[60px] md:blur-[80px] rounded-full" />
               <div className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
                 <Image
-                  src="/Sayan_Roor_Web_Dev.jpg"
+                  src="/SayanRoorWebDev.jpg"
                   alt={t("home.hero.imageAlt")}
                   fill
                   className="object-cover"
