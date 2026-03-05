@@ -66,10 +66,11 @@
       "mainTitle": "Цифрлық өнімдер жасаймын",
       "imageAlt": "Sayan Roor - Full-stack әзірлеуші",
       "rotatingPhrases": {
-        "0": "AI AUTOMATION",
-        "1": "CURSOR + CLAUDE",
-        "2": "MAKE.COM",
-        "3": "NEXT.JS"
+        "0": "ЖИ АВТОМАТИЗАЦИЯ",
+        "1": "NEXT.JS + TYPESCRIPT",
+        "2": "CLAUDE API",
+        "3": "MAKE.COM",
+        "4": "CURSOR AI"
       },
       "resume": "Резюме",
       "commercialProposal": "Коммерциялық ұсыныс",

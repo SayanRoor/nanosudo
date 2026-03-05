@@ -309,9 +309,10 @@
       "imageAlt": "Sayan Roor - Full-stack developer",
       "rotatingPhrases": {
         "0": "AI AUTOMATION",
-        "1": "CURSOR + CLAUDE",
-        "2": "MAKE.COM",
-        "3": "NEXT.JS"
+        "1": "NEXT.JS + TYPESCRIPT",
+        "2": "CLAUDE API",
+        "3": "MAKE.COM",
+        "4": "CURSOR AI"
       },
       "resume": "Resume",
       "commercialProposal": "Commercial Proposal",

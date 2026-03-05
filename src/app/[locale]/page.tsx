@@ -58,12 +58,12 @@ const getViewportSettings = (amount = 0.2): ViewportSettings => ({ once: true, a
 function HeroSection(): ReactElement {
   const t = useTranslations();
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const PHRASE_COUNT = 4;
+  const PHRASE_COUNT = 5;
 
   useEffect((): (() => void) => {
     const intervalId = window.setInterval(() => {
       setPhraseIndex((prev) => (prev + 1) % PHRASE_COUNT);
-    }, 4200);
+    }, 2500);
 
     return (): void => window.clearInterval(intervalId);
   }, []);
