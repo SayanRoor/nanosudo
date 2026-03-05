@@ -13,10 +13,10 @@ import { Link } from "@/i18n/routing";
 
 const NAV_LINKS: Array<{ readonly href: string; readonly labelKey: string }> = [
   { href: "/", labelKey: "common.nav.home" },
+  { href: "/services", labelKey: "common.nav.services" },
   { href: "/cases", labelKey: "common.nav.cases" },
   { href: "/about", labelKey: "common.nav.about" },
   { href: "/blog", labelKey: "common.nav.blog" },
-  { href: "/contact", labelKey: "common.nav.contact" },
 ];
 
 const BRIEF_ROUTE = "/brief";
