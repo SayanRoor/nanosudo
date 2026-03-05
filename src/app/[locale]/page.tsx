@@ -887,7 +887,6 @@ function LatestCaseSection(): ReactElement {
                     alt={project.imageAlt}
                     fill
                     className="object-cover object-top"
-                    priority
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   {/* Overlay gradient */}
