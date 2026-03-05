@@ -145,6 +145,7 @@ export function SiteFooter(): ReactElement {
               </div>
               <ul className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 relative z-10 w-full md:w-auto">
                 {[
+                  { label: t('common.nav.services'), href: "/services" },
                   { label: t('common.nav.cases'), href: "/cases" },
                   { label: t('common.nav.about'), href: "/about" },
                   { label: t('common.nav.blog'), href: "/blog" },
@@ -152,7 +153,7 @@ export function SiteFooter(): ReactElement {
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
-                      href={link.href as "/cases" | "/about" | "/blog" | "/contact"}
+                      href={link.href as "/services" | "/cases" | "/about" | "/blog" | "/contact"}
                       className="group flex items-center gap-2 text-xl md:text-2xl font-heading font-black text-foreground hover:text-accent transition-all duration-300"
                     >
                       <span className="uppercase tracking-tighter">{link.label}</span>
