@@ -51,6 +51,8 @@ function ProjectCard({ project }: { readonly project: PortfolioProject }): React
             alt={translatedProject.imageAlt}
             fill
             className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            loading="lazy"
           />
         </div>
 
