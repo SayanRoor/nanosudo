@@ -18,7 +18,7 @@ export default async function PrivacyPolicyPage(): Promise<ReactElement> {
 
   return (
     <SiteShell>
-      <main className="relative min-h-screen py-section">
+      <main className="relative min-h-screen pt-40 pb-section">
         <Container>
           <article className="mx-auto max-w-4xl space-y-8">
             <header className="space-y-4 border-b border-border/60 pb-8">
