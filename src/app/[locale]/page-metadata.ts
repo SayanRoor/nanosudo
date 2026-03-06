@@ -18,9 +18,21 @@ export async function generateMetadata({ params }: HomePageMetadataProps): Promi
 
   return generateBaseMetadata({
     title: t('home.hero.title', { defaultValue: 'Разрабатываю решения, которые приносят результат' }).replace(/<[^>]*>/g, ''),
-    description: t('home.hero.description', { defaultValue: 'Высокопроизводительные веб-приложения на Next.js и TypeScript. Полный цикл: разработка, интеграции с CRM/1С/Kaspi, маркетинг. Окупаемость 2-3 месяца.' }),
+    description: t('home.hero.description', { defaultValue: 'ИИ-автоматизация и веб-разработка для бизнеса в Казахстане. Make.com, n8n, Claude API, Next.js. Полный цикл: разработка, интеграции с CRM/1С/Kaspi. Первая консультация бесплатно.' }),
     locale,
     url: locale === routing.defaultLocale ? 'https://nanosudo.com' : `https://nanosudo.com/${locale}`,
+    keywords: [
+      'ии автоматизация казахстан',
+      'ai автоматизация алматы',
+      'make.com автоматизация',
+      'n8n казахстан',
+      'claude api интеграция',
+      'веб разработка алматы',
+      'next.js разработчик казахстан',
+      'автоматизация бизнес процессов',
+      'cursor claude vibe coding',
+      'fullstack разработчик казахстан',
+    ],
   });
 }
 
