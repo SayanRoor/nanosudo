@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Inter, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono, Syne, DM_Sans } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -27,6 +27,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
   variable: "--font-mono",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-syne",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-dm-sans",
+  weight: ["400", "500", "600", "700"],
 });
 
 export function generateStaticParams(): Array<{ locale: string }> {
@@ -84,7 +98,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const t = await getTranslations({ locale });
 
   return (
-    <div lang={locale} className={`${interSans.variable} ${geistMono.variable} font-sans antialiased scroll-smooth bg-background text-foreground`}>
+    <div lang={locale} className={`${interSans.variable} ${geistMono.variable} ${syne.variable} ${dmSans.variable} font-sans antialiased scroll-smooth bg-background text-foreground`}>
       <ThemeProvider>
         <NextIntlClientProvider messages={messages}>
           <StructuredData data={generatePersonStructuredData(locale)} />
