@@ -10,7 +10,8 @@
       "cases": "Cases",
       "about": "Who I am",
       "blog": "Blog",
-      "contact": "Contact"
+      "contact": "Contact",
+      "support": "Support"
     },
     "footer": {
       "quickLinks": "Quick links",
@@ -1166,6 +1167,132 @@
       "title": "Ready to Automate Your Business?",
       "description": "In a free consultation, we'll figure out where AI can save your business time and money.",
       "button": "Get a Consultation"
+    }
+  },
+  "support": {
+    "meta": {
+      "title": "Submit a Request | Support — Nanosudo",
+      "description": "Submit a support request. Incidents, service requests, changes and tasks — processed according to SLA."
+    },
+    "hero": {
+      "label": "support",
+      "title": "Support Portal",
+      "description": "Submit a request — we'll register it, assign priority, and process it within the agreed timeframes."
+    },
+    "form": {
+      "title": "New Request",
+      "typeLabel": "Request Type",
+      "types": {
+        "incident": "Incident",
+        "service_request": "Service Request",
+        "change": "Change",
+        "problem": "Problem",
+        "task": "Scheduled Task"
+      },
+      "typeDescriptions": {
+        "incident": "Unplanned interruption or degradation of an IT service",
+        "service_request": "Standard request to provide a service or information",
+        "change": "Request to modify a component or service",
+        "problem": "Root cause of one or more incidents",
+        "task": "Planned maintenance or technical work"
+      },
+      "urgencyLabel": "Urgency",
+      "urgencyHint": "How critically does this affect your work right now?",
+      "urgencyLevels": {
+        "high": "High — work is completely stopped",
+        "medium": "Medium — partial disruption to work",
+        "low": "Low — minor inconvenience"
+      },
+      "impactLabel": "Impact",
+      "impactHint": "How many users or systems are affected?",
+      "impactLevels": {
+        "high": "High — all users affected / system unavailable",
+        "medium": "Medium — a group of users affected",
+        "low": "Low — single user affected"
+      },
+      "titleLabel": "Request Title",
+      "titlePlaceholder": "Briefly describe the issue",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Detailed description: what happened, when, steps already taken, expected outcome...",
+      "clientNameLabel": "Your Name",
+      "clientEmailLabel": "Email",
+      "clientPhoneLabel": "Phone (optional)",
+      "companyNameLabel": "Company (optional)",
+      "submitButton": "Register Request",
+      "submitting": "Sending..."
+    },
+    "priority": {
+      "label": "Priority",
+      "critical": "Critical",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "sla": {
+        "critical": "React 1h / Resolve 4h",
+        "high": "React 4h / Resolve 8h",
+        "medium": "React 8h / Resolve 24h",
+        "low": "React 24h / Resolve 72h"
+      }
+    },
+    "success": {
+      "title": "Request Registered!",
+      "description": "Your ticket number:",
+      "emailSent": "A confirmation email with details and a tracking link has been sent to your address.",
+      "trackButton": "Track Status",
+      "newRequest": "Submit New Request"
+    },
+    "track": {
+      "meta": {
+        "title": "Request Status | Support — Nanosudo",
+        "description": "Track the status of your support request."
+      },
+      "title": "Request Status",
+      "tokenLabel": "Tracking Token",
+      "tokenPlaceholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "checkButton": "Check Status",
+      "loading": "Loading...",
+      "notFound": "Request not found. Please check the link from your email.",
+      "ticket": "Request",
+      "status": {
+        "new": "New",
+        "acknowledged": "Acknowledged",
+        "in_progress": "In Progress",
+        "on_hold": "On Hold",
+        "resolved": "Resolved",
+        "closed": "Closed"
+      },
+      "fields": {
+        "type": "Type",
+        "priority": "Priority",
+        "status": "Status",
+        "created": "Created",
+        "reactionDeadline": "Reaction Deadline",
+        "resolutionDeadline": "Resolution Deadline",
+        "reacted": "First Response",
+        "resolved": "Resolved At",
+        "resolution": "Resolution Notes"
+      },
+      "slaOk": "On time",
+      "slaBreached": "Breached",
+      "pending": "Pending"
+    },
+    "slaTable": {
+      "title": "Priority & SLA Table",
+      "subtitle": "Reaction and resolution times by request priority (Appendix A)",
+      "headers": {
+        "priority": "Priority",
+        "urgency": "Urgency",
+        "impact": "Impact",
+        "reaction": "Reaction Time",
+        "resolution": "Resolution Time",
+        "description": "Description"
+      },
+      "rows": {
+        "critical": { "priority": "Critical (P1)", "urgency": "High", "impact": "High", "reaction": "1 hour", "resolution": "4 hours", "description": "System completely unavailable, all users affected" },
+        "high": { "priority": "High (P2)", "urgency": "High", "impact": "Medium", "reaction": "4 hours", "resolution": "8 hours", "description": "Critical failure, partial workaround available" },
+        "medium": { "priority": "Medium (P3)", "urgency": "Medium", "impact": "Medium", "reaction": "8 hours", "resolution": "24 hours", "description": "Partial disruption, workaround available" },
+        "low": { "priority": "Low (P4)", "urgency": "Low", "impact": "Low", "reaction": "24 hours", "resolution": "72 hours", "description": "Minor inconvenience, core functionality unaffected" }
+      }
     }
   }
 }

@@ -1,8 +1,8 @@
 // Server component wrapper — exports generateMetadata, renders client UI
 import type { ReactElement } from "react";
 export { generateMetadata } from "./page-metadata";
-import { ServicesPageClient } from "./_client";
+import { SupportPageClient } from "./_client";
 
-export default function ServicesPage(): ReactElement {
-  return <ServicesPageClient />;
+export default function SupportPage(): ReactElement {
+  return <SupportPageClient />;
 }
