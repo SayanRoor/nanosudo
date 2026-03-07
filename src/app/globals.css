@@ -345,16 +345,16 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(to right, var(--base-color-border) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--base-color-border) 1px, transparent 1px);
+      linear-gradient(to right, var(--base-color-accent) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--base-color-accent) 1px, transparent 1px);
     background-size: 60px 60px;
-    opacity: 0.15;
+    opacity: 0.12;
     mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
     -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
   }
 
   [data-theme="dark"] .grid-pattern {
-    opacity: 0.08;
+    opacity: 0.07;
   }
 
   /* Grid Intersection Points (+) */
