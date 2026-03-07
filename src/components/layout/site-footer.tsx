@@ -117,19 +117,20 @@ export function SiteFooter(): ReactElement {
                   </a>
                   <div className="flex gap-4">
                     {[
-                      { icon: Github, href: "https://github.com/SayanRoor" },
-                      { icon: Linkedin, href: "https://www.linkedin.com/in/sayan-roor/" },
-                      { icon: Instagram, href: "https://instagram.com/satoshi_iam" },
-                      { icon: Send, href: "https://t.me/satoshi_iam" },
-                    ].map((social, i) => (
+                      { icon: Github, href: "https://github.com/SayanRoor", label: "GitHub" },
+                      { icon: Linkedin, href: "https://www.linkedin.com/in/sayan-roor/", label: "LinkedIn" },
+                      { icon: Instagram, href: "https://instagram.com/satoshi_iam", label: "Instagram" },
+                      { icon: Send, href: "https://t.me/satoshi_iam", label: "Telegram" },
+                    ].map((social) => (
                       <a
-                        key={i}
+                        key={social.label}
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={social.label}
                         className="w-12 h-12 flex items-center justify-center rounded-2xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300"
                       >
-                        <social.icon className="w-5 h-5" />
+                        <social.icon className="w-5 h-5" aria-hidden="true" />
                       </a>
                     ))}
                   </div>

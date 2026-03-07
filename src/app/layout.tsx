@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { readonly children: ReactNode }): ReactNode {
   return (
-    <html suppressHydrationWarning data-theme="dark">
+    <html lang="ru" suppressHydrationWarning data-theme="dark">
       <head>
         <meta name="apple-mobile-web-app-title" content="Nano Sudo" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon-for-app/apple-icon.png" />
