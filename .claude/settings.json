@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/sayan/Projects/modern/apps/web/src/app/dashboard/**)",
+      "Read(//Users/sayan/Projects/modern/apps/web/src/shared/ui/**)",
+      "Bash(find /Users/sayan/Projects/nanosudo.com/src/app/[locale]/cases -type f)",
+      "Bash(ls /Users/sayan/Projects/nanosudo.com/src/app/[locale]/cases/)"
+    ]
+  }
+}
