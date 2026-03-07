@@ -29,8 +29,6 @@ import { Container } from "@/components/layout/container";
 import { SiteShell } from "@/components/layout/site-shell";
 // import { TechnologiesMarquee } from "@/components/technologies-marquee";
 import { getTranslatedProject } from "@/lib/portfolio-data";
-import { ExpertiseMobileCarousel } from "@/components/expertise-mobile-carousel";
-import { ProcessMobileCarousel } from "@/components/process-mobile-carousel";
 
 // Animation variants
 const fadeInUp = {
@@ -312,13 +310,8 @@ function ExpertiseSection(): ReactElement {
           </motion.p>
         </motion.div>
 
-        {/* Mobile: Expertise Carousel */}
-        <div className="md:hidden -mx-4 px-0">
-          <ExpertiseMobileCarousel />
-        </div>
-
-        {/* Desktop: Expertise Grid */}
-        <div className="hidden md:grid gap-3 sm:gap-4 md:grid-cols-2">
+        {/* Expertise Grid - Modern bento-style cards */}
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
           {expertise.map((item, index) => (
             <motion.article
               key={item.id}
@@ -546,14 +539,8 @@ function ProcessSection(): ReactElement {
           </motion.p>
         </motion.div>
 
-        {/* Mobile: Process Carousel */}
-        <div className="md:hidden -mx-4 px-0">
-          <ProcessMobileCarousel />
-        </div>
-
-        {/* Desktop: Process Grid */}
         <motion.div
-          className="hidden md:grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto"
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={getViewportSettings(0.15)}
