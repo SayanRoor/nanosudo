@@ -70,7 +70,6 @@ export default function AdminOverviewPage(): ReactElement {
   const totalSubmissions = submissionCounts
     ? Object.values(submissionCounts).reduce((a, b) => a + b, 0)
     : null;
-  const newSubmissions = submissionCounts?.["new"] ?? null;
 
   return (
     <div className="space-y-8">

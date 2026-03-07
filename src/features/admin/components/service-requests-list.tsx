@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useState, type ReactElement, type ChangeEvent } from "react";
 import Link from "next/link";
 import type { Route } from "next";
-import { Plus, RefreshCw, AlertCircle, Clock } from "lucide-react";
+import { RefreshCw, AlertCircle, Clock } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { cn } from "@/lib/cn";
 import type { ServiceRequestRow } from "../types";
