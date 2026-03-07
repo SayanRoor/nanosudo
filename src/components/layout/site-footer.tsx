@@ -14,9 +14,17 @@ import {
   MapPin,
 } from "lucide-react";
 
+import dynamic from "next/dynamic";
 import { useTheme } from "@/components/theme/theme-provider";
 import { Container } from "./container";
-import { MapWidget } from "@/components/map-widget";
+
+const MapWidget = dynamic(
+  () => import("@/components/map-widget").then((m) => ({ default: m.MapWidget })),
+  {
+    ssr: false,
+    loading: () => <div className="absolute inset-0 animate-pulse rounded-3xl bg-muted/30" />,
+  },
+);
 
 
 const currentYear = new Date().getFullYear();

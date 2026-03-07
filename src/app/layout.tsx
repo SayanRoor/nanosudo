@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
       </head>
       <body>
         {/* Yandex Metrica */}
-        <Script id="ym-init" strategy="afterInteractive">
+        <Script id="ym-init" strategy="lazyOnload">
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();
@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
         </noscript>
 
         {/* Google Tag Manager */}
-        <Script id="gtm-base" strategy="afterInteractive">
+        <Script id="gtm-base" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -65,9 +65,9 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
         <Script
           id="ga4-base"
           src="https://www.googletagmanager.com/gtag/js?id=G-L02KBFS5DK"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="ga4-config" strategy="afterInteractive">
+        <Script id="ga4-config" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

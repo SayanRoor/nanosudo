@@ -2,10 +2,15 @@
 
 // Layout wrapper: base shell for pages with optional header and footer.
 import type { ReactElement, ReactNode } from "react";
+import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/cn";
-import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+
+// Lazy-load footer: it contains mapbox-gl (~280 KB) and is always below the fold.
+const SiteFooter = dynamic(() => import("./site-footer").then((m) => ({ default: m.SiteFooter })), {
+  ssr: false,
+});
 
 type SiteShellProps = {
   readonly children: ReactNode;
