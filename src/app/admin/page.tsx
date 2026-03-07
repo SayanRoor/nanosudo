@@ -4,7 +4,7 @@
 
 import { useEffect, useState, type ReactElement } from "react";
 import Link from "next/link";
-import { FileText, BookOpen, FolderOpen, Plus } from "lucide-react";
+import { FileText, BookOpen, FolderOpen, Plus, Headphones } from "lucide-react";
 import type { Route } from "next";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 
@@ -42,12 +42,16 @@ function StatCard({
 export default function AdminOverviewPage(): ReactElement {
   const [submissionCounts, setSubmissionCounts] = useState<SubmissionCounts | null>(null);
   const [blogCount, setBlogCount] = useState<number | null>(null);
+  const [serviceRequestCount, setServiceRequestCount] = useState<number | null>(null);
+  const [openTickets, setOpenTickets] = useState<number | null>(null);
 
   useEffect(() => {
     void (async (): Promise<void> => {
-      const [{ data: subs }, { count: blogTotal }] = await Promise.all([
+      const [{ data: subs }, { count: blogTotal }, { count: srTotal }, { count: srOpen }] = await Promise.all([
         supabase.from("submissions").select("status"),
         supabase.from("blog_posts").select("*", { count: "exact", head: true }),
+        supabase.from("service_requests").select("*", { count: "exact", head: true }),
+        supabase.from("service_requests").select("*", { count: "exact", head: true }).in("status", ["new", "acknowledged", "in_progress"]),
       ]);
 
       if (subs) {
@@ -58,6 +62,8 @@ export default function AdminOverviewPage(): ReactElement {
         setSubmissionCounts(counts);
       }
       setBlogCount(blogTotal ?? 0);
+      setServiceRequestCount(srTotal ?? 0);
+      setOpenTickets(srOpen ?? 0);
     })();
   }, []);
 
@@ -73,9 +79,10 @@ export default function AdminOverviewPage(): ReactElement {
         <p className="text-sm text-muted-foreground mt-1">Панель управления сайтом nanosudo.com</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Заявок всего" value={totalSubmissions} href="/admin/submissions" icon={FileText} />
-        <StatCard label="Новых заявок" value={newSubmissions} href="/admin/submissions" icon={FileText} />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard label="Тикетов всего" value={serviceRequestCount} href="/admin/service-requests" icon={Headphones} />
+        <StatCard label="Открытых тикетов" value={openTickets} href="/admin/service-requests" icon={Headphones} />
+        <StatCard label="Брифов" value={totalSubmissions} href="/admin/submissions" icon={FileText} />
         <StatCard label="Записей блога" value={blogCount} href="/admin/blog" icon={BookOpen} />
       </div>
 
@@ -121,9 +128,10 @@ export default function AdminOverviewPage(): ReactElement {
 
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-sm font-semibold text-foreground mb-3">Разделы</h2>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { label: "Заявки", desc: "Управление брифами клиентов", href: "/admin/submissions", icon: FileText },
+            { label: "Тикеты", desc: "Заявки на обслуживание (ITSM)", href: "/admin/service-requests", icon: Headphones },
+            { label: "Брифы", desc: "Управление брифами клиентов", href: "/admin/submissions", icon: FileText },
             { label: "Блог", desc: "Создание и редактирование статей", href: "/admin/blog", icon: BookOpen },
             { label: "Кейсы", desc: "Портфолио и проекты", href: "/admin/projects", icon: FolderOpen },
           ].map((item) => (

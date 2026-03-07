@@ -1,3 +1,40 @@
+export type ServiceRequestRow = {
+  id: string;
+  ticket_number: string;
+  tracking_token: string;
+
+  type: "incident" | "service_request" | "change" | "problem" | "task";
+  priority: "critical" | "high" | "medium" | "low";
+  urgency: "high" | "medium" | "low";
+  impact: "high" | "medium" | "low";
+  status: "new" | "acknowledged" | "in_progress" | "on_hold" | "resolved" | "closed";
+
+  title: string;
+  description: string;
+
+  client_name: string;
+  client_email: string;
+  client_phone: string | null;
+  company_name: string | null;
+
+  reaction_deadline: string | null;
+  resolution_deadline: string | null;
+  reacted_at: string | null;
+  resolved_at: string | null;
+  closed_at: string | null;
+
+  hold_reason: string | null;
+  hold_approved_at: string | null;
+  resolution_notes: string | null;
+  internal_notes: string | null;
+
+  submitted_ip: string | null;
+  user_agent: string | null;
+
+  created_at: string;
+  updated_at: string;
+};
+
 export type BlogPostRow = {
   id: string;
   slug: string;

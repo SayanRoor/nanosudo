@@ -10,7 +10,7 @@ import type { Session } from "@supabase/supabase-js";
 import type { Route } from "next";
 import {
   LayoutDashboard, FileText, BookOpen, FolderOpen,
-  LogOut, Menu, X, ChevronLeft,
+  LogOut, Menu, X, ChevronLeft, Headphones,
 } from "lucide-react";
 
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
@@ -30,9 +30,15 @@ const NAV_GROUPS: NavGroup[] = [
     items: [{ label: "Обзор", href: "/admin", icon: LayoutDashboard }],
   },
   {
+    title: "ПОДДЕРЖКА",
+    items: [
+      { label: "Заявки на обслуживание", href: "/admin/service-requests", icon: Headphones },
+      { label: "Брифы", href: "/admin/submissions", icon: FileText },
+    ],
+  },
+  {
     title: "КОНТЕНТ",
     items: [
-      { label: "Заявки", href: "/admin/submissions", icon: FileText },
       { label: "Блог", href: "/admin/blog", icon: BookOpen },
       { label: "Кейсы", href: "/admin/projects", icon: FolderOpen },
     ],
