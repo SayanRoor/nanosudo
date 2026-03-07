@@ -156,14 +156,12 @@ export function SiteFooter(): ReactElement {
                 {[
                   { label: t('common.nav.services'), href: "/services" },
                   { label: t('common.nav.cases'), href: "/cases" },
-                  { label: t('common.nav.about'), href: "/about" },
                   { label: t('common.nav.blog'), href: "/blog" },
-                  { label: t('common.nav.contact'), href: "/contact" },
                   { label: t('common.nav.support'), href: "/support" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
-                      href={link.href as "/services" | "/cases" | "/about" | "/blog" | "/contact" | "/support"}
+                      href={link.href as "/services" | "/cases" | "/blog" | "/support"}
                       className="group flex items-center gap-2 text-xl md:text-2xl font-heading font-black text-foreground hover:text-accent transition-all duration-300"
                     >
                       <span className="uppercase tracking-tighter">{link.label}</span>

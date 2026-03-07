@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { ReactElement } from "react";
 import { useTranslations } from 'next-intl';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
 
 import { cn } from "@/lib/cn";
@@ -26,42 +25,39 @@ export function SiteHeader(): ReactElement {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 150) {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
-    setIsScrolled(latest > 20);
-  });
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return (): void => {
-      document.body.style.overflow = "unset";
+    const onScroll = (): void => {
+      const current = window.scrollY;
+      const previous = lastScrollY.current;
+      if (current > previous && current > 150) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setIsScrolled(current > 20);
+      lastScrollY.current = current;
     };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return (): void => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return (): void => { document.body.style.overflow = ""; };
   }, [isMenuOpen]);
 
-  const toggleMenu = (): void => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = (): void => setIsMenuOpen((prev) => !prev);
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: (isVisible || isMenuOpen) ? 0 : -100 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      <header
         className={cn(
           "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10",
-          isScrolled ? "py-4" : "py-8"
+          isScrolled ? "py-4" : "py-8",
+          (isVisible || isMenuOpen) ? "translate-y-0" : "-translate-y-full"
         )}
       >
         <div className={cn(
@@ -142,85 +138,82 @@ export function SiteHeader(): ReactElement {
             </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      <AnimatePresence>
-        {isMenuOpen && (
-          <div className="fixed inset-0 z-[110] lg:hidden">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMenuOpen(false)}
-              className="absolute inset-0 bg-background/98 backdrop-blur-2xl"
-            />
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              transition={{ type: "spring", stiffness: 300, damping: 35 }}
-              className="absolute inset-0 flex flex-col h-full overflow-y-auto no-scrollbar pt-32 pb-12 px-8"
-            >
-              {/* Close Button Inside Menu */}
-              <button
-                type="button"
-                onClick={() => setIsMenuOpen(false)}
-                className="absolute top-8 right-8 p-3 rounded-2xl bg-muted/20 border border-border/50 text-foreground hover:text-accent transition-all duration-300 backdrop-blur-md z-[120]"
-                aria-label="Close menu"
-              >
-                <X className="w-8 h-8" />
-              </button>
+      {/* Mobile Menu */}
+      <div
+        className={cn(
+          "fixed inset-0 z-110 lg:hidden transition-all duration-300",
+          isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        )}
+      >
+        {/* Backdrop */}
+        <div
+          className={cn(
+            "absolute inset-0 bg-background/98 backdrop-blur-2xl transition-opacity duration-300",
+            isMenuOpen ? "opacity-100" : "opacity-0"
+          )}
+          onClick={() => setIsMenuOpen(false)}
+        />
+        {/* Menu content */}
+        <div
+          className={cn(
+            "absolute inset-0 flex flex-col h-full overflow-y-auto no-scrollbar pt-32 pb-12 px-8 transition-all duration-300",
+            isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          )}
+        >
+          {/* Close Button */}
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-8 right-8 p-3 rounded-2xl bg-muted/20 border border-border/50 text-foreground hover:text-accent transition-all duration-300 backdrop-blur-md z-120"
+            aria-label="Close menu"
+          >
+            <X className="w-8 h-8" />
+          </button>
 
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/10 blur-[120px] rounded-full -z-10" />
-              <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/10 blur-[120px] rounded-full -z-10" />
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/10 blur-[120px] rounded-full -z-10" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/10 blur-[120px] rounded-full -z-10" />
 
-              <div className="flex-1 flex flex-col justify-between min-h-fit">
-                <nav className="flex flex-col gap-6 relative z-10">
-                  {NAV_LINKS.map((link, i) => (
-                    <motion.div
-                      key={link.href}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.08 + 0.1 }}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="flex items-center group py-2"
-                      >
-                        <span className="text-5xl md:text-6xl font-heading font-black text-foreground group-hover:text-accent transition-all duration-300 uppercase tracking-tighter">
-                          {t(link.labelKey)}
-                        </span>
-                        <ArrowUpRight className="w-10 h-10 opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-4 text-accent" />
-                      </Link>
-                    </motion.div>
-                  ))}
-                </nav>
+          <div className="flex-1 flex flex-col justify-between min-h-fit">
+            <nav className="flex flex-col gap-6 relative z-10">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center group py-2"
+                >
+                  <span className="text-5xl md:text-6xl font-heading font-black text-foreground group-hover:text-accent transition-all duration-300 uppercase tracking-tighter">
+                    {t(link.labelKey)}
+                  </span>
+                  <ArrowUpRight className="w-10 h-10 opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-4 text-accent" />
+                </Link>
+              ))}
+            </nav>
 
-                <div className="pt-16 flex flex-col gap-10 relative z-10 w-full mt-auto">
-                  <div className="flex items-center justify-between border-t border-border/50 pt-10">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">System</span>
-                    <div className="flex gap-4">
-                      <LanguageSwitcher />
-                      <div className="w-px h-6 bg-border/40" />
-                      <ThemeToggle />
-                    </div>
-                  </div>
-
-                  <Link
-                    href={BRIEF_ROUTE}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="w-full flex items-center justify-center rounded-[2rem] bg-accent py-8 text-sm font-black uppercase tracking-[0.3em] text-black shadow-2xl shadow-accent/40 active:scale-95 transition-transform"
-                  >
-                    {t('common.cta.submitRequest')}
-                  </Link>
+            <div className="pt-16 flex flex-col gap-10 relative z-10 w-full mt-auto">
+              <div className="flex items-center justify-between border-t border-border/50 pt-10">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">System</span>
+                <div className="flex gap-4">
+                  <LanguageSwitcher />
+                  <div className="w-px h-6 bg-border/40" />
+                  <ThemeToggle />
                 </div>
               </div>
-            </motion.div>
+
+              <Link
+                href={BRIEF_ROUTE}
+                onClick={() => setIsMenuOpen(false)}
+                className="w-full flex items-center justify-center rounded-4xl bg-accent py-8 text-sm font-black uppercase tracking-[0.3em] text-black shadow-2xl shadow-accent/40 active:scale-95 transition-transform"
+              >
+                {t('common.cta.submitRequest')}
+              </Link>
+            </div>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      </div>
     </>
   );
 }
