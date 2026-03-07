@@ -56,9 +56,8 @@ export function generateMetadata({
   const finalDescription = description || defaultDesc;
   const fullTitle = title ? `${title} | ${siteName}` : siteName;
 
-  // Attempt to build a path-safe canonical and alternate URLs
-  // This assumes url passed is the full URL without locale prefix if it's the default locale
-  const canonicalUrl = url || (currentLocale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${currentLocale}`);
+  // Canonical always includes locale prefix to stay consistent with hreflang values.
+  const canonicalUrl = url || `${BASE_URL}/${currentLocale}`;
 
   return {
     title: fullTitle,
