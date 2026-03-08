@@ -3,6 +3,8 @@ import type { ReactElement } from "react";
 import { getTranslations } from 'next-intl/server';
 import { generateMetadata as generateBaseMetadata } from '@/lib/metadata';
 import { routing } from '@/i18n/routing';
+import { getAllPublishedPosts } from '@/lib/blog-db';
+import type { AppLocale } from '@/lib/blog-data';
 import { BlogPageClient } from "./blog-page-client";
 
 type BlogPageMetadataProps = {
@@ -26,6 +28,12 @@ export async function generateMetadata({ params }: BlogPageMetadataProps): Promi
   });
 }
 
-export default function BlogPage(): ReactElement {
-  return <BlogPageClient />;
+type BlogPageProps = {
+  readonly params: Promise<{ readonly locale: string }>;
+};
+
+export default async function BlogPage({ params }: BlogPageProps): Promise<ReactElement> {
+  const { locale } = await params;
+  const posts = await getAllPublishedPosts(locale as AppLocale);
+  return <BlogPageClient posts={posts} />;
 }

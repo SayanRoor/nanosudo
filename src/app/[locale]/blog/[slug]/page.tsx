@@ -9,7 +9,8 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
 import { SiteShell } from "@/components/layout/site-shell";
-import { getPostBySlug, getAllPosts, type AppLocale } from "@/lib/blog-data";
+import type { AppLocale } from "@/lib/blog-data";
+import { getAllPublishedPosts, getPostBySlugFromDB, getAllPublishedSlugs } from "@/lib/blog-db";
 import { MarkdownContent } from "@/components/blog/markdown-content";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
 import {
@@ -33,7 +34,7 @@ function formatDateFromLabel(label: string): string {
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug, locale } = await params;
-  const post = getPostBySlug(slug, locale);
+  const post = await getPostBySlugFromDB(slug, locale);
 
   if (!post) {
     return {
@@ -62,13 +63,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 export default async function BlogPostPage({ params }: BlogPostPageProps): Promise<ReactElement> {
   const { slug, locale } = await params;
   const t = await getTranslations();
-  const post = getPostBySlug(slug, locale);
+  const post = await getPostBySlugFromDB(slug, locale);
 
   if (!post) {
     notFound();
   }
 
-  const allPosts = getAllPosts(locale);
+  const allPosts = await getAllPublishedPosts(locale);
   const currentIndex = allPosts.findIndex((p) => p.slug === slug);
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
@@ -138,9 +139,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
         </section>
 
         {/* Hero Image */}
-        <section className="border-b border-border/60 py-12 md:py-20 bg-gradient-to-b from-surface/20 to-background">
+        <section className="border-b border-border/60 py-12 md:py-20 bg-linear-to-b from-surface/20 to-background">
           <Container className="max-w-4xl">
-            <div className="relative aspect-[21/9] overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-accent/20 to-accent/5 shadow-soft">
+            <div className="relative aspect-21/9 overflow-hidden rounded-2xl border border-border/60 bg-linear-to-br from-accent/20 to-accent/5 shadow-soft">
               <Image
                 src={post.image}
                 alt={post.imageAlt}
@@ -183,7 +184,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
                     href={`/blog/${prevPost.slug}` as Route}
                     className="group flex items-center gap-4 glass-card rounded-xl p-4 transition-all hover:border-accent/70 hover:bg-surface"
                   >
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <ArrowLeft className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -208,7 +209,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
                         {nextPost.title}
                       </p>
                     </div>
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
                     </div>
                   </Link>
@@ -232,10 +233,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
   );
 }
 
-// Generate static params for all posts
+// Generate static params for all published posts
 export async function generateStaticParams(): Promise<Array<{ readonly slug: string }>> {
-  const posts = getAllPosts("ru");
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  const slugs = await getAllPublishedSlugs();
+  return slugs.map((slug) => ({ slug }));
 }

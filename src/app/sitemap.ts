@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
-import { getAllPosts } from '@/lib/blog-data';
+import { getAllPublishedPosts } from '@/lib/blog-db';
+import type { AppLocale } from '@/lib/blog-data';
 import { getAllProjects } from '@/lib/portfolio-data';
 
 const BASE_URL = 'https://nanosudo.com';
@@ -53,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Динамические страницы блога для каждого языка
   const blogPages: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {
-    const posts = getAllPosts(locale);
+    const posts = await getAllPublishedPosts(locale as AppLocale);
     for (const post of posts) {
       blogPages.push({
         url: locale === routing.defaultLocale

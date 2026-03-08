@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import type { Route } from "next";
 import { Calendar, ArrowRight, Tag } from "lucide-react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
 import { SiteShell } from "@/components/layout/site-shell";
-import { getAllPosts, getExcerpt, type BlogPost, type AppLocale } from "@/lib/blog-data";
+import { getExcerpt, type BlogPost } from "@/lib/blog-data";
 
 // Animation variants
 const fadeInUp = {
@@ -100,10 +100,8 @@ function PostCard({ post, index }: { readonly post: BlogPost; readonly index?: n
   );
 }
 
-export function BlogPageClient(): ReactElement {
+export function BlogPageClient({ posts }: { readonly posts: readonly BlogPost[] }): ReactElement {
   const t = useTranslations();
-  const locale = useLocale() as AppLocale;
-  const posts = getAllPosts(locale);
 
   return (
     <SiteShell>
