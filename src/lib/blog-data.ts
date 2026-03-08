@@ -443,7 +443,7 @@ In 2025-2026, the USD/KZT rate fluctuated from 450 to 510 tenge. If you work wit
   },
   {
     slug: "kz-developer-tender-checklist",
-    image: "/need_developer_who.png",
+    image: "/need_developer_who.jpg",
     publishedAt: "2025-02-01",
     author: "Sayan Roor",
     tags: ["Kazakhstan", "Tenders", "Development", "Full-stack"],
@@ -800,7 +800,7 @@ Use this template, customize it and the tender committee will have fewer questio
   },
   {
     slug: "kaspi-1c-crm-integration-case",
-    image: "/crm_integration.png",
+    image: "/crm_integration.jpg",
     publishedAt: "2025-01-24",
     author: "Sayan Roor",
     tags: ["Kaspi", "1C", "CRM", "Automation", "Case study"],
@@ -1459,7 +1459,7 @@ TypeScript қауіпсіз код жазуға көмектеседі, біра
   },
   {
     slug: "supabase-integration-guide",
-    image: "/build_fast_website.png",
+    image: "/build_fast_website.jpg",
     publishedAt: "2024-11-05",
     author: "Sayan Roor",
     tags: ["Supabase", "Next.js", "Backend", "Database"],
