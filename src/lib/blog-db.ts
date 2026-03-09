@@ -1,10 +1,10 @@
 // Server-only Supabase queries for blog posts.
-// Returns the same BlogPost / AppLocale types used by the static blog-data.ts,
-// so all existing page components work without changes.
+// Returns the same BlogPost / AppLocale types used by the static blog-data.ts.
+// Falls back to static blog-data.ts when the DB table is empty or unavailable.
 
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import type { BlogPostRow } from "@/features/admin/types";
-import type { AppLocale, BlogPost } from "@/lib/blog-data";
+import { getAllPosts, getPostBySlug, type AppLocale, type BlogPost } from "@/lib/blog-data";
 
 function getField(row: BlogPostRow, field: string, locale: AppLocale): string {
   const localeKey = `${field}_${locale}` as keyof BlogPostRow;
@@ -32,37 +32,61 @@ function rowToPost(row: BlogPostRow, locale: AppLocale): BlogPost {
 }
 
 export async function getAllPublishedPosts(locale: AppLocale): Promise<readonly BlogPost[]> {
-  const { data, error } = await supabaseAdmin
-    .from("blog_posts")
-    .select("*")
-    .eq("status", "published")
-    .order("published_at", { ascending: false });
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("blog_posts")
+      .select("*")
+      .eq("status", "published")
+      .order("published_at", { ascending: false });
 
-  if (error || !data) return [];
-  return (data as BlogPostRow[]).map((row) => rowToPost(row, locale));
+    if (!error && data && data.length > 0) {
+      return (data as BlogPostRow[]).map((row) => rowToPost(row, locale));
+    }
+  } catch {
+    // DB unavailable — fall through to static data
+  }
+
+  // Fallback: static blog-data.ts (used until DB is populated)
+  return getAllPosts(locale);
 }
 
 export async function getPostBySlugFromDB(
   slug: string,
   locale: AppLocale,
 ): Promise<BlogPost | undefined> {
-  const { data, error } = await supabaseAdmin
-    .from("blog_posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .single();
 
-  if (error || !data) return undefined;
-  return rowToPost(data as BlogPostRow, locale);
+    if (!error && data) {
+      return rowToPost(data as BlogPostRow, locale);
+    }
+  } catch {
+    // fall through
+  }
+
+  // Fallback: static data
+  return getPostBySlug(slug, locale);
 }
 
 export async function getAllPublishedSlugs(): Promise<string[]> {
-  const { data, error } = await supabaseAdmin
-    .from("blog_posts")
-    .select("slug")
-    .eq("status", "published");
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("blog_posts")
+      .select("slug")
+      .eq("status", "published");
 
-  if (error || !data) return [];
-  return (data as Array<{ slug: string }>).map((row) => row.slug);
+    if (!error && data && data.length > 0) {
+      return (data as Array<{ slug: string }>).map((row) => row.slug);
+    }
+  } catch {
+    // fall through
+  }
+
+  // Fallback: static slugs
+  return getAllPosts("ru").map((p) => p.slug);
 }
