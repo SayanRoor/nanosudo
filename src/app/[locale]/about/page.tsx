@@ -219,31 +219,17 @@ export default function AboutPage(): ReactElement {
         {/* Hero Section */}
         <section className="border-b border-border/60 py-section bg-surface/40">
           <Container className="max-w-4xl">
-            <motion.div
-              className="space-y-8 text-balance text-center"
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
-            >
-              <motion.p
-                className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground"
-                variants={fadeInUp}
-              >
+            <div className="space-y-8 text-balance text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground animate-fade-in-up">
                 {t('about.hero.label')}
-              </motion.p>
-              <motion.h1
-                className="font-heading text-4xl md:text-5xl lg:text-6xl"
-                variants={fadeInUp}
-              >
+              </p>
+              <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl animate-fade-in-up-delay-1">
                 {t('about.hero.title')}
-              </motion.h1>
-              <motion.p
-                className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
-                variants={fadeInUp}
-              >
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-2">
                 {t('about.hero.description')}
-              </motion.p>
-            </motion.div>
+              </p>
+            </div>
           </Container>
         </section>
 

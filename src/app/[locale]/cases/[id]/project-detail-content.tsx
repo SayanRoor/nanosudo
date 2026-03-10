@@ -123,6 +123,7 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps): Re
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
             />
           </motion.div>
         </Container>

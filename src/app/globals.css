@@ -647,6 +647,32 @@
     }
   }
 
+  /* Hero fade-in-up animation (CSS-only for LCP) */
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  .animate-fade-in-up-delay-1 {
+    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+  }
+
+  .animate-fade-in-up-delay-2 {
+    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in-up,
+    .animate-fade-in-up-delay-1,
+    .animate-fade-in-up-delay-2 {
+      animation: none;
+    }
+  }
+
   /* Code block styles for blog */
   pre[class*="language-"] {
     @apply m-0 overflow-x-auto;

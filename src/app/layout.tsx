@@ -20,6 +20,10 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
         <link rel="mask-icon" href="/favicon-for-app/icon0.svg" color="#000000" />
         <link rel="manifest" href="/favicon-for-app/manifest.json" />
         <meta name="theme-color" content="#000000" />
+        <link rel="preconnect" href="https://mc.yandex.ru" />
+        <link rel="dns-prefetch" href="https://mc.yandex.ru" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <body>
         {/* Yandex Metrica */}
@@ -58,21 +62,6 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-NC3L984P');
-          `}
-        </Script>
-
-        {/* Google tag (gtag.js) - GA4 */}
-        <Script
-          id="ga4-base"
-          src="https://www.googletagmanager.com/gtag/js?id=G-L02KBFS5DK"
-          strategy="lazyOnload"
-        />
-        <Script id="ga4-config" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-L02KBFS5DK');
           `}
         </Script>
 

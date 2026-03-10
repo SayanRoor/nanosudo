@@ -1,25 +1,44 @@
 'use client';
 
 import type { ReactElement } from "react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Copy, Check } from "lucide-react";
+
+const SyntaxHighlighter = dynamic(
+  () => import("react-syntax-highlighter").then((m) => m.Prism),
+  { ssr: false },
+);
 
 type MarkdownContentProps = {
   readonly content: string;
 };
 
-function CodeBlock({ 
-  language, 
-  children 
-}: { 
-  readonly language?: string; 
+function CodeBlockFallback({ children }: { readonly children: string }): ReactElement {
+  return (
+    <pre className="overflow-x-auto rounded-xl bg-[#282c34] p-6 text-sm text-[#abb2bf]">
+      <code>{children}</code>
+    </pre>
+  );
+}
+
+function CodeBlock({
+  language,
+  children
+}: {
+  readonly language?: string;
   readonly children: string;
 }): ReactElement {
   const [copied, setCopied] = useState<boolean>(false);
+  const [style, setStyle] = useState<Record<string, React.CSSProperties> | null>(null);
+
+  if (!style) {
+    import("react-syntax-highlighter/dist/cjs/styles/prism")
+      .then((m) => setStyle(m.oneDark as Record<string, React.CSSProperties>))
+      .catch(() => {});
+  }
 
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(children);
@@ -49,19 +68,21 @@ function CodeBlock({
           )}
         </button>
       </div>
-      <SyntaxHighlighter
-        language={language || 'typescript'}
-        style={oneDark}
-        customStyle={{
-          margin: 0,
-          borderRadius: '0.75rem',
-          padding: '1.5rem',
-          fontSize: '0.875rem',
-        }}
-        showLineNumbers
-      >
-        {children}
-      </SyntaxHighlighter>
+      <Suspense fallback={<CodeBlockFallback>{children}</CodeBlockFallback>}>
+        <SyntaxHighlighter
+          language={language || 'typescript'}
+          style={style ?? {}}
+          customStyle={{
+            margin: 0,
+            borderRadius: '0.75rem',
+            padding: '1.5rem',
+            fontSize: '0.875rem',
+          }}
+          showLineNumbers
+        >
+          {children}
+        </SyntaxHighlighter>
+      </Suspense>
     </div>
   );
 }

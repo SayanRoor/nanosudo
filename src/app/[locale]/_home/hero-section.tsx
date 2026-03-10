@@ -103,6 +103,7 @@ export function HeroSection(): ReactElement {
             >
               <Link
                 href="/brief"
+                prefetch
                 className="group relative inline-flex items-center justify-center"
               >
                 <div className="px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
@@ -199,6 +200,7 @@ export function HeroSection(): ReactElement {
             >
               <Link
                 href="/brief"
+                prefetch
                 className="group relative inline-flex items-center justify-center"
               >
                 <div className="px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">

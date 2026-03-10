@@ -26,7 +26,7 @@ export function LatestCaseSection(): ReactElement {
           <motion.div variants={fadeInUp}>
             <Link href="/cases/egemen-kz" className="group block rounded-3xl overflow-hidden glass-card border-border/60 hover:border-accent/60 transition-all hover:shadow-xl hover:-translate-y-1">
               <div className="grid md:grid-cols-2 min-h-[420px]">
-                <div className="relative overflow-hidden bg-linear-to-br from-accent/20 to-accent/5 min-h-[260px] md:min-h-0">
+                <div className="relative overflow-hidden bg-linear-to-br from-accent/20 to-accent/5 min-h-[260px] md:min-h-full">
                   <Image src={project.image} alt={project.imageAlt} fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 50vw" />
                   <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-surface/60 hidden md:block" />
                   <div className="absolute top-4 left-4 rounded-full border border-border/60 bg-surface/80 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-muted-foreground">{project.year}</div>
