@@ -30,6 +30,13 @@ export const serverEnvSchema = z.object({
     .string()
     .min(1, "BREVO_NEWSLETTER_LIST_ID must be a numeric Brevo list ID.")
     .optional(),
+  BREVO_SENDER_EMAIL: z
+    .string()
+    .email("BREVO_SENDER_EMAIL must be a valid email address.")
+    .optional(),
+  BREVO_SENDER_NAME: z
+    .string()
+    .optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

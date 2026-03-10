@@ -6,6 +6,7 @@
 import { useCallback, useEffect, useState, type ChangeEvent, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
+import { Send, CheckCircle, Loader2 } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { cn } from "@/lib/cn";
 import type { BlogPostRow } from "../types";
@@ -109,22 +110,60 @@ function LangFields({ lang, form, setForm }: { lang: Lang; form: FormState; setF
   );
 }
 
+type NewsletterState = "idle" | "confirm" | "sending" | "sent" | "error";
+
 export function BlogEditor({ postId }: { postId?: string }): ReactElement {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(defaultForm);
   const [activeTab, setActiveTab] = useState<Lang>("ru");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [newsletterState, setNewsletterState] = useState<NewsletterState>("idle");
+  const [newsletterLocale, setNewsletterLocale] = useState<Lang>("ru");
+  const [newsletterSentAt, setNewsletterSentAt] = useState<string | null>(null);
+  const [newsletterError, setNewsletterError] = useState<string | null>(null);
   const isEditing = Boolean(postId);
 
   const load = useCallback(async (): Promise<void> => {
     if (!postId) return;
     const { data, error: err } = await supabase.from("blog_posts").select("*").eq("id", postId).single();
     if (err) { setError(err.message); return; }
-    setForm(rowToForm(data as BlogPostRow));
+    const row = data as BlogPostRow;
+    setForm(rowToForm(row));
+    setNewsletterSentAt(row.newsletter_sent_at);
   }, [postId]);
 
   useEffect(() => { void load(); }, [load]);
+
+  const handleSendNewsletter = async (): Promise<void> => {
+    if (!postId) return;
+    setNewsletterState("sending");
+    setNewsletterError(null);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) { setNewsletterState("error"); setNewsletterError("Сессия истекла. Перезайдите."); return; }
+
+    try {
+      const res = await fetch("/api/newsletter/send-campaign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ postId, locale: newsletterLocale }),
+      });
+      const json = (await res.json()) as { success?: boolean; campaignId?: number; error?: string };
+      if (res.ok && json.success) {
+        const sentAt = new Date().toISOString();
+        setNewsletterSentAt(sentAt);
+        setNewsletterState("sent");
+      } else {
+        setNewsletterError(json.error ?? "Ошибка отправки.");
+        setNewsletterState("error");
+      }
+    } catch {
+      setNewsletterError("Сетевая ошибка. Попробуйте ещё раз.");
+      setNewsletterState("error");
+    }
+  };
 
   const handleSave = async (): Promise<void> => {
     setSaving(true);
@@ -191,6 +230,85 @@ export function BlogEditor({ postId }: { postId?: string }): ReactElement {
 
       {error && (
         <div className="rounded-xl border border-error/40 bg-error/10 p-4 text-sm text-error">{error}</div>
+      )}
+
+      {/* Newsletter campaign — only for published posts in edit mode */}
+      {isEditing && form.status === "published" && (
+        <div className="glass-card rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4 border-border/60">
+          <div className="flex items-center gap-3">
+            <Send className="w-4 h-4 text-accent shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">Рассылка подписчикам</p>
+              {newsletterSentAt ? (
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Отправлено: {new Date(newsletterSentAt).toLocaleString("ru-RU")}
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground mt-0.5">Ещё не отправлялось</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Locale picker */}
+            {newsletterState !== "sent" && (
+              <select
+                value={newsletterLocale}
+                onChange={(e) => setNewsletterLocale(e.target.value as Lang)}
+                disabled={newsletterState === "sending"}
+                className="rounded-lg border border-border/60 bg-surface px-2.5 py-1.5 text-xs text-foreground focus:border-accent focus:outline-none disabled:opacity-50"
+              >
+                <option value="ru">RU</option>
+                <option value="en">EN</option>
+                <option value="kk">KK</option>
+              </select>
+            )}
+
+            {/* Action button */}
+            {newsletterState === "idle" || newsletterState === "error" ? (
+              <button
+                type="button"
+                onClick={() => setNewsletterState("confirm")}
+                className="flex items-center gap-1.5 rounded-lg bg-accent/10 border border-accent/30 px-3 py-1.5 text-xs font-semibold text-accent hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
+                <Send className="w-3.5 h-3.5" />
+                {newsletterSentAt ? "Отправить повторно" : "Отправить рассылку"}
+              </button>
+            ) : newsletterState === "confirm" ? (
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Отправить [{newsletterLocale.toUpperCase()}] всем подписчикам?</span>
+                <button
+                  type="button"
+                  onClick={() => void handleSendNewsletter()}
+                  className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground hover:bg-accent/90 transition-colors"
+                >
+                  Да, отправить
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNewsletterState("idle")}
+                  className="rounded-lg border border-border/60 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Отмена
+                </button>
+              </div>
+            ) : newsletterState === "sending" ? (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                Отправка...
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-xs text-accent font-semibold">
+                <CheckCircle className="w-3.5 h-3.5" />
+                Рассылка отправлена!
+              </div>
+            )}
+          </div>
+
+          {newsletterState === "error" && newsletterError && (
+            <p className="w-full text-xs text-error mt-1">{newsletterError}</p>
+          )}
+        </div>
       )}
 
       {/* Shared fields */}
