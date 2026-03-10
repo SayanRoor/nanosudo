@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactElement, useEffect, useState } from "react";
+import { type ReactElement, useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
 import { Link } from "@/i18n/routing";
@@ -19,6 +19,7 @@ import { useTheme } from "@/components/theme/theme-provider";
 import { Container } from "./container";
 import { NewsletterForm } from "@/components/newsletter/newsletter-form";
 
+// Mapbox-gl (~280KB) — only load when map container scrolls into view
 const MapWidget = dynamic(
   () => import("@/components/map-widget").then((m) => ({ default: m.MapWidget })),
   {
@@ -26,6 +27,38 @@ const MapWidget = dynamic(
     loading: () => <div className="absolute inset-0 animate-pulse rounded-3xl bg-muted/30" />,
   },
 );
+
+/** Renders MapWidget only after its container enters the viewport */
+function LazyMap({ className }: { readonly className?: string }): ReactElement {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(el);
+    return (): void => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={className}>
+      {visible ? (
+        <MapWidget className="absolute inset-0" />
+      ) : (
+        <div className="absolute inset-0 animate-pulse rounded-3xl bg-muted/30" />
+      )}
+    </div>
+  );
+}
 
 
 const currentYear = new Date().getFullYear();
@@ -113,9 +146,7 @@ export function SiteFooter(): ReactElement {
                   </div>
                 </div>
 
-                <div className="relative flex-1 rounded-2xl overflow-hidden border border-border/40">
-                  <MapWidget className="absolute inset-0" />
-                </div>
+                <LazyMap className="relative flex-1 rounded-2xl overflow-hidden border border-border/40" />
               </div>
 
               {/* CONTACT CARD */}

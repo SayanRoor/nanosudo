@@ -34,35 +34,27 @@ const nextConfig: NextConfig = {
   async headers() {
     // Content-Security-Policy directives
     const cspDirectives = [
-      // Default: only self
       "default-src 'self'",
-      // Scripts: self + inline (analytics init) + eval (GTM requires it) + analytics domains
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://mc.yandex.ru",
-      // Styles: self + inline (Next.js injects inline styles, Tailwind)
+      // Scripts: self + inline (analytics init) + eval (GTM) + analytics + Cloudflare (Vercel)
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://mc.yandex.ru https://mc.yandex.com https://static.cloudflareinsights.com",
+      // Styles: self + inline (Next.js / Tailwind)
       "style-src 'self' 'unsafe-inline'",
-      // Images: self + CDNs + analytics pixels + data URIs + blob (Mapbox)
-      "img-src 'self' data: blob: https://cdn.jsdelivr.net https://cdn.simpleicons.org https://mc.yandex.ru https://www.googletagmanager.com https://www.google-analytics.com",
+      // Images: self + CDNs + analytics pixels + data/blob (Mapbox)
+      "img-src 'self' data: blob: https://cdn.jsdelivr.net https://cdn.simpleicons.org https://mc.yandex.ru https://mc.yandex.com https://www.googletagmanager.com https://www.google-analytics.com",
       // Fonts: self (Next.js self-hosts Google Fonts at build time)
       "font-src 'self'",
-      // Connect: self + Supabase + Brevo + Mapbox + analytics
-      "connect-src 'self' https://*.supabase.co https://api.brevo.com https://api.mapbox.com https://*.tiles.mapbox.com https://events.mapbox.com https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com",
+      // Connect: self + Supabase + Brevo + Mapbox + analytics + Cloudflare
+      "connect-src 'self' https://*.supabase.co https://api.brevo.com https://api.mapbox.com https://*.tiles.mapbox.com https://events.mapbox.com https://mc.yandex.ru https://mc.yandex.com https://www.google-analytics.com https://www.googletagmanager.com https://cloudflareinsights.com",
       // Frames: GTM noscript iframe
       "frame-src https://www.googletagmanager.com",
       // Workers: blob for Mapbox GL web workers
       "worker-src 'self' blob:",
-      // Child frames (inherits frame-src + worker-src)
       "child-src 'self' blob:",
-      // Media: none needed
       "media-src 'self'",
-      // Object: block plugins
       "object-src 'none'",
-      // Base URI: prevent base tag hijacking
       "base-uri 'self'",
-      // Form actions: self only
       "form-action 'self'",
-      // Frame ancestors: same origin (replaces X-Frame-Options)
       "frame-ancestors 'self'",
-      // Upgrade insecure requests
       "upgrade-insecure-requests",
     ].join('; ');
 
