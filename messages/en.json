@@ -986,6 +986,14 @@
       }
     }
   },
+  "newsletter": {
+    "label": "Newsletter",
+    "placeholder": "Your email",
+    "submit": "Subscribe",
+    "successMessage": "Subscribed! Check your inbox soon.",
+    "alreadySubscribed": "You're already subscribed.",
+    "errorGeneric": "Subscription failed. Please try again."
+  },
   "privacyPolicy": {
     "title": "Privacy Policy",
     "description": "Privacy Policy for nanosudo.com",

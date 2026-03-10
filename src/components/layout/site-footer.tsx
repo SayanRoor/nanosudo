@@ -17,6 +17,7 @@ import {
 import dynamic from "next/dynamic";
 import { useTheme } from "@/components/theme/theme-provider";
 import { Container } from "./container";
+import { NewsletterForm } from "@/components/newsletter/newsletter-form";
 
 const MapWidget = dynamic(
   () => import("@/components/map-widget").then((m) => ({ default: m.MapWidget })),
@@ -45,7 +46,7 @@ export function SiteFooter(): ReactElement {
     <footer className="relative pt-20 pb-10 border-t border-border/10 overflow-hidden bg-background">
       {/* Dynamic Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-linear-to-r from-transparent via-accent/30 to-transparent" />
         <div className="mesh-gradient opacity-10 dark:opacity-20 translate-y-24">
           <div className="mesh-orb w-[800px] h-[800px] -bottom-1/2 -right-1/4 bg-accent/10" />
           <div className="mesh-orb w-[600px] h-[600px] top-0 -left-1/4 bg-secondary/5" />
@@ -78,6 +79,8 @@ export function SiteFooter(): ReactElement {
                     {t('footer.branding.description')}
                   </p>
                 </div>
+
+                <NewsletterForm />
 
                 <div className="flex flex-wrap items-center gap-6">
                   <Link href="/brief" className="group/btn relative">
@@ -170,7 +173,7 @@ export function SiteFooter(): ReactElement {
                   </li>
                 ))}
               </ul>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1/2 bg-accent/[0.02] blur-3xl rounded-full pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1/2 bg-accent/2 blur-3xl rounded-full pointer-events-none" />
             </div>
           </div>
 

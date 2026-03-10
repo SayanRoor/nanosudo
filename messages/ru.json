@@ -1012,6 +1012,14 @@
       }
     }
   },
+  "newsletter": {
+    "label": "Подписка на рассылку",
+    "placeholder": "Ваш email",
+    "submit": "Подписаться",
+    "successMessage": "Подписка оформлена! Ждите писем.",
+    "alreadySubscribed": "Вы уже подписаны.",
+    "errorGeneric": "Не удалось подписаться. Попробуйте позже."
+  },
   "privacyPolicy": {
     "title": "Политика конфиденциальности",
     "description": "Политика конфиденциальности nanosudo.com",

@@ -987,6 +987,14 @@
       }
     }
   },
+  "newsletter": {
+    "label": "Жаңалықтар тізімі",
+    "placeholder": "Email мекенжайыңыз",
+    "submit": "Жазылу",
+    "successMessage": "Жазылдыңыз! Хаттарды күтіңіз.",
+    "alreadySubscribed": "Сіз бұрыннан жазылғансыз.",
+    "errorGeneric": "Жазылу сәтсіз болды. Кейінірек көріңіз."
+  },
   "privacyPolicy": {
     "title": "Құпиялылық саясаты",
     "description": "nanosudo.com сайтының құпиялылық саясаты",

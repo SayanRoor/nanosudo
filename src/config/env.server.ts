@@ -22,6 +22,14 @@ export const serverEnvSchema = z.object({
     .string()
     .email("RESEND_NOTIFICATION_EMAIL must be a valid email address.")
     .optional(),
+  BREVO_API_KEY: z
+    .string()
+    .min(1, "BREVO_API_KEY is required for newsletter subscriptions.")
+    .optional(),
+  BREVO_NEWSLETTER_LIST_ID: z
+    .string()
+    .min(1, "BREVO_NEWSLETTER_LIST_ID must be a numeric Brevo list ID.")
+    .optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
