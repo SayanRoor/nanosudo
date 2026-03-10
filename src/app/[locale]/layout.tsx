@@ -1,12 +1,12 @@
 import type { ReactElement } from "react";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Inter, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { CookieConsent } from "@/components/cookie-consent";
 import { routing } from "@/i18n/routing";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
 import { BackgroundInfrastructure } from "@/components/layout/background-infrastructure";
@@ -16,6 +16,11 @@ import {
   generateWebsiteStructuredData,
   generateOrganizationStructuredData
 } from "@/components/seo/structured-data";
+
+// Lazy-load non-critical cookie consent banner
+const CookieConsent = dynamic(
+  () => import("@/components/cookie-consent").then((m) => ({ default: m.CookieConsent })),
+);
 
 const interSans = Inter({
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],

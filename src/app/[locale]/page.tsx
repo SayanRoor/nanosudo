@@ -50,11 +50,21 @@ export default async function Home({ params }: HomeProps): Promise<ReactElement>
       <StructuredData data={generateServiceStructuredData()} />
       <main id="main-content" className="flex flex-1 flex-col">
         <HeroSection />
-        <ExpertiseSection />
-        <ProcessSection />
-        <GuaranteesSection />
-        <LatestCaseSection />
-        <FinalCTASection />
+        <div className="content-auto">
+          <ExpertiseSection />
+        </div>
+        <div className="content-auto">
+          <ProcessSection />
+        </div>
+        <div className="content-auto">
+          <GuaranteesSection />
+        </div>
+        <div className="content-auto">
+          <LatestCaseSection />
+        </div>
+        <div className="content-auto">
+          <FinalCTASection />
+        </div>
       </main>
       <ScrollButtons />
     </SiteShell>

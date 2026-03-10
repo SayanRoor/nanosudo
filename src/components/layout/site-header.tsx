@@ -28,20 +28,28 @@ export function SiteHeader(): ReactElement {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
+    let rafId = 0;
     const onScroll = (): void => {
-      const current = window.scrollY;
-      const previous = lastScrollY.current;
-      if (current > previous && current > 150) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setIsScrolled(current > 20);
-      lastScrollY.current = current;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const current = window.scrollY;
+        const previous = lastScrollY.current;
+        if (current > previous && current > 150) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+        setIsScrolled(current > 20);
+        lastScrollY.current = current;
+        rafId = 0;
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return (): void => window.removeEventListener("scroll", onScroll);
+    return (): void => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   useEffect(() => {
