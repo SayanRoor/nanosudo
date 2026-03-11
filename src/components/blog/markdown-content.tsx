@@ -112,6 +112,7 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
+          pre: ({ children }) => <>{children}</>,
           table: ({ children }) => (
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -147,9 +148,10 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
           code({ className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '');
             const language = match ? match[1] : undefined;
-            const isInline = !match;
+            const content = String(children).replace(/\n$/, '');
+            const isBlock = match || content.includes('\n');
 
-            if (isInline) {
+            if (!isBlock) {
               return (
                 <code
                   className="rounded bg-accent/10 px-1.5 py-0.5 text-sm font-mono text-accent"
@@ -160,9 +162,17 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
               );
             }
 
+            if (!language) {
+              return (
+                <pre className="overflow-x-auto rounded-xl bg-[#282c34] p-6 text-sm text-[#abb2bf] font-mono whitespace-pre leading-relaxed">
+                  <code>{content}</code>
+                </pre>
+              );
+            }
+
             return (
               <CodeBlock language={language}>
-                {String(children).replace(/\n$/, '')}
+                {content}
               </CodeBlock>
             );
           },
