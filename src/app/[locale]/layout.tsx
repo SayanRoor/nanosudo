@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -101,6 +102,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           </a>
           {children}
           <CookieConsent />
+          <SpeedInsights />
         </NextIntlClientProvider>
       </ThemeProvider>
     </div>
