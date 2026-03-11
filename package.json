@@ -74,7 +74,7 @@
     "not dead"
   ],
   "engines": {
-    "node": ">=20.0.0",
+    "node": "20.x",
     "pnpm": ">=8.0.0"
   }
 }
