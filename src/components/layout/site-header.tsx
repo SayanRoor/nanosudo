@@ -63,7 +63,7 @@ export function SiteHeader(): ReactElement {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10",
+          "fixed top-0 left-0 right-0 z-100 transition-all duration-500 px-6 md:px-10",
           isScrolled ? "py-4" : "py-8",
           (isVisible || isMenuOpen) ? "translate-y-0" : "-translate-y-full"
         )}
@@ -118,7 +118,7 @@ export function SiteHeader(): ReactElement {
                 className="group relative hidden lg:inline-flex items-center justify-center rounded-2xl bg-foreground px-8 py-3.5 text-[10px] font-black uppercase tracking-[0.2em] text-background transition-all duration-500 hover:bg-accent hover:text-black hover:shadow-lg hover:shadow-accent/30 overflow-hidden active:scale-95"
               >
                 <span className="relative z-10">{t('common.cta.submitRequest')}</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </Link>
 
               {/* Mobile Menu Toggle */}

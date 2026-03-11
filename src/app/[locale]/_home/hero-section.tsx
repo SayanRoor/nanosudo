@@ -109,7 +109,7 @@ export function HeroSection(): ReactElement {
           {/* RIGHT COLUMN - Photo & Social */}
           <div className="animate-fade-in-right relative w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:ml-auto space-y-4 md:space-y-6 mt-8 lg:mt-0 order-2 lg:order-2">
             {/* Photo — glass card */}
-            <div className="glass-card rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-6 lg:p-8 border-border/40 overflow-hidden relative group">
+            <div className="glass-card rounded-4xl md:rounded-[2.5rem] p-4 md:p-6 lg:p-8 border-border/40 overflow-hidden relative group">
               <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-32 h-32 md:w-48 md:h-48 bg-accent/10 blur-[60px] md:blur-[80px] rounded-full" />
               <div className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-linear-to-br from-accent/20 to-accent/5">
                 <Image
