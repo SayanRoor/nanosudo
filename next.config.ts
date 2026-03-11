@@ -32,37 +32,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   async headers() {
-    // Content-Security-Policy directives
-    const cspDirectives = [
-      "default-src 'self'",
-      // Scripts: self + inline (analytics init) + eval (GTM) + analytics + Cloudflare (Vercel)
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://mc.yandex.ru https://mc.yandex.com https://static.cloudflareinsights.com",
-      // Styles: self + inline (Next.js / Tailwind)
-      "style-src 'self' 'unsafe-inline'",
-      // Images: self + CDNs + analytics pixels + data/blob (Mapbox)
-      "img-src 'self' data: blob: https://cdn.jsdelivr.net https://cdn.simpleicons.org https://mc.yandex.ru https://mc.yandex.com https://www.googletagmanager.com https://www.google-analytics.com",
-      // Fonts: self (Next.js self-hosts Google Fonts at build time)
-      "font-src 'self'",
-      // Connect: self + Supabase + Brevo + Mapbox + analytics + Cloudflare
-      "connect-src 'self' https://*.supabase.co https://api.brevo.com https://api.mapbox.com https://*.tiles.mapbox.com https://events.mapbox.com https://mc.yandex.ru https://mc.yandex.com https://www.google-analytics.com https://www.googletagmanager.com https://cloudflareinsights.com",
-      // Frames: GTM noscript iframe
-      "frame-src https://www.googletagmanager.com",
-      // Workers: blob for Mapbox GL web workers
-      "worker-src 'self' blob:",
-      "child-src 'self' blob:",
-      "media-src 'self'",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'self'",
-      "upgrade-insecure-requests",
-    ].join('; ');
-
+    // CSP is handled in middleware (nonce-based, per-request)
     const securityHeaders = [
-      {
-        key: 'Content-Security-Policy',
-        value: cspDirectives,
-      },
       {
         key: 'X-Frame-Options',
         value: 'SAMEORIGIN',

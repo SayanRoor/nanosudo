@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import type { ReactNode } from "react";
 
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { readonly children: ReactNode }): ReactNode {
+export default async function RootLayout({ children }: { readonly children: ReactNode }): Promise<ReactNode> {
+  const nonce = (await headers()).get('x-nonce') ?? '';
+
   return (
     <html lang="ru" suppressHydrationWarning data-theme="dark">
       <head>
@@ -20,35 +23,19 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
         <link rel="mask-icon" href="/favicon-for-app/icon0.svg" color="#000000" />
         <link rel="manifest" href="/favicon-for-app/manifest.json" />
         <meta name="theme-color" content="#000000" />
-        {/* Preload hero image for faster LCP */}
-        <link
-          rel="preload"
-          as="image"
-          href="/Roor_Sayan_Web_Developer.jpg"
-          fetchPriority="high"
-        />
         <link rel="preconnect" href="https://mc.yandex.ru" />
         <link rel="dns-prefetch" href="https://mc.yandex.ru" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <body>
-        {/* Yandex Metrica — deferred via requestIdleCallback to reduce TBT */}
-        <Script id="ym-init" strategy="lazyOnload">
-          {`
-            (function(){
-              var init=function(){
-                (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-                (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-                ym(105451631,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-              };
-              if('requestIdleCallback' in window){requestIdleCallback(init)}else{setTimeout(init,3500)}
-            })();
-          `}
-        </Script>
+        {/* Yandex Metrica — external script, loaded after window.onload */}
+        <Script
+          id="ym-init"
+          src="/scripts/ym-init.js"
+          strategy="lazyOnload"
+          nonce={nonce}
+        />
         <noscript>
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -66,21 +53,13 @@ export default function RootLayout({ children }: { readonly children: ReactNode 
           />
         </noscript>
 
-        {/* Google Tag Manager — deferred via requestIdleCallback */}
-        <Script id="gtm-base" strategy="lazyOnload">
-          {`
-            (function(){
-              var init=function(){
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','GTM-NC3L984P');
-              };
-              if('requestIdleCallback' in window){requestIdleCallback(init)}else{setTimeout(init,3500)}
-            })();
-          `}
-        </Script>
+        {/* Google Tag Manager — external script, loaded after window.onload */}
+        <Script
+          id="gtm-base"
+          src="/scripts/gtm-init.js"
+          strategy="lazyOnload"
+          nonce={nonce}
+        />
 
         {children}
       </body>
