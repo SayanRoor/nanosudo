@@ -11,12 +11,6 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { routing } from "@/i18n/routing";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
 import { BackgroundInfrastructure } from "@/components/layout/background-infrastructure";
-import {
-  StructuredData,
-  generatePersonStructuredData,
-  generateWebsiteStructuredData,
-  generateOrganizationStructuredData
-} from "@/components/seo/structured-data";
 
 // Lazy-load non-critical cookie consent banner
 const CookieConsent = dynamic(
@@ -84,8 +78,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     notFound();
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
   const t = await getTranslations({ locale });
 
@@ -93,9 +85,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     <div lang={locale} className={`${interSans.variable} ${geistMono.variable} font-sans antialiased scroll-smooth bg-background text-foreground`}>
       <ThemeProvider>
         <NextIntlClientProvider messages={messages}>
-          <StructuredData data={generatePersonStructuredData(locale)} />
-          <StructuredData data={generateWebsiteStructuredData(locale)} />
-          <StructuredData data={generateOrganizationStructuredData()} />
           <BackgroundInfrastructure />
           <a className="skip-link" href="#main-content">
             {t("common.skipToContent")}

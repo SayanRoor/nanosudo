@@ -1,22 +1,26 @@
 'use client';
 
-import type { ReactElement } from "react";
-import { useState, Suspense } from "react";
+import type { ReactElement, ReactNode } from "react";
+import { useState, Children, isValidElement } from "react";
 import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Copy, Check } from "lucide-react";
 
 const SyntaxHighlighter = dynamic(
   () => import("react-syntax-highlighter").then((m) => m.Prism),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: () => <CodeBlockFallback />,
+  },
 );
 
 type MarkdownContentProps = {
   readonly content: string;
 };
 
-function CodeBlockFallback({ children }: { readonly children: string }): ReactElement {
+function CodeBlockFallback({ children }: { readonly children?: string }): ReactElement {
   return (
     <pre className="overflow-x-auto rounded-xl bg-[#282c34] p-6 text-sm text-[#abb2bf]">
       <code>{children}</code>
@@ -32,13 +36,6 @@ function CodeBlock({
   readonly children: string;
 }): ReactElement {
   const [copied, setCopied] = useState<boolean>(false);
-  const [style, setStyle] = useState<Record<string, React.CSSProperties> | null>(null);
-
-  if (!style) {
-    import("react-syntax-highlighter/dist/cjs/styles/prism")
-      .then((m) => setStyle(m.oneDark as Record<string, React.CSSProperties>))
-      .catch(() => {});
-  }
 
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(children);
@@ -68,23 +65,45 @@ function CodeBlock({
           )}
         </button>
       </div>
-      <Suspense fallback={<CodeBlockFallback>{children}</CodeBlockFallback>}>
-        <SyntaxHighlighter
-          language={language || 'typescript'}
-          style={style ?? {}}
-          customStyle={{
-            margin: 0,
-            borderRadius: '0.75rem',
-            padding: '1.5rem',
-            fontSize: '0.875rem',
-          }}
-          showLineNumbers
-        >
-          {children}
-        </SyntaxHighlighter>
-      </Suspense>
+      <SyntaxHighlighter
+        language={language || 'typescript'}
+        style={oneDark as Record<string, React.CSSProperties>}
+        customStyle={{
+          margin: 0,
+          borderRadius: '0.75rem',
+          padding: '1.5rem',
+          fontSize: '0.875rem',
+        }}
+        showLineNumbers
+      >
+        {children}
+      </SyntaxHighlighter>
     </div>
   );
+}
+
+function extractText(node: ReactNode): string {
+  if (typeof node === 'string') return node;
+  if (typeof node === 'number') return String(node);
+  if (!node) return '';
+  if (Array.isArray(node)) return node.map(extractText).join('');
+  if (isValidElement(node)) {
+    return extractText((node.props as { children?: ReactNode }).children);
+  }
+  return Children.toArray(node).map(extractText).join('');
+}
+
+function toSlug(children: ReactNode): string {
+  return extractText(children)
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .replace(/\s+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function isAnchorHref(href: string | undefined): boolean {
+  if (!href) return false;
+  return href.startsWith('#') || href.startsWith('%23');
 }
 
 export function MarkdownContent({ content }: MarkdownContentProps): ReactElement {
@@ -148,17 +167,17 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
             );
           },
           h1: ({ children }) => (
-            <h1 className="font-heading text-4xl md:text-5xl mb-6 mt-8 first:mt-0">
+            <h1 id={toSlug(children)} className="font-heading text-4xl md:text-5xl mb-6 mt-8 first:mt-0 scroll-mt-24">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="font-heading text-3xl md:text-4xl mb-4 mt-8 first:mt-0">
+            <h2 id={toSlug(children)} className="font-heading text-3xl md:text-4xl mb-4 mt-8 first:mt-0 scroll-mt-24">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="font-heading text-2xl md:text-3xl mb-3 mt-6 first:mt-0">
+            <h3 id={toSlug(children)} className="font-heading text-2xl md:text-3xl mb-3 mt-6 first:mt-0 scroll-mt-24">
               {children}
             </h3>
           ),
@@ -185,16 +204,28 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
               {children}
             </blockquote>
           ),
-          a: ({ href, children }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:text-accent/80 underline transition-colors"
-            >
-              {children}
-            </a>
-          ),
+          a: ({ href, children }) => {
+            if (isAnchorHref(href)) {
+              return (
+                <a
+                  href={href}
+                  className="text-accent hover:text-accent/80 underline transition-colors"
+                >
+                  {children}
+                </a>
+              );
+            }
+            return (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:text-accent/80 underline transition-colors"
+              >
+                {children}
+              </a>
+            );
+          },
           strong: ({ children }) => (
             <strong className="font-semibold text-foreground">{children}</strong>
           ),
@@ -205,4 +236,3 @@ export function MarkdownContent({ content }: MarkdownContentProps): ReactElement
     </div>
   );
 }
-

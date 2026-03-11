@@ -13,7 +13,7 @@ type BlogPageMetadataProps = {
 
 export async function generateMetadata({ params }: BlogPageMetadataProps): Promise<Metadata> {
   const { locale } = await params;
-  
+
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     return generateBaseMetadata();
   }

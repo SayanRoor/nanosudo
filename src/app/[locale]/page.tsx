@@ -6,6 +6,7 @@ import {
   StructuredData,
   generatePersonStructuredData,
   generateWebsiteStructuredData,
+  generateOrganizationStructuredData,
   generateServiceStructuredData,
 } from "@/components/seo/structured-data";
 import { HeroSection } from "./_home/hero-section";
@@ -47,6 +48,7 @@ export default async function Home({ params }: HomeProps): Promise<ReactElement>
     <SiteShell>
       <StructuredData data={generatePersonStructuredData(locale)} />
       <StructuredData data={generateWebsiteStructuredData(locale)} />
+      <StructuredData data={generateOrganizationStructuredData()} />
       <StructuredData data={generateServiceStructuredData()} />
       <main id="main-content" className="flex flex-1 flex-col">
         <HeroSection />

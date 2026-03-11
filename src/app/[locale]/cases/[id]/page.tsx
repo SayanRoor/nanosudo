@@ -41,4 +41,3 @@ export async function generateStaticParams(): Promise<Array<{ readonly id: strin
     id: project.id,
   }));
 }
-

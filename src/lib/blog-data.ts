@@ -4997,6 +4997,2947 @@ Voting will be conducted as **a single question** — for the entire document, w
       },
     },
   },
+  {
+  slug: "deploy-web-app-docker-nginx-server-guide",
+  image: "/deploy-web-app-docker-nginx-server-2026.jpg",
+  publishedAt: "2026-03-11",
+  author: "Sayan Roor",
+  tags: ["Docker", "Nginx", "DevOps", "Deployment", "Server"] as const,
+  readingTime: 25,
+  featured: false,
+  translations: {
+    title: {
+      ru: "Полное руководство: деплой веб-приложения с Docker, Nginx и SSL на продакшен-сервер",
+      en: "Complete Guide: Deploy a Web App with Docker, Nginx & SSL to a Production Server",
+      kk: "Толық нұсқаулық: Docker, Nginx және SSL арқылы веб-қосымшаны продакшен серверге орналастыру",
+    },
+    description: {
+      ru: "Пошаговая инструкция по развёртыванию веб-приложения на VPS: Docker Compose, Nginx reverse proxy, SSL-сертификаты Let's Encrypt, PostgreSQL, Redis, MinIO, мониторинг, бэкапы и CI/CD.",
+      en: "Step-by-step guide to deploying a web application on a VPS: Docker Compose, Nginx reverse proxy, Let's Encrypt SSL certificates, PostgreSQL, Redis, MinIO, monitoring, backups, and CI/CD.",
+      kk: "VPS-ке веб-қосымшаны орналастыру бойынша қадамдық нұсқаулық: Docker Compose, Nginx reverse proxy, Let's Encrypt SSL сертификаттары, PostgreSQL, Redis, MinIO, мониторинг, бэкаптар және CI/CD.",
+    },
+    excerpt: {
+      ru: "Разбираем весь процесс деплоя: от подготовки сервера до настройки мониторинга и автоматических бэкапов. Docker Compose, Nginx, SSL, PostgreSQL, Redis, CI/CD — всё в одной статье.",
+      en: "A complete walkthrough of the deployment process: from server preparation to monitoring and automated backups. Docker Compose, Nginx, SSL, PostgreSQL, Redis, CI/CD — all in one article.",
+      kk: "Деплой процесін толығымен қарастырамыз: серверді дайындаудан мониторинг пен автоматты бэкаптарға дейін. Docker Compose, Nginx, SSL, PostgreSQL, Redis, CI/CD — бәрі бір мақалада.",
+    },
+    imageAlt: {
+      ru: "Деплой веб-приложения с Docker и Nginx на сервер в 2026 году",
+      en: "Deploy a web app with Docker and Nginx to a server in 2026",
+      kk: "2026 жылы Docker және Nginx арқылы веб-қосымшаны серверге орналастыру",
+    },
+    category: {
+      ru: "DevOps",
+      en: "DevOps",
+      kk: "DevOps",
+    },
+    publishedLabel: {
+      ru: "11 марта 2026",
+      en: "March 11, 2026",
+      kk: "2026 ж. 11 наурыз",
+    },
+    content: {
+      ru: `# Полное руководство: деплой веб-приложения с Docker, Nginx и SSL на продакшен-сервер
+
+> Пошаговая инструкция по развёртыванию приложения на VPS. Каждый шаг содержит команду, объяснение и ожидаемый результат. Подходит как для Next.js, NestJS, так и для любого другого стека.
+
+---
+
+## Содержание
+
+1. [Требования к серверу](#1-требования-к-серверу)
+2. [Архитектура проекта](#2-архитектура-проекта)
+3. [Подготовка сервера](#3-подготовка-сервера)
+4. [Установка Docker и Nginx](#4-установка-docker-и-nginx)
+5. [Docker Compose: конфигурация сервисов](#5-docker-compose-конфигурация-сервисов)
+6. [Настройка Nginx как reverse proxy](#6-настройка-nginx-как-reverse-proxy)
+7. [SSL-сертификаты Let's Encrypt](#7-ssl-сертификаты-lets-encrypt)
+8. [PostgreSQL, Redis и MinIO в Docker](#8-postgresql-redis-и-minio-в-docker)
+9. [Переменные окружения и секреты](#9-переменные-окружения-и-секреты)
+10. [Настройка файрвола](#10-настройка-файрвола)
+11. [Мониторинг (Prometheus + Grafana)](#11-мониторинг-prometheus--grafana)
+12. [Автоматические бэкапы](#12-автоматические-бэкапы)
+13. [CI/CD через GitHub Actions](#13-cicd-через-github-actions)
+14. [Устранение неполадок](#14-устранение-неполадок)
+15. [Чеклист продакшена](#15-чеклист-продакшена)
+
+---
+
+## 1. Требования к серверу
+
+Перед началом убедитесь, что у вас есть VPS с достаточными ресурсами.
+
+| Параметр | Минимум | Рекомендуется |
+|----------|---------|---------------|
+| CPU | 2 vCPU | 4 vCPU |
+| RAM | 4 GB | 8 GB |
+| Диск | 40 GB SSD | 80+ GB SSD |
+| ОС | Ubuntu 22.04 LTS | Ubuntu 24.04 LTS |
+| Сеть | 100 Mbps | 1 Gbps |
+
+**Где арендовать сервер:**
+- [Hetzner](https://hetzner.com) — Европа, от $4/мес
+- [DigitalOcean](https://digitalocean.com) — от $6/мес
+- [Timeweb Cloud](https://timeweb.cloud) — от ~2000 тг/мес
+- [PS.kz](https://ps.kz) — Казахстан, локальные серверы
+
+Также вам понадобится:
+- **Домен** (например \`your-domain.com\`) с доступом к DNS-настройкам
+- **SSH-клиент** (встроен в macOS/Linux, на Windows — PuTTY или Windows Terminal)
+
+---
+
+## 2. Архитектура проекта
+
+Прежде чем начинать деплой, важно понимать как компоненты взаимодействуют:
+
+\`\`\`
+        Пользователь (браузер)
+              │
+              ▼
+    ┌─────────────────┐
+    │   Nginx (:80/443)│  ← Принимает все запросы, раздаёт по адресам
+    └────┬────────┬────┘
+         │        │
+         ▼        ▼
+   ┌──────────┐  ┌──────────┐
+   │  Web     │  │  API     │
+   │ (Next.js)│  │ (NestJS) │  ← Приложения в Docker-контейнерах
+   │  :3000   │  │  :3001   │
+   └──────────┘  └──┬──┬──┬─┘
+                    │  │  │
+          ┌─────────┘  │  └────────┐
+          ▼            ▼           ▼
+   ┌──────────┐ ┌──────────┐ ┌─────────┐
+   │PostgreSQL│ │  Redis   │ │  MinIO  │
+   │  (БД)   │ │  (кэш)   │ │ (файлы) │
+   │  :5432   │ │  :6379   │ │  :9000  │
+   └──────────┘ └──────────┘ └─────────┘
+\`\`\`
+
+**Роль каждого компонента:**
+- **Nginx** — принимает запросы из интернета, терминирует SSL и проксирует к контейнерам
+- **Web** — фронтенд (SSR/SSG), то что видит пользователь
+- **API** — серверная логика (авторизация, данные, файлы)
+- **PostgreSQL** — основная база данных
+- **Redis** — кэширование и очереди
+- **MinIO** — S3-совместимое хранилище файлов
+
+---
+
+## 3. Подготовка сервера
+
+### 3.1. Подключение к серверу
+
+\`\`\`bash
+ssh root@YOUR_SERVER_IP
+\`\`\`
+
+### 3.2. Обновление системы
+
+\`\`\`bash
+apt update && apt upgrade -y
+\`\`\`
+
+> Скачивает и устанавливает все обновления безопасности. Занимает 1-3 минуты.
+
+### 3.3. Установка базовых утилит
+
+\`\`\`bash
+apt install -y curl wget git unzip htop nano ufw fail2ban
+\`\`\`
+
+**Что мы установили:**
+- \`curl\`, \`wget\` — скачивание файлов
+- \`git\` — управление кодом
+- \`htop\` — мониторинг нагрузки
+- \`ufw\` — файрвол
+- \`fail2ban\` — защита от перебора паролей
+
+### 3.4. Создание deploy-пользователя
+
+> Работать под \`root\` опасно — одна ошибка может сломать весь сервер. Создаём отдельного пользователя.
+
+\`\`\`bash
+adduser deploy
+usermod -aG sudo deploy
+\`\`\`
+
+### 3.5. Настройка SSH-ключа
+
+\`\`\`bash
+mkdir -p /home/deploy/.ssh
+cp ~/.ssh/authorized_keys /home/deploy/.ssh/
+chown -R deploy:deploy /home/deploy/.ssh
+chmod 700 /home/deploy/.ssh
+chmod 600 /home/deploy/.ssh/authorized_keys
+\`\`\`
+
+### 3.6. Защита SSH
+
+Откройте конфигурацию SSH:
+
+\`\`\`bash
+nano /etc/ssh/sshd_config
+\`\`\`
+
+Измените следующие строки:
+
+\`\`\`
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+\`\`\`
+
+Перезапустите SSH:
+
+\`\`\`bash
+systemctl restart sshd
+\`\`\`
+
+> **Важно:** перед закрытием текущей сессии откройте новый терминал и проверьте, что можете подключиться: \`ssh deploy@YOUR_SERVER_IP\`
+
+### 3.7. Переключение на deploy-пользователя
+
+С этого момента все команды выполняем от имени \`deploy\`:
+
+\`\`\`bash
+su - deploy
+\`\`\`
+
+---
+
+## 4. Установка Docker и Nginx
+
+### 4.1. Docker
+
+\`\`\`bash
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker deploy
+newgrp docker
+\`\`\`
+
+**Проверка:**
+
+\`\`\`bash
+docker --version
+docker compose version
+\`\`\`
+
+Ожидаемый результат:
+\`\`\`
+Docker version 27.x.x, build ...
+Docker Compose version v2.x.x
+\`\`\`
+
+### 4.2. Nginx
+
+\`\`\`bash
+sudo apt install -y nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+\`\`\`
+
+**Проверка:**
+
+\`\`\`bash
+sudo systemctl status nginx
+\`\`\`
+
+Должна быть строка \`Active: active (running)\`.
+
+### 4.3. Certbot (для SSL)
+
+\`\`\`bash
+sudo apt install -y certbot python3-certbot-nginx
+\`\`\`
+
+---
+
+## 5. Docker Compose: конфигурация сервисов
+
+Создайте файл \`docker-compose.prod.yml\` в корне вашего проекта. Это главный файл, описывающий все сервисы.
+
+\`\`\`yaml
+version: "3.8"
+
+services:
+  # === База данных ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: \${COMPOSE_PROJECT_NAME}_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: \${DB_USER}
+      POSTGRES_PASSWORD: \${DB_PASSWORD}
+      POSTGRES_DB: \${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \${DB_USER} -d \${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Кэш ===
+  redis:
+    image: redis:7-alpine
+    container_name: \${COMPOSE_PROJECT_NAME}_redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Файловое хранилище ===
+  minio:
+    image: minio/minio:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: \${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: \${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === API ===
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: \${COMPOSE_PROJECT_NAME}_api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+
+  # === Web ===
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://api.YOUR_DOMAIN
+    container_name: \${COMPOSE_PROJECT_NAME}_web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - api
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+
+volumes:
+  postgres_data:
+  minio_data:
+\`\`\`
+
+> **Обратите внимание:** все порты инфраструктуры привязаны к \`127.0.0.1\` — они не доступны из интернета напрямую, только через Nginx.
+
+---
+
+## 6. Настройка Nginx как reverse proxy
+
+> Nginx принимает запросы из интернета и направляет их к Docker-контейнерам. Без Nginx сайт не будет доступен по домену.
+
+### 6.1. Конфигурация для основного сайта
+
+> **Важно:** создаём конфиги только с HTTP (порт 80). SSL-блоки добавит certbot автоматически.
+
+\`\`\`bash
+sudo tee /etc/nginx/sites-available/YOUR_DOMAIN > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name YOUR_DOMAIN www.YOUR_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 90s;
+    }
+
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_cache_valid 200 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}
+EOF
+\`\`\`
+
+### 6.2. Конфигурация для API
+
+\`\`\`bash
+sudo tee /etc/nginx/sites-available/api.YOUR_DOMAIN > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name api.YOUR_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 90s;
+    }
+
+    location /media/ {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_cache_valid 200 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+EOF
+\`\`\`
+
+### 6.3. Активация конфигов
+
+\`\`\`bash
+sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/api.YOUR_DOMAIN /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+\`\`\`
+
+### 6.4. Проверка и перезагрузка
+
+\`\`\`bash
+sudo nginx -t
+\`\`\`
+
+Ожидаемый результат:
+\`\`\`
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+\`\`\`
+
+\`\`\`bash
+sudo systemctl reload nginx
+\`\`\`
+
+---
+
+## 7. SSL-сертификаты Let's Encrypt
+
+> SSL шифрует соединение между пользователем и сервером. Без него браузер показывает предупреждение «Небезопасный сайт». Let's Encrypt выдаёт бесплатные сертификаты.
+
+### 7.1. Настройка DNS
+
+Перед получением сертификатов убедитесь, что DNS-записи настроены:
+
+| Тип | Имя | Значение | TTL |
+|-----|------|----------|-----|
+| A | \`@\` | \`YOUR_SERVER_IP\` | 3600 |
+| A | \`www\` | \`YOUR_SERVER_IP\` | 3600 |
+| A | \`api\` | \`YOUR_SERVER_IP\` | 3600 |
+
+Проверка:
+
+\`\`\`bash
+dig +short YOUR_DOMAIN
+dig +short api.YOUR_DOMAIN
+\`\`\`
+
+### 7.2. Получение сертификатов
+
+\`\`\`bash
+sudo certbot --nginx -d YOUR_DOMAIN -d www.YOUR_DOMAIN -d api.YOUR_DOMAIN
+\`\`\`
+
+> Certbot спросит email и предложит перенаправление HTTP на HTTPS — выберите «Redirect».
+
+### 7.3. Проверка автопродления
+
+\`\`\`bash
+sudo certbot renew --dry-run
+\`\`\`
+
+Ожидаемый результат: \`Congratulations, all simulated renewals succeeded\`
+
+> Сертификаты автоматически продляются каждые 60 дней. Ничего дополнительно делать не нужно.
+
+---
+
+## 8. PostgreSQL, Redis и MinIO в Docker
+
+### 8.1. Запуск инфраструктуры
+
+Сначала запускаем базовые сервисы, от которых зависит приложение:
+
+\`\`\`bash
+cd /home/deploy/your-project
+docker compose -f docker-compose.prod.yml up -d postgres redis minio
+\`\`\`
+
+Подождите 15 секунд для инициализации БД:
+
+\`\`\`bash
+sleep 15
+\`\`\`
+
+### 8.2. Проверка
+
+\`\`\`bash
+docker compose -f docker-compose.prod.yml ps
+\`\`\`
+
+Все 3 сервиса должны быть в статусе \`Up (healthy)\`.
+
+### 8.3. Настройка MinIO
+
+Установите MinIO Client:
+
+\`\`\`bash
+curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+sudo mv mc /usr/local/bin/
+\`\`\`
+
+Подключитесь и создайте бакет:
+
+\`\`\`bash
+mc alias set prod http://localhost:9000 minioadmin YOUR_MINIO_PASSWORD
+mc mb prod/uploads
+mc anonymous set download prod/uploads
+\`\`\`
+
+### 8.4. Сборка и запуск приложения
+
+\`\`\`bash
+# Сборка (5-15 минут)
+docker compose -f docker-compose.prod.yml build api web
+
+# Запуск
+docker compose -f docker-compose.prod.yml up -d api web
+\`\`\`
+
+### 8.5. Инициализация базы данных
+
+\`\`\`bash
+docker exec your-project_api npx prisma db push
+\`\`\`
+
+Ожидаемый результат: \`Your database is now in sync with your Prisma schema.\`
+
+---
+
+## 9. Переменные окружения и секреты
+
+### 9.1. Генерация секретов
+
+Каждый пароль и секрет должен быть уникальным. Никогда не используйте пароли из примеров!
+
+\`\`\`bash
+echo "=== СОХРАНИТЕ ЭТИ ЗНАЧЕНИЯ ==="
+echo "JWT_SECRET=$(openssl rand -hex 32)"
+echo "JWT_REFRESH_SECRET=$(openssl rand -hex 32)"
+echo "DB_PASSWORD=$(openssl rand -base64 24 | tr -d '=/+')"
+echo "MINIO_PASSWORD=$(openssl rand -base64 24 | tr -d '=/+')"
+echo "GRAFANA_PASSWORD=$(openssl rand -base64 16 | tr -d '=/+')"
+echo "=== КОНЕЦ СЕКРЕТОВ ==="
+\`\`\`
+
+### 9.2. Файл .env
+
+Создайте файл \`.env\` рядом с \`docker-compose.prod.yml\`:
+
+\`\`\`env
+# === Проект ===
+COMPOSE_PROJECT_NAME=your-project
+
+# === База данных ===
+DB_USER=postgres
+DB_PASSWORD=YOUR_DB_PASSWORD
+DB_NAME=app_db
+
+# === JWT ===
+JWT_SECRET=YOUR_JWT_SECRET
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=YOUR_JWT_REFRESH_SECRET
+JWT_REFRESH_EXPIRES_IN=7d
+
+# === CORS ===
+CORS_ORIGIN=https://YOUR_DOMAIN
+
+# === MinIO ===
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=YOUR_MINIO_PASSWORD
+S3_BUCKET=uploads
+S3_PUBLIC_URL=https://api.YOUR_DOMAIN/media
+
+# === Фронтенд ===
+NEXT_PUBLIC_API_URL=https://api.YOUR_DOMAIN
+\`\`\`
+
+> **Безопасность:** никогда не коммитьте файл \`.env\` в Git. Добавьте его в \`.gitignore\`.
+
+---
+
+## 10. Настройка файрвола
+
+> Файрвол блокирует все порты кроме необходимых. Без него любой может подключиться к базе данных напрямую!
+
+\`\`\`bash
+# Политика по умолчанию
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Разрешить SSH (без этого потеряете доступ!)
+sudo ufw allow 22/tcp
+
+# Разрешить HTTP и HTTPS
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Включить файрвол
+sudo ufw enable
+\`\`\`
+
+**Проверка:**
+
+\`\`\`bash
+sudo ufw status verbose
+\`\`\`
+
+Ожидаемый результат:
+\`\`\`
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    Anywhere
+\`\`\`
+
+> Порты 3000, 3001, 5432, 6379, 9000 НЕ открыты наружу — они доступны только через Nginx.
+
+### Настройка fail2ban
+
+\`\`\`bash
+sudo tee /etc/fail2ban/jail.local > /dev/null << 'EOF'
+[sshd]
+enabled = true
+port = 22
+maxretry = 3
+bantime = 3600
+findtime = 600
+
+[nginx-http-auth]
+enabled = true
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
+\`\`\`
+
+> После 3 неудачных попыток входа IP-адрес блокируется на 1 час.
+
+---
+
+## 11. Мониторинг (Prometheus + Grafana)
+
+> Мониторинг опционален, но настоятельно рекомендуется для продакшена.
+
+### 11.1. Добавление сервисов мониторинга в Docker Compose
+
+Добавьте следующие сервисы в ваш \`docker-compose.prod.yml\`:
+
+\`\`\`yaml
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: \${GRAFANA_USER}
+      GF_SECURITY_ADMIN_PASSWORD: \${GRAFANA_PASSWORD}
+      GF_SERVER_ROOT_URL: \${GRAFANA_ROOT_URL}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:3002:3000"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_node_exporter
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9100:9100"
+\`\`\`
+
+### 11.2. Запуск мониторинга
+
+\`\`\`bash
+docker compose -f docker-compose.prod.yml up -d prometheus grafana node-exporter
+\`\`\`
+
+### 11.3. Что мониторить
+
+| Метрика | Описание | Порог алерта |
+|---------|----------|--------------|
+| CPU сервера | Нагрузка на процессор | > 80% |
+| RAM | Использование памяти | > 85% |
+| Диск | Заполненность диска | > 90% |
+| PostgreSQL | Активные подключения | > 80 |
+| Redis | Использование памяти | > 200 MB |
+| API | Время ответа, ошибки 5xx | > 2s / > 1% |
+
+---
+
+## 12. Автоматические бэкапы
+
+> **Правило: если вы не проверяли восстановление — бэкапа не существует.**
+
+### 12.1. Скрипт бэкапа
+
+\`\`\`bash
+sudo tee /home/deploy/backup.sh > /dev/null << 'SCRIPT'
+#!/bin/bash
+set -euo pipefail
+
+BACKUP_DIR="/home/deploy/backups"
+DATE=$(date +%Y%m%d_%H%M%S)
+RETENTION_DAYS=14
+COMPOSE_FILE="/home/deploy/your-project/docker-compose.prod.yml"
+CONTAINER_PREFIX="your-project"
+
+mkdir -p "$BACKUP_DIR"
+
+echo "[$(date)] Начало резервного копирования..."
+
+# 1. Бэкап PostgreSQL
+echo "[$(date)] Копирование базы данных..."
+docker exec \${CONTAINER_PREFIX}_postgres pg_dump \\
+  -U postgres \\
+  -d app_db \\
+  --format=custom \\
+  --compress=9 \\
+  > "$BACKUP_DIR/db_$DATE.dump"
+
+DB_SIZE=$(du -h "$BACKUP_DIR/db_$DATE.dump" | cut -f1)
+echo "[$(date)] БД скопирована: db_$DATE.dump ($DB_SIZE)"
+
+# 2. Бэкап MinIO
+echo "[$(date)] Копирование файлов MinIO..."
+mc mirror prod/uploads "$BACKUP_DIR/uploads_$DATE/" --quiet 2>/dev/null || true
+echo "[$(date)] MinIO скопирован"
+
+# 3. Удаление старых бэкапов
+echo "[$(date)] Удаление бэкапов старше $RETENTION_DAYS дней..."
+find "$BACKUP_DIR" -name "db_*.dump" -mtime +$RETENTION_DAYS -delete 2>/dev/null || true
+find "$BACKUP_DIR" -maxdepth 1 -name "uploads_*" -type d -mtime +$RETENTION_DAYS -exec rm -rf {} + 2>/dev/null || true
+
+TOTAL_SIZE=$(du -sh "$BACKUP_DIR" | cut -f1)
+echo "[$(date)] Резервное копирование завершено. Общий размер: $TOTAL_SIZE"
+SCRIPT
+
+chmod +x /home/deploy/backup.sh
+\`\`\`
+
+### 12.2. Автоматический запуск (cron)
+
+\`\`\`bash
+crontab -e
+\`\`\`
+
+Добавьте строку:
+
+\`\`\`
+0 3 * * * /home/deploy/backup.sh >> /home/deploy/backups/backup.log 2>&1
+\`\`\`
+
+> Бэкап будет выполняться каждый день в 3:00.
+
+### 12.3. Восстановление из бэкапа
+
+\`\`\`bash
+# 1. Посмотреть доступные бэкапы
+ls -la /home/deploy/backups/db_*.dump
+
+# 2. Остановить приложение
+docker compose -f docker-compose.prod.yml stop api web
+
+# 3. Восстановить базу
+docker exec -i your-project_postgres pg_restore \\
+  -U postgres -d app_db --clean --if-exists \\
+  < /home/deploy/backups/db_YYYYMMDD_HHMMSS.dump
+
+# 4. Восстановить файлы MinIO
+mc mirror /home/deploy/backups/uploads_YYYYMMDD_HHMMSS/ prod/uploads --overwrite
+
+# 5. Запустить приложение
+docker compose -f docker-compose.prod.yml up -d api web
+\`\`\`
+
+---
+
+## 13. CI/CD через GitHub Actions
+
+### 13.1. Подготовка SSH-ключа
+
+На сервере:
+
+\`\`\`bash
+ssh-keygen -t ed25519 -C "github-actions-deploy" -f /home/deploy/.ssh/github_actions -N ""
+cat /home/deploy/.ssh/github_actions.pub >> /home/deploy/.ssh/authorized_keys
+cat /home/deploy/.ssh/github_actions
+\`\`\`
+
+Скопируйте приватный ключ.
+
+### 13.2. Секреты в GitHub
+
+Перейдите: **Settings** > **Secrets and variables** > **Actions** > **New repository secret**
+
+| Имя секрета | Значение |
+|-------------|----------|
+| \`DEPLOY_HOST\` | IP-адрес сервера |
+| \`DEPLOY_USER\` | \`deploy\` |
+| \`DEPLOY_SSH_KEY\` | Приватный ключ |
+
+### 13.3. GitHub Actions Workflow
+
+Создайте файл \`.github/workflows/deploy.yml\`:
+
+\`\`\`yaml
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: \${{ secrets.DEPLOY_HOST }}
+          username: \${{ secrets.DEPLOY_USER }}
+          key: \${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /home/deploy/your-project
+            git pull origin main
+            docker compose -f docker-compose.prod.yml build --no-cache api web
+            docker compose -f docker-compose.prod.yml up -d api web
+            docker image prune -f --filter "until=72h"
+            echo "Deploy completed at $(date)"
+\`\`\`
+
+> Теперь при пуше в \`main\` приложение автоматически обновится на сервере.
+
+---
+
+## 14. Устранение неполадок
+
+### 502 Bad Gateway
+
+Nginx работает, но приложение не запущено или упало.
+
+\`\`\`bash
+docker ps                                    # Все ли контейнеры работают?
+docker logs your-project_api --tail 50       # Логи API
+docker logs your-project_web --tail 50       # Логи Web
+docker compose -f docker-compose.prod.yml restart api web  # Перезапуск
+\`\`\`
+
+### Connection Refused
+
+Nginx не работает.
+
+\`\`\`bash
+sudo systemctl status nginx
+sudo nginx -t
+sudo systemctl restart nginx
+\`\`\`
+
+### Нехватка RAM при сборке
+
+Docker-сборка требует ~2 GB RAM. Добавьте swap:
+
+\`\`\`bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+\`\`\`
+
+### Контейнер постоянно перезапускается
+
+\`\`\`bash
+docker logs your-project_api --tail 100
+\`\`\`
+
+Типичные причины:
+- Неправильные переменные в \`.env\`
+- БД недоступна
+- Порт уже занят
+
+### Нехватка дискового пространства
+
+\`\`\`bash
+df -h                                # Проверка
+docker system prune -a               # Очистка Docker
+sudo journalctl --vacuum-size=100M   # Очистка логов
+\`\`\`
+
+### Полезные команды для диагностики
+
+\`\`\`bash
+# Быстрая проверка
+curl -s http://localhost:3001/health | python3 -m json.tool
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+
+# Ресурсы контейнеров
+docker stats --no-stream
+
+# Подключение к PostgreSQL
+docker exec -it your-project_postgres psql -U postgres -d app_db
+\`\`\`
+
+---
+
+## 15. Чеклист продакшена
+
+### Безопасность
+- [ ] SSH: отключён root-логин, только ключи
+- [ ] UFW: открыты только порты 22, 80, 443
+- [ ] fail2ban настроен и запущен
+- [ ] SSL-сертификаты установлены и автопродляются
+- [ ] JWT-секреты уникальны
+- [ ] Пароль БД сгенерирован
+- [ ] Пароль MinIO сгенерирован
+- [ ] \`.env\` файлы не в Git
+
+### Инфраструктура
+- [ ] PostgreSQL работает (healthcheck зелёный)
+- [ ] Redis работает (healthcheck зелёный)
+- [ ] MinIO работает, бакет создан
+- [ ] Nginx настроен как reverse proxy
+- [ ] Порты инфраструктуры привязаны к 127.0.0.1
+
+### Приложение
+- [ ] Сайт открывается по HTTPS
+- [ ] API отвечает на health-эндпоинт
+- [ ] Авторизация работает
+- [ ] Загрузка файлов работает
+- [ ] CORS настроен на правильный домен
+
+### Обслуживание
+- [ ] Cron-бэкап настроен (ежедневно)
+- [ ] Тестовое восстановление проведено
+- [ ] CI/CD workflow работает
+- [ ] Мониторинг настроен (опционально)
+- [ ] Алерты на критические метрики
+
+---
+
+## Заключение
+
+Вы развернули полноценное продакшен-окружение:
+
+1. **Сервер** — защищённый, с отдельным deploy-пользователем
+2. **Docker Compose** — все сервисы изолированы и воспроизводимы
+3. **Nginx** — reverse proxy с кэшированием статики
+4. **SSL** — бесплатные сертификаты Let's Encrypt с автопродлением
+5. **Файрвол** — только необходимые порты открыты
+6. **Бэкапы** — автоматические, ежедневные, с ротацией
+7. **CI/CD** — автоматический деплой при пуше в main
+8. **Мониторинг** — метрики и алерты через Grafana
+
+Эта архитектура выдерживает до 10 000 RPS при правильной настройке кэширования и горизонтальном масштабировании контейнеров. Удачного деплоя!`,
+
+      en: `# Complete Guide: Deploy a Web App with Docker, Nginx & SSL to a Production Server
+
+> A step-by-step guide to deploying your application on a VPS. Each step includes the command, explanation, and expected result. Works for Next.js, NestJS, and any other stack.
+
+---
+
+## Table of Contents
+
+1. [Server Requirements](#1-server-requirements)
+2. [Project Architecture](#2-project-architecture)
+3. [Server Preparation](#3-server-preparation)
+4. [Installing Docker and Nginx](#4-installing-docker-and-nginx)
+5. [Docker Compose: Service Configuration](#5-docker-compose-service-configuration)
+6. [Nginx as a Reverse Proxy](#6-nginx-as-a-reverse-proxy)
+7. [SSL Certificates with Let's Encrypt](#7-ssl-certificates-with-lets-encrypt)
+8. [PostgreSQL, Redis, and MinIO in Docker](#8-postgresql-redis-and-minio-in-docker)
+9. [Environment Variables and Secrets](#9-environment-variables-and-secrets)
+10. [Firewall Configuration](#10-firewall-configuration)
+11. [Monitoring (Prometheus + Grafana)](#11-monitoring-prometheus--grafana)
+12. [Automated Backups](#12-automated-backups)
+13. [CI/CD with GitHub Actions](#13-cicd-with-github-actions)
+14. [Troubleshooting](#14-troubleshooting)
+15. [Production Checklist](#15-production-checklist)
+
+---
+
+## 1. Server Requirements
+
+Before you begin, make sure you have a VPS with sufficient resources.
+
+| Parameter | Minimum | Recommended |
+|-----------|---------|-------------|
+| CPU | 2 vCPU | 4 vCPU |
+| RAM | 4 GB | 8 GB |
+| Disk | 40 GB SSD | 80+ GB SSD |
+| OS | Ubuntu 22.04 LTS | Ubuntu 24.04 LTS |
+| Network | 100 Mbps | 1 Gbps |
+
+**Where to rent a server:**
+- [Hetzner](https://hetzner.com) — Europe, from $4/mo
+- [DigitalOcean](https://digitalocean.com) — from $6/mo
+- [Linode/Akamai](https://linode.com) — from $5/mo
+- [AWS Lightsail](https://aws.amazon.com/lightsail/) — from $5/mo
+
+You will also need:
+- A **domain name** (e.g., \`your-domain.com\`) with DNS access
+- An **SSH client** (built into macOS/Linux; on Windows use PuTTY or Windows Terminal)
+
+---
+
+## 2. Project Architecture
+
+Before starting the deployment, it is important to understand how the components interact:
+
+\`\`\`
+          User (Browser)
+              |
+              v
+    +-------------------+
+    |  Nginx (:80/443)  |  <-- Accepts all requests, routes them
+    +----+----------+---+
+         |          |
+         v          v
+   +----------+  +----------+
+   |   Web    |  |   API    |
+   | (Next.js)|  | (NestJS) |  <-- Apps in Docker containers
+   |  :3000   |  |  :3001   |
+   +----------+  +--+-+-+---+
+                    | | |
+          +---------+ | +--------+
+          v           v          v
+   +----------+ +----------+ +---------+
+   |PostgreSQL| |  Redis   | |  MinIO  |
+   |  (DB)    | |  (cache) | | (files) |
+   |  :5432   | |  :6379   | |  :9000  |
+   +----------+ +----------+ +---------+
+\`\`\`
+
+**Each component's role:**
+- **Nginx** — Receives internet requests, terminates SSL, proxies to containers
+- **Web** — Frontend (SSR/SSG), what the user sees
+- **API** — Server-side logic (auth, data, file uploads)
+- **PostgreSQL** — Primary database
+- **Redis** — Caching and queues
+- **MinIO** — S3-compatible file storage
+
+---
+
+## 3. Server Preparation
+
+### 3.1. Connect to the Server
+
+\`\`\`bash
+ssh root@YOUR_SERVER_IP
+\`\`\`
+
+### 3.2. Update the System
+
+\`\`\`bash
+apt update && apt upgrade -y
+\`\`\`
+
+> Downloads and installs all security updates. Takes 1-3 minutes.
+
+### 3.3. Install Essential Utilities
+
+\`\`\`bash
+apt install -y curl wget git unzip htop nano ufw fail2ban
+\`\`\`
+
+**What we installed:**
+- \`curl\`, \`wget\` — downloading files
+- \`git\` — version control
+- \`htop\` — system monitoring
+- \`ufw\` — firewall
+- \`fail2ban\` — brute-force protection
+
+### 3.4. Create a Deploy User
+
+> Running as \`root\` is dangerous — a single mistake can break the entire server. Create a separate user.
+
+\`\`\`bash
+adduser deploy
+usermod -aG sudo deploy
+\`\`\`
+
+### 3.5. Set Up SSH Key for the New User
+
+\`\`\`bash
+mkdir -p /home/deploy/.ssh
+cp ~/.ssh/authorized_keys /home/deploy/.ssh/
+chown -R deploy:deploy /home/deploy/.ssh
+chmod 700 /home/deploy/.ssh
+chmod 600 /home/deploy/.ssh/authorized_keys
+\`\`\`
+
+### 3.6. Harden SSH
+
+Open the SSH configuration:
+
+\`\`\`bash
+nano /etc/ssh/sshd_config
+\`\`\`
+
+Change the following lines:
+
+\`\`\`
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+\`\`\`
+
+Restart SSH:
+
+\`\`\`bash
+systemctl restart sshd
+\`\`\`
+
+> **Important:** Before closing your current session, open a new terminal and verify you can connect: \`ssh deploy@YOUR_SERVER_IP\`
+
+### 3.7. Switch to the Deploy User
+
+From this point on, run all commands as \`deploy\`:
+
+\`\`\`bash
+su - deploy
+\`\`\`
+
+---
+
+## 4. Installing Docker and Nginx
+
+### 4.1. Docker
+
+\`\`\`bash
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker deploy
+newgrp docker
+\`\`\`
+
+**Verify:**
+
+\`\`\`bash
+docker --version
+docker compose version
+\`\`\`
+
+Expected output:
+\`\`\`
+Docker version 27.x.x, build ...
+Docker Compose version v2.x.x
+\`\`\`
+
+### 4.2. Nginx
+
+\`\`\`bash
+sudo apt install -y nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+\`\`\`
+
+**Verify:**
+
+\`\`\`bash
+sudo systemctl status nginx
+\`\`\`
+
+You should see \`Active: active (running)\`.
+
+### 4.3. Certbot (for SSL)
+
+\`\`\`bash
+sudo apt install -y certbot python3-certbot-nginx
+\`\`\`
+
+---
+
+## 5. Docker Compose: Service Configuration
+
+Create a \`docker-compose.prod.yml\` file in your project root. This is the main file describing all services.
+
+\`\`\`yaml
+version: "3.8"
+
+services:
+  # === Database ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: \${COMPOSE_PROJECT_NAME}_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: \${DB_USER}
+      POSTGRES_PASSWORD: \${DB_PASSWORD}
+      POSTGRES_DB: \${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \${DB_USER} -d \${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Cache ===
+  redis:
+    image: redis:7-alpine
+    container_name: \${COMPOSE_PROJECT_NAME}_redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === File Storage ===
+  minio:
+    image: minio/minio:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: \${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: \${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === API ===
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: \${COMPOSE_PROJECT_NAME}_api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+
+  # === Web ===
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://api.YOUR_DOMAIN
+    container_name: \${COMPOSE_PROJECT_NAME}_web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - api
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+
+volumes:
+  postgres_data:
+  minio_data:
+\`\`\`
+
+> **Note:** All infrastructure ports are bound to \`127.0.0.1\` — they are not accessible from the internet directly, only through Nginx.
+
+---
+
+## 6. Nginx as a Reverse Proxy
+
+> Nginx accepts requests from the internet and routes them to Docker containers. Without Nginx, the site won't be accessible via your domain.
+
+### 6.1. Main Site Configuration
+
+> **Important:** Create configs with HTTP only (port 80). Certbot will add SSL blocks automatically.
+
+\`\`\`bash
+sudo tee /etc/nginx/sites-available/YOUR_DOMAIN > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name YOUR_DOMAIN www.YOUR_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 90s;
+    }
+
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_cache_valid 200 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}
+EOF
+\`\`\`
+
+### 6.2. API Configuration
+
+\`\`\`bash
+sudo tee /etc/nginx/sites-available/api.YOUR_DOMAIN > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name api.YOUR_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 90s;
+    }
+
+    location /media/ {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_cache_valid 200 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+EOF
+\`\`\`
+
+### 6.3. Activate the Configs
+
+\`\`\`bash
+sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/api.YOUR_DOMAIN /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+\`\`\`
+
+### 6.4. Test and Reload
+
+\`\`\`bash
+sudo nginx -t
+\`\`\`
+
+Expected output:
+\`\`\`
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+\`\`\`
+
+\`\`\`bash
+sudo systemctl reload nginx
+\`\`\`
+
+---
+
+## 7. SSL Certificates with Let's Encrypt
+
+> SSL encrypts the connection between the user and the server. Without it, browsers display an "Insecure Site" warning. Let's Encrypt provides free certificates.
+
+### 7.1. Configure DNS
+
+Before obtaining certificates, ensure your DNS records are set up:
+
+| Type | Name | Value | TTL |
+|------|------|-------|-----|
+| A | \`@\` | \`YOUR_SERVER_IP\` | 3600 |
+| A | \`www\` | \`YOUR_SERVER_IP\` | 3600 |
+| A | \`api\` | \`YOUR_SERVER_IP\` | 3600 |
+
+Verify:
+
+\`\`\`bash
+dig +short YOUR_DOMAIN
+dig +short api.YOUR_DOMAIN
+\`\`\`
+
+### 7.2. Obtain Certificates
+
+\`\`\`bash
+sudo certbot --nginx -d YOUR_DOMAIN -d www.YOUR_DOMAIN -d api.YOUR_DOMAIN
+\`\`\`
+
+> Certbot will ask for your email and offer to redirect HTTP to HTTPS — choose "Redirect".
+
+### 7.3. Verify Auto-Renewal
+
+\`\`\`bash
+sudo certbot renew --dry-run
+\`\`\`
+
+Expected output: \`Congratulations, all simulated renewals succeeded\`
+
+> Certificates automatically renew every 60 days. No additional action is needed.
+
+---
+
+## 8. PostgreSQL, Redis, and MinIO in Docker
+
+### 8.1. Start Infrastructure Services
+
+Start the base services your application depends on:
+
+\`\`\`bash
+cd /home/deploy/your-project
+docker compose -f docker-compose.prod.yml up -d postgres redis minio
+\`\`\`
+
+Wait 15 seconds for database initialization:
+
+\`\`\`bash
+sleep 15
+\`\`\`
+
+### 8.2. Verify
+
+\`\`\`bash
+docker compose -f docker-compose.prod.yml ps
+\`\`\`
+
+All 3 services should be \`Up (healthy)\`.
+
+### 8.3. Set Up MinIO
+
+Install MinIO Client:
+
+\`\`\`bash
+curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+sudo mv mc /usr/local/bin/
+\`\`\`
+
+Connect and create a bucket:
+
+\`\`\`bash
+mc alias set prod http://localhost:9000 minioadmin YOUR_MINIO_PASSWORD
+mc mb prod/uploads
+mc anonymous set download prod/uploads
+\`\`\`
+
+### 8.4. Build and Start the Application
+
+\`\`\`bash
+# Build (5-15 minutes)
+docker compose -f docker-compose.prod.yml build api web
+
+# Start
+docker compose -f docker-compose.prod.yml up -d api web
+\`\`\`
+
+### 8.5. Initialize the Database
+
+\`\`\`bash
+docker exec your-project_api npx prisma db push
+\`\`\`
+
+Expected output: \`Your database is now in sync with your Prisma schema.\`
+
+---
+
+## 9. Environment Variables and Secrets
+
+### 9.1. Generate Secrets
+
+Every password and secret must be unique. Never use passwords from examples!
+
+\`\`\`bash
+echo "=== SAVE THESE VALUES ==="
+echo "JWT_SECRET=$(openssl rand -hex 32)"
+echo "JWT_REFRESH_SECRET=$(openssl rand -hex 32)"
+echo "DB_PASSWORD=$(openssl rand -base64 24 | tr -d '=/+')"
+echo "MINIO_PASSWORD=$(openssl rand -base64 24 | tr -d '=/+')"
+echo "GRAFANA_PASSWORD=$(openssl rand -base64 16 | tr -d '=/+')"
+echo "=== END OF SECRETS ==="
+\`\`\`
+
+### 9.2. The .env File
+
+Create a \`.env\` file alongside \`docker-compose.prod.yml\`:
+
+\`\`\`env
+# === Project ===
+COMPOSE_PROJECT_NAME=your-project
+
+# === Database ===
+DB_USER=postgres
+DB_PASSWORD=YOUR_DB_PASSWORD
+DB_NAME=app_db
+
+# === JWT ===
+JWT_SECRET=YOUR_JWT_SECRET
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=YOUR_JWT_REFRESH_SECRET
+JWT_REFRESH_EXPIRES_IN=7d
+
+# === CORS ===
+CORS_ORIGIN=https://YOUR_DOMAIN
+
+# === MinIO ===
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=YOUR_MINIO_PASSWORD
+S3_BUCKET=uploads
+S3_PUBLIC_URL=https://api.YOUR_DOMAIN/media
+
+# === Frontend ===
+NEXT_PUBLIC_API_URL=https://api.YOUR_DOMAIN
+\`\`\`
+
+> **Security:** Never commit \`.env\` files to Git. Add them to \`.gitignore\`.
+
+---
+
+## 10. Firewall Configuration
+
+> The firewall blocks all ports except those needed. Without it, anyone can connect to your database directly!
+
+\`\`\`bash
+# Default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Allow SSH (without this you lose access!)
+sudo ufw allow 22/tcp
+
+# Allow HTTP and HTTPS
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Enable the firewall
+sudo ufw enable
+\`\`\`
+
+**Verify:**
+
+\`\`\`bash
+sudo ufw status verbose
+\`\`\`
+
+Expected output:
+\`\`\`
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    Anywhere
+\`\`\`
+
+> Ports 3000, 3001, 5432, 6379, 9000 are NOT exposed — they are only accessible through Nginx.
+
+### Configure fail2ban
+
+\`\`\`bash
+sudo tee /etc/fail2ban/jail.local > /dev/null << 'EOF'
+[sshd]
+enabled = true
+port = 22
+maxretry = 3
+bantime = 3600
+findtime = 600
+
+[nginx-http-auth]
+enabled = true
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
+\`\`\`
+
+> After 3 failed login attempts, the IP address is blocked for 1 hour.
+
+---
+
+## 11. Monitoring (Prometheus + Grafana)
+
+> Monitoring is optional but highly recommended for production environments.
+
+### 11.1. Add Monitoring Services to Docker Compose
+
+Add these services to your \`docker-compose.prod.yml\`:
+
+\`\`\`yaml
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: \${GRAFANA_USER}
+      GF_SECURITY_ADMIN_PASSWORD: \${GRAFANA_PASSWORD}
+      GF_SERVER_ROOT_URL: \${GRAFANA_ROOT_URL}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:3002:3000"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_node_exporter
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9100:9100"
+\`\`\`
+
+### 11.2. Start Monitoring
+
+\`\`\`bash
+docker compose -f docker-compose.prod.yml up -d prometheus grafana node-exporter
+\`\`\`
+
+### 11.3. What to Monitor
+
+| Metric | Description | Alert Threshold |
+|--------|-------------|-----------------|
+| Server CPU | Processor usage | > 80% |
+| RAM | Memory usage | > 85% |
+| Disk | Disk utilization | > 90% |
+| PostgreSQL | Active connections | > 80 |
+| Redis | Memory usage | > 200 MB |
+| API | Response time, 5xx errors | > 2s / > 1% |
+
+---
+
+## 12. Automated Backups
+
+> **Rule: If you haven't tested a restore, your backup doesn't exist.**
+
+### 12.1. Backup Script
+
+\`\`\`bash
+sudo tee /home/deploy/backup.sh > /dev/null << 'SCRIPT'
+#!/bin/bash
+set -euo pipefail
+
+BACKUP_DIR="/home/deploy/backups"
+DATE=$(date +%Y%m%d_%H%M%S)
+RETENTION_DAYS=14
+CONTAINER_PREFIX="your-project"
+
+mkdir -p "$BACKUP_DIR"
+
+echo "[$(date)] Starting backup..."
+
+# 1. PostgreSQL backup
+echo "[$(date)] Backing up database..."
+docker exec \${CONTAINER_PREFIX}_postgres pg_dump \\
+  -U postgres \\
+  -d app_db \\
+  --format=custom \\
+  --compress=9 \\
+  > "$BACKUP_DIR/db_$DATE.dump"
+
+DB_SIZE=$(du -h "$BACKUP_DIR/db_$DATE.dump" | cut -f1)
+echo "[$(date)] Database backed up: db_$DATE.dump ($DB_SIZE)"
+
+# 2. MinIO backup
+echo "[$(date)] Backing up MinIO files..."
+mc mirror prod/uploads "$BACKUP_DIR/uploads_$DATE/" --quiet 2>/dev/null || true
+echo "[$(date)] MinIO backed up"
+
+# 3. Remove old backups
+echo "[$(date)] Removing backups older than $RETENTION_DAYS days..."
+find "$BACKUP_DIR" -name "db_*.dump" -mtime +$RETENTION_DAYS -delete 2>/dev/null || true
+find "$BACKUP_DIR" -maxdepth 1 -name "uploads_*" -type d -mtime +$RETENTION_DAYS -exec rm -rf {} + 2>/dev/null || true
+
+TOTAL_SIZE=$(du -sh "$BACKUP_DIR" | cut -f1)
+echo "[$(date)] Backup completed. Total size: $TOTAL_SIZE"
+SCRIPT
+
+chmod +x /home/deploy/backup.sh
+\`\`\`
+
+### 12.2. Schedule with Cron
+
+\`\`\`bash
+crontab -e
+\`\`\`
+
+Add this line:
+
+\`\`\`
+0 3 * * * /home/deploy/backup.sh >> /home/deploy/backups/backup.log 2>&1
+\`\`\`
+
+> The backup will run every day at 3:00 AM.
+
+### 12.3. Restore from Backup
+
+\`\`\`bash
+# 1. List available backups
+ls -la /home/deploy/backups/db_*.dump
+
+# 2. Stop the application
+docker compose -f docker-compose.prod.yml stop api web
+
+# 3. Restore the database
+docker exec -i your-project_postgres pg_restore \\
+  -U postgres -d app_db --clean --if-exists \\
+  < /home/deploy/backups/db_YYYYMMDD_HHMMSS.dump
+
+# 4. Restore MinIO files
+mc mirror /home/deploy/backups/uploads_YYYYMMDD_HHMMSS/ prod/uploads --overwrite
+
+# 5. Start the application
+docker compose -f docker-compose.prod.yml up -d api web
+\`\`\`
+
+---
+
+## 13. CI/CD with GitHub Actions
+
+### 13.1. Prepare an SSH Key
+
+On the server:
+
+\`\`\`bash
+ssh-keygen -t ed25519 -C "github-actions-deploy" -f /home/deploy/.ssh/github_actions -N ""
+cat /home/deploy/.ssh/github_actions.pub >> /home/deploy/.ssh/authorized_keys
+cat /home/deploy/.ssh/github_actions
+\`\`\`
+
+Copy the private key.
+
+### 13.2. GitHub Secrets
+
+Go to: **Settings** > **Secrets and variables** > **Actions** > **New repository secret**
+
+| Secret Name | Value |
+|-------------|-------|
+| \`DEPLOY_HOST\` | Server IP address |
+| \`DEPLOY_USER\` | \`deploy\` |
+| \`DEPLOY_SSH_KEY\` | Private key |
+
+### 13.3. GitHub Actions Workflow
+
+Create \`.github/workflows/deploy.yml\`:
+
+\`\`\`yaml
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: \${{ secrets.DEPLOY_HOST }}
+          username: \${{ secrets.DEPLOY_USER }}
+          key: \${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /home/deploy/your-project
+            git pull origin main
+            docker compose -f docker-compose.prod.yml build --no-cache api web
+            docker compose -f docker-compose.prod.yml up -d api web
+            docker image prune -f --filter "until=72h"
+            echo "Deploy completed at $(date)"
+\`\`\`
+
+> Now, every push to \`main\` will automatically deploy the application.
+
+---
+
+## 14. Troubleshooting
+
+### 502 Bad Gateway
+
+Nginx is running but the application is down.
+
+\`\`\`bash
+docker ps                                    # Are all containers running?
+docker logs your-project_api --tail 50       # API logs
+docker logs your-project_web --tail 50       # Web logs
+docker compose -f docker-compose.prod.yml restart api web  # Restart
+\`\`\`
+
+### Connection Refused
+
+Nginx is not running.
+
+\`\`\`bash
+sudo systemctl status nginx
+sudo nginx -t
+sudo systemctl restart nginx
+\`\`\`
+
+### Out of Memory During Build
+
+Docker builds require ~2 GB RAM. Add swap:
+
+\`\`\`bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+\`\`\`
+
+### Container Keeps Restarting
+
+\`\`\`bash
+docker logs your-project_api --tail 100
+\`\`\`
+
+Common causes:
+- Incorrect variables in \`.env\`
+- Database unreachable
+- Port already in use
+
+### Running Out of Disk Space
+
+\`\`\`bash
+df -h                                # Check usage
+docker system prune -a               # Clean up Docker
+sudo journalctl --vacuum-size=100M   # Clean system logs
+\`\`\`
+
+### Useful Diagnostic Commands
+
+\`\`\`bash
+# Quick health check
+curl -s http://localhost:3001/health | python3 -m json.tool
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+
+# Container resource usage
+docker stats --no-stream
+
+# Connect to PostgreSQL
+docker exec -it your-project_postgres psql -U postgres -d app_db
+\`\`\`
+
+---
+
+## 15. Production Checklist
+
+### Security
+- [ ] SSH: root login disabled, key-only auth
+- [ ] UFW: only ports 22, 80, 443 open
+- [ ] fail2ban configured and running
+- [ ] SSL certificates installed and auto-renewing
+- [ ] JWT secrets are unique
+- [ ] Database password is generated
+- [ ] MinIO password is generated
+- [ ] \`.env\` files not in Git
+
+### Infrastructure
+- [ ] PostgreSQL running (healthcheck green)
+- [ ] Redis running (healthcheck green)
+- [ ] MinIO running, bucket created
+- [ ] Nginx configured as reverse proxy
+- [ ] Infrastructure ports bound to 127.0.0.1
+
+### Application
+- [ ] Site loads over HTTPS
+- [ ] API responds to health endpoint
+- [ ] Authentication works
+- [ ] File uploads work
+- [ ] CORS configured for the correct domain
+
+### Maintenance
+- [ ] Cron backup configured (daily)
+- [ ] Test restore completed
+- [ ] CI/CD workflow functional
+- [ ] Monitoring set up (optional)
+- [ ] Alerts on critical metrics
+
+---
+
+## Conclusion
+
+You have deployed a full production environment:
+
+1. **Server** — Secured with a dedicated deploy user
+2. **Docker Compose** — All services isolated and reproducible
+3. **Nginx** — Reverse proxy with static file caching
+4. **SSL** — Free Let's Encrypt certificates with auto-renewal
+5. **Firewall** — Only necessary ports open
+6. **Backups** — Automated, daily, with rotation
+7. **CI/CD** — Automatic deployment on push to main
+8. **Monitoring** — Metrics and alerts via Grafana
+
+This architecture can handle up to 10,000 RPS with proper caching and horizontal container scaling. Happy deploying!`,
+
+      kk: `# Толық нұсқаулық: Docker, Nginx және SSL арқылы веб-қосымшаны продакшен серверге орналастыру
+
+> VPS-ке қосымшаны орналастыру бойынша қадамдық нұсқаулық. Әр қадамда команда, түсіндірме және күтілетін нәтиже бар. Next.js, NestJS немесе кез келген басқа стекке жарамды.
+
+---
+
+## Мазмұны
+
+1. [Серверге қойылатын талаптар](#1-серверге-қойылатын-талаптар)
+2. [Жоба архитектурасы](#2-жоба-архитектурасы)
+3. [Серверді дайындау](#3-серверді-дайындау)
+4. [Docker және Nginx орнату](#4-docker-және-nginx-орнату)
+5. [Docker Compose: сервистерді баптау](#5-docker-compose-сервистерді-баптау)
+6. [Nginx — reverse proxy ретінде](#6-nginx--reverse-proxy-ретінде)
+7. [Let's Encrypt SSL сертификаттары](#7-lets-encrypt-ssl-сертификаттары)
+8. [Docker ішіндегі PostgreSQL, Redis және MinIO](#8-docker-ішіндегі-postgresql-redis-және-minio)
+9. [Ортаның айнымалылары мен құпиялар](#9-ортаның-айнымалылары-мен-құпиялар)
+10. [Файрволды баптау](#10-файрволды-баптау)
+11. [Мониторинг (Prometheus + Grafana)](#11-мониторинг-prometheus--grafana)
+12. [Автоматты бэкаптар](#12-автоматты-бэкаптар)
+13. [GitHub Actions арқылы CI/CD](#13-github-actions-арқылы-cicd)
+14. [Ақауларды жою](#14-ақауларды-жою)
+15. [Продакшен чеклисті](#15-продакшен-чеклисті)
+
+---
+
+## 1. Серверге қойылатын талаптар
+
+Бастамас бұрын, жеткілікті ресурстары бар VPS серверіңіз бар екеніне көз жеткізіңіз.
+
+| Параметр | Минимум | Ұсынылады |
+|----------|---------|-----------|
+| CPU | 2 vCPU | 4 vCPU |
+| RAM | 4 ГБ | 8 ГБ |
+| Диск | 40 ГБ SSD | 80+ ГБ SSD |
+| ОЖ | Ubuntu 22.04 LTS | Ubuntu 24.04 LTS |
+| Желі | 100 Мбит/с | 1 Гбит/с |
+
+**Сервер жалдау:**
+- [Hetzner](https://hetzner.com) — Еуропа, $4/ай-дан
+- [DigitalOcean](https://digitalocean.com) — $6/ай-дан
+- [Timeweb Cloud](https://timeweb.cloud) — ~2000 тг/ай-дан
+- [PS.kz](https://ps.kz) — Қазақстан, жергілікті серверлер
+
+Сондай-ақ сізге қажет:
+- **Домен** (мысалы, \`your-domain.com\`) DNS-баптауларға қолжетімділікпен
+- **SSH-клиент** (macOS/Linux-те кіріктірілген, Windows-та — PuTTY немесе Windows Terminal)
+
+---
+
+## 2. Жоба архитектурасы
+
+Деплойды бастамас бұрын, компоненттердің қалай өзара әрекеттесетінін түсіну маңызды:
+
+\`\`\`
+        Пайдаланушы (Браузер)
+              |
+              v
+    +-------------------+
+    |  Nginx (:80/443)  |  <-- Барлық сұрауларды қабылдап, бағыттайды
+    +----+----------+---+
+         |          |
+         v          v
+   +----------+  +----------+
+   |   Web    |  |   API    |
+   | (Next.js)|  | (NestJS) |  <-- Docker контейнерлеріндегі қосымшалар
+   |  :3000   |  |  :3001   |
+   +----------+  +--+-+-+---+
+                    | | |
+          +---------+ | +--------+
+          v           v          v
+   +----------+ +----------+ +---------+
+   |PostgreSQL| |  Redis   | |  MinIO  |
+   |  (ДБ)    | |  (кэш)  | |(файлдар)|
+   |  :5432   | |  :6379   | |  :9000  |
+   +----------+ +----------+ +---------+
+\`\`\`
+
+**Әр компоненттің рөлі:**
+- **Nginx** — интернеттен сұрауларды қабылдайды, SSL терминациясы, контейнерлерге прокси жасайды
+- **Web** — фронтенд (SSR/SSG), пайдаланушы көретін нәрсе
+- **API** — серверлік логика (аутентификация, деректер, файлдар)
+- **PostgreSQL** — негізгі деректер қоры
+- **Redis** — кэштеу және кезектер
+- **MinIO** — S3-үйлесімді файлдар қоймасы
+
+---
+
+## 3. Серверді дайындау
+
+### 3.1. Серверге қосылу
+
+\`\`\`bash
+ssh root@YOUR_SERVER_IP
+\`\`\`
+
+### 3.2. Жүйені жаңарту
+
+\`\`\`bash
+apt update && apt upgrade -y
+\`\`\`
+
+> Барлық қауіпсіздік жаңартуларын жүктеп, орнатады. 1-3 минут уақыт алады.
+
+### 3.3. Негізгі утилиталарды орнату
+
+\`\`\`bash
+apt install -y curl wget git unzip htop nano ufw fail2ban
+\`\`\`
+
+**Не орнаттық:**
+- \`curl\`, \`wget\` — файлдарды жүктеу
+- \`git\` — кодты басқару
+- \`htop\` — жүктемені бақылау
+- \`ufw\` — файрвол
+- \`fail2ban\` — парольді іріктеуден қорғау
+
+### 3.4. Deploy пайдаланушысын жасау
+
+> \`root\` астында жұмыс істеу қауіпті — бір қате бүкіл серверді бұзуы мүмкін. Жеке пайдаланушы жасаймыз.
+
+\`\`\`bash
+adduser deploy
+usermod -aG sudo deploy
+\`\`\`
+
+### 3.5. SSH кілтін баптау
+
+\`\`\`bash
+mkdir -p /home/deploy/.ssh
+cp ~/.ssh/authorized_keys /home/deploy/.ssh/
+chown -R deploy:deploy /home/deploy/.ssh
+chmod 700 /home/deploy/.ssh
+chmod 600 /home/deploy/.ssh/authorized_keys
+\`\`\`
+
+### 3.6. SSH қорғанысы
+
+SSH конфигурациясын ашыңыз:
+
+\`\`\`bash
+nano /etc/ssh/sshd_config
+\`\`\`
+
+Келесі жолдарды өзгертіңіз:
+
+\`\`\`
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+\`\`\`
+
+SSH-ті қайта іске қосыңыз:
+
+\`\`\`bash
+systemctl restart sshd
+\`\`\`
+
+> **Маңызды:** ағымдағы сессияны жаппас бұрын, жаңа терминал ашып, қосыла алатыныңызды тексеріңіз: \`ssh deploy@YOUR_SERVER_IP\`
+
+### 3.7. Deploy пайдаланушысына ауысу
+
+Осы сәттен бастап барлық командаларды \`deploy\` атынан орындаймыз:
+
+\`\`\`bash
+su - deploy
+\`\`\`
+
+---
+
+## 4. Docker және Nginx орнату
+
+### 4.1. Docker
+
+\`\`\`bash
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker deploy
+newgrp docker
+\`\`\`
+
+**Тексеру:**
+
+\`\`\`bash
+docker --version
+docker compose version
+\`\`\`
+
+Күтілетін нәтиже:
+\`\`\`
+Docker version 27.x.x, build ...
+Docker Compose version v2.x.x
+\`\`\`
+
+### 4.2. Nginx
+
+\`\`\`bash
+sudo apt install -y nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+\`\`\`
+
+**Тексеру:**
+
+\`\`\`bash
+sudo systemctl status nginx
+\`\`\`
+
+\`Active: active (running)\` жолын көруіңіз керек.
+
+### 4.3. Certbot (SSL үшін)
+
+\`\`\`bash
+sudo apt install -y certbot python3-certbot-nginx
+\`\`\`
+
+---
+
+## 5. Docker Compose: сервистерді баптау
+
+Жобаңыздың түбірінде \`docker-compose.prod.yml\` файлын жасаңыз. Бұл — барлық сервистерді сипаттайтын негізгі файл.
+
+\`\`\`yaml
+version: "3.8"
+
+services:
+  # === Деректер қоры ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: \${COMPOSE_PROJECT_NAME}_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: \${DB_USER}
+      POSTGRES_PASSWORD: \${DB_PASSWORD}
+      POSTGRES_DB: \${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \${DB_USER} -d \${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Кэш ===
+  redis:
+    image: redis:7-alpine
+    container_name: \${COMPOSE_PROJECT_NAME}_redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Файлдар қоймасы ===
+  minio:
+    image: minio/minio:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: \${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: \${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === API ===
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: \${COMPOSE_PROJECT_NAME}_api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+
+  # === Web ===
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://api.YOUR_DOMAIN
+    container_name: \${COMPOSE_PROJECT_NAME}_web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - api
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+
+volumes:
+  postgres_data:
+  minio_data:
+\`\`\`
+
+> **Ескертпе:** барлық инфрақұрылымдық порттар \`127.0.0.1\`-ге байланған — олар интернеттен тікелей қолжетімді емес, тек Nginx арқылы.
+
+---
+
+## 6. Nginx — reverse proxy ретінде
+
+> Nginx интернеттен сұрауларды қабылдап, оларды Docker контейнерлеріне бағыттайды. Nginx-сіз сайт домен бойынша қолжетімді болмайды.
+
+### 6.1. Негізгі сайт конфигурациясы
+
+> **Маңызды:** конфигтерді тек HTTP-мен (80 порт) жасаңыз. SSL блоктарын certbot автоматты түрде қосады.
+
+\`\`\`bash
+sudo tee /etc/nginx/sites-available/YOUR_DOMAIN > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name YOUR_DOMAIN www.YOUR_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 90s;
+    }
+
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_cache_valid 200 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}
+EOF
+\`\`\`
+
+### 6.2. API конфигурациясы
+
+\`\`\`bash
+sudo tee /etc/nginx/sites-available/api.YOUR_DOMAIN > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name api.YOUR_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 90s;
+    }
+
+    location /media/ {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_cache_valid 200 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+EOF
+\`\`\`
+
+### 6.3. Конфигтерді белсендіру
+
+\`\`\`bash
+sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/api.YOUR_DOMAIN /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+\`\`\`
+
+### 6.4. Тексеру және қайта жүктеу
+
+\`\`\`bash
+sudo nginx -t
+\`\`\`
+
+Күтілетін нәтиже:
+\`\`\`
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+\`\`\`
+
+\`\`\`bash
+sudo systemctl reload nginx
+\`\`\`
+
+---
+
+## 7. Let's Encrypt SSL сертификаттары
+
+> SSL пайдаланушы мен сервер арасындағы байланысты шифрлайды. Онсыз браузер «Қауіпті сайт» ескертуін көрсетеді. Let's Encrypt тегін сертификаттар береді.
+
+### 7.1. DNS баптау
+
+Сертификаттарды алмас бұрын DNS жазбаларының дұрыс бапталғанына көз жеткізіңіз:
+
+| Түрі | Атауы | Мәні | TTL |
+|------|-------|------|-----|
+| A | \`@\` | \`YOUR_SERVER_IP\` | 3600 |
+| A | \`www\` | \`YOUR_SERVER_IP\` | 3600 |
+| A | \`api\` | \`YOUR_SERVER_IP\` | 3600 |
+
+Тексеру:
+
+\`\`\`bash
+dig +short YOUR_DOMAIN
+dig +short api.YOUR_DOMAIN
+\`\`\`
+
+### 7.2. Сертификаттарды алу
+
+\`\`\`bash
+sudo certbot --nginx -d YOUR_DOMAIN -d www.YOUR_DOMAIN -d api.YOUR_DOMAIN
+\`\`\`
+
+> Certbot email сұрайды және HTTP-ден HTTPS-ке бағыттауды ұсынады — «Redirect» таңдаңыз.
+
+### 7.3. Автоматты жаңартуды тексеру
+
+\`\`\`bash
+sudo certbot renew --dry-run
+\`\`\`
+
+Күтілетін нәтиже: \`Congratulations, all simulated renewals succeeded\`
+
+> Сертификаттар әр 60 күн сайын автоматты түрде жаңартылады. Қосымша ештеңе істеу қажет емес.
+
+---
+
+## 8. Docker ішіндегі PostgreSQL, Redis және MinIO
+
+### 8.1. Инфрақұрылымды іске қосу
+
+Алдымен қосымша тәуелді базалық сервистерді іске қосамыз:
+
+\`\`\`bash
+cd /home/deploy/your-project
+docker compose -f docker-compose.prod.yml up -d postgres redis minio
+\`\`\`
+
+ДБ инициализациясы үшін 15 секунд күтіңіз:
+
+\`\`\`bash
+sleep 15
+\`\`\`
+
+### 8.2. Тексеру
+
+\`\`\`bash
+docker compose -f docker-compose.prod.yml ps
+\`\`\`
+
+Барлық 3 сервис \`Up (healthy)\` күйінде болуы керек.
+
+### 8.3. MinIO баптау
+
+MinIO Client орнатыңыз:
+
+\`\`\`bash
+curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+sudo mv mc /usr/local/bin/
+\`\`\`
+
+Қосылып, бакет жасаңыз:
+
+\`\`\`bash
+mc alias set prod http://localhost:9000 minioadmin YOUR_MINIO_PASSWORD
+mc mb prod/uploads
+mc anonymous set download prod/uploads
+\`\`\`
+
+### 8.4. Қосымшаны құрастыру және іске қосу
+
+\`\`\`bash
+# Құрастыру (5-15 минут)
+docker compose -f docker-compose.prod.yml build api web
+
+# Іске қосу
+docker compose -f docker-compose.prod.yml up -d api web
+\`\`\`
+
+### 8.5. Деректер қорын инициализациялау
+
+\`\`\`bash
+docker exec your-project_api npx prisma db push
+\`\`\`
+
+Күтілетін нәтиже: \`Your database is now in sync with your Prisma schema.\`
+
+---
+
+## 9. Ортаның айнымалылары мен құпиялар
+
+### 9.1. Құпияларды генерациялау
+
+Әр пароль мен құпия бірегей болуы керек. Мысалдардағы парольдерді ешқашан пайдаланбаңыз!
+
+\`\`\`bash
+echo "=== БҰЛ МӘНДЕРДІ САҚТАҢЫЗ ==="
+echo "JWT_SECRET=$(openssl rand -hex 32)"
+echo "JWT_REFRESH_SECRET=$(openssl rand -hex 32)"
+echo "DB_PASSWORD=$(openssl rand -base64 24 | tr -d '=/+')"
+echo "MINIO_PASSWORD=$(openssl rand -base64 24 | tr -d '=/+')"
+echo "GRAFANA_PASSWORD=$(openssl rand -base64 16 | tr -d '=/+')"
+echo "=== ҚҰПИЯЛАР СОҢЫ ==="
+\`\`\`
+
+### 9.2. .env файлы
+
+\`docker-compose.prod.yml\` файлының қасына \`.env\` файлын жасаңыз:
+
+\`\`\`env
+# === Жоба ===
+COMPOSE_PROJECT_NAME=your-project
+
+# === Деректер қоры ===
+DB_USER=postgres
+DB_PASSWORD=YOUR_DB_PASSWORD
+DB_NAME=app_db
+
+# === JWT ===
+JWT_SECRET=YOUR_JWT_SECRET
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=YOUR_JWT_REFRESH_SECRET
+JWT_REFRESH_EXPIRES_IN=7d
+
+# === CORS ===
+CORS_ORIGIN=https://YOUR_DOMAIN
+
+# === MinIO ===
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=YOUR_MINIO_PASSWORD
+S3_BUCKET=uploads
+S3_PUBLIC_URL=https://api.YOUR_DOMAIN/media
+
+# === Фронтенд ===
+NEXT_PUBLIC_API_URL=https://api.YOUR_DOMAIN
+\`\`\`
+
+> **Қауіпсіздік:** \`.env\` файлдарын ешқашан Git-ке коммит жасамаңыз. Оларды \`.gitignore\`-ға қосыңыз.
+
+---
+
+## 10. Файрволды баптау
+
+> Файрвол қажетті порттардан басқа бәрін бұғаттайды. Онсыз кез келген адам деректер қорыңызға тікелей қосыла алады!
+
+\`\`\`bash
+# Үнсіз саясаттар
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# SSH-ке рұқсат беру (бұнсыз қолжетімділікті жоғалтасыз!)
+sudo ufw allow 22/tcp
+
+# HTTP және HTTPS-ке рұқсат беру
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Файрволды іске қосу
+sudo ufw enable
+\`\`\`
+
+**Тексеру:**
+
+\`\`\`bash
+sudo ufw status verbose
+\`\`\`
+
+Күтілетін нәтиже:
+\`\`\`
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    Anywhere
+\`\`\`
+
+> 3000, 3001, 5432, 6379, 9000 порттары сыртқа АШЫҚ ЕМЕС — олар тек Nginx арқылы қолжетімді.
+
+### fail2ban баптау
+
+\`\`\`bash
+sudo tee /etc/fail2ban/jail.local > /dev/null << 'EOF'
+[sshd]
+enabled = true
+port = 22
+maxretry = 3
+bantime = 3600
+findtime = 600
+
+[nginx-http-auth]
+enabled = true
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
+\`\`\`
+
+> 3 сәтсіз кіру әрекетінен кейін IP-мекенжай 1 сағатқа бұғатталады.
+
+---
+
+## 11. Мониторинг (Prometheus + Grafana)
+
+> Мониторинг міндетті емес, бірақ продакшен ортасы үшін өте ұсынылады.
+
+### 11.1. Docker Compose-ға мониторинг сервистерін қосу
+
+\`docker-compose.prod.yml\` файлына мына сервистерді қосыңыз:
+
+\`\`\`yaml
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: \${GRAFANA_USER}
+      GF_SECURITY_ADMIN_PASSWORD: \${GRAFANA_PASSWORD}
+      GF_SERVER_ROOT_URL: \${GRAFANA_ROOT_URL}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:3002:3000"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: \${COMPOSE_PROJECT_NAME}_node_exporter
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9100:9100"
+\`\`\`
+
+### 11.2. Мониторингті іске қосу
+
+\`\`\`bash
+docker compose -f docker-compose.prod.yml up -d prometheus grafana node-exporter
+\`\`\`
+
+### 11.3. Нені бақылау керек
+
+| Метрика | Сипаттамасы | Алерт шегі |
+|---------|-------------|------------|
+| CPU | Процессор жүктемесі | > 80% |
+| RAM | Жады пайдалану | > 85% |
+| Диск | Дискінің толуы | > 90% |
+| PostgreSQL | Белсенді қосылыстар | > 80 |
+| Redis | Жады пайдалану | > 200 МБ |
+| API | Жауап уақыты, 5xx қателер | > 2с / > 1% |
+
+---
+
+## 12. Автоматты бэкаптар
+
+> **Ереже: қалпына келтіруді тексермесеңіз — бэкап жоқ.**
+
+### 12.1. Бэкап скрипті
+
+\`\`\`bash
+sudo tee /home/deploy/backup.sh > /dev/null << 'SCRIPT'
+#!/bin/bash
+set -euo pipefail
+
+BACKUP_DIR="/home/deploy/backups"
+DATE=$(date +%Y%m%d_%H%M%S)
+RETENTION_DAYS=14
+CONTAINER_PREFIX="your-project"
+
+mkdir -p "$BACKUP_DIR"
+
+echo "[$(date)] Резервтік көшіруді бастау..."
+
+# 1. PostgreSQL бэкап
+echo "[$(date)] Деректер қорын көшіру..."
+docker exec \${CONTAINER_PREFIX}_postgres pg_dump \\
+  -U postgres \\
+  -d app_db \\
+  --format=custom \\
+  --compress=9 \\
+  > "$BACKUP_DIR/db_$DATE.dump"
+
+DB_SIZE=$(du -h "$BACKUP_DIR/db_$DATE.dump" | cut -f1)
+echo "[$(date)] ДБ көшірілді: db_$DATE.dump ($DB_SIZE)"
+
+# 2. MinIO бэкап
+echo "[$(date)] MinIO файлдарын көшіру..."
+mc mirror prod/uploads "$BACKUP_DIR/uploads_$DATE/" --quiet 2>/dev/null || true
+echo "[$(date)] MinIO көшірілді"
+
+# 3. Ескі бэкаптарды жою
+echo "[$(date)] $RETENTION_DAYS күннен ескі бэкаптарды жою..."
+find "$BACKUP_DIR" -name "db_*.dump" -mtime +$RETENTION_DAYS -delete 2>/dev/null || true
+find "$BACKUP_DIR" -maxdepth 1 -name "uploads_*" -type d -mtime +$RETENTION_DAYS -exec rm -rf {} + 2>/dev/null || true
+
+TOTAL_SIZE=$(du -sh "$BACKUP_DIR" | cut -f1)
+echo "[$(date)] Резервтік көшіру аяқталды. Жалпы көлемі: $TOTAL_SIZE"
+SCRIPT
+
+chmod +x /home/deploy/backup.sh
+\`\`\`
+
+### 12.2. Cron арқылы жоспарлау
+
+\`\`\`bash
+crontab -e
+\`\`\`
+
+Мына жолды қосыңыз:
+
+\`\`\`
+0 3 * * * /home/deploy/backup.sh >> /home/deploy/backups/backup.log 2>&1
+\`\`\`
+
+> Бэкап күн сайын сағат 3:00-де орындалады.
+
+### 12.3. Бэкаптан қалпына келтіру
+
+\`\`\`bash
+# 1. Қолжетімді бэкаптарды көру
+ls -la /home/deploy/backups/db_*.dump
+
+# 2. Қосымшаны тоқтату
+docker compose -f docker-compose.prod.yml stop api web
+
+# 3. Деректер қорын қалпына келтіру
+docker exec -i your-project_postgres pg_restore \\
+  -U postgres -d app_db --clean --if-exists \\
+  < /home/deploy/backups/db_YYYYMMDD_HHMMSS.dump
+
+# 4. MinIO файлдарын қалпына келтіру
+mc mirror /home/deploy/backups/uploads_YYYYMMDD_HHMMSS/ prod/uploads --overwrite
+
+# 5. Қосымшаны іске қосу
+docker compose -f docker-compose.prod.yml up -d api web
+\`\`\`
+
+---
+
+## 13. GitHub Actions арқылы CI/CD
+
+### 13.1. SSH кілтін дайындау
+
+Серверде:
+
+\`\`\`bash
+ssh-keygen -t ed25519 -C "github-actions-deploy" -f /home/deploy/.ssh/github_actions -N ""
+cat /home/deploy/.ssh/github_actions.pub >> /home/deploy/.ssh/authorized_keys
+cat /home/deploy/.ssh/github_actions
+\`\`\`
+
+Жеке кілтті көшіріңіз.
+
+### 13.2. GitHub-тағы құпиялар
+
+**Settings** > **Secrets and variables** > **Actions** > **New repository secret** бөліміне өтіңіз
+
+| Құпия атауы | Мәні |
+|-------------|------|
+| \`DEPLOY_HOST\` | Сервер IP-мекенжайы |
+| \`DEPLOY_USER\` | \`deploy\` |
+| \`DEPLOY_SSH_KEY\` | Жеке кілт |
+
+### 13.3. GitHub Actions Workflow
+
+\`.github/workflows/deploy.yml\` файлын жасаңыз:
+
+\`\`\`yaml
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: \${{ secrets.DEPLOY_HOST }}
+          username: \${{ secrets.DEPLOY_USER }}
+          key: \${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /home/deploy/your-project
+            git pull origin main
+            docker compose -f docker-compose.prod.yml build --no-cache api web
+            docker compose -f docker-compose.prod.yml up -d api web
+            docker image prune -f --filter "until=72h"
+            echo "Deploy completed at $(date)"
+\`\`\`
+
+> Енді \`main\`-ге push жасаған сайын қосымша серверде автоматты жаңартылады.
+
+---
+
+## 14. Ақауларды жою
+
+### 502 Bad Gateway
+
+Nginx жұмыс істеуде, бірақ қосымша іске қосылмаған немесе құлаған.
+
+\`\`\`bash
+docker ps                                    # Барлық контейнерлер жұмыс істеуде ме?
+docker logs your-project_api --tail 50       # API логтары
+docker logs your-project_web --tail 50       # Web логтары
+docker compose -f docker-compose.prod.yml restart api web  # Қайта іске қосу
+\`\`\`
+
+### Connection Refused
+
+Nginx жұмыс істемейді.
+
+\`\`\`bash
+sudo systemctl status nginx
+sudo nginx -t
+sudo systemctl restart nginx
+\`\`\`
+
+### Құрастыру кезінде RAM жетіспеушілігі
+
+Docker құрастыру ~2 ГБ RAM қажет етеді. Swap қосыңыз:
+
+\`\`\`bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+\`\`\`
+
+### Контейнер үнемі қайта іске қосылады
+
+\`\`\`bash
+docker logs your-project_api --tail 100
+\`\`\`
+
+Жиі кездесетін себептер:
+- \`.env\`-дағы дұрыс емес айнымалылар
+- ДБ қолжетімді емес
+- Порт бос емес
+
+### Дискілік кеңістік жетіспеушілігі
+
+\`\`\`bash
+df -h                                # Тексеру
+docker system prune -a               # Docker тазалау
+sudo journalctl --vacuum-size=100M   # Жүйе логтарын тазалау
+\`\`\`
+
+### Диагностика үшін пайдалы командалар
+
+\`\`\`bash
+# Жылдам тексеру
+curl -s http://localhost:3001/health | python3 -m json.tool
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+
+# Контейнерлер ресурстары
+docker stats --no-stream
+
+# PostgreSQL-ге қосылу
+docker exec -it your-project_postgres psql -U postgres -d app_db
+\`\`\`
+
+---
+
+## 15. Продакшен чеклисті
+
+### Қауіпсіздік
+- [ ] SSH: root кіруі өшірілген, тек кілт арқылы
+- [ ] UFW: тек 22, 80, 443 порттары ашық
+- [ ] fail2ban бапталған және жұмыс істеуде
+- [ ] SSL сертификаттары орнатылған және автоматты жаңартылады
+- [ ] JWT құпиялары бірегей
+- [ ] ДБ паролі генерацияланған
+- [ ] MinIO паролі генерацияланған
+- [ ] \`.env\` файлдары Git-те жоқ
+
+### Инфрақұрылым
+- [ ] PostgreSQL жұмыс істеуде (healthcheck жасыл)
+- [ ] Redis жұмыс істеуде (healthcheck жасыл)
+- [ ] MinIO жұмыс істеуде, бакет жасалған
+- [ ] Nginx reverse proxy ретінде бапталған
+- [ ] Инфрақұрылым порттары 127.0.0.1-ге байланған
+
+### Қосымша
+- [ ] Сайт HTTPS арқылы ашылады
+- [ ] API health эндпоинтіне жауап береді
+- [ ] Аутентификация жұмыс істейді
+- [ ] Файлдарды жүктеу жұмыс істейді
+- [ ] CORS дұрыс доменге бапталған
+
+### Қызмет көрсету
+- [ ] Cron бэкап бапталған (күн сайын)
+- [ ] Сынақ қалпына келтіру жүргізілген
+- [ ] CI/CD workflow жұмыс істейді
+- [ ] Мониторинг бапталған (міндетті емес)
+- [ ] Маңызды метрикаларға алерттер орнатылған
+
+---
+
+## Қорытынды
+
+Сіз толық продакшен ортасын орналастырдыңыз:
+
+1. **Сервер** — deploy пайдаланушысымен қорғалған
+2. **Docker Compose** — барлық сервистер оқшауланған және қайта шығарылатын
+3. **Nginx** — статикалық файлдарды кэштеумен reverse proxy
+4. **SSL** — автоматты жаңартумен тегін Let's Encrypt сертификаттары
+5. **Файрвол** — тек қажетті порттар ашық
+6. **Бэкаптар** — ротациямен автоматты, күнделікті
+7. **CI/CD** — main-ге push кезінде автоматты деплой
+8. **Мониторинг** — Grafana арқылы метрикалар мен алерттер
+
+Бұл архитектура дұрыс кэштеу және контейнерлерді көлденең масштабтау кезінде 10 000 RPS-ке дейін көтере алады. Сәтті деплой!`,
+    },
+  },
+},
 ] as const;
 
 /**
