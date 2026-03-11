@@ -1,6 +1,5 @@
 // Proxy (middleware): nonce-based CSP + next-intl i18n routing.
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 
@@ -44,8 +43,14 @@ export default function proxy(request: NextRequest): NextResponse {
     return response;
   }
 
-  // i18n routes: run intl middleware, then attach CSP + nonce
-  const response = intlMiddleware(request);
+  // i18n routes: inject nonce + CSP into request headers so Next.js
+  // can propagate the nonce to its own inline scripts, then run intl middleware
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
+  requestHeaders.set('content-security-policy', csp);
+
+  const modifiedRequest = new NextRequest(request, { headers: requestHeaders });
+  const response = intlMiddleware(modifiedRequest);
   response.headers.set('content-security-policy', csp);
   response.headers.set('x-nonce', nonce);
   return response;
