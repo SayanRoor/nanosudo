@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Script from "next/script";
 import type { ReactNode } from "react";
+import { getLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   icons: {
@@ -13,9 +14,15 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { readonly children: ReactNode }): Promise<ReactNode> {
   const nonce = (await headers()).get('x-nonce') ?? '';
+  let lang = 'en';
+  try {
+    lang = await getLocale();
+  } catch {
+    // Admin routes don't have next-intl context — fallback to 'en'
+  }
 
   return (
-    <html lang="ru" suppressHydrationWarning data-theme="dark">
+    <html lang={lang} suppressHydrationWarning data-theme="dark">
       <head>
         <meta name="apple-mobile-web-app-title" content="Nano Sudo" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon-for-app/apple-icon.png" />

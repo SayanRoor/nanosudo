@@ -42,12 +42,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: locale === routing.defaultLocale 
+      url: locale === routing.defaultLocale
         ? `${BASE_URL}/contact`
         : `${BASE_URL}/${locale}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+    },
+    {
+      url: locale === routing.defaultLocale
+        ? `${BASE_URL}/services`
+        : `${BASE_URL}/${locale}/services`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: locale === routing.defaultLocale
+        ? `${BASE_URL}/support`
+        : `${BASE_URL}/${locale}/support`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+    {
+      url: locale === routing.defaultLocale
+        ? `${BASE_URL}/privacy-policy`
+        : `${BASE_URL}/${locale}/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as const,
+      priority: 0.3,
     },
   ]);
 

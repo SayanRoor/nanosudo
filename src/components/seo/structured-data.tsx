@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { routing } from '@/i18n/routing';
 
 type StructuredDataProps = {
   readonly data: Record<string, unknown>;
@@ -22,7 +23,7 @@ export function StructuredData({ data }: StructuredDataProps): ReactElement {
  */
 export function generatePersonStructuredData(locale: string): Record<string, unknown> {
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === 'ru' ? baseUrl : `${baseUrl}/${locale}`;
+  const url = locale === routing.defaultLocale ? baseUrl : `${baseUrl}/${locale}`;
 
   return {
     '@context': 'https://schema.org',
@@ -68,7 +69,7 @@ export function generateWebsiteStructuredData(locale: string): Record<string, un
     name: 'Sayan Roor — Full-stack разработчик',
     url: baseUrl,
     description: 'Создаю высокопроизводительные веб-приложения на Next.js и TypeScript с фокусом на конверсию.',
-    inLanguage: locale === 'ru' ? 'ru-RU' : locale === 'en' ? 'en-US' : 'kk-KZ',
+    inLanguage: locale === 'ru' ? 'ru-RU' : locale === 'kk' ? 'kk-KZ' : 'en-US',
     potentialAction: {
       '@type': 'SearchAction',
       target: {

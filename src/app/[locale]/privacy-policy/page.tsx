@@ -4,12 +4,24 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Container } from "@/components/layout/container";
 import type { Metadata } from "next";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
+import { routing } from "@/i18n/routing";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("privacyPolicy");
+type PrivacyPolicyPageProps = {
+  readonly params: Promise<{ readonly locale: string }>;
+};
+
+export async function generateMetadata({ params }: PrivacyPolicyPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "privacyPolicy" });
+  const baseUrl = 'https://nanosudo.com';
+  const url = locale === routing.defaultLocale
+    ? `${baseUrl}/privacy-policy`
+    : `${baseUrl}/${locale}/privacy-policy`;
   return generateBaseMetadata({
     title: t("title"),
     description: t("description"),
+    locale,
+    url,
   });
 }
 

@@ -35,6 +35,24 @@ type GenerateMetadataOptions = {
   readonly noIndex?: boolean;
 };
 
+function extractPathname(url: string): string {
+  const path = url.replace(BASE_URL, '') || '/';
+  for (const l of routing.locales) {
+    if (path === `/${l}`) return '/';
+    if (path.startsWith(`/${l}/`)) return path.slice(l.length + 1);
+  }
+  return path;
+}
+
+function getLocaleUrl(locale: string, pathname: string): string {
+  if (pathname === '/') {
+    return locale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${locale}`;
+  }
+  return locale === routing.defaultLocale
+    ? `${BASE_URL}${pathname}`
+    : `${BASE_URL}/${locale}${pathname}`;
+}
+
 export function generateMetadata({
   title,
   description,
@@ -56,8 +74,14 @@ export function generateMetadata({
   const finalDescription = description || defaultDesc;
   const fullTitle = title ? `${title} | ${siteName}` : siteName;
 
-  // Canonical always includes locale prefix to stay consistent with hreflang values.
-  const canonicalUrl = url || `${BASE_URL}/${currentLocale}`;
+  const pathname = url ? extractPathname(url) : '/';
+  const canonicalUrl = url || getLocaleUrl(currentLocale, pathname);
+
+  const alternateLanguages: Record<string, string> = {};
+  for (const l of routing.locales) {
+    alternateLanguages[l] = getLocaleUrl(l, pathname);
+  }
+  alternateLanguages['x-default'] = getLocaleUrl(routing.defaultLocale, pathname);
 
   return {
     title: fullTitle,
@@ -66,16 +90,14 @@ export function generateMetadata({
     metadataBase: new URL(BASE_URL),
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        'ru': `${BASE_URL}/ru`,
-        'en': `${BASE_URL}/en`,
-        'kk': `${BASE_URL}/kk`,
-        'x-default': BASE_URL,
-      },
+      languages: alternateLanguages,
     },
     openGraph: {
       type,
-      locale: currentLocale === 'ru' ? 'ru_RU' : currentLocale === 'en' ? 'en_US' : 'kk_KZ',
+      locale: currentLocale === 'ru' ? 'ru_RU' : currentLocale === 'kk' ? 'kk_KZ' : 'en_US',
+      alternateLocale: routing.locales
+        .filter((l) => l !== currentLocale)
+        .map((l) => l === 'ru' ? 'ru_RU' : l === 'kk' ? 'kk_KZ' : 'en_US'),
       url: canonicalUrl,
       title: fullTitle,
       description: finalDescription,
@@ -100,11 +122,11 @@ export function generateMetadata({
     },
     robots: {
       index: !noIndex,
-      follow: !noIndex,
+      follow: true,
       notranslate: false,
       googleBot: {
         index: !noIndex,
-        follow: !noIndex,
+        follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',
         'max-snippet': -1,

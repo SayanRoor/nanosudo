@@ -1,6 +1,30 @@
 import type { ReactElement } from "react";
+import type { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
+import { getTranslations } from "next-intl/server";
 import BriefSimplePage from "./page-simple-client";
+import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
+import { routing } from "@/i18n/routing";
+
+type BriefPageProps = {
+  readonly params: Promise<{ readonly locale: string }>;
+};
+
+export async function generateMetadata({ params }: BriefPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "brief" });
+  const baseUrl = 'https://nanosudo.com';
+  const url = locale === routing.defaultLocale
+    ? `${baseUrl}/brief`
+    : `${baseUrl}/${locale}/brief`;
+  return generateBaseMetadata({
+    title: t("title"),
+    description: t("description"),
+    locale,
+    url,
+    noIndex: true,
+  });
+}
 
 // CRITICAL: This page MUST NOT be prerendered
 // generateStaticParams in layout.tsx forces Next.js to prerender all pages
