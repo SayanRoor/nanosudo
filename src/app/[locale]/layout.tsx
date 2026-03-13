@@ -55,8 +55,14 @@ export async function generateMetadata({ params }: LocaleLayoutMetadataProps): P
     locale,
   });
 
+  // Layout provides shared metadata (title, description, robots, OG defaults).
+  // alternates (canonical + hreflang) MUST come from individual pages
+  // because the layout doesn't know the current page path.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- intentionally strip alternates
+  const { alternates: _strip, ...sharedMetadata } = baseMetadata;
+
   return {
-    ...baseMetadata,
+    ...sharedMetadata,
     icons: {
       icon: "/Nanosudo_logo_favicon.png",
       shortcut: "/Nanosudo_logo_favicon.png",

@@ -1,5 +1,6 @@
 // Home page — server component. Client sections loaded via dynamic() after initial render.
 import type { ReactElement } from "react";
+export { generateMetadata } from "./page-metadata";
 import dynamic from "next/dynamic";
 import { SiteShell } from "@/components/layout/site-shell";
 import {
