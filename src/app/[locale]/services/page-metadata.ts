@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: ServicesPageMetadataProps): P
     title: t('services.meta.title'),
     description: t('services.meta.description'),
     locale,
-    url: locale === routing.defaultLocale ? 'https://nanosudo.com/services' : `https://nanosudo.com/${locale}/services`,
+    url: `https://nanosudo.com/${locale}/services`,
     keywords: [
       'ии автоматизация казахстан',
       'внедрение ии бизнес',

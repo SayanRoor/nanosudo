@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: BlogPageMetadataProps): Promi
     title: t('blog.list.title', { defaultValue: 'Блог разработчика' }),
     description: t('blog.list.description', { defaultValue: 'Практические статьи о разработке, оптимизации и лучших практиках. Реальный опыт из проектов.' }),
     locale,
-    url: locale === routing.defaultLocale ? 'https://nanosudo.com/blog' : `https://nanosudo.com/${locale}/blog`,
+    url: `https://nanosudo.com/${locale}/blog`,
   });
 }
 

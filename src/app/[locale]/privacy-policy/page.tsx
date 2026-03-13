@@ -4,7 +4,6 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Container } from "@/components/layout/container";
 import type { Metadata } from "next";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
-import { routing } from "@/i18n/routing";
 
 type PrivacyPolicyPageProps = {
   readonly params: Promise<{ readonly locale: string }>;
@@ -14,9 +13,7 @@ export async function generateMetadata({ params }: PrivacyPolicyPageProps): Prom
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "privacyPolicy" });
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === routing.defaultLocale
-    ? `${baseUrl}/privacy-policy`
-    : `${baseUrl}/${locale}/privacy-policy`;
+  const url = `${baseUrl}/${locale}/privacy-policy`;
   return generateBaseMetadata({
     title: t("title"),
     description: t("description"),

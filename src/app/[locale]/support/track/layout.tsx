@@ -2,7 +2,6 @@ import type { ReactElement, ReactNode } from "react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
-import { routing } from "@/i18n/routing";
 
 type TrackLayoutProps = {
   readonly children: ReactNode;
@@ -13,9 +12,7 @@ export async function generateMetadata({ params }: TrackLayoutProps): Promise<Me
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "support" });
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === routing.defaultLocale
-    ? `${baseUrl}/support/track`
-    : `${baseUrl}/${locale}/support/track`;
+  const url = `${baseUrl}/${locale}/support/track`;
   return generateBaseMetadata({
     title: t("track.title"),
     locale,

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: AboutPageMetadataProps): Prom
     title: t('about.hero.title', { defaultValue: 'О себе' }),
     description: t('about.hero.description', { defaultValue: 'Путь от обучения к независимой разработке. Опыт работы в квазигоссекторе и переход к full-stack разработке.' }),
     locale,
-    url: locale === routing.defaultLocale ? 'https://nanosudo.com/about' : `https://nanosudo.com/${locale}/about`,
+    url: `https://nanosudo.com/${locale}/about`,
   });
 }
 

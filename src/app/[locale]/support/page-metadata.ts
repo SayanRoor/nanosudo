@@ -21,9 +21,6 @@ export async function generateMetadata({ params }: SupportPageMetadataProps): Pr
     title: t('support.meta.title'),
     description: t('support.meta.description'),
     locale,
-    url:
-      locale === routing.defaultLocale
-        ? 'https://nanosudo.com/support'
-        : `https://nanosudo.com/${locale}/support`,
+    url: `https://nanosudo.com/${locale}/support`,
   });
 }

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: CasesPageMetadataProps): Prom
     title: t('cases.list.title', { defaultValue: 'Кейсы' }),
     description: t('cases.list.description', { defaultValue: 'Реальные проекты с измеримыми результатами. Каждый проект — это решение конкретных бизнес‑задач с четкими целями, задачами и результатами.' }),
     locale,
-    url: locale === routing.defaultLocale ? 'https://nanosudo.com/cases' : `https://nanosudo.com/${locale}/cases`,
+    url: `https://nanosudo.com/${locale}/cases`,
   });
 }
 

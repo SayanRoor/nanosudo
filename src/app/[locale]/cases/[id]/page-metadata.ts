@@ -21,9 +21,7 @@ export async function generateMetadata({ params }: CaseDetailPageMetadataProps):
   }
 
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === routing.defaultLocale
-    ? `${baseUrl}/cases/${id}`
-    : `${baseUrl}/${locale}/cases/${id}`;
+  const url = `${baseUrl}/${locale}/cases/${id}`;
 
   return generateBaseMetadata({
     title: project.title,

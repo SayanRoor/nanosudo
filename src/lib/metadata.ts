@@ -46,11 +46,9 @@ function extractPathname(url: string): string {
 
 function getLocaleUrl(locale: string, pathname: string): string {
   if (pathname === '/') {
-    return locale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${locale}`;
+    return `${BASE_URL}/${locale}`;
   }
-  return locale === routing.defaultLocale
-    ? `${BASE_URL}${pathname}`
-    : `${BASE_URL}/${locale}${pathname}`;
+  return `${BASE_URL}/${locale}${pathname}`;
 }
 
 export function generateMetadata({
@@ -81,7 +79,7 @@ export function generateMetadata({
   for (const l of routing.locales) {
     alternateLanguages[l] = getLocaleUrl(l, pathname);
   }
-  alternateLanguages['x-default'] = getLocaleUrl(routing.defaultLocale, pathname);
+  alternateLanguages['x-default'] = pathname === '/' ? BASE_URL : `${BASE_URL}${pathname}`;
 
   return {
     title: fullTitle,

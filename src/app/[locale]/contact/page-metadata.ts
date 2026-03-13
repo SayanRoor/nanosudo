@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: ContactPageMetadataProps): Pr
     title: t('contact.hero.title', { defaultValue: 'Контакты' }),
     description: t('contact.hero.description', { defaultValue: 'Свяжитесь со мной любым удобным способом. Отвечаю в течение 24 часов. Первая консультация бесплатно.' }),
     locale,
-    url: locale === routing.defaultLocale ? 'https://nanosudo.com/contact' : `https://nanosudo.com/${locale}/contact`,
+    url: `https://nanosudo.com/${locale}/contact`,
   });
 }
 

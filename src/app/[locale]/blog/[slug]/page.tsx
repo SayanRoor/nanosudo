@@ -13,7 +13,6 @@ import type { AppLocale } from "@/lib/blog-data";
 import { getAllPublishedPosts, getPostBySlugFromDB, getAllPublishedSlugs } from "@/lib/blog-db";
 import { MarkdownContent } from "@/components/blog/markdown-content";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
-import { routing } from "@/i18n/routing";
 import {
   StructuredData,
   generateBlogPostStructuredData,
@@ -44,9 +43,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === routing.defaultLocale
-    ? `${baseUrl}/blog/${slug}`
-    : `${baseUrl}/${locale}/blog/${slug}`;
+  const url = `${baseUrl}/${locale}/blog/${slug}`;
 
   return generateBaseMetadata({
     title: post.title,
@@ -79,7 +76,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
     <SiteShell>
       <StructuredData data={generateBlogPostStructuredData({
         ...post,
-        url: `https://nanosudo.com${locale === routing.defaultLocale ? '' : `/${locale}`}/blog/${slug}`,
+        url: `https://nanosudo.com/${locale}/blog/${slug}`,
       })} />
       <StructuredData data={generateBreadcrumbStructuredData([
         { name: t("common.home"), item: "/" },

@@ -4,7 +4,6 @@ import { unstable_noStore as noStore } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import BriefSimplePage from "./page-simple-client";
 import { generateMetadata as generateBaseMetadata } from "@/lib/metadata";
-import { routing } from "@/i18n/routing";
 
 type BriefPageProps = {
   readonly params: Promise<{ readonly locale: string }>;
@@ -14,9 +13,7 @@ export async function generateMetadata({ params }: BriefPageProps): Promise<Meta
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "brief" });
   const baseUrl = 'https://nanosudo.com';
-  const url = locale === routing.defaultLocale
-    ? `${baseUrl}/brief`
-    : `${baseUrl}/${locale}/brief`;
+  const url = `${baseUrl}/${locale}/brief`;
   return generateBaseMetadata({
     title: t("title"),
     description: t("description"),
