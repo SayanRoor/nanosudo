@@ -48,6 +48,488 @@ type BlogPostSource = {
 
 export const BLOG_POSTS: readonly BlogPostSource[] = [
   {
+    slug: "invix-kz-event-platform-case",
+    image: "/invix_project.png",
+    publishedAt: "2026-04-14",
+    author: "Sayan Roor",
+    tags: ["Case Study", "SaaS", "Next.js", "NestJS", "tRPC", "Kazakhstan"],
+    readingTime: 10,
+    featured: true,
+    translations: {
+      title: {
+        ru: "INVIX.KZ — как мы построили SaaS-платформу для мероприятий с нуля",
+        en: "INVIX.KZ — How We Built a SaaS Event Platform From Scratch",
+        kk: "INVIX.KZ — іс-шараларға арналған SaaS-платформаны нөлден қалай құрдық",
+      },
+      description: {
+        ru: "Кейс разработки мультитенантной платформы для организации мероприятий: архитектура, стек, RBAC, тикетинг и уроки из продакшена.",
+        en: "Case study of building a multitenant event management platform: architecture, tech stack, RBAC, ticketing, and lessons from production.",
+        kk: "Іс-шараларды ұйымдастыруға арналған мультитенантты платформаны жасау кейсі: архитектура, стек, RBAC, билет жүйесі және продакшеннен алынған сабақтар.",
+      },
+      excerpt: {
+        ru: "Разбираем архитектуру INVIX.KZ: монорепозиторий Next.js + NestJS, tRPC для type safety, Lucia v3 для авторизации, RBAC с 6 ролями и QR-чекин гостей.",
+        en: "Breaking down INVIX.KZ architecture: Next.js + NestJS monorepo, tRPC for type safety, Lucia v3 auth, RBAC with 6 roles, and QR guest check-in.",
+        kk: "INVIX.KZ архитектурасын талдаймыз: Next.js + NestJS монорепозиторийі, type safety үшін tRPC, Lucia v3 авторизация, 6 рөлді RBAC және QR қонақ чекин.",
+      },
+      imageAlt: {
+        ru: "INVIX.KZ — платформа для организации мероприятий",
+        en: "INVIX.KZ — event management platform",
+        kk: "INVIX.KZ — іс-шараларды ұйымдастыру платформасы",
+      },
+      category: {
+        ru: "Кейсы",
+        en: "Case Studies",
+        kk: "Кейстер",
+      },
+      publishedLabel: {
+        ru: "14 апреля 2026",
+        en: "April 14, 2026",
+        kk: "2026 ж. 14 сәуір",
+      },
+      content: {
+        ru: `# INVIX.KZ — как мы построили SaaS-платформу для мероприятий
+
+> Мультитенантная платформа для организации мероприятий в Казахстане: свадьбы, дни рождения, корпоративы. Рассказываю про архитектуру, стек и уроки из продакшена.
+
+## Задача
+
+Клиент хотел платформу, где любой пользователь может:
+- Создать мероприятие (свадьба, день рождения, корпоратив, той)
+- Управлять списком гостей с QR-чекином
+- Дизайнить приглашения в визуальном редакторе
+- Продавать билеты с тарифной системой
+
+При этом каждый пользователь работает в своём изолированном пространстве (мультитенантность), а роли и права разграничены через RBAC.
+
+## Архитектура: монорепозиторий
+
+Выбрали **pnpm monorepo** с тремя пакетами:
+
+\`\`\`
+apps/
+  frontend/    # Next.js 14 App Router — порт 3000
+  backend/     # NestJS + tRPC — порт 4000
+packages/
+  shared/      # Zod-схемы, типы, константы
+\`\`\`
+
+**Почему монорепозиторий?** Zod-схемы из \`packages/shared\` используются и на фронтенде (валидация форм), и на бэкенде (валидация API). Один источник правды — ноль рассинхронизации типов.
+
+## Стек технологий
+
+| Уровень | Технология | Почему |
+|---------|-----------|--------|
+| Фронтенд | Next.js 14, React, Tailwind CSS | SSR, App Router, Server Components |
+| Бэкенд | NestJS 11, tRPC v10 | Модульность + end-to-end type safety |
+| БД | PostgreSQL + Prisma 5 | Строгие типы, миграции, soft-delete |
+| Кэш | Redis | Сессии, rate limiting |
+| Хранилище | MinIO (S3-compatible) | Аватары, дизайны, экспорт билетов |
+| Авторизация | Lucia v3 + bcrypt | Session-based, не JWT |
+| Инфраструктура | Docker Compose | PostgreSQL + Redis + MinIO + App |
+
+## tRPC: 5 уровней middleware
+
+Ключевое архитектурное решение — **5 уровней авторизации** в tRPC:
+
+1. **publicProcedure** — без авторизации (публичные страницы мероприятий)
+2. **protectedProcedure** — требует \`ctx.user\` + \`ctx.session\`
+3. **requireCapability(cap)** — проверка роли + capability + инъекция \`ctx.siteId\`
+4. **eventOwnerMiddleware** — проверяет, что пользователь — владелец мероприятия
+5. **guestTokenMiddleware** — magic-токен для гостей без регистрации
+
+\`\`\`typescript
+// Пример: только владелец сайта с правом управления настройками
+settingsRouter.update = this.trpc
+  .procedure
+  .use(requireCapability('settings:manage'))
+  .input(updateSettingsSchema)
+  .mutation(({ ctx, input }) => {
+    return this.settings.update(ctx.siteId, input);
+  });
+\`\`\`
+
+## Мультитенантность и безопасность
+
+Каждый запрос к данным **обязательно фильтруется по siteId**. Это главное правило проекта:
+
+- \`findFirst({ where: { id, siteId } })\` вместо \`findUnique({ where: { id } })\`
+- \`siteId\` берётся из \`ctx.siteId\` (инъектируется middleware), а не из клиентского input
+- Soft-delete middleware автоматически фильтрует \`deletedAt: null\`
+
+**RBAC с 6 ролями:**
+
+| Роль | Уровень доступа |
+|------|----------------|
+| SUPER_ADMIN | Полный доступ ко всем сайтам |
+| ADMIN | Управление сайтом, пользователями, настройками |
+| EDITOR | Управление контентом, просмотр активности |
+| AUTHOR | Создание и редактирование своего контента |
+| CONTRIBUTOR | Ограниченный вклад |
+| SUBSCRIBER | Только чтение |
+
+## Доменные модули
+
+Реализовано **12+ модулей**, каждый — отдельная директория в NestJS:
+
+- **event** — CRUD мероприятий (BIRTHDAY, WEDDING, CORPORATE, TOY)
+- **guest** — список гостей с импортом/экспортом
+- **checkin** — QR-сканер для регистрации гостей
+- **ticket** — тикетинг с тарифами и оплатой (Kaspi, Halyk)
+- **design** — Fabric.js редактор приглашений с шаблонами
+- **wishlist** — вишлист подарков
+- **notification** — уведомления (WhatsApp, Telegram, Email, SMS)
+- **contribution** — сбор средств
+- **article** — блог/статьи мероприятия
+- **collaborator** — совместный доступ (EDITOR/VIEWER)
+- **poll** — опросы гостей
+- **site** — управление сайтами/пространствами
+
+## Тарифная система
+
+Три тарифа с жёсткими ограничениями через PlanGateService:
+
+| Лимит | FREE | PRO | BUSINESS |
+|-------|------|-----|----------|
+| Активных мероприятий | 3/мес | Безлимит | Безлимит |
+| Гостей на мероприятие | 10 | 200 | Безлимит |
+| QR-чекин | — | ✓ | ✓ |
+| Продажа билетов | — | — | ✓ |
+| Telegram-канал | — | — | ✓ |
+
+## Дизайн-редактор приглашений
+
+Один из самых интересных модулей — **Fabric.js canvas editor**:
+
+- Zustand-стор для состояния: выделенный объект, история (до 50 снэпшотов), undo/redo
+- Шаблоны по категориям и форматам
+- Экспорт в PNG/PDF через серверный рендеринг
+- Превью сохраняются в MinIO (S3)
+
+## CI/CD и деплой
+
+GitHub Actions pipeline:
+
+1. **CI:** lint (Biome) → type-check → test (Vitest + PostgreSQL service) → build
+2. **CD:** Docker images → GHCR → SSH deploy на VPS → health check
+
+\`\`\`yaml
+# Упрощённая схема
+on: push (main)
+jobs:
+  ci: lint + type-check + test + build
+  cd: docker build → push GHCR → deploy.sh → health check
+\`\`\`
+
+## Результаты
+
+- **12+ доменных модулей** в продакшене
+- **6 RBAC-ролей** с granular capabilities
+- **100% type safety** от Zod-схем до React-хуков
+- **< 100 мс** среднее время отклика API (p95)
+- **0 downtime** при обновлениях через Docker rolling updates
+
+## Уроки из продакшена
+
+### 1. Мультитенантность — это не фича, а архитектурное решение
+Каждый запрос к БД должен фильтроваться по \`siteId\`. Добавить это потом — значит переписать весь data layer.
+
+### 2. tRPC > REST для монорепозиториев
+End-to-end type safety без code generation — это огромный выигрыш в скорости разработки. Автокомплит от бэкенда до фронтенда.
+
+### 3. Session-based auth проще, чем JWT
+Lucia v3 + httpOnly cookies = минимум кода, максимум безопасности. Никаких refresh-токенов и проблем с инвалидацией.
+
+### 4. Soft-delete middleware — must have
+Prisma middleware, который автоматически фильтрует \`deletedAt: null\`, спасает от случайного показа удалённых данных.
+
+---
+
+➡️ **Хотите подобный проект?** Заполните [бриф](/brief), и я подготовлю оценку и план реализации.`,
+        en: `# INVIX.KZ — How We Built a SaaS Event Platform From Scratch
+
+> A multitenant platform for organizing events in Kazakhstan: weddings, birthdays, corporate events. Here's the architecture, tech stack, and lessons from production.
+
+## The Brief
+
+The client wanted a platform where any user could:
+- Create events (weddings, birthdays, corporate gatherings)
+- Manage guest lists with QR check-in
+- Design invitations in a visual editor
+- Sell tickets with a tiered pricing system
+
+Each user works in their own isolated space (multitenancy), with roles and permissions managed through RBAC.
+
+## Architecture: Monorepo
+
+We chose a **pnpm monorepo** with three packages:
+
+\`\`\`
+apps/
+  frontend/    # Next.js 14 App Router — port 3000
+  backend/     # NestJS + tRPC — port 4000
+packages/
+  shared/      # Zod schemas, types, constants
+\`\`\`
+
+**Why monorepo?** Zod schemas from \`packages/shared\` are used on both the frontend (form validation) and backend (API validation). Single source of truth — zero type desynchronization.
+
+## Tech Stack
+
+| Layer | Technology | Why |
+|-------|-----------|-----|
+| Frontend | Next.js 14, React, Tailwind CSS | SSR, App Router, Server Components |
+| Backend | NestJS 11, tRPC v10 | Modularity + end-to-end type safety |
+| Database | PostgreSQL + Prisma 5 | Strict types, migrations, soft-delete |
+| Cache | Redis | Sessions, rate limiting |
+| Storage | MinIO (S3-compatible) | Avatars, designs, ticket exports |
+| Auth | Lucia v3 + bcrypt | Session-based, not JWT |
+| Infra | Docker Compose | PostgreSQL + Redis + MinIO + App |
+
+## tRPC: 5 Middleware Layers
+
+The key architectural decision — **5 authorization layers** in tRPC:
+
+1. **publicProcedure** — no auth required (public event pages)
+2. **protectedProcedure** — requires \`ctx.user\` + \`ctx.session\`
+3. **requireCapability(cap)** — role + capability check + injects \`ctx.siteId\`
+4. **eventOwnerMiddleware** — verifies the user owns the event
+5. **guestTokenMiddleware** — magic token for guests without registration
+
+\`\`\`typescript
+// Example: only site owner with settings management permission
+settingsRouter.update = this.trpc
+  .procedure
+  .use(requireCapability('settings:manage'))
+  .input(updateSettingsSchema)
+  .mutation(({ ctx, input }) => {
+    return this.settings.update(ctx.siteId, input);
+  });
+\`\`\`
+
+## Multitenancy & Security
+
+Every data query **must be filtered by siteId**. This is the project's cardinal rule:
+
+- \`findFirst({ where: { id, siteId } })\` instead of \`findUnique({ where: { id } })\`
+- \`siteId\` comes from \`ctx.siteId\` (injected by middleware), never from client input
+- Soft-delete middleware automatically filters \`deletedAt: null\`
+
+**RBAC with 6 roles:**
+
+| Role | Access Level |
+|------|-------------|
+| SUPER_ADMIN | Full access to all sites |
+| ADMIN | Site management, users, settings |
+| EDITOR | Content management, activity view |
+| AUTHOR | Create and edit own content |
+| CONTRIBUTOR | Limited contributions |
+| SUBSCRIBER | Read-only access |
+
+## Domain Modules
+
+We implemented **12+ modules**, each in its own NestJS directory:
+
+- **event** — CRUD for events (BIRTHDAY, WEDDING, CORPORATE, TOY)
+- **guest** — guest lists with import/export
+- **checkin** — QR scanner for guest registration
+- **ticket** — ticketing with tiers and payment (Kaspi, Halyk)
+- **design** — Fabric.js invitation editor with templates
+- **wishlist** — gift wishlists
+- **notification** — notifications (WhatsApp, Telegram, Email, SMS)
+- **contribution** — fundraising
+- **article** — event blog/articles
+- **collaborator** — shared access (EDITOR/VIEWER)
+- **poll** — guest polls
+- **site** — site/workspace management
+
+## Pricing Tiers
+
+Three tiers with strict limits enforced by PlanGateService:
+
+| Limit | FREE | PRO | BUSINESS |
+|-------|------|-----|----------|
+| Active events | 3/month | Unlimited | Unlimited |
+| Guests per event | 10 | 200 | Unlimited |
+| QR check-in | — | Yes | Yes |
+| Ticket sales | — | — | Yes |
+| Telegram channel | — | — | Yes |
+
+## Invitation Design Editor
+
+One of the most interesting modules — **Fabric.js canvas editor**:
+
+- Zustand store for state: selected object, history (up to 50 snapshots), undo/redo
+- Templates by category and format
+- Export to PNG/PDF via server-side rendering
+- Previews saved to MinIO (S3)
+
+## CI/CD & Deployment
+
+GitHub Actions pipeline:
+
+1. **CI:** lint (Biome) → type-check → test (Vitest + PostgreSQL service) → build
+2. **CD:** Docker images → GHCR → SSH deploy to VPS → health check
+
+\`\`\`yaml
+# Simplified pipeline
+on: push (main)
+jobs:
+  ci: lint + type-check + test + build
+  cd: docker build → push GHCR → deploy.sh → health check
+\`\`\`
+
+## Results
+
+- **12+ domain modules** in production
+- **6 RBAC roles** with granular capabilities
+- **100% type safety** from Zod schemas to React hooks
+- **< 100ms** average API response time (p95)
+- **0 downtime** during updates via Docker rolling updates
+
+## Lessons From Production
+
+### 1. Multitenancy is an architectural decision, not a feature
+Every database query must filter by \`siteId\`. Adding this later means rewriting the entire data layer.
+
+### 2. tRPC > REST for monorepos
+End-to-end type safety without code generation is a massive productivity boost. Autocomplete from backend to frontend.
+
+### 3. Session-based auth is simpler than JWT
+Lucia v3 + httpOnly cookies = minimal code, maximum security. No refresh tokens or invalidation headaches.
+
+### 4. Soft-delete middleware is a must-have
+Prisma middleware that automatically filters \`deletedAt: null\` prevents accidentally showing deleted data.
+
+---
+
+➡️ **Want a similar project?** Fill out the [brief](/brief) and I'll prepare a scope estimate and implementation plan.`,
+        kk: `# INVIX.KZ — іс-шараларға арналған SaaS-платформаны нөлден қалай құрдық
+
+> Қазақстандағы іс-шараларды ұйымдастыруға арналған мультитенантты платформа: тойлар, туған күндер, корпоративтік іс-шаралар. Архитектура, стек және продакшеннен алынған сабақтар туралы айтамын.
+
+## Тапсырма
+
+Тапсырыс беруші кез-келген пайдаланушы мыналарды жасай алатын платформа қалады:
+- Іс-шара жасау (той, туған күн, корпоратив)
+- QR-чекинмен қонақтар тізімін басқару
+- Визуалды редакторда шақырулар дизайнын жасау
+- Тарифтік жүйемен билеттер сату
+
+Әр пайдаланушы өзінің оқшауланған кеңістігінде жұмыс істейді (мультитенанттық), ал рөлдер мен құқықтар RBAC арқылы бөлінген.
+
+## Архитектура: монорепозиторий
+
+**pnpm монорепозиторийді** үш пакетпен таңдадық:
+
+\`\`\`
+apps/
+  frontend/    # Next.js 14 App Router — 3000 порт
+  backend/     # NestJS + tRPC — 4000 порт
+packages/
+  shared/      # Zod-схемалар, типтер, константалар
+\`\`\`
+
+**Неге монорепозиторий?** \`packages/shared\` ішіндегі Zod-схемалар фронтендте де (форма валидациясы), бэкендте де (API валидациясы) қолданылады. Бір ақиқат көзі — типтердің десинхронизациясы нөл.
+
+## Технологиялар стегі
+
+| Деңгей | Технология | Себебі |
+|--------|-----------|--------|
+| Фронтенд | Next.js 14, React, Tailwind CSS | SSR, App Router, Server Components |
+| Бэкенд | NestJS 11, tRPC v10 | Модульділік + end-to-end type safety |
+| ДБ | PostgreSQL + Prisma 5 | Қатаң типтер, миграциялар, soft-delete |
+| Кэш | Redis | Сессиялар, rate limiting |
+| Сақтау | MinIO (S3-compatible) | Аватарлар, дизайндар, билет экспорты |
+| Авторизация | Lucia v3 + bcrypt | Session-based, JWT емес |
+| Инфрақұрылым | Docker Compose | PostgreSQL + Redis + MinIO + App |
+
+## tRPC: 5 деңгейлі middleware
+
+Негізгі архитектуралық шешім — tRPC-дегі **5 авторизация деңгейі**:
+
+1. **publicProcedure** — авторизациясыз (іс-шаралардың ашық беттері)
+2. **protectedProcedure** — \`ctx.user\` + \`ctx.session\` талап етеді
+3. **requireCapability(cap)** — рөл + capability тексеру + \`ctx.siteId\` инъекциясы
+4. **eventOwnerMiddleware** — пайдаланушының іс-шара иесі екенін тексереді
+5. **guestTokenMiddleware** — тіркелусіз қонақтар үшін magic-токен
+
+## Мультитенанттық және қауіпсіздік
+
+Деректерге әрбір сұрау **міндетті түрде siteId бойынша сүзіледі**. Бұл жобаның басты ережесі:
+
+- \`findUnique({ where: { id } })\` орнына \`findFirst({ where: { id, siteId } })\`
+- \`siteId\` клиент input-тан емес, \`ctx.siteId\`-тен (middleware инъекциясы) алынады
+- Soft-delete middleware автоматты түрде \`deletedAt: null\` сүзеді
+
+**6 рөлді RBAC:**
+
+| Рөл | Қол жеткізу деңгейі |
+|-----|---------------------|
+| SUPER_ADMIN | Барлық сайттарға толық қол жеткізу |
+| ADMIN | Сайтты, пайдаланушыларды, параметрлерді басқару |
+| EDITOR | Контентті басқару, белсенділікті көру |
+| AUTHOR | Өз контентін жасау және өңдеу |
+| CONTRIBUTOR | Шектеулі үлес |
+| SUBSCRIBER | Тек оқу |
+
+## Домендік модульдер
+
+**12+ модуль** жүзеге асырылды, әрқайсысы — NestJS-тегі жеке директория:
+
+- **event** — іс-шаралар CRUD (BIRTHDAY, WEDDING, CORPORATE, TOY)
+- **guest** — импорт/экспорт бар қонақтар тізімі
+- **checkin** — қонақтарды тіркеуге арналған QR-сканер
+- **ticket** — тарифтер мен төлеммен билет жүйесі (Kaspi, Halyk)
+- **design** — шаблондары бар Fabric.js шақыру редакторы
+- **wishlist** — сыйлықтар тізімі
+- **notification** — хабарландырулар (WhatsApp, Telegram, Email, SMS)
+- **contribution** — қаражат жинау
+- **article** — іс-шара блогы/мақалалары
+- **collaborator** — бірлескен қол жеткізу (EDITOR/VIEWER)
+- **poll** — қонақтар сауалнамасы
+- **site** — сайттарды/кеңістіктерді басқару
+
+## Тарифтік жүйе
+
+PlanGateService арқылы қатаң шектеулері бар үш тариф:
+
+| Шектеу | FREE | PRO | BUSINESS |
+|--------|------|-----|----------|
+| Белсенді іс-шаралар | 3/ай | Шексіз | Шексіз |
+| Іс-шараға қонақтар | 10 | 200 | Шексіз |
+| QR-чекин | — | ✓ | ✓ |
+| Билет сату | — | — | ✓ |
+| Telegram-канал | — | — | ✓ |
+
+## Нәтижелер
+
+- **12+ домендік модуль** продакшенде
+- **6 RBAC-рөл** granular capabilities-мен
+- **100% type safety** Zod-схемалардан React-хуктарға дейін
+- **< 100 мс** орташа API жауап уақыты (p95)
+- **0 тоқтау** Docker rolling updates арқылы жаңарту кезінде
+
+## Продакшеннен алынған сабақтар
+
+### 1. Мультитенанттық — бұл фича емес, архитектуралық шешім
+ДБ-ға әрбір сұрау \`siteId\` бойынша сүзілуі керек. Мұны кейін қосу — бүкіл data layer-ді қайта жазуды білдіреді.
+
+### 2. Монорепозиторийлер үшін tRPC > REST
+Code generation-сіз end-to-end type safety — әзірлеу жылдамдығында үлкен ұтыс.
+
+### 3. Session-based auth JWT-ден қарапайым
+Lucia v3 + httpOnly cookies = минимум код, максимум қауіпсіздік.
+
+### 4. Soft-delete middleware — міндетті
+\`deletedAt: null\` автоматты түрде сүзетін Prisma middleware жойылған деректерді кездейсоқ көрсетуден сақтайды.
+
+---
+
+➡️ **Осындай жоба қалайсыз ба?** [Брифті толтырыңыз](/brief), мен бағалау мен жүзеге асыру жоспарын дайындаймын.`,
+      },
+    },
+  },
+  {
     slug: "kz-tax-2026-developer-advantages",
     image: "/kazakhstan-tax-regime-2026-it-services.jpg",
     publishedAt: "2026-02-09",

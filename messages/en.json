@@ -184,6 +184,42 @@
           "downtime": "Migration downtime",
           "nodeVersion": "Node.js version"
         }
+      },
+      "invix-kz": {
+        "title": "INVIX.KZ — Event Management Platform",
+        "description": "Multitenant SaaS platform for organizing events in Kazakhstan: weddings, birthdays, corporate events. Monorepo built with Next.js 14 + NestJS with tRPC, RBAC, QR check-in, ticketing, invitation design editor, and tiered pricing (FREE/PRO/BUSINESS).",
+        "shortDescription": "SaaS event platform with RBAC, QR check-in, and invitation designer",
+        "imageAlt": "INVIX.KZ — Event Management Platform",
+        "category": "SaaS Platform",
+        "goals": [
+          "Build a multitenant SaaS platform for event management",
+          "Implement RBAC with 6 roles and a capabilities system",
+          "Achieve end-to-end type safety via tRPC + Zod",
+          "Provide a tiered pricing system FREE/PRO/BUSINESS with resource limits"
+        ],
+        "tasks": [
+          "Architect a monorepo: Next.js 14 frontend + NestJS backend + shared Zod types",
+          "Implement session-based authentication with Lucia v3 and Prisma adapter",
+          "Build a multitenancy system with data isolation by siteId",
+          "Develop tRPC routers with 5 middleware layers (public → protected → capability → owner → guest)",
+          "Implement Fabric.js invitation design editor with undo/redo",
+          "Build QR guest check-in and ticketing system",
+          "Set up Docker infrastructure: PostgreSQL + Redis + MinIO",
+          "Implement plan gating and tier-based resource limits"
+        ],
+        "results": [
+          "Launched SaaS platform with full multitenancy and RBAC",
+          "Implemented 12+ domain modules: events, guests, wishlists, tickets, design, and more",
+          "End-to-end type safety: from Zod schemas to frontend hooks without code generation",
+          "Automated CI/CD: lint + typecheck + test + Docker build + deploy to VPS",
+          "API response time under 100ms at the 95th percentile"
+        ],
+        "metrics": {
+          "domainModules": "Domain modules",
+          "rbacRoles": "RBAC roles",
+          "pricingPlans": "Pricing plans",
+          "typeSafety": "End-to-end type safety"
+        }
       }
     }
   },
@@ -1296,10 +1332,38 @@
         "description": "Description"
       },
       "rows": {
-        "critical": { "priority": "Critical (P1)", "urgency": "High", "impact": "High", "reaction": "1 hour", "resolution": "4 hours", "description": "System completely unavailable, all users affected" },
-        "high": { "priority": "High (P2)", "urgency": "High", "impact": "Medium", "reaction": "4 hours", "resolution": "8 hours", "description": "Critical failure, partial workaround available" },
-        "medium": { "priority": "Medium (P3)", "urgency": "Medium", "impact": "Medium", "reaction": "8 hours", "resolution": "24 hours", "description": "Partial disruption, workaround available" },
-        "low": { "priority": "Low (P4)", "urgency": "Low", "impact": "Low", "reaction": "24 hours", "resolution": "72 hours", "description": "Minor inconvenience, core functionality unaffected" }
+        "critical": {
+          "priority": "Critical (P1)",
+          "urgency": "High",
+          "impact": "High",
+          "reaction": "1 hour",
+          "resolution": "4 hours",
+          "description": "System completely unavailable, all users affected"
+        },
+        "high": {
+          "priority": "High (P2)",
+          "urgency": "High",
+          "impact": "Medium",
+          "reaction": "4 hours",
+          "resolution": "8 hours",
+          "description": "Critical failure, partial workaround available"
+        },
+        "medium": {
+          "priority": "Medium (P3)",
+          "urgency": "Medium",
+          "impact": "Medium",
+          "reaction": "8 hours",
+          "resolution": "24 hours",
+          "description": "Partial disruption, workaround available"
+        },
+        "low": {
+          "priority": "Low (P4)",
+          "urgency": "Low",
+          "impact": "Low",
+          "reaction": "24 hours",
+          "resolution": "72 hours",
+          "description": "Minor inconvenience, core functionality unaffected"
+        }
       }
     }
   }

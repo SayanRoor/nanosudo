@@ -847,6 +847,42 @@
           "downtime": "Простой при миграции",
           "nodeVersion": "Версия Node.js"
         }
+      },
+      "invix-kz": {
+        "title": "INVIX.KZ — Платформа для организации мероприятий",
+        "description": "Мультитенантная SaaS-платформа для организации мероприятий в Казахстане: свадьбы, дни рождения, корпоративы. Монорепозиторий на Next.js 14 + NestJS с tRPC, RBAC, QR-чекин, тикетинг, дизайн-редактор приглашений и тарифная система (FREE/PRO/BUSINESS).",
+        "shortDescription": "SaaS-платформа для мероприятий с RBAC, QR-чекином и конструктором приглашений",
+        "imageAlt": "INVIX.KZ — Платформа для организации мероприятий",
+        "category": "SaaS-платформа",
+        "goals": [
+          "Создать мультитенантную SaaS-платформу для организации мероприятий",
+          "Реализовать RBAC с 6 ролями и системой capabilities",
+          "Внедрить end-to-end type safety через tRPC + Zod",
+          "Обеспечить тарифную систему FREE/PRO/BUSINESS с ограничениями"
+        ],
+        "tasks": [
+          "Спроектировать монорепозиторий: Next.js 14 фронтенд + NestJS бэкенд + shared Zod-типы",
+          "Реализовать session-based авторизацию на Lucia v3 с Prisma-адаптером",
+          "Создать систему мультитенантности с изоляцией данных по siteId",
+          "Разработать tRPC-роутеры с 5 уровнями middleware (public → protected → capability → owner → guest)",
+          "Реализовать Fabric.js редактор дизайна приглашений с undo/redo",
+          "Внедрить QR-чекин гостей и систему тикетинга",
+          "Настроить Docker-инфраструктуру: PostgreSQL + Redis + MinIO",
+          "Реализовать план-гейтинг и ограничения по тарифам"
+        ],
+        "results": [
+          "Запущена SaaS-платформа с полной мультитенантностью и RBAC",
+          "Реализовано 12+ доменных модулей: events, guests, wishlists, tickets, design и др.",
+          "End-to-end type safety: от Zod-схем до фронтенд-хуков без code generation",
+          "Автоматизирован CI/CD: lint + typecheck + test + Docker build + deploy на VPS",
+          "Время отклика API — менее 100 мс на 95-м перцентиле"
+        ],
+        "metrics": {
+          "domainModules": "Доменных модулей",
+          "rbacRoles": "Ролей RBAC",
+          "pricingPlans": "Тарифных планов",
+          "typeSafety": "End-to-end type safety"
+        }
       }
     }
   },

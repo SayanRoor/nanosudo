@@ -470,6 +470,42 @@
           "downtime": "Көшіру кезіндегі тоқтау",
           "nodeVersion": "Node.js нұсқасы"
         }
+      },
+      "invix-kz": {
+        "title": "INVIX.KZ — Іс-шараларды ұйымдастыру платформасы",
+        "description": "Қазақстандағы іс-шараларды ұйымдастыруға арналған мультитенантты SaaS-платформа: тойлар, туған күндер, корпоративтік іс-шаралар. Next.js 14 + NestJS монорепозиторийі tRPC, RBAC, QR-чекин, билет жүйесі, шақыру дизайн редакторы және тарифтік жүйе (FREE/PRO/BUSINESS).",
+        "shortDescription": "RBAC, QR-чекин және шақыру конструкторы бар іс-шараларға арналған SaaS-платформа",
+        "imageAlt": "INVIX.KZ — Іс-шараларды ұйымдастыру платформасы",
+        "category": "SaaS-платформа",
+        "goals": [
+          "Іс-шараларды ұйымдастыруға арналған мультитенантты SaaS-платформа жасау",
+          "6 рөлі және capabilities жүйесі бар RBAC енгізу",
+          "tRPC + Zod арқылы end-to-end type safety қамтамасыз ету",
+          "FREE/PRO/BUSINESS тарифтік жүйесін шектеулермен қамтамасыз ету"
+        ],
+        "tasks": [
+          "Монорепозиторий жобалау: Next.js 14 фронтенд + NestJS бэкенд + ортақ Zod-типтер",
+          "Lucia v3 және Prisma-адаптермен session-based авторизация жүзеге асыру",
+          "siteId бойынша деректерді оқшаулаумен мультитенанттық жүйе құру",
+          "5 деңгейлі middleware бар tRPC-роутерлер жасау (public → protected → capability → owner → guest)",
+          "Undo/redo бар Fabric.js шақыру дизайн редакторын жүзеге асыру",
+          "QR қонақтарды чекин жүйесін және билет жүйесін енгізу",
+          "Docker-инфрақұрылымын баптау: PostgreSQL + Redis + MinIO",
+          "Тарифтер бойынша план-гейтинг пен шектеулерді жүзеге асыру"
+        ],
+        "results": [
+          "Толық мультитенанттық және RBAC бар SaaS-платформа іске қосылды",
+          "12+ домендік модуль жүзеге асырылды: events, guests, wishlists, tickets, design және т.б.",
+          "End-to-end type safety: Zod-схемалардан фронтенд-хуктарға дейін code generation-сіз",
+          "CI/CD автоматтандырылды: lint + typecheck + test + Docker build + VPS-ке deploy",
+          "API жауап уақыты 95-ші перцентильде 100 мс-тен аз"
+        ],
+        "metrics": {
+          "domainModules": "Домендік модульдер",
+          "rbacRoles": "RBAC рөлдері",
+          "pricingPlans": "Тарифтік жоспарлар",
+          "typeSafety": "End-to-end type safety"
+        }
       }
     }
   },
@@ -1297,10 +1333,38 @@
         "description": "Сипаттама"
       },
       "rows": {
-        "critical": { "priority": "Сыни (P1)", "urgency": "Жоғары", "impact": "Жоғары", "reaction": "1 сағат", "resolution": "4 сағат", "description": "Жүйе толығымен қолжетімді емес, барлық пайдаланушылар зардап шегеді" },
-        "high": { "priority": "Жоғары (P2)", "urgency": "Жоғары", "impact": "Орташа", "reaction": "4 сағат", "resolution": "8 сағат", "description": "Сыни ақаулық, жартылай айналып өту жолы бар" },
-        "medium": { "priority": "Орташа (P3)", "urgency": "Орташа", "impact": "Орташа", "reaction": "8 сағат", "resolution": "24 сағат", "description": "Ішінара бұзылу, айналып өту жолы қолжетімді" },
-        "low": { "priority": "Төмен (P4)", "urgency": "Төмен", "impact": "Төмен", "reaction": "24 сағат", "resolution": "72 сағат", "description": "Шамалы ыңғайсыздық, негізгі функциялар жұмыс істейді" }
+        "critical": {
+          "priority": "Сыни (P1)",
+          "urgency": "Жоғары",
+          "impact": "Жоғары",
+          "reaction": "1 сағат",
+          "resolution": "4 сағат",
+          "description": "Жүйе толығымен қолжетімді емес, барлық пайдаланушылар зардап шегеді"
+        },
+        "high": {
+          "priority": "Жоғары (P2)",
+          "urgency": "Жоғары",
+          "impact": "Орташа",
+          "reaction": "4 сағат",
+          "resolution": "8 сағат",
+          "description": "Сыни ақаулық, жартылай айналып өту жолы бар"
+        },
+        "medium": {
+          "priority": "Орташа (P3)",
+          "urgency": "Орташа",
+          "impact": "Орташа",
+          "reaction": "8 сағат",
+          "resolution": "24 сағат",
+          "description": "Ішінара бұзылу, айналып өту жолы қолжетімді"
+        },
+        "low": {
+          "priority": "Төмен (P4)",
+          "urgency": "Төмен",
+          "impact": "Төмен",
+          "reaction": "24 сағат",
+          "resolution": "72 сағат",
+          "description": "Шамалы ыңғайсыздық, негізгі функциялар жұмыс істейді"
+        }
       }
     }
   }
