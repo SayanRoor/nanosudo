@@ -53,3 +53,6 @@ next-env.d.ts
 
 # supabase CLI temp cache
 supabase/.temp/
+
+# production credentials / secrets (never commit)
+CREDENTIALS.md
