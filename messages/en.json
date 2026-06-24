@@ -77,6 +77,251 @@
       "openProject": "Open project"
     },
     "projects": {
+      "invite": {
+        "title": "Invite — invitations and event management platform",
+        "description": "A multi-tenant SaaS platform for creating digital invitations and managing events in Kazakhstan: birthdays, weddings and toi, corporate events. A ready invitation with RSVP, guest seating, wishlist and QR check-in, plus a directory of vendors and venues. A Next.js 14 + NestJS monorepo with tRPC, session-based Lucia v3 auth and FREE/PRO/BUSINESS plans.",
+        "shortDescription": "Digital invitations SaaS with RSVP, QR check-in and ticketing",
+        "imageAlt": "Invite — invitations and event management platform",
+        "category": "SaaS platform",
+        "goals": [
+          "Launch a digital invitations SaaS with RSVP and QR check-in",
+          "Achieve end-to-end type safety via tRPC + Zod with no codegen",
+          "Integrate local payment providers (Kaspi, Halyk, TipTop, Stripe)",
+          "Deliver multi-channel notifications: Email, SMS, WhatsApp, Telegram"
+        ],
+        "tasks": [
+          "Design a monorepo: Next.js 14 frontend + NestJS backend + shared Zod types",
+          "Implement session-based auth on Lucia v3 with a Prisma adapter",
+          "Build guest management: RSVP, seating, +1, contact import (.vcf), VIP statuses",
+          "Develop ticketing and billing with a grace-period model and FREE/PRO/BUSINESS plans",
+          "Add a lazy-loaded Fabric.js invitation editor and Mapbox maps",
+          "Connect a Telegram bot for guest notifications and RSVP collection",
+          "Set up CI/CD: build images in GHCR and deploy to a VPS"
+        ],
+        "results": [
+          "Over 12,000 invitations created on the platform",
+          "A catalog of 50+ ready templates and a UI in three languages (RU/KZ/EN)",
+          "Live billing with local payment providers and a grace period",
+          "457 backend tests and 93 frontend tests, Lighthouse ~90",
+          "Automatic deploys on push to main via GitHub Actions and GHCR"
+        ],
+        "metrics": {
+          "invitations": "Invitations created",
+          "templates": "Ready templates",
+          "languages": "UI languages",
+          "paymentMethods": "Payment methods"
+        }
+      },
+      "rals": {
+        "title": "RALS — furniture store with built-in CRM",
+        "description": "An online furniture and interior store with a built-in CRM for the sales team. Migrated from a legacy WordPress/WooCommerce site to a modern full-stack: a catalog with filters and Meilisearch search, Kaspi and Halyk payments, a kanban deals pipeline, 360° customer profiles and WhatsApp communications. Deployed on a VPS in Kazakhstan for data residency.",
+        "shortDescription": "Furniture e-commerce + CRM: catalog, Kaspi payments, sales pipeline and WhatsApp",
+        "imageAlt": "RALS — furniture store with built-in CRM",
+        "category": "E-commerce & CRM",
+        "goals": [
+          "Migrate the store from WooCommerce to a modern full-stack without losing the catalog",
+          "Unite the storefront and the sales CRM in a single system",
+          "Integrate local payments: Kaspi Pay/QR with installments and Halyk ePay",
+          "Ensure data residency — self-hosted on a VPS in Kazakhstan"
+        ],
+        "tasks": [
+          "Design a Next.js 14 + NestJS + tRPC + Prisma monorepo",
+          "Build a catalog with product variants, filters and Meilisearch search",
+          "Develop an admin panel: products, brands, categories, orders, PDF quotes",
+          "Build the CRM: kanban pipeline, leads, deals, tasks and 360° customer profiles",
+          "Integrate Kaspi and Halyk, promo codes and marketing feed generation",
+          "Set up a 5-role RBAC and analytics (GA4, Yandex Metrika, Meta/TikTok Pixel)",
+          "Deploy the infrastructure: Docker Compose + Nginx + Let’s Encrypt on a VPS"
+        ],
+        "results": [
+          "A single system: online store and the sales CRM",
+          "A catalog with 400+ product variants and fast Meilisearch search",
+          "Live payments via Kaspi and Halyk with installment support",
+          "Marketing feeds for Google Shopping, Meta and Yandex",
+          "Self-hosted deploy on a VPS with automated CI/CD via GitHub Actions"
+        ],
+        "metrics": {
+          "productVariants": "Product variants",
+          "accessRoles": "Access roles",
+          "salesChannels": "Sales channels",
+          "paymentSystems": "Payment systems"
+        }
+      },
+      "okiyo": {
+        "title": "OKIYO — eyewear store on Next.js + Payload CMS",
+        "description": "A Japanese-style eyewear online store with an integrated Payload CMS admin that lets non-technical staff manage products, categories, prices and leads without code. A catalog with color variants and specifications, lead capture and CMS-managed content and SEO. Deployed on a shared host under Caddy with automatic TLS.",
+        "shortDescription": "Eyewear storefront on Next.js 16 + Payload CMS with code-free catalog management",
+        "imageAlt": "OKIYO — eyewear store on Next.js and Payload CMS",
+        "category": "E-commerce",
+        "goals": [
+          "Build an eyewear storefront with catalog management without a developer",
+          "Give non-technical staff full control over content and SEO",
+          "Implement lead capture and processing right in the admin",
+          "Deploy the project on a shared host with automatic TLS"
+        ],
+        "tasks": [
+          "Build the app on Next.js 16 (App Router) + React 19 + Tailwind CSS v4",
+          "Embed headless Payload CMS 3 at /admin within the same app",
+          "Design a product model with color variants, specifications and stock",
+          "Build the storefront: paginated catalog, category and featured sections, hero",
+          "Create a lead form and a lead management panel with statuses",
+          "Move branding, contacts, socials and SEO into CMS-managed settings",
+          "Deploy via Docker Compose with Caddy (TLS) and PostgreSQL 16"
+        ],
+        "results": [
+          "A storefront launched with fully self-service content management",
+          "Staff manage products, prices and leads without involving a developer",
+          "A flexible catalog model: color variants, stock, specifications",
+          "CMS-managed SEO fields and homepage content",
+          "Deployed on a shared host with automatic TLS via Caddy"
+        ],
+        "metrics": {
+          "nextVersion": "Next.js version",
+          "database": "Database",
+          "codelessAdmin": "Content management",
+          "languages": "UI languages"
+        }
+      },
+      "egemen": {
+        "title": "Egemen Qazaqstan — a new platform for the newspaper",
+        "description": "Migrating the leading national newspaper “Egemen Qazaqstan” from a legacy Laravel 5.8/PHP 7.1/MySQL stack to a modern multi-tenant platform built on Next.js 16 + NestJS 11 + PostgreSQL 16. Hierarchical rubrics, RBAC with granular permissions, change auditing, newsletters, daily PDF generation and real-time updates over WebSocket.",
+        "shortDescription": "Migrating Egemen Qazaqstan from Laravel to Next.js/NestJS and PostgreSQL",
+        "imageAlt": "Egemen Qazaqstan — news platform",
+        "category": "Media & migration",
+        "goals": [
+          "Migrate from Laravel 5.8/PHP 7.1 to NestJS 11/Next.js 16 without data loss",
+          "Move from MySQL to PostgreSQL 16 preserving the full publication history",
+          "Introduce a multi-tenant architecture with per-edition data isolation",
+          "Ensure SEO compatibility and keep search rankings"
+        ],
+        "tasks": [
+          "Audit the legacy Laravel: routes, models, controllers, MySQL schema",
+          "Design a MySQL → PostgreSQL 16 migration with type mapping",
+          "Implement NestJS modules and a Next.js frontend with SSR for SEO",
+          "Build hierarchical rubrics with visual customization",
+          "Introduce RBAC, change auditing (before/after) and newsletters",
+          "Add daily PDF generation and real-time updates over WebSocket",
+          "Containerize the stack: web + api + PostgreSQL + Redis + MinIO"
+        ],
+        "results": [
+          "A modern platform replacing legacy Laravel 5.8",
+          "Publication history migrated to PostgreSQL 16 without loss",
+          "A multi-tenant architecture with per-edition data isolation",
+          "RBAC with granular permissions and full change auditing",
+          "Newsletters, a daily PDF edition and real-time updates"
+        ],
+        "metrics": {
+          "migrationStack": "Migration stack",
+          "database": "Database",
+          "speed": "Speed gain",
+          "downtime": "Migration downtime"
+        }
+      },
+      "kazpravda": {
+        "title": "Kazakhstanskaya Pravda — news portal migration",
+        "description": "A pilot migration of the national newspaper “Kazakhstanskaya Pravda” from a legacy Django 3.2 stack to a unified Next.js 16 + NestJS 11 + PostgreSQL 16 platform. Bilingual content (kk/ru), full-text search, a publishing workflow (draft/scheduled/published), likes, premium-content subscriptions and change auditing.",
+        "shortDescription": "Moving Kazakhstanskaya Pravda from Django to Next.js/NestJS with search and subscriptions",
+        "imageAlt": "Kazakhstanskaya Pravda — news portal",
+        "category": "Media & migration",
+        "goals": [
+          "Migrate the portal from legacy Django 3.2 to a modern TypeScript stack",
+          "Preserve bilingual content (Kazakh and Russian)",
+          "Introduce full-text search and advanced filtering",
+          "Implement subscriptions and premium access to materials"
+        ],
+        "tasks": [
+          "Audit the legacy Django portal and the PostgreSQL schema",
+          "Develop NestJS modules and a Next.js frontend with SSR",
+          "Implement a publishing workflow: draft → scheduled → published",
+          "Add full-text search and filtering by rubric",
+          "Introduce likes for authenticated and anonymous readers",
+          "Implement premium-content subscriptions and edition branding",
+          "Set up change auditing and SEO metadata with tags"
+        ],
+        "results": [
+          "A modern portal replacing legacy Django 3.2",
+          "Bilingual content with full-text search and filtering",
+          "A publishing workflow with scheduled releases",
+          "Subscriptions and premium access to content",
+          "Change auditing and SEO optimization on a unified platform"
+        ],
+        "metrics": {
+          "migrationStack": "Migration stack",
+          "languages": "Content languages",
+          "workflow": "Publishing workflow",
+          "database": "Database"
+        }
+      },
+      "kazgazeta": {
+        "title": "Qazaq Gazetteri — a holding of 13 publications",
+        "description": "Migrating the “Qazaq Gazetteri” publishing holding from legacy Laravel 7.30 to a unified multi-tenant platform on Next.js 16 + NestJS 11. A single application serves 13 publications (Ana tili, Aqiqat, Aq Jelken, Baldyrgan, Ulan, Mysl, Uigur Avazi and more) via dynamic Host-header routing with individual branding and settings per subdomain.",
+        "shortDescription": "A platform for 13 Qazaq Gazetteri publications with multi-domain routing",
+        "imageAlt": "Qazaq Gazetteri — a holding of 13 publications",
+        "category": "Media & migration",
+        "goals": [
+          "Migrate the holding’s 13 publications from legacy Laravel 7.30 onto one platform",
+          "Serve all subdomains from a single application via the Host header",
+          "Give each publication its own branding, themes and navigation",
+          "Support multilingual content (Kazakh, Russian, Uyghur)"
+        ],
+        "tasks": [
+          "Design a multi-tenant model with a shared news pool",
+          "Implement Host-based routing for 13 subdomains in one Web container",
+          "Store per-subdomain settings in the database with a Redis cache",
+          "Build hierarchical rubrics with visual customization",
+          "Implement filtering, pagination and a publishing workflow",
+          "Introduce auditing and real-time updates over WebSocket",
+          "Deploy via Docker/Dokploy behind a reverse proxy (Nginx/Caddy)"
+        ],
+        "results": [
+          "13 publications on one platform instead of legacy Laravel 7.30",
+          "All subdomains routed from a single application by Host",
+          "Individual branding and settings for each publication",
+          "Multilingual content: Kazakh, Russian and Uyghur",
+          "A shared news pool with per-edition data isolation"
+        ],
+        "metrics": {
+          "publications": "Publications on the platform",
+          "subdomains": "Subdomains",
+          "languages": "Content languages",
+          "migrationStack": "Migration stack"
+        }
+      },
+      "nativetravel": {
+        "title": "NativeTravel — an AI-first travel marketplace",
+        "description": "A two-sided marketplace of local experiences with AI personalization: tours, restaurants, events and activities. A multi-tenant architecture supporting multiple cities and brands, semantic search on pgvector, AI recommendations, translations and moderation via Claude. A Fastify + tRPC backend and a Next.js 15 + React 19 frontend. The project is in active development.",
+        "shortDescription": "An AI-first marketplace of local experiences with pgvector semantic search",
+        "imageAlt": "NativeTravel — an AI-first travel marketplace",
+        "category": "AI marketplace",
+        "goals": [
+          "Build a two-sided marketplace of local experiences with AI matching",
+          "Implement multi-tenancy for multiple cities and brands",
+          "Introduce semantic search and recommendations on embeddings",
+          "Keep the app working even without AI keys (deterministic fallback)"
+        ],
+        "tasks": [
+          "Design a monorepo: a Fastify + tRPC v11 backend and a Next.js 15 frontend",
+          "Model the domain (~45 Prisma models, 27+ modules)",
+          "Wire up PostgreSQL 15 + pgvector for embeddings and semantic search",
+          "Integrate Claude (chat, translations, moderation, vision) and OpenAI (embeddings)",
+          "Implement bookings, payments (Stripe/Kaspi) and host payouts",
+          "Build a partner REST API for channels (OTA) with Bearer auth",
+          "Set up deployment via Docker Compose behind a Caddy reverse proxy"
+        ],
+        "results": [
+          "Ready infrastructure: monorepo, design system, i18n and an AI layer",
+          "Semantic search and recommendations on pgvector embeddings",
+          "Multi-tenancy: multiple cities, custom domains, per-tenant AI budgets",
+          "A partner REST API for OTAs and channel managers",
+          "A deterministic stub mode — the app runs without AI keys"
+        ],
+        "metrics": {
+          "dataModels": "Data models",
+          "backendModules": "Backend modules",
+          "languages": "Languages",
+          "vectorSearch": "Semantic search"
+        }
+      },
       "zakyat-kz": {
         "title": "ZAKYAT.KZ — Platform for Good Deeds",
         "description": "Independent online platform for targeted assistance, built on principles of trust, transparency and manual moderation. Enables people in need to directly connect with donors without intermediaries or money collection.",
@@ -148,77 +393,6 @@
           "clientSatisfaction": "Client satisfaction",
           "yearsInMarket": "Years in market",
           "lighthouseScore": "Lighthouse Score"
-        }
-      },
-      "egemen-kz": {
-        "title": "EGEMEN.KZ — Media Platform Migration",
-        "description": "Full migration of the Kazak Gazetteri media holding platform from the legacy Laravel 5.8/PHP 7.1/MySQL stack to modern NestJS 11/Next.js/PostgreSQL 16/Docker. Zero data loss and continuous uptime ensured.",
-        "shortDescription": "News portal migration from Laravel/PHP to NestJS/Next.js for Kazak Gazetteri",
-        "imageAlt": "EGEMEN.KZ — Kazak Gazetteri Media Platform Migration",
-        "category": "Migration & Refactoring",
-        "goals": [
-          "Migrate from Laravel 5.8/PHP 7.1 to NestJS 11/Next.js with zero data loss",
-          "Move from MySQL to PostgreSQL 16 preserving all publication history",
-          "Implement Docker containerization for reliable deployment",
-          "Ensure SEO compatibility and preservation of search rankings"
-        ],
-        "tasks": [
-          "Audit existing Laravel architecture: routes, models, controllers",
-          "Develop MySQL → PostgreSQL migration schema with data type mapping",
-          "Write NestJS modules to replace PHP controllers",
-          "Implement Next.js frontend with SSR for SEO",
-          "Configure 301 redirects to preserve SEO rankings",
-          "Dockerization: nginx + app + db + redis in docker-compose",
-          "Performance and load testing"
-        ],
-        "results": [
-          "Successful migration of 100% data without losses from MySQL to PostgreSQL",
-          "Loading speed improved by 60% compared to the Laravel version",
-          "SEO rankings preserved with correct 301 redirects",
-          "Deployment automated via Docker Compose and CI/CD",
-          "System runs on Ubuntu 24.04 LTS with zero downtime during updates"
-        ],
-        "metrics": {
-          "articlesMigrated": "Articles migrated",
-          "speedImprovement": "Speed improvement",
-          "downtime": "Migration downtime",
-          "nodeVersion": "Node.js version"
-        }
-      },
-      "invix-kz": {
-        "title": "INVIX.KZ — Event Management Platform",
-        "description": "Multitenant SaaS platform for organizing events in Kazakhstan: weddings, birthdays, corporate events. Monorepo built with Next.js 14 + NestJS with tRPC, RBAC, QR check-in, ticketing, invitation design editor, and tiered pricing (FREE/PRO/BUSINESS).",
-        "shortDescription": "SaaS event platform with RBAC, QR check-in, and invitation designer",
-        "imageAlt": "INVIX.KZ — Event Management Platform",
-        "category": "SaaS Platform",
-        "goals": [
-          "Build a multitenant SaaS platform for event management",
-          "Implement RBAC with 6 roles and a capabilities system",
-          "Achieve end-to-end type safety via tRPC + Zod",
-          "Provide a tiered pricing system FREE/PRO/BUSINESS with resource limits"
-        ],
-        "tasks": [
-          "Architect a monorepo: Next.js 14 frontend + NestJS backend + shared Zod types",
-          "Implement session-based authentication with Lucia v3 and Prisma adapter",
-          "Build a multitenancy system with data isolation by siteId",
-          "Develop tRPC routers with 5 middleware layers (public → protected → capability → owner → guest)",
-          "Implement Fabric.js invitation design editor with undo/redo",
-          "Build QR guest check-in and ticketing system",
-          "Set up Docker infrastructure: PostgreSQL + Redis + MinIO",
-          "Implement plan gating and tier-based resource limits"
-        ],
-        "results": [
-          "Launched SaaS platform with full multitenancy and RBAC",
-          "Implemented 12+ domain modules: events, guests, wishlists, tickets, design, and more",
-          "End-to-end type safety: from Zod schemas to frontend hooks without code generation",
-          "Automated CI/CD: lint + typecheck + test + Docker build + deploy to VPS",
-          "API response time under 100ms at the 95th percentile"
-        ],
-        "metrics": {
-          "domainModules": "Domain modules",
-          "rbacRoles": "RBAC roles",
-          "pricingPlans": "Pricing plans",
-          "typeSafety": "End-to-end type safety"
         }
       }
     }
