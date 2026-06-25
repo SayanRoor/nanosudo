@@ -205,7 +205,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "Миграция Egemen Qazaqstan с Laravel на Next.js/NestJS и PostgreSQL",
     image: "/cases/egemen.jpg",
     imageAlt: "Egemen Qazaqstan — новостная платформа",
-    url: "http://64.177.67.133:3002",
+    url: "http://64.177.67.133:3000",
     tags: [
       "Next.js",
       "NestJS",
@@ -257,7 +257,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "Перенос «Казахстанской правды» с Django на Next.js/NestJS с поиском и подписками",
     image: "/cases/kazpravda.jpg",
     imageAlt: "Kazakhstanskaya Pravda — новостной портал",
-    url: "http://65.20.89.81:3010",
+    url: "http://65.20.89.81:3000",
     tags: [
       "Next.js",
       "NestJS",
@@ -309,7 +309,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "Платформа для 13 изданий холдинга Qazaq Gazetteri с мультидоменной маршрутизацией",
     image: "/cases/kazgazeta.jpg",
     imageAlt: "Qazaq Gazetteri — холдинг из 13 изданий",
-    url: "http://45.77.41.77:3002",
+    url: "http://45.77.41.77",
     tags: [
       "Next.js",
       "NestJS",
