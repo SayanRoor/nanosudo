@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/api', '/_next/', '/_vercel/'],
+        disallow: ['/admin', '/api', '/_vercel/'],
       },
     ],
     sitemap: 'https://nanosudo.com/sitemap.xml',
