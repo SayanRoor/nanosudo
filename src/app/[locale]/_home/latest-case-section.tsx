@@ -44,7 +44,8 @@ export function LatestCaseSection(): ReactElement {
                     src={project.image}
                     alt={project.imageAlt}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover"
+                    style={{ objectPosition: "left top" }}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-surface/60 hidden md:block" />

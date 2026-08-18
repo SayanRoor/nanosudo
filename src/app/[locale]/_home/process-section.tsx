@@ -60,14 +60,6 @@ export function ProcessSection(): ReactElement {
 
   return (
     <section id="process" className="relative border-t border-border/60 py-section overflow-hidden">
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-muted/30" />
-        <div className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl dark:opacity-10" />
-        <div className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl dark:opacity-[0.08]" />
-        <div className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl dark:opacity-[0.08]" />
-        <div className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl dark:opacity-[0.06]" />
-        <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]" style={{ backgroundImage: "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
-      </div>
       <Container className="relative z-10 space-y-12">
         <motion.div className="space-y-4 text-balance text-center" initial="initial" whileInView="animate" viewport={getViewportSettings(0.1)} variants={staggerContainer}>
           <motion.p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground" variants={fadeInUp}>{t("home.process.label")}</motion.p>

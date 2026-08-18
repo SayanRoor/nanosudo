@@ -11,7 +11,7 @@ import { fadeInUp, staggerContainer, getViewportSettings } from "./animations";
 export function FinalCTASection(): ReactElement {
   const t = useTranslations();
   return (
-    <section className="py-section">
+    <section className="border-t border-border/60 py-section">
       <Container className="max-w-4xl">
         <motion.div className="space-y-10 text-balance" initial="initial" whileInView="animate" viewport={getViewportSettings(0.1)} variants={staggerContainer}>
           <motion.div className="space-y-4 text-center" variants={fadeInUp}>

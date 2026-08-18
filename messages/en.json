@@ -217,41 +217,6 @@
           "downtime": "Migration downtime"
         }
       },
-      "kazpravda": {
-        "title": "Kazakhstanskaya Pravda — news portal migration",
-        "description": "A pilot migration of the national newspaper “Kazakhstanskaya Pravda” from a legacy Django 3.2 stack to a unified Next.js 16 + NestJS 11 + PostgreSQL 16 platform. Bilingual content (kk/ru), full-text search, a publishing workflow (draft/scheduled/published), likes, premium-content subscriptions and change auditing.",
-        "shortDescription": "Moving Kazakhstanskaya Pravda from Django to Next.js/NestJS with search and subscriptions",
-        "imageAlt": "Kazakhstanskaya Pravda — news portal",
-        "category": "Media & migration",
-        "goals": [
-          "Migrate the portal from legacy Django 3.2 to a modern TypeScript stack",
-          "Preserve bilingual content (Kazakh and Russian)",
-          "Introduce full-text search and advanced filtering",
-          "Implement subscriptions and premium access to materials"
-        ],
-        "tasks": [
-          "Audit the legacy Django portal and the PostgreSQL schema",
-          "Develop NestJS modules and a Next.js frontend with SSR",
-          "Implement a publishing workflow: draft → scheduled → published",
-          "Add full-text search and filtering by rubric",
-          "Introduce likes for authenticated and anonymous readers",
-          "Implement premium-content subscriptions and edition branding",
-          "Set up change auditing and SEO metadata with tags"
-        ],
-        "results": [
-          "A modern portal replacing legacy Django 3.2",
-          "Bilingual content with full-text search and filtering",
-          "A publishing workflow with scheduled releases",
-          "Subscriptions and premium access to content",
-          "Change auditing and SEO optimization on a unified platform"
-        ],
-        "metrics": {
-          "migrationStack": "Migration stack",
-          "languages": "Content languages",
-          "workflow": "Publishing workflow",
-          "database": "Database"
-        }
-      },
       "kazgazeta": {
         "title": "Qazaq Gazetteri — a holding of 13 publications",
         "description": "Migrating the “Qazaq Gazetteri” publishing holding from legacy Laravel 7.30 to a unified multi-tenant platform on Next.js 16 + NestJS 11. A single application serves 13 publications (Ana tili, Aqiqat, Aq Jelken, Baldyrgan, Ulan, Mysl, Uigur Avazi and more) via dynamic Host-header routing with individual branding and settings per subdomain.",
@@ -359,40 +324,6 @@
           "requestStatuses": "Request statuses",
           "spamProtection": "Spam protection",
           "implementationPhases": "Implementation phases"
-        }
-      },
-      "amiray-kz": {
-        "title": "AMIRAY.KZ — Digital Agency Website",
-        "description": "Corporate website for a digital agency from Almaty. Built on Next.js/TypeScript stack with server-side rendering, animations and full responsiveness. Implemented service pages, portfolio and CRM integration.",
-        "shortDescription": "Corporate website for an IT agency on Next.js with animations and SSR",
-        "imageAlt": "AMIRAY.KZ — Digital Agency Corporate Website",
-        "category": "Corporate Website",
-        "goals": [
-          "Build a modern corporate website with high loading speed",
-          "Implement service pages with detailed descriptions and pricing",
-          "Ensure SEO optimization to attract clients from search",
-          "Integrate contact form with the agency CRM system"
-        ],
-        "tasks": [
-          "Develop design system and component library",
-          "Implement server-side rendering (SSR) for key pages",
-          "Create animated sections using Framer Motion",
-          "Configure SEO metadata, structured data and sitemap",
-          "Integrate contact form with notification dispatch",
-          "Set up deployment via Docker/AWS with CI/CD pipeline"
-        ],
-        "results": [
-          "Site launched with Lighthouse Performance score 95+",
-          "Implemented 8+ service pages with detailed descriptions",
-          "SEO optimization configured for key search queries",
-          "First screen load time — under 1.5 seconds",
-          "Request system deployed with automated notifications"
-        ],
-        "metrics": {
-          "totalProjects": "Portfolio projects",
-          "clientSatisfaction": "Client satisfaction",
-          "yearsInMarket": "Years in market",
-          "lighthouseScore": "Lighthouse Score"
         }
       }
     }
