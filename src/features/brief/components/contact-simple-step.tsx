@@ -15,6 +15,7 @@ import { useBriefSimpleStep } from '../hooks/use-brief-simple-step';
 import { BriefSimpleStepNavigator } from './brief-simple-step-navigator';
 import type { BriefSimpleFormValues } from '../schemas/brief-simple';
 import { INPUT_FIELD, CARD_ERROR, CARD_SUCCESS, CARD_SECONDARY } from '@/lib/card-styles';
+import { TurnstileWidget, useTurnstile } from '@/components/turnstile-widget';
 
 const contactMethods = [
   { value: 'whatsapp', icon: MessageCircle },
@@ -34,6 +35,7 @@ export function ContactSimpleStep(): ReactElement {
   const [submissionState, setSubmissionState] = useState<SubmissionState>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submissionId, setSubmissionId] = useState<string | null>(null);
+  const turnstile = useTurnstile();
 
   const selectedMethod = watch('preferredContact');
 
@@ -45,6 +47,10 @@ export function ContactSimpleStep(): ReactElement {
       'mainGoal', 'budgetClarity', 'timeline',
     ]);
     if (!isValid) {
+      return;
+    }
+    if (turnstile.enabled && !turnstile.token) {
+      setErrorMessage('Подождите завершения проверки безопасности и попробуйте снова.');
       return;
     }
 
@@ -59,7 +65,7 @@ export function ContactSimpleStep(): ReactElement {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formValues),
+        body: JSON.stringify({ ...formValues, turnstileToken: turnstile.token }),
       });
 
       if (!response.ok) {
@@ -253,6 +259,8 @@ export function ContactSimpleStep(): ReactElement {
           <p className="text-sm text-destructive">{errorMessage}</p>
         </motion.div>
       )}
+
+      <TurnstileWidget onVerify={turnstile.onVerify} onExpire={turnstile.onExpire} className="flex justify-center" />
 
       <BriefSimpleStepNavigator
         stepId="contact"

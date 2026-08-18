@@ -8,15 +8,15 @@ import { formatCurrency } from "@/lib/currency";
 import type { Locale } from "@/i18n/config";
 import { logger } from "@/lib/logger";
 import { buildTelegramMessage, sendTelegramMessage } from "@/server/telegram/notify";
+import { verifyTurnstileToken } from "@/server/turnstile/verify";
 
 const isTestMode = process.env.E2E_TEST_MODE === "true";
-
-
 
 type BriefNewSubmissionPayload = {
   readonly formData: BriefNewFormValues;
   readonly calculation: CalculationResult;
   readonly locale?: Locale; // Optional locale for currency formatting
+  readonly turnstileToken?: string;
 };
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -51,6 +51,17 @@ export async function POST(request: Request): Promise<NextResponse> {
         { error: "Project name and contact email are required" },
         { status: 400 },
       );
+    }
+
+    if (!isTestMode) {
+      const remoteIp = request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip");
+      const humanVerified = await verifyTurnstileToken(body.turnstileToken, remoteIp);
+      if (!humanVerified) {
+        return NextResponse.json(
+          { error: "Не удалось подтвердить, что заявку отправляет человек. Обновите страницу и попробуйте ещё раз." },
+          { status: 403 },
+        );
+      }
     }
 
     const submissionId = randomUUID();

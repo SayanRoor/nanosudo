@@ -13,4 +13,8 @@ export const clientEnvSchema = z.object({
     .string()
     .min(1, "NEXT_PUBLIC_SUPABASE_ANON_KEY is required.")
     .optional(),
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: z
+    .string()
+    .min(1, "NEXT_PUBLIC_TURNSTILE_SITE_KEY must be a valid Turnstile site key.")
+    .optional(),
 });

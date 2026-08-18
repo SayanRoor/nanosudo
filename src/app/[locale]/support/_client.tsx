@@ -32,6 +32,7 @@ import {
   PRIORITY_LEVELS,
 } from "@/features/support/schemas/service-request";
 import type { ServiceRequestInput, RequestType, PriorityLevel } from "@/features/support/schemas/service-request";
+import { TurnstileWidget, useTurnstile } from "@/components/turnstile-widget";
 
 const TYPE_ICONS: Record<RequestType, LucideIcon> = {
   incident: AlertTriangle,
@@ -63,6 +64,7 @@ export function SupportPageClient(): ReactElement {
   const t = useTranslations('support');
   const [submitResult, setSubmitResult] = useState<SubmitResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const turnstile = useTurnstile();
 
   const {
     register,
@@ -81,11 +83,15 @@ export function SupportPageClient(): ReactElement {
 
   async function onSubmit(data: ServiceRequestInput): Promise<void> {
     setSubmitError(null);
+    if (turnstile.enabled && !turnstile.token) {
+      setSubmitError('Подождите завершения проверки безопасности и попробуйте снова.');
+      return;
+    }
     try {
       const res = await fetch('/api/support', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, turnstileToken: turnstile.token }),
       });
       const json = (await res.json()) as { ticket_number?: string; tracking_token?: string; message?: string };
       if (!res.ok) throw new Error(json.message ?? 'Server error');
@@ -290,9 +296,11 @@ export function SupportPageClient(): ReactElement {
                     </div>
                   )}
 
+                  <TurnstileWidget onVerify={turnstile.onVerify} onExpire={turnstile.onExpire} className="flex justify-center" />
+
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || (turnstile.enabled && !turnstile.token)}
                     className="w-full flex items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-black uppercase tracking-[0.15em] text-black hover:opacity-90 transition-opacity disabled:opacity-60 active:scale-95"
                   >
                     {isSubmitting ? (
