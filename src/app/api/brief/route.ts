@@ -8,6 +8,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sendEmail } from "@/server/email/resend";
 import { generateBriefPdf } from "@/server/pdf/brief-report";
 import { buildTelegramMessage, sendTelegramMessage } from "@/server/telegram/notify";
+import { verifyTurnstileToken } from "@/server/turnstile/verify";
 
 type BrandbookFilePayload = {
   name: string;
@@ -19,6 +20,7 @@ type BrandbookFilePayload = {
 type BriefSubmissionPayload = {
   data: unknown;
   brandbookFile?: BrandbookFilePayload | null;
+  turnstileToken?: string;
 };
 
 const BRAND_BOOK_BUCKET = "brandbooks";
@@ -32,6 +34,17 @@ export async function POST(request: Request): Promise<Response> {
         { message: "Invalid payload. Expected JSON with `data` property." },
         { status: 400 },
       );
+    }
+
+    if (!isTestMode) {
+      const remoteIp = request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip");
+      const humanVerified = await verifyTurnstileToken(payload.turnstileToken, remoteIp);
+      if (!humanVerified) {
+        return NextResponse.json(
+          { message: "Не удалось подтвердить, что заявку отправляет человек. Обновите страницу и попробуйте ещё раз." },
+          { status: 403 },
+        );
+      }
     }
 
     const rawData = payload.data as Record<string, unknown>;

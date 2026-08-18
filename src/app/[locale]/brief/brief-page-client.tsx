@@ -20,6 +20,7 @@ import {
 import type { BriefNewStepId } from "@/features/brief/constants/steps-new";
 import { SiteShell } from "@/components/layout/site-shell";
 import { calculateProjectCost } from "@/features/brief/utils/calculation";
+import { TurnstileWidget, useTurnstile } from "@/components/turnstile-widget";
 
 const STEP_COMPONENTS: Record<
   BriefNewStepId,
@@ -50,6 +51,7 @@ function BriefCalculationSection(): ReactElement {
   const values = form.watch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const turnstile = useTurnstile();
 
   const handleSubmitRequest = async (): Promise<void> => {
     setIsSubmitting(true);
@@ -83,6 +85,7 @@ function BriefCalculationSection(): ReactElement {
         formData: values,
         calculation,
         locale,
+        turnstileToken: turnstile.token,
       };
 
       const response = await fetch("/api/brief-new", {
@@ -135,10 +138,17 @@ function BriefCalculationSection(): ReactElement {
   }
 
   return (
-    <CalculationPreview
-      onSubmitRequest={isSubmitting ? undefined : handleSubmitRequest}
-      isSubmitting={isSubmitting}
-    />
+    <div className="space-y-4">
+      <CalculationPreview
+        onSubmitRequest={
+          isSubmitting || (turnstile.enabled && !turnstile.token)
+            ? undefined
+            : handleSubmitRequest
+        }
+        isSubmitting={isSubmitting}
+      />
+      <TurnstileWidget onVerify={turnstile.onVerify} onExpire={turnstile.onExpire} className="flex justify-center" />
+    </div>
   );
 }
 
@@ -149,47 +159,6 @@ export function BriefPageClient(): ReactElement {
   return (
     <SiteShell header={null}>
       <main className="relative min-h-screen py-section overflow-hidden">
-        {/* Background with gradient orbs and grid pattern */}
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-          {/* Base gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
-          
-          {/* Animated gradient orbs */}
-          <div className="absolute inset-0">
-            {/* Orb 1 - Azure (top-left) */}
-            <div
-              className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-[#99b9ff] opacity-20 blur-3xl transition-opacity duration-1000 dark:opacity-10"
-            />
-            
-            {/* Orb 2 - Spring Green (top-right) */}
-            <div
-              className="absolute -right-1/4 -top-1/4 h-[500px] w-[500px] rounded-full bg-[#78ffd1] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-            />
-            
-            {/* Orb 3 - Flamingo (bottom-left) */}
-            <div
-              className="absolute -bottom-1/4 -left-1/4 h-[550px] w-[550px] rounded-full bg-[#ffb3c2] opacity-15 blur-3xl transition-opacity duration-1000 dark:opacity-8"
-            />
-            
-            {/* Orb 4 - Lime (bottom-right) */}
-            <div
-              className="absolute -bottom-1/4 -right-1/4 h-[450px] w-[450px] rounded-full bg-[#f0ffa6] opacity-12 blur-3xl transition-opacity duration-1000 dark:opacity-6"
-            />
-          </div>
-          
-          {/* Subtle grid pattern overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, currentColor 1px, transparent 1px),
-                linear-gradient(to bottom, currentColor 1px, transparent 1px)
-              `,
-              backgroundSize: '48px 48px',
-            }}
-          />
-        </div>
-        
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">

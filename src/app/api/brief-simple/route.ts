@@ -9,9 +9,12 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 import { serverEnv } from '@/config';
 import { sendEmail } from '@/server/email/resend';
 import { buildTelegramMessage, sendTelegramMessage } from '@/server/telegram/notify';
+import { verifyTurnstileToken } from '@/server/turnstile/verify';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+const isTestMode = process.env.E2E_TEST_MODE === 'true';
 
 function buildAdminEmailHtml(values: BriefSimpleFormValues, submissionId: string): string {
   return `
@@ -147,6 +150,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body = await request.json();
 
+    if (!isTestMode) {
+      const remoteIp = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip');
+      const humanVerified = await verifyTurnstileToken(
+        (body as { turnstileToken?: string })?.turnstileToken,
+        remoteIp,
+      );
+      if (!humanVerified) {
+        return NextResponse.json(
+          { error: 'Не удалось подтвердить, что заявку отправляет человек. Обновите страницу и попробуйте ещё раз.' },
+          { status: 403 },
+        );
+      }
+    }
+
     // Validate request body
     const validation = briefSimpleSchema.safeParse(body);
     if (!validation.success) {
@@ -198,8 +215,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Skip email sending in test mode
-    const isTestMode = process.env.E2E_TEST_MODE === 'true';
-
     if (!isTestMode) {
       // Send emails via Resend
       const emailResults = await Promise.allSettled([

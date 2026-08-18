@@ -4,6 +4,7 @@ import { useState, type ReactElement } from "react";
 import { Link } from "@/i18n/routing";
 
 import { cn } from "@/lib/cn";
+import { TurnstileWidget, useTurnstile } from "@/components/turnstile-widget";
 
 import { useBriefStep } from "../hooks/use-brief-step";
 import { BriefStepNavigator } from "./brief-step-navigator";
@@ -60,6 +61,7 @@ export function BriefContactStep(): ReactElement {
   const [status, setStatus] = useState<SubmissionState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submissionId, setSubmissionId] = useState<string | null>(null);
+  const turnstile = useTurnstile();
 
   const contactErrors = errors.contact;
 
@@ -92,6 +94,7 @@ export function BriefContactStep(): ReactElement {
         body: JSON.stringify({
           data: basePayload,
           brandbookFile: brandbookFilePayload,
+          turnstileToken: turnstile.token,
         }),
       });
 
@@ -309,10 +312,17 @@ export function BriefContactStep(): ReactElement {
         </div>
       ) : null}
 
+      <TurnstileWidget onVerify={turnstile.onVerify} onExpire={turnstile.onExpire} className="flex justify-center" />
+
       <BriefStepNavigator
         nextLabel={status === "submitting" ? "Отправка..." : "Отправить бриф"}
         onNext={handleSubmitClick}
-        isNextDisabled={isSubmitting || isValidating || status === "submitting"}
+        isNextDisabled={
+          isSubmitting ||
+          isValidating ||
+          status === "submitting" ||
+          (turnstile.enabled && !turnstile.token)
+        }
       />
     </div>
   );
