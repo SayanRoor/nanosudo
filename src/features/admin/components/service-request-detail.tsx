@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import type { Route } from "next";
 import {
   ArrowLeft, Clock, AlertTriangle, CheckCircle2, XCircle,
-  User, Mail, Phone, Building2, Tag, Calendar,
+  User, Mail, Phone, Building2, Tag, Calendar, Send,
 } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { cn } from "@/lib/cn";
@@ -107,6 +107,11 @@ export function ServiceRequestDetail({ id }: { id: string }): ReactElement {
   const [holdReason, setHoldReason] = useState("");
   const [notesDirty, setNotesDirty] = useState(false);
 
+  // Reply-to-client
+  const [replyMessage, setReplyMessage] = useState("");
+  const [replySending, setReplySending] = useState(false);
+  const [replyResult, setReplyResult] = useState<{ ok: boolean; text: string } | null>(null);
+
   const load = useCallback(async (): Promise<void> => {
     setLoading(true);
     const { data, error: err } = await supabase
@@ -143,6 +148,43 @@ export function ServiceRequestDetail({ id }: { id: string }): ReactElement {
     if (err) { setError(err.message); setSaving(false); return; }
     await load();
     setSaving(false);
+  };
+
+  const handleSendReply = async (): Promise<void> => {
+    if (!replyMessage.trim()) return;
+    setReplySending(true);
+    setReplyResult(null);
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    const token = sessionData.session?.access_token;
+    if (!token) {
+      setReplyResult({ ok: false, text: "Сессия истекла — обновите страницу и войдите заново." });
+      setReplySending(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/service-requests/${id}/reply`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ message: replyMessage.trim() }),
+      });
+      const result = (await response.json()) as { ok?: boolean; message?: string; warning?: string };
+      if (!response.ok || !result.ok) {
+        setReplyResult({ ok: false, text: result.message ?? "Не удалось отправить ответ." });
+      } else {
+        setReplyResult({ ok: true, text: result.warning ?? "Ответ отправлен клиенту на почту." });
+        setReplyMessage("");
+        await load();
+      }
+    } catch (error) {
+      setReplyResult({ ok: false, text: error instanceof Error ? error.message : "Не удалось отправить ответ." });
+    } finally {
+      setReplySending(false);
+    }
   };
 
   const handleSaveNotes = async (): Promise<void> => {
@@ -220,6 +262,37 @@ export function ServiceRequestDetail({ id }: { id: string }): ReactElement {
           <div className="glass-card rounded-2xl p-6 space-y-3">
             <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Описание</h2>
             <p className="text-sm text-foreground whitespace-pre-wrap">{row.description}</p>
+          </div>
+
+          {/* Reply to client */}
+          <div className="glass-card rounded-2xl p-6 space-y-3">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Ответ клиенту</h2>
+            <p className="text-xs text-muted-foreground">
+              Уйдёт письмом на {row.client_email}. Если тикет ещё «Новый» — статус переключится на «Принят».
+            </p>
+            <textarea
+              value={replyMessage}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReplyMessage(e.target.value)}
+              rows={4}
+              placeholder="Напишите ответ клиенту..."
+              className="w-full rounded-lg border border-border/60 bg-surface px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 resize-y"
+            />
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => void handleSendReply()}
+                disabled={replySending || !replyMessage.trim()}
+                className="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground hover:bg-accent/90 transition-colors disabled:opacity-50"
+              >
+                <Send className="w-3.5 h-3.5" />
+                {replySending ? "Отправка..." : "Отправить ответ"}
+              </button>
+              {replyResult && (
+                <span className={cn("text-xs", replyResult.ok ? "text-green-600 dark:text-green-400" : "text-error")}>
+                  {replyResult.text}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Status management */}
