@@ -23,6 +23,13 @@ export function AdminLoginForm(): ReactElement {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
+          // Only send a magic link to emails that already have an account
+          // (i.e. were provisioned as an admin) — otherwise Supabase silently
+          // creates a brand-new account for any typed email, which then gets
+          // past this login screen but sees an empty panel everywhere
+          // because it isn't in admin_members. Refusing here gives a clear
+          // error instead of that confusing "logged in but empty" state.
+          shouldCreateUser: false,
           emailRedirectTo: `${window.location.origin}/admin`,
         },
       });
@@ -32,14 +39,15 @@ export function AdminLoginForm(): ReactElement {
       setStatus("sent");
     } catch (error) {
       if (process.env.NODE_ENV === "development") {
-         
+
         console.error(error);
       }
       setStatus("error");
+      const rawMessage = error instanceof Error ? error.message : "";
       setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Не удалось отправить magic link. Проверьте email и попробуйте ещё раз.",
+        /signup|not allowed|not found/i.test(rawMessage)
+          ? "Этот email не добавлен в список администраторов. Обратитесь к владельцу проекта."
+          : rawMessage || "Не удалось отправить magic link. Проверьте email и попробуйте ещё раз.",
       );
     }
   };

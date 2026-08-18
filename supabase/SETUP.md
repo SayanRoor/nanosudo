@@ -77,9 +77,15 @@ values ('{AUTH_USER_UUID}', 'your-email@example.com');
 ```
 
 **Как получить AUTH_USER_UUID:**
-1. Зарегистрируйтесь/войдите в Supabase Auth
-2. В Supabase Dashboard → Authentication → Users найдите свой пользователь
-3. Скопируйте UUID из поля `id`
+
+⚠️ Логин-форма `/admin` **не создаёт** аккаунт автоматически (`shouldCreateUser: false` — иначе с любого email можно было зайти в саму панель, просто без доступа к данным). Поэтому auth-пользователя нужно создать заранее одним из способов:
+
+1. **Через Supabase Dashboard** → Authentication → Users → Add user → Invite/Create user (email + Auto Confirm)
+2. **Или через SQL/API** — `supabase.auth.admin.createUser({ email })` с сервис-ролью
+
+После этого:
+3. В Supabase Dashboard → Authentication → Users найдите созданного пользователя
+4. Скопируйте UUID из поля `id`, вставьте в SQL выше — и только теперь на `/admin` для этого email будет уходить magic link
 
 ## Проверка настройки
 
