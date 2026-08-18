@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { serverEnv } from "@/config";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sendEmail } from "@/server/email/resend";
+import { buildTelegramMessage, sendTelegramMessage } from "@/server/telegram/notify";
 import {
   serviceRequestSchema,
   computePriority,
@@ -100,11 +101,21 @@ export async function POST(request: Request): Promise<Response> {
         subject: `[${ticketNumber}] Ваше обращение зарегистрировано`,
         html: buildClientEmail(data, inserted.ticket_number, priority, sla, reactionDeadline, resolutionDeadline, trackingUrl),
       }),
+      sendTelegramMessage(
+        buildTelegramMessage(`${PRIORITY_LABELS[priority] ?? "🎫"} Новое обращение [${ticketNumber}]`, [
+          ["Тип", TYPE_LABELS[data.type] ?? data.type],
+          ["Заголовок", data.title],
+          ["Клиент", `${data.client_name} · ${data.client_email}`],
+          ["Телефон", data.client_phone],
+          ["Реакция до", formatDate(reactionDeadline)],
+          ["Админка", `https://nanosudo.com/admin/service-requests`],
+        ]),
+      ),
     ]);
 
     emailResults.forEach((result, i) => {
       if (result.status === "rejected") {
-        console.error(`[support] email[${i}] failed:`, result.reason);
+        console.error(`[support] notification[${i}] failed:`, result.reason);
       }
     });
 
