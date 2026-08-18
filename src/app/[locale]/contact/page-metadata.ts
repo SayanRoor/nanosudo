@@ -21,6 +21,13 @@ export async function generateMetadata({ params }: ContactPageMetadataProps): Pr
     description: t('contact.hero.description', { defaultValue: 'Свяжитесь со мной любым удобным способом. Отвечаю в течение 24 часов. Первая консультация бесплатно.' }),
     locale,
     url: `https://nanosudo.com/${locale}/contact`,
+    keywords: [
+      'заказать сайт казахстан',
+      'заказать разработку сайта алматы',
+      'веб-разработчик контакты казахстан',
+      'стоимость разработки сайта казахстан',
+      'ии автоматизация заказать',
+    ],
   });
 }
 

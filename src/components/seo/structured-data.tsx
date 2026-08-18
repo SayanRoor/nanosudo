@@ -108,6 +108,49 @@ export function generateServiceStructuredData(): Record<string, unknown> {
 }
 
 /**
+ * Generate LocalBusiness (ProfessionalService) structured data.
+ * Almaty is the working base (real address, shown in the site footer);
+ * the service itself is remote and serves all of Kazakhstan, hence the
+ * country-level areaServed rather than a city-scoped one.
+ */
+export function generateLocalBusinessStructuredData(): Record<string, unknown> {
+  const baseUrl = 'https://nanosudo.com';
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: 'Nano Sudo — Sayan Roor',
+    image: `${baseUrl}/Nano_sudo_logo_dark.png`,
+    url: baseUrl,
+    telephone: '+77478277485',
+    email: 'sales@nanosudo.com',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Dostyk 132B',
+      addressLocality: 'Алматы',
+      addressRegion: 'Алматы',
+      addressCountry: 'KZ',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 43.2435,
+      longitude: 76.9589,
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Kazakhstan',
+    },
+    sameAs: [
+      'https://www.linkedin.com/in/sayan-roor/',
+      'https://instagram.com/satoshi_iam',
+      'https://t.me/satoshi_iam',
+      'https://github.com/SayanRoor',
+    ],
+  };
+}
+
+/**
  * Generate Organization structured data
  */
 export function generateOrganizationStructuredData(): Record<string, unknown> {

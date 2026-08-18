@@ -21,6 +21,13 @@ export async function generateMetadata({ params }: AboutPageMetadataProps): Prom
     description: t('about.hero.description', { defaultValue: 'Путь от обучения к независимой разработке. Опыт работы в квазигоссекторе и переход к full-stack разработке.' }),
     locale,
     url: `https://nanosudo.com/${locale}/about`,
+    keywords: [
+      'full-stack разработчик казахстан',
+      'опытный веб-разработчик алматы',
+      'разработчик next.js казахстан',
+      'ии-эксперт казахстан',
+      'фрилансер разработчик казахстан',
+    ],
   });
 }
 
