@@ -7,6 +7,7 @@ import { briefSchema } from "@/features/brief/schemas/brief";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sendEmail } from "@/server/email/resend";
 import { generateBriefPdf } from "@/server/pdf/brief-report";
+import { buildTelegramMessage, sendTelegramMessage } from "@/server/telegram/notify";
 
 type BrandbookFilePayload = {
   name: string;
@@ -183,11 +184,21 @@ export async function POST(request: Request): Promise<Response> {
         html: buildClientEmailHtml(values, submissionId),
         attachments: [pdfAttachment],
       }),
+      sendTelegramMessage(
+        buildTelegramMessage(`📋 Новый бриф (#${submissionId.slice(0, 8)})`, [
+          ["Клиент", values.client.clientName],
+          ["Отрасль", values.client.industry],
+          ["Контакт", `${values.contact.contactName} · ${values.contact.contactEmail}`],
+          ["Телефон", values.contact.contactPhone],
+          ["Связаться через", values.contact.contactMethod],
+          ["Админка", `https://nanosudo.com/admin/submissions`],
+        ]),
+      ),
     ]);
 
     emailResults.forEach((result, i) => {
       if (result.status === "rejected") {
-        console.error(`[brief] email[${i}] failed:`, result.reason);
+        console.error(`[brief] notification[${i}] failed:`, result.reason);
       }
     });
 

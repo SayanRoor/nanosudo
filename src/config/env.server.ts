@@ -37,6 +37,14 @@ export const serverEnvSchema = z.object({
   BREVO_SENDER_NAME: z
     .string()
     .optional(),
+  TELEGRAM_BOT_TOKEN: z
+    .string()
+    .min(1, "TELEGRAM_BOT_TOKEN is required to send Telegram notifications.")
+    .optional(),
+  TELEGRAM_CHAT_ID: z
+    .string()
+    .min(1, "TELEGRAM_CHAT_ID is required to send Telegram notifications.")
+    .optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

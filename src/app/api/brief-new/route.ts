@@ -7,6 +7,9 @@ import type { CalculationResult } from "@/features/brief/utils/calculation";
 import { formatCurrency } from "@/lib/currency";
 import type { Locale } from "@/i18n/config";
 import { logger } from "@/lib/logger";
+import { buildTelegramMessage, sendTelegramMessage } from "@/server/telegram/notify";
+
+const isTestMode = process.env.E2E_TEST_MODE === "true";
 
 
 
@@ -124,6 +127,24 @@ export async function POST(request: Request): Promise<NextResponse> {
           html: buildClientEmailHtml(formData, calculation, locale),
         }),
       ]);
+    }
+
+    if (!isTestMode) {
+      const result = await Promise.allSettled([
+        sendTelegramMessage(
+          buildTelegramMessage(`💰 Новая заявка с расчётом (#${submissionId.slice(0, 8)})`, [
+            ["Проект", formData.projectInfo.projectName],
+            ["Тип", formData.projectInfo.projectType],
+            ["Контакт", `${formData.contact.contactName} · ${formData.contact.contactEmail}`],
+            ["Телефон", formData.contact.contactPhone],
+            ["Стоимость", formatCurrency(calculation.totalCost, locale)],
+            ["Админка", `https://nanosudo.com/admin/submissions`],
+          ]),
+        ),
+      ]);
+      if (result[0].status === "rejected") {
+        logger.error("[brief-new] Telegram notification failed", { error: result[0].reason });
+      }
     }
 
     return NextResponse.json({ id: submissionId }, { status: 200 });

@@ -8,6 +8,7 @@ import { briefSimpleSchema, type BriefSimpleFormValues } from '@/features/brief/
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { serverEnv } from '@/config';
 import { sendEmail } from '@/server/email/resend';
+import { buildTelegramMessage, sendTelegramMessage } from '@/server/telegram/notify';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -223,17 +224,28 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           subject: 'Получили ваш бриф — спасибо!',
           html: buildClientEmailHtml(values),
         }),
+        sendTelegramMessage(
+          buildTelegramMessage(`📋 Новый бриф — упрощённая форма (#${submissionId.slice(0, 8)})`, [
+            ['Тип проекта', values.projectType],
+            ['Контакт', `${values.name} · ${values.email}`],
+            ['Телефон', values.phone],
+            ['Предпочитаемая связь', values.preferredContact],
+            ['Админка', `https://nanosudo.com/admin/submissions`],
+          ]),
+        ),
       ]);
 
-      // Log email results
+      // Log results
       let emailsSent = 0;
       emailResults.forEach((result, index) => {
-        const emailType = index === 0 ? 'Admin notification' : 'Client confirmation';
+        const notificationType = ['Admin notification', 'Client confirmation', 'Telegram notification'][index] ?? `notification[${index}]`;
         if (result.status === 'rejected') {
           const reason = result.reason as Error;
-          console.error(`❌ [brief-simple] ${emailType} failed:`, reason?.message ?? String(result.reason));
-          console.error(`❌ [brief-simple] RESEND_API_KEY set: ${Boolean(serverEnv.RESEND_API_KEY)}, FROM: ${serverEnv.RESEND_FROM_EMAIL ?? 'NOT SET'}`);
-        } else {
+          console.error(`❌ [brief-simple] ${notificationType} failed:`, reason?.message ?? String(result.reason));
+          if (index < 2) {
+            console.error(`❌ [brief-simple] RESEND_API_KEY set: ${Boolean(serverEnv.RESEND_API_KEY)}, FROM: ${serverEnv.RESEND_FROM_EMAIL ?? 'NOT SET'}`);
+          }
+        } else if (index < 2) {
           emailsSent++;
         }
       });
