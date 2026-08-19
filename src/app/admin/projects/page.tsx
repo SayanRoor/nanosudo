@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import { FolderOpen } from "lucide-react";
+import { CaseImageUploader } from "@/features/admin/components/case-image-uploader";
 
 export default function AdminProjectsPage(): ReactElement {
   return (
@@ -12,12 +13,13 @@ export default function AdminProjectsPage(): ReactElement {
       </div>
       <div className="glass-card rounded-2xl p-12 flex flex-col items-center text-center gap-4">
         <FolderOpen className="w-10 h-10 text-muted-foreground opacity-40" />
-        <p className="text-sm font-medium text-foreground">Раздел в разработке</p>
+        <p className="text-sm font-medium text-foreground">Полный редактор кейсов в разработке</p>
         <p className="text-xs text-muted-foreground max-w-sm">
-          Управление кейсами через CMS будет доступно в следующем обновлении.
-          Сейчас данные редактируются в <code className="font-mono text-accent">src/lib/portfolio-data.ts</code>.
+          Сами кейсы пока редактируются в <code className="font-mono text-accent">src/lib/portfolio-data.ts</code> —
+          но скриншоты для них теперь можно загружать ниже, без ручной работы с файлами.
         </p>
       </div>
+      <CaseImageUploader />
     </div>
   );
 }

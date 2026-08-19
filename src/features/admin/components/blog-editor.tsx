@@ -3,12 +3,13 @@
 // Blog post editor — create / edit a post in Supabase blog_posts table.
 // Language tabs: RU | EN | KK. Shared fields: slug, status, image, etc.
 
-import { useCallback, useEffect, useState, type ChangeEvent, type ReactElement } from "react";
+import { useCallback, useEffect, useRef, useState, type ChangeEvent, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
-import { Send, CheckCircle, Loader2 } from "lucide-react";
+import { Send, CheckCircle, Loader2, ImagePlus } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { cn } from "@/lib/cn";
+import { uploadBlogImage, BlogImageUploadError } from "@/lib/blog-image-upload";
 import type { BlogPostRow } from "../types";
 
 const supabase = getSupabaseBrowserClient();
@@ -90,6 +91,119 @@ function TextareaField({ label, value, onChange, rows = 4 }: { label: string; va
   );
 }
 
+// Uploads a file to blog-images and hands the resulting public URL to the
+// caller. Shared by the cover-image field and the inline content inserter.
+function useBlogImageUpload(onUploaded: (url: string) => void): {
+  readonly uploading: boolean;
+  readonly error: string | null;
+  readonly pick: () => void;
+  readonly inputProps: {
+    readonly ref: React.RefObject<HTMLInputElement | null>;
+    readonly onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  };
+} {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const onChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (!file) return;
+    setUploading(true);
+    setError(null);
+    try {
+      const url = await uploadBlogImage(file);
+      onUploaded(url);
+    } catch (err) {
+      setError(err instanceof BlogImageUploadError ? err.message : "Не удалось загрузить изображение.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return { uploading, error, pick: () => inputRef.current?.click(), inputProps: { ref: inputRef, onChange: (e) => void onChange(e) } };
+}
+
+// Cover-image field: URL input + "загрузить" button that uploads to
+// blog-images and fills the URL in automatically.
+function CoverImageField({ value, onChange }: { value: string; onChange: (v: string) => void }): ReactElement {
+  const upload = useBlogImageUpload(onChange);
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">URL изображения</span>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+          className="flex-1 rounded-lg border border-border/60 bg-surface px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+        />
+        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="hidden" {...upload.inputProps} />
+        <button
+          type="button"
+          onClick={upload.pick}
+          disabled={upload.uploading}
+          className="flex items-center gap-1.5 rounded-lg border border-border/60 px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground hover:border-accent/40 transition-colors disabled:opacity-50 whitespace-nowrap"
+        >
+          {upload.uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ImagePlus className="w-3.5 h-3.5" />}
+          Загрузить
+        </button>
+      </div>
+      {upload.error && <span className="text-xs text-error">{upload.error}</span>}
+    </div>
+  );
+}
+
+// Content textarea + "вставить изображение" button that uploads a file and
+// inserts Markdown image syntax at the current cursor position.
+function MarkdownContentField({ label, value, onChange, rows = 16 }: { label: string; value: string; onChange: (v: string) => void; rows?: number }): ReactElement {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const insertAtCursor = (snippet: string): void => {
+    const el = textareaRef.current;
+    if (!el) { onChange(value + snippet); return; }
+    const start = el.selectionStart ?? value.length;
+    const end = el.selectionEnd ?? value.length;
+    const next = `${value.slice(0, start)}${snippet}${value.slice(end)}`;
+    onChange(next);
+    // Restore focus + move cursor to just after the inserted snippet
+    requestAnimationFrame(() => {
+      el.focus();
+      const pos = start + snippet.length;
+      el.setSelectionRange(pos, pos);
+    });
+  };
+
+  const upload = useBlogImageUpload((url) => insertAtCursor(`![](${url})\n`));
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{label}</span>
+        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="hidden" {...upload.inputProps} />
+        <button
+          type="button"
+          onClick={upload.pick}
+          disabled={upload.uploading}
+          className="flex items-center gap-1.5 rounded-lg border border-border/60 px-2.5 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground hover:border-accent/40 transition-colors disabled:opacity-50"
+        >
+          {upload.uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ImagePlus className="w-3.5 h-3.5" />}
+          {upload.uploading ? "Загрузка..." : "Вставить изображение"}
+        </button>
+      </div>
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
+        rows={rows}
+        className="rounded-lg border border-border/60 bg-surface px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 resize-y font-mono"
+      />
+      {upload.error && <span className="text-xs text-error">{upload.error}</span>}
+    </div>
+  );
+}
+
 function LangFields({ lang, form, setForm }: { lang: Lang; form: FormState; setForm: React.Dispatch<React.SetStateAction<FormState>> }): ReactElement {
   const update = (field: keyof LangFields, value: string): void => {
     setForm((prev) => ({ ...prev, [lang]: { ...prev[lang], [field]: value } }));
@@ -100,7 +214,7 @@ function LangFields({ lang, form, setForm }: { lang: Lang; form: FormState; setF
       <InputField label="Заголовок" value={f.title} onChange={(v) => update("title", v)} />
       <TextareaField label="Description (SEO)" value={f.description} onChange={(v) => update("description", v)} rows={2} />
       <TextareaField label="Excerpt (анонс)" value={f.excerpt} onChange={(v) => update("excerpt", v)} rows={3} />
-      <TextareaField label="Контент (Markdown)" value={f.content} onChange={(v) => update("content", v)} rows={16} />
+      <MarkdownContentField label="Контент (Markdown)" value={f.content} onChange={(v) => update("content", v)} rows={16} />
       <div className="grid gap-4 sm:grid-cols-3">
         <InputField label="Image Alt" value={f.image_alt} onChange={(v) => update("image_alt", v)} />
         <InputField label="Категория" value={f.category} onChange={(v) => update("category", v)} />
@@ -335,7 +449,7 @@ export function BlogEditor({ postId }: { postId?: string }): ReactElement {
           <InputField label="Автор" value={form.author} onChange={(v) => setForm((f) => ({ ...f, author: v }))} />
           <InputField label="Теги (через запятую)" value={form.tags} onChange={(v) => setForm((f) => ({ ...f, tags: v }))} />
         </div>
-        <InputField label="URL изображения" value={form.image} onChange={(v) => setForm((f) => ({ ...f, image: v }))} />
+        <CoverImageField value={form.image} onChange={(v) => setForm((f) => ({ ...f, image: v }))} />
         <label className="flex items-center gap-2.5 cursor-pointer select-none">
           <input
             type="checkbox"
