@@ -80,6 +80,8 @@ export async function POST(request: Request): Promise<Response> {
         client_email: data.client_email,
         client_phone: data.client_phone || null,
         company_name: data.company_name || null,
+        attachment_urls: data.attachment_urls?.length ? data.attachment_urls : null,
+        links: data.links?.length ? data.links : null,
         reaction_deadline: reactionDeadline.toISOString(),
         resolution_deadline: resolutionDeadline.toISOString(),
         status: 'new',
@@ -122,6 +124,7 @@ export async function POST(request: Request): Promise<Response> {
           ["Заголовок", data.title],
           ["Клиент", `${data.client_name} · ${data.client_email}`],
           ["Телефон", data.client_phone],
+          ["Вложения", formatAttachmentSummary(data.attachment_urls, data.links)],
           ["Реакция до", formatDate(reactionDeadline)],
           ["Админка", `https://nanosudo.com/admin/service-requests`],
         ]),
@@ -170,6 +173,29 @@ const URGENCY_LABELS: Record<string, string> = {
   low: 'Низкая',
 };
 
+function buildAttachmentsSection(attachmentUrls: string[] | undefined, links: string[] | undefined): string {
+  if (!attachmentUrls?.length && !links?.length) return '';
+  const screenshotsHtml = attachmentUrls?.length
+    ? `<p><strong>Скриншоты (${attachmentUrls.length}):</strong></p>
+       <p>${attachmentUrls.map((url) => `<a href="${url}">${url}</a>`).join('<br />')}</p>`
+    : '';
+  const linksHtml = links?.length
+    ? `<p><strong>Ссылки (${links.length}):</strong></p>
+       <p>${links.map((url) => `<a href="${url}">${url}</a>`).join('<br />')}</p>`
+    : '';
+  return `<h3>Вложения</h3>${screenshotsHtml}${linksHtml}`;
+}
+
+function formatAttachmentSummary(
+  attachmentUrls: string[] | undefined,
+  links: string[] | undefined,
+): string | undefined {
+  const parts: string[] = [];
+  if (attachmentUrls?.length) parts.push(`📎 ${attachmentUrls.length} скрин.`);
+  if (links?.length) parts.push(`🔗 ${links.length} ссылок`);
+  return parts.length ? parts.join(', ') : undefined;
+}
+
 function formatDate(date: Date): string {
   return date.toLocaleString('ru-RU', {
     day: '2-digit', month: '2-digit', year: 'numeric',
@@ -198,6 +224,7 @@ function buildAdminEmail(
     </table>
     <h3>Клиент</h3>
     <p>${data.client_name} &lt;${data.client_email}&gt;${data.client_phone ? ` · ${data.client_phone}` : ''}${data.company_name ? ` · ${data.company_name}` : ''}</p>
+    ${buildAttachmentsSection(data.attachment_urls, data.links)}
     <h3>SLA</h3>
     <p>⏱ Реакция: <strong>${sla.reaction}ч</strong> → до ${formatDate(reactionDeadline)}</p>
     <p>✅ Решение: <strong>${sla.resolution}ч</strong> → до ${formatDate(resolutionDeadline)}</p>

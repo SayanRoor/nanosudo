@@ -47,6 +47,10 @@ export const TICKET_PREFIX: Record<RequestType, string> = {
   task:            'TSK',
 };
 
+export const MAX_ATTACHMENTS = 4;
+export const MAX_ATTACHMENT_SIZE = 5 * 1024 * 1024; // 5MB, matches the storage bucket limit
+export const MAX_LINKS = 5;
+
 export const serviceRequestSchema = z.object({
   type: z.enum(REQUEST_TYPES),
   urgency: z.enum(URGENCY_LEVELS),
@@ -57,6 +61,13 @@ export const serviceRequestSchema = z.object({
   client_email: z.string().email(),
   client_phone: z.string().max(30).optional().or(z.literal('')),
   company_name: z.string().max(150).optional().or(z.literal('')),
+  // Already-uploaded screenshot URLs (upload happens client-side to Storage
+  // before submit — see support-attachment-upload.ts) and free-form reference links.
+  attachment_urls: z.array(z.string().url()).max(MAX_ATTACHMENTS).optional(),
+  links: z
+    .array(z.string().trim().url('Введите корректную ссылку, например https://example.com'))
+    .max(MAX_LINKS, `Максимум ${MAX_LINKS} ссылок`)
+    .optional(),
 });
 
 export type ServiceRequestInput = z.infer<typeof serviceRequestSchema>;

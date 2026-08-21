@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import type { Route } from "next";
 import {
   ArrowLeft, Clock, AlertTriangle, CheckCircle2, XCircle,
-  User, Mail, Phone, Building2, Tag, Calendar, Send,
+  User, Mail, Phone, Building2, Tag, Calendar, Send, Link2, ImageIcon,
 } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { cn } from "@/lib/cn";
@@ -263,6 +263,55 @@ export function ServiceRequestDetail({ id }: { id: string }): ReactElement {
             <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Описание</h2>
             <p className="text-sm text-foreground whitespace-pre-wrap">{row.description}</p>
           </div>
+
+          {/* Attachments: screenshots + links */}
+          {(row.attachment_urls?.length || row.links?.length) ? (
+            <div className="glass-card rounded-2xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Вложения от клиента</h2>
+              {row.attachment_urls && row.attachment_urls.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <ImageIcon className="w-3.5 h-3.5 shrink-0" />
+                    <span>Скриншоты ({row.attachment_urls.length})</span>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {row.attachment_urls.map((url) => (
+                      <a key={url} href={url} target="_blank" rel="noopener noreferrer">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary client-uploaded Storage URL, not worth Next/Image config for an admin thumbnail */}
+                        <img
+                          src={url}
+                          alt="Скриншот от клиента"
+                          className="w-24 h-24 object-cover rounded-lg border border-border/60 hover:border-accent/50 transition-colors"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {row.links && row.links.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <Link2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Ссылки ({row.links.length})</span>
+                  </div>
+                  <ul className="space-y-1">
+                    {row.links.map((url) => (
+                      <li key={url}>
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-accent hover:underline break-all"
+                        >
+                          {url}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : null}
 
           {/* Reply to client */}
           <div className="glass-card rounded-2xl p-6 space-y-3">
