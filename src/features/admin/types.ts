@@ -17,6 +17,9 @@ export type ServiceRequestRow = {
   client_phone: string | null;
   company_name: string | null;
 
+  attachment_urls: string[] | null;
+  links: string[] | null;
+
   reaction_deadline: string | null;
   resolution_deadline: string | null;
   reacted_at: string | null;

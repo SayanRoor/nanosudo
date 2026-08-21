@@ -1,8 +1,8 @@
 'use client';
 
 // Support portal: submit a service request (ITSM-style)
-import type { ReactElement } from "react";
-import { useState } from "react";
+import type { ReactElement, ChangeEvent } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
@@ -18,6 +18,10 @@ import {
   ArrowRight,
   Loader2,
   ExternalLink,
+  ImagePlus,
+  X,
+  Plus,
+  Link2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -30,9 +34,12 @@ import {
   URGENCY_LEVELS,
   IMPACT_LEVELS,
   PRIORITY_LEVELS,
+  MAX_ATTACHMENTS,
+  MAX_LINKS,
 } from "@/features/support/schemas/service-request";
 import type { ServiceRequestInput, RequestType, PriorityLevel } from "@/features/support/schemas/service-request";
 import { TurnstileWidget, useTurnstile } from "@/components/turnstile-widget";
+import { uploadSupportAttachment, SupportAttachmentUploadError } from "@/lib/support-attachment-upload";
 
 const TYPE_ICONS: Record<RequestType, LucideIcon> = {
   incident: AlertTriangle,
@@ -70,6 +77,7 @@ export function SupportPageClient(): ReactElement {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ServiceRequestInput>({
     resolver: zodResolver(serviceRequestSchema),
@@ -80,6 +88,60 @@ export function SupportPageClient(): ReactElement {
   const selectedUrgency = watch('urgency');
   const selectedImpact = watch('impact');
   const computedPriority = computePriority(selectedUrgency, selectedImpact);
+
+  // Screenshots — uploaded immediately to Storage on selection, only the
+  // resulting public URLs are kept in form state (see support-attachment-upload.ts).
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
+  const [uploadingAttachment, setUploadingAttachment] = useState(false);
+  const [attachmentError, setAttachmentError] = useState<string | null>(null);
+
+  // Reference links — free-form URL rows; empty rows stay local-only until filled.
+  const [linkInputs, setLinkInputs] = useState<string[]>([]);
+
+  const updateLinks = (next: string[]): void => {
+    setLinkInputs(next);
+    setValue('links', next.map((l) => l.trim()).filter(Boolean), { shouldValidate: true });
+  };
+
+  async function handleAttachmentSelect(e: ChangeEvent<HTMLInputElement>): Promise<void> {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = '';
+    if (files.length === 0) return;
+
+    const remainingSlots = MAX_ATTACHMENTS - attachmentUrls.length;
+    if (remainingSlots <= 0) {
+      setAttachmentError(`Максимум ${MAX_ATTACHMENTS} скриншота.`);
+      return;
+    }
+
+    setAttachmentError(null);
+    setUploadingAttachment(true);
+    try {
+      for (const file of files.slice(0, remainingSlots)) {
+        try {
+          const url = await uploadSupportAttachment(file);
+          setAttachmentUrls((prev) => {
+            const next = [...prev, url];
+            setValue('attachment_urls', next, { shouldValidate: true });
+            return next;
+          });
+        } catch (err) {
+          setAttachmentError(err instanceof SupportAttachmentUploadError ? err.message : 'Не удалось загрузить скриншот.');
+        }
+      }
+    } finally {
+      setUploadingAttachment(false);
+    }
+  }
+
+  function removeAttachment(url: string): void {
+    setAttachmentUrls((prev) => {
+      const next = prev.filter((u) => u !== url);
+      setValue('attachment_urls', next, { shouldValidate: true });
+      return next;
+    });
+  }
 
   async function onSubmit(data: ServiceRequestInput): Promise<void> {
     setSubmitError(null);
@@ -266,6 +328,101 @@ export function SupportPageClient(): ReactElement {
                       className="w-full bg-muted/20 border border-border rounded-xl px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors resize-none"
                     />
                     {errors.description && <p className="text-xs text-red-400">{errors.description.message}</p>}
+                  </div>
+
+                  {/* Screenshots */}
+                  <div className="space-y-3">
+                    <label className="text-sm font-bold uppercase tracking-[0.1em] text-muted-foreground">
+                      {t('form.attachmentsLabel')}
+                    </label>
+                    <p className="text-xs text-muted-foreground">{t('form.attachmentsHint')}</p>
+
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      multiple
+                      onChange={(e) => void handleAttachmentSelect(e)}
+                      className="hidden"
+                    />
+
+                    {attachmentUrls.length > 0 && (
+                      <div className="flex flex-wrap gap-3">
+                        {attachmentUrls.map((url) => (
+                          <div key={url} className="relative">
+                            {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary user-uploaded Storage URL, not worth Next/Image config for a form preview */}
+                            <img src={url} alt="Скриншот" className="w-20 h-20 object-cover rounded-lg border border-border" />
+                            <button
+                              type="button"
+                              onClick={() => removeAttachment(url)}
+                              aria-label="Удалить скриншот"
+                              className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center rounded-full bg-background border border-border text-muted-foreground hover:text-red-400 hover:border-red-400 transition-colors"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {attachmentUrls.length < MAX_ATTACHMENTS && (
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={uploadingAttachment}
+                        className="flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground hover:border-accent/40 hover:text-foreground transition-colors disabled:opacity-50"
+                      >
+                        {uploadingAttachment ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
+                        {uploadingAttachment ? t('form.uploadingAttachment') : t('form.addAttachmentButton')}
+                      </button>
+                    )}
+                    {attachmentError && <p className="text-xs text-red-400">{attachmentError}</p>}
+                  </div>
+
+                  {/* Reference links */}
+                  <div className="space-y-3">
+                    <label className="text-sm font-bold uppercase tracking-[0.1em] text-muted-foreground">
+                      {t('form.linksLabel')}
+                    </label>
+                    <p className="text-xs text-muted-foreground">{t('form.linksHint')}</p>
+
+                    {linkInputs.map((value, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <div className="relative flex-1">
+                          <Link2 className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+                          <input
+                            value={value}
+                            onChange={(e) => {
+                              const next = [...linkInputs];
+                              next[index] = e.target.value;
+                              updateLinks(next);
+                            }}
+                            placeholder={t('form.linkPlaceholder')}
+                            className="w-full bg-muted/20 border border-border rounded-xl pl-9 pr-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => updateLinks(linkInputs.filter((_, i) => i !== index))}
+                          aria-label="Удалить ссылку"
+                          className="w-9 h-9 flex items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-red-400 hover:border-red-400 transition-colors shrink-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                    {errors.links && <p className="text-xs text-red-400">{errors.links.message}</p>}
+
+                    {linkInputs.length < MAX_LINKS && (
+                      <button
+                        type="button"
+                        onClick={() => updateLinks([...linkInputs, ''])}
+                        className="flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground hover:border-accent/40 hover:text-foreground transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                        {t('form.addLinkButton')}
+                      </button>
+                    )}
                   </div>
 
                   {/* Contact */}
