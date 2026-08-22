@@ -205,7 +205,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "Миграция Egemen Qazaqstan с Laravel на Next.js/NestJS и PostgreSQL",
     image: "/cases/egemen.jpg",
     imageAlt: "Egemen Qazaqstan — новостная платформа",
-    url: "http://64.177.67.133:3000",
+    url: "https://egemen.kz",
     tags: [
       "Next.js",
       "NestJS",
@@ -249,6 +249,58 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
     metricKeys: ["migrationStack", "database", "speed", "downtime"],
   },
   {
+    id: "kazpravda",
+    title: "Kazakhstanskaya Pravda — миграция новостного портала",
+    description:
+      "Пилотный перенос республиканской газеты «Казахстанская правда» с легаси-стека Django 3.2 на единую платформу Next.js 16 + NestJS 11 + PostgreSQL 16. Двуязычный контент (kk/ru), полнотекстовый поиск, воркфлоу публикаций (черновик/расписание/публикация), лайки, подписки на премиум-контент и аудит изменений.",
+    shortDescription:
+      "Перенос «Казахстанской правды» с Django на Next.js/NestJS с поиском и подписками",
+    image: "/cases/kazpravda.jpg",
+    imageAlt: "Kazakhstanskaya Pravda — новостной портал",
+    url: "https://kazpravda.kz",
+    tags: [
+      "Next.js",
+      "NestJS",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "Redis",
+      "Docker",
+    ],
+    category: "Медиа и миграция",
+    year: 2026,
+    featured: false,
+    goals: [
+      "Перенести портал с легаси Django 3.2 на современный TypeScript-стек",
+      "Сохранить двуязычный контент (казахский и русский)",
+      "Внедрить полнотекстовый поиск и расширенную фильтрацию",
+      "Реализовать подписки и премиум-доступ к материалам",
+    ],
+    tasks: [
+      "Аудит легаси Django-портала и схемы PostgreSQL",
+      "Разработать NestJS-модули и Next.js фронтенд с SSR",
+      "Реализовать воркфлоу публикаций: черновик → расписание → публикация",
+      "Добавить полнотекстовый поиск и фильтрацию по рубрикам",
+      "Внедрить лайки для авторизованных и анонимных читателей",
+      "Реализовать подписки на премиум-контент и брендинг издания",
+      "Настроить аудит изменений и SEO-метаданные с тегами",
+    ],
+    results: [
+      "Современный портал взамен легаси Django 3.2",
+      "Двуязычный контент с полнотекстовым поиском и фильтрацией",
+      "Воркфлоу публикаций с расписанием выхода материалов",
+      "Подписки и премиум-доступ к контенту",
+      "Аудит изменений и SEO-оптимизация на единой платформе",
+    ],
+    metrics: [
+      { label: "Стек миграции", value: "Django → NestJS" },
+      { label: "Языка контента", value: "2" },
+      { label: "Воркфлоу публикаций", value: "3 статуса" },
+      { label: "База данных", value: "PostgreSQL 16" },
+    ],
+    metricKeys: ["migrationStack", "languages", "workflow", "database"],
+  },
+  {
     id: "kazgazeta",
     title: "Qazaq Gazetteri — холдинг из 13 изданий",
     description:
@@ -257,7 +309,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "Платформа для 13 изданий холдинга Qazaq Gazetteri с мультидоменной маршрутизацией",
     image: "/cases/kazgazeta.jpg",
     imageAlt: "Qazaq Gazetteri — холдинг из 13 изданий",
-    url: "http://45.77.41.77",
+    url: "https://kazgazeta.kz",
     tags: [
       "Next.js",
       "NestJS",
@@ -309,6 +361,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "AI-first маркетплейс локальных впечатлений с семантическим поиском на pgvector",
     image: "/cases/nativetravel.jpg",
     imageAlt: "NativeTravel — AI-first travel-маркетплейс",
+    url: "https://nta.nanosudo.com/ru/explore",
     tags: [
       "Fastify",
       "tRPC",
