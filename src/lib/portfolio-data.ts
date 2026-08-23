@@ -412,7 +412,7 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
       "Независимая онлайн-платформа для адресной помощи, построенная на принципах доверия, прозрачности и ручной модерации. Позволяет людям, нуждающимся в помощи, напрямую связываться с донорами без посредников и сбора денег.",
     shortDescription:
       "Платформа для адресной помощи с ручной модерацией и прозрачностью",
-    image: "/zakyat-project.jpg",
+    image: "/cases/zakyat-kz.jpg",
     imageAlt: "ZAKYAT.KZ — Платформа для адресной помощи",
     url: "https://zakyat.kz",
     tags: ["Next.js", "TypeScript", "PostgreSQL", "Supabase", "Telegram Bot"],
