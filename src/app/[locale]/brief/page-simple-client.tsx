@@ -8,7 +8,7 @@
 import type { ReactElement } from 'react';
 import { useContext, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Container } from '@/components/layout/container';
 import { SiteShell } from '@/components/layout/site-shell';
 import { BriefSimpleFormProvider, BriefSimpleFormContext } from '@/features/brief/components/brief-simple-form-provider';
@@ -21,6 +21,7 @@ import { CalculationPreviewSimple } from '@/features/brief/components/calculatio
 function BriefSimpleFormContent(): ReactElement {
   const context = useContext(BriefSimpleFormContext);
   const t = useTranslations('brief.simple');
+  const locale = useLocale();
 
   if (!context) {
     throw new Error('BriefSimpleFormContent must be used within BriefSimpleFormProvider');
@@ -93,10 +94,10 @@ function BriefSimpleFormContent(): ReactElement {
             <div className="max-w-6xl mx-auto">
               <BriefSimpleProgress />
 
-              <div className="grid lg:grid-cols-[1fr,400px] gap-8 lg:gap-12">
+              <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
                 {/* Form Steps */}
                 <motion.div
-                  className="glass-card rounded-2xl p-6 md:p-8"
+                  className="glass-card rounded-2xl p-6 md:p-8 min-w-0"
                   layout
                 >
                   <AnimatePresence mode="wait">
@@ -114,15 +115,10 @@ function BriefSimpleFormContent(): ReactElement {
                   </AnimatePresence>
                 </motion.div>
 
-                {/* Calculation Preview */}
-                <div className="lg:block hidden">
-                  <CalculationPreviewSimple values={formValues} />
-                </div>
-              </div>
-
-              {/* Mobile Calculation Preview */}
-              <div className="lg:hidden mt-8">
-                <CalculationPreviewSimple values={formValues} />
+                {/* Calculation Preview: right column on desktop, below the form on mobile */}
+                <aside className="min-w-0">
+                  <CalculationPreviewSimple values={formValues} locale={locale} />
+                </aside>
               </div>
             </div>
           </Container>
