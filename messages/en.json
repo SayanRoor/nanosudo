@@ -818,6 +818,7 @@
       "calculation": {
         "title": "Estimated Cost",
         "priceRange": "${min}–${max}",
+        "timeLabel": "Timeline",
         "timeEstimate": "{min}–{max} weeks",
         "included": {
           "title": "What's included",

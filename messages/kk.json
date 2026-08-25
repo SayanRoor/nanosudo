@@ -819,6 +819,7 @@
       "calculation": {
         "title": "Шамамен құны",
         "priceRange": "{min}–{max} $",
+        "timeLabel": "Мерзімі",
         "timeEstimate": "{min}–{max} апта",
         "included": {
           "title": "Не кіреді",

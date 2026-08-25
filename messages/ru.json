@@ -212,6 +212,7 @@
       "calculation": {
         "title": "Ориентировочная стоимость",
         "priceRange": "{min}–{max} $",
+        "timeLabel": "Сроки",
         "timeEstimate": "{min}–{max} недель",
         "included": {
           "title": "Что входит",

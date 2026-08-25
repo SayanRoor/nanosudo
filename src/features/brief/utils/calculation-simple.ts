@@ -159,10 +159,11 @@ export function formatTimeEstimate(timeEstimate: TimeEstimate, locale = 'ru'): s
 }
 
 /**
- * Get correct plural form for "weeks" in Russian
+ * Get correct plural form for "weeks" per locale
  */
 function getWeeksLabel(count: number, locale: string): string {
-  if (locale !== 'ru') return 'weeks';
+  if (locale === 'kk') return 'апта';
+  if (locale !== 'ru') return count === 1 ? 'week' : 'weeks';
 
   const lastDigit = count % 10;
   const lastTwoDigits = count % 100;
