@@ -288,37 +288,39 @@
         }
       },
       "nativetravel": {
-        "title": "NativeTravel — an AI-first travel marketplace",
-        "description": "A two-sided marketplace of local experiences with AI personalization: tours, restaurants, events and activities. A multi-tenant architecture supporting multiple cities and brands, semantic search on pgvector, AI recommendations, translations and moderation via Claude. A Fastify + tRPC backend and a Next.js 15 + React 19 frontend. The project is in active development.",
-        "shortDescription": "An AI-first marketplace of local experiences with pgvector semantic search",
-        "imageAlt": "NativeTravel — an AI-first travel marketplace",
-        "category": "AI marketplace",
+        "title": "Visit Almaty (NTA) — Almaty's tourism platform",
+        "description": "Almaty's tourism showcase, live in pilot mode at nta.visitalmaty.kz: places, events, mountain trails, bookings and city transport — on one map and in 6 languages. The catalog holds 2,900+ places, out-of-town trails with distance, elevation gain and time, city guides, bookings for stays, tables, tours and tickets with no prepayment, scooters, taxis and car rental, plus a city wallet with cashback and partner discounts. Businesses can list and claim their own pages. Under the hood it is a multi-tenant AI-first marketplace on Fastify + tRPC and Next.js 15 with pgvector semantic search.",
+        "shortDescription": "Almaty's tourism platform: 2,900+ places, trails, bookings and transport in 6 languages",
+        "imageAlt": "Visit Almaty (NTA) — Almaty's tourism platform",
+        "category": "Tourism platform",
         "goals": [
-          "Build a two-sided marketplace of local experiences with AI matching",
-          "Implement multi-tenancy for multiple cities and brands",
-          "Introduce semantic search and recommendations on embeddings",
-          "Keep the app working even without AI keys (deterministic fallback)"
+          "Give visitors everything about the city in one place: places, events, trails, transport and bookings",
+          "Make the platform accessible to foreign guests — 6 languages, including Hindi, Chinese and Arabic (RTL)",
+          "Let local businesses list and claim their own pages",
+          "Build in multi-tenancy so new cities and brands can launch on the same platform"
         ],
         "tasks": [
           "Design a monorepo: a Fastify + tRPC v11 backend and a Next.js 15 frontend",
-          "Model the domain (~45 Prisma models, 27+ modules)",
-          "Wire up PostgreSQL 15 + pgvector for embeddings and semantic search",
-          "Integrate Claude (chat, translations, moderation, vision) and OpenAI (embeddings)",
-          "Implement bookings, payments (Stripe/Kaspi) and host payouts",
-          "Build a partner REST API for channels (OTA) with Bearer auth",
-          "Set up deployment via Docker Compose behind a Caddy reverse proxy"
+          "Import and normalize a catalog of 2,900+ places with categories and a map",
+          "Build mountain trails with stops, distance, elevation gain and difficulty",
+          "Implement bookings for stays, tables, tours and tickets with confirmation and no prepayment",
+          "Integrate transport: scooters, taxis and car rental without a local phone number",
+          "Design a city wallet: coins, 5% cashback and partner discounts",
+          "Wire up PostgreSQL + pgvector for semantic search and Claude for translation and moderation",
+          "Set up deployment via Docker Compose behind a Caddy reverse proxy on visitalmaty.kz"
         ],
         "results": [
-          "Ready infrastructure: monorepo, design system, i18n and an AI layer",
-          "Semantic search and recommendations on pgvector embeddings",
-          "Multi-tenancy: multiple cities, custom domains, per-tenant AI budgets",
-          "A partner REST API for OTAs and channel managers",
-          "A deterministic stub mode — the app runs without AI keys"
+          "The platform is live in pilot mode at nta.visitalmaty.kz",
+          "A catalog of 2,900+ places: nature, city, culture, wellness, outdoor and transport",
+          "Mountain trails, city guides and bookings in a single interface",
+          "6 interface languages, including an RTL layout for Arabic",
+          "A business dashboard: listing, page claiming and pricing plans",
+          "A multi-tenant core ready to launch the next cities"
         ],
         "metrics": {
-          "dataModels": "Data models",
-          "backendModules": "Backend modules",
+          "places": "Places in catalog",
           "languages": "Languages",
+          "dataModels": "Data models",
           "vectorSearch": "Semantic search"
         }
       },

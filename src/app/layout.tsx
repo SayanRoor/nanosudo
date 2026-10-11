@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
         <meta name="apple-mobile-web-app-title" content="Nano Sudo" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon-for-app/apple-icon.png" />
         <link rel="icon" href="/favicon-for-app/favicon.ico" />
-        <link rel="mask-icon" href="/favicon-for-app/icon0.svg" color="#000000" />
+        <link rel="mask-icon" href="/favicon-for-app/icon0.svg" color="#4ADE80" />
         <link rel="manifest" href="/favicon-for-app/manifest.json" />
         <meta name="theme-color" content="#000000" />
         <link rel="preconnect" href="https://mc.yandex.ru" />

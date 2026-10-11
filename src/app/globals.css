@@ -1366,3 +1366,13 @@
   }
 
 }
+/* Logo kit: pick the mark variant that matches the current theme */
+.brand-mark--on-light {
+  display: none;
+}
+[data-theme="light"] .brand-mark--on-dark {
+  display: none;
+}
+[data-theme="light"] .brand-mark--on-light {
+  display: block;
+}

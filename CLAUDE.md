@@ -166,7 +166,7 @@ Each route folder contains `page-metadata.ts` that exports metadata configuratio
 ## Notes
 
 - **Package manager**: pnpm (v8+) only - uses `pnpm-lock.yaml`
-- **Node version**: 20+ required
+- **Node version**: 24.x (Vercel dropped Node 20)
 - **Next.js config**: Uses `next-intl` plugin and typed routes
 - **Aliases**: `@/` maps to `src/`
 - **No console logs**: Keep production code clean

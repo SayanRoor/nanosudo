@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import type { ReactElement } from "react";
+import Image from "next/image";
 import { useTranslations } from 'next-intl';
 import { ArrowUpRight, X } from "lucide-react";
 
@@ -80,7 +81,24 @@ export function SiteHeader(): ReactElement {
               href="/"
               className="flex items-center group relative h-full shrink-0"
             >
-              <div className="relative z-10 flex items-center gap-2">
+              <div className="relative z-10 flex items-center gap-2.5">
+                {/* Brand mark from the logo kit: primary on dark, primary-light on light */}
+                <Image
+                  src="/brand/nanosudo-mark-primary.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width={36}
+                  height={36}
+                  className="brand-mark--on-dark size-8 md:size-9 transition-transform duration-500 group-hover:rotate-90"
+                />
+                <Image
+                  src="/brand/nanosudo-mark-primary-light.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width={36}
+                  height={36}
+                  className="brand-mark--on-light size-8 md:size-9 transition-transform duration-500 group-hover:rotate-90"
+                />
                 <span className="font-heading text-xl md:text-2xl font-black text-foreground group-hover:text-accent transition-colors duration-300">
                   NANOSUDO<span className="text-accent group-hover:scale-125 inline-block transition-transform duration-300">.</span>
                 </span>

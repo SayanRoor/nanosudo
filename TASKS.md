@@ -218,3 +218,10 @@
 
 ## Единственный содержательный блокер, который реально остаётся
 Открытых внешних блокеров нет. Активная работа — SEO/контент-план (Phase 7, годовой план — см. память `nanosudo-seo-content-plan`).
+
+## Phase 14 — новый логотип (kit/) + обновление кейса NativeTravel → Visit Almaty (2026-10-11)
+- `[x]` **NTA-1** Кейс `nativetravel` переписан по живому сайту `https://nta.visitalmaty.kz/ru` (url обновлён с `nta.nanosudo.com`): Visit Almaty — туристическая платформа Алматы в пилоте, 2 900+ мест, маршруты, бронирование без предоплаты, транспорт, «кошелёк города», 6 языков. Обновлены `portfolio-data.ts` + `messages/{ru,en,kk}.json` (id/URL кейса `/cases/nativetravel` не менялись). Метрики: `places`, `languages`, `dataModels`, `vectorSearch`.
+- `[x]` **LOGO-1** Logo Kit v1.0 скопирован в `public/brand/` (все SVG). Старые файлы перезаписаны новыми с теми же путями, чтобы не трогать ссылки в письмах/структурированных данных: `Nanosudo_logo_light.png`/`Nano_sudo_logo_light.png` ← logo-primary (на тёмном), `Nanosudo_logo_dark.png`/`Nano_sudo_logo_dark.png` ← logo-primary-light (на светлом), `Nanosudo_logo_favicon.png`, `favicon.ico` (оба), `icon0.svg`, `icon1.png` ← mark-primary (ниже 64px — только знак, по правилам кита), `apple-icon.png` + новые `brand/app-icon-{192,512}.png` — знак на #07080A (непрозрачный фон для iOS/maskable). Manifest и `mask-icon` обновлены.
+- `[x]` **LOGO-2** В шапке рядом с NANOSUDO. появился знак: mark-primary в тёмной теме, mark-primary-light в светлой (переключение CSS-классами по `data-theme`).
+- `[x]` **LOGO-3** Обложки кейсов перегенерированы: вместо контурного ромба — полный логотип NANO/SUDO из кита справа, знак из кита в подписи. Отрендерено через Playwright headless (1440×810 @2x, затем уменьшено до 1920×1080), а не ручными скриншотами.
+- 📌 Старый компонент `src/components/logo/*` (варианты SR/RS) используется только мёртвым `decorative-forms` — не трогал.
