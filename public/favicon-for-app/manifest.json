@@ -1,22 +1,28 @@
 {
-  "name": "Nano Sudo — Full-stack Developer",
+  "name": "Nano Sudo \u2014 Full-stack Developer",
   "short_name": "Nano Sudo",
   "icons": [
     {
-      "src": "/Nanosudo_logo_dark.png",
+      "src": "/brand/app-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Nanosudo_logo_dark.png",
+      "src": "/brand/app-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/brand/nanosudo-mark-primary.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#07080A",
+  "background_color": "#07080A",
   "display": "standalone",
   "start_url": "/"
 }
