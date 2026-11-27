@@ -38,7 +38,7 @@ async function parseBrevoError(res: Response): Promise<string> {
 // ── Shared email constants ─────────────────────────────────────────────────
 
 const SITE_URL = "https://nanosudo.com";
-const ACCENT_COLOR = "#339933";
+const ACCENT_COLOR = "#1a7a3e";
 // Light logo for dark backgrounds; dark logo for light backgrounds
 const LOGO_LIGHT_URL = `${SITE_URL}/Nanosudo_logo_light.png`; // white — for dark headers
 const LOGO_DARK_URL = `${SITE_URL}/Nanosudo_logo_dark.png`;   // dark  — for light areas
@@ -49,7 +49,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 function emailHeader(): string {
   return `
   <tr>
-    <td style="background:#09090b;padding:24px 32px;">
+    <td style="background:#07080a;padding:24px 32px;">
       <a href="${SITE_URL}" style="text-decoration:none;">
         <img src="${LOGO_LIGHT_URL}" alt="NANOSUDO" width="120" height="30"
           style="height:30px;width:120px;display:block;border:0;outline:none;" />
@@ -69,7 +69,7 @@ function emailFooter(unsubscribeLabel: string, unsubscribeHref: string = "{{ uns
   </tr>
   <!-- Footer -->
   <tr>
-    <td style="padding:20px 32px;background:#fafafa;">
+    <td style="padding:20px 32px;background:#f4f4f1;">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td>
@@ -210,7 +210,7 @@ function buildWelcomeHtml(locale: "ru" | "en" | "kk"): string {
         <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:${ACCENT_COLOR};">
           Nanosudo Newsletter
         </p>
-        <h1 style="margin:0 0 20px;font-size:28px;font-weight:900;line-height:1.2;color:#09090b;letter-spacing:-0.03em;">
+        <h1 style="margin:0 0 20px;font-size:28px;font-weight:900;line-height:1.2;color:#07080a;letter-spacing:-0.03em;">
           ${c.greeting}
         </h1>
         <p style="margin:0 0 28px;font-size:16px;line-height:1.7;color:#3f3f46;">
@@ -321,7 +321,7 @@ function buildCampaignHtml(opts: BlogNewsletterOptions): string {
           ${c.label} · ${opts.category}
         </p>
         <!-- Title -->
-        <h1 style="margin:0 0 16px;font-size:26px;font-weight:900;line-height:1.2;color:#09090b;letter-spacing:-0.03em;">
+        <h1 style="margin:0 0 16px;font-size:26px;font-weight:900;line-height:1.2;color:#07080a;letter-spacing:-0.03em;">
           ${opts.title}
         </h1>
         <!-- Meta -->

@@ -94,13 +94,13 @@ export function TechEcosystem(): React.ReactElement | null {
             <div className="relative h-[650px] sm:h-[700px] md:h-[800px] max-w-7xl mx-auto flex items-center justify-center">
                 {/* Central Core */}
                 <motion.div
-                    className="relative z-20 w-32 h-32 md:w-48 md:h-48 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.2)]"
+                    className="relative z-20 w-32 h-32 md:w-48 md:h-48 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center shadow-[0_0_50px_rgba(74,222,128,0.2)]"
                     animate={{
                         scale: [1, 1.05, 1],
                         boxShadow: [
-                            "0_0_30px_rgba(59,130,246,0.1)",
-                            "0_0_60px_rgba(59,130,246,0.3)",
-                            "0_0_30px_rgba(59,130,246,0.1)"
+                            "0_0_30px_rgba(74,222,128,0.1)",
+                            "0_0_60px_rgba(74,222,128,0.3)",
+                            "0_0_30px_rgba(74,222,128,0.1)"
                         ]
                     }}
                     transition={{
@@ -159,7 +159,7 @@ export function TechEcosystem(): React.ReactElement | null {
                                 }}
                             >
                                 <div className="flex flex-col items-center gap-2">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl glass-card border border-border/40 p-3 md:p-4 flex items-center justify-center group-hover:border-accent/50 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all duration-300">
+                                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl glass-card border border-border/40 p-3 md:p-4 flex items-center justify-center group-hover:border-accent/50 group-hover:shadow-[0_0_20px_rgba(74,222,128,0.2)] transition-all duration-300">
                                         <Image
                                             src={tech.icon}
                                             alt={tech.name}

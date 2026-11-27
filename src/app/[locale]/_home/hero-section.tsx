@@ -58,7 +58,7 @@ export function HeroSection(): ReactElement {
           <h1 className="animate-fade-in-up-delay-1 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-foreground font-black">
             {t.rich("home.hero.title", {
               highlight: (chunks) => (
-                <span className="bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-accent via-secondary to-accent bg-size-[200%_200%] bg-clip-text text-transparent">
                   {chunks}
                 </span>
               ),
@@ -77,7 +77,7 @@ export function HeroSection(): ReactElement {
           >
             <span
               key={phraseIndex}
-              className={`inline-block bg-linear-to-r from-accent via-[#8a7bff] to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(138,123,255,0.3)] md:drop-shadow-[0_0_30px_rgba(138,123,255,0.3)] font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl ${isAnimating ? "hero-phrase-exit" : "hero-phrase-enter"}`}
+              className={`inline-block bg-linear-to-r from-accent via-secondary to-accent bg-size-[200%_200%] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(74,222,128,0.25)] md:drop-shadow-[0_0_30px_rgba(74,222,128,0.25)] font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl ${isAnimating ? "hero-phrase-exit" : "hero-phrase-enter"}`}
             >
               {activePhrase}
             </span>
