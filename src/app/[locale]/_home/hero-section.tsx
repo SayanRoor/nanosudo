@@ -2,8 +2,8 @@
 
 // HeroSection — above-the-fold client component. Uses CSS animations instead of
 // framer-motion to keep the library out of the critical JS bundle.
-// Offer-first layout: headline + rotating capabilities over a live tech-stack
-// backdrop (HeroTechBackdrop) that reacts to hover and a cursor spotlight.
+// Offer-first layout: headline + rotating capabilities framed by floating
+// tech-stack icons (HeroFloatingIcons) that react to hover, plus a cursor spotlight.
 import type { ReactElement, PointerEvent } from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "@/i18n/routing";
@@ -16,7 +16,7 @@ import {
   Send,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { HeroTechBackdrop } from "@/components/hero-tech-backdrop";
+import { HeroFloatingIcons } from "@/components/hero-floating-icons";
 
 const PHRASE_COUNT = 3;
 const PHRASE_INTERVAL = 2500;
@@ -60,14 +60,13 @@ export function HeroSection(): ReactElement {
       onPointerMove={handlePointerMove}
       className="group/hero relative flex min-h-[88svh] items-center overflow-hidden pt-28 pb-16 md:pt-32 md:pb-20"
     >
-      {/* Tech-stack backdrop behind the text (hover chips to light them up) */}
-      <div className="animate-fade-in-up absolute inset-0">
-        <HeroTechBackdrop />
+      {/* Tech-stack icons floating in the free space around the text */}
+      <div className="animate-fade-in-up-delay-3 absolute inset-0">
+        <HeroFloatingIcons />
       </div>
       <div aria-hidden="true" className="hero-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover/hero:opacity-100" />
-      <div aria-hidden="true" className="hero-scrim pointer-events-none absolute inset-0" />
 
-      {/* Content ignores the pointer so chips behind it stay hoverable; controls opt back in */}
+      {/* Content ignores the pointer so nearby icons stay hoverable; controls opt back in */}
       <Container className="pointer-events-none relative z-10 w-full px-4 md:px-6">
         <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
           {/* Main title — outcome-first, no personal name */}

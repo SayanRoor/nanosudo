@@ -838,73 +838,52 @@
     }
   }
 
-  /* Hero tech backdrop — marquee rows behind the hero headline */
-  @keyframes hero-tech-drift {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+  /* Hero floating tech icons — placed around the headline, bobbing in place */
+  @keyframes hero-float {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-50%, calc(-50% - 10px)) rotate(var(--float-rotate, 4deg)); }
   }
 
-  .hero-tech-backdrop {
-    mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent),
-      linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    mask-composite: intersect;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
+  .hero-float {
+    transform: translate(-50%, -50%);
+    animation: hero-float var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite;
   }
 
-  .hero-tech-tilt {
-    transform: rotate(-6deg) scale(1.2);
-  }
-
-  .hero-tech-row {
-    animation: hero-tech-drift 60s linear infinite;
-    will-change: transform;
-  }
-
-  .hero-tech-row--reverse {
-    animation-direction: reverse;
-  }
-
-  .hero-tech-row:hover {
+  .hero-float:hover {
     animation-play-state: paused;
+    z-index: 20;
   }
 
-  .hero-tech-chip {
-    opacity: 0.28;
+  .hero-float-tile {
+    opacity: 0.7;
     filter: grayscale(1);
-    transition: opacity 300ms ease, filter 300ms ease, transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    transition: opacity 300ms ease, filter 300ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
       border-color 300ms ease, box-shadow 300ms ease, background-color 300ms ease;
   }
 
-  .hero-tech-chip:hover {
+  .hero-float-tile:hover {
     opacity: 1;
     filter: grayscale(0);
-    transform: translateY(-4px) scale(1.06);
+    transform: scale(1.18) rotate(-3deg);
     border-color: color-mix(in srgb, var(--base-color-accent) 60%, transparent);
     background-color: color-mix(in srgb, var(--base-color-accent) 10%, var(--base-color-surface));
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--base-color-accent) 25%, transparent),
-      0 12px 40px -8px color-mix(in srgb, var(--base-color-accent) 45%, transparent);
+      0 14px 40px -8px color-mix(in srgb, var(--base-color-accent) 50%, transparent);
   }
 
   [data-theme="dark"] .hero-tech-invert {
     filter: invert(1);
   }
 
-  /* Cursor-following accent light over the backdrop */
+  /* Cursor-following accent light */
   .hero-spotlight {
     background: radial-gradient(420px circle at var(--hero-mx, 50%) var(--hero-my, 40%),
-      color-mix(in srgb, var(--base-color-accent) 14%, transparent), transparent 70%);
+      color-mix(in srgb, var(--base-color-accent) 12%, transparent), transparent 70%);
     transition: opacity 400ms ease;
   }
 
-  /* Soft scrim so the headline stays readable over the chips */
-  .hero-scrim {
-    background: radial-gradient(ellipse 50% 42% at 50% 48%,
-      color-mix(in srgb, var(--base-color-background) 92%, transparent) 0%,
-      color-mix(in srgb, var(--base-color-background) 70%, transparent) 50%, transparent 100%);
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .hero-tech-row {
+    .hero-float {
       animation: none;
     }
   }
