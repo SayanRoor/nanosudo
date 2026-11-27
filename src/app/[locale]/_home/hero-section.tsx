@@ -2,9 +2,9 @@
 
 // HeroSection — above-the-fold client component. Uses CSS animations instead of
 // framer-motion to keep the library out of the critical JS bundle.
-// Single-column, offer-first layout (no personal photo/name): headline states the
-// outcome, a tech marquee below provides trust instead of a portrait.
-import type { ReactElement } from "react";
+// Offer-first layout: headline + rotating capabilities over a live tech-stack
+// backdrop (HeroTechBackdrop) that reacts to hover and a cursor spotlight.
+import type { ReactElement, PointerEvent } from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
@@ -16,7 +16,7 @@ import {
   Send,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { TechnologiesMarquee } from "@/components/technologies-marquee";
+import { HeroTechBackdrop } from "@/components/hero-tech-backdrop";
 
 const PHRASE_COUNT = 3;
 const PHRASE_INTERVAL = 2500;
@@ -41,21 +41,37 @@ export function HeroSection(): ReactElement {
     return (): void => window.clearInterval(intervalId);
   }, [rotatePhrase]);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const handlePointerMove = useCallback((event: PointerEvent<HTMLElement>): void => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--hero-mx", `${event.clientX - rect.left}px`);
+    el.style.setProperty("--hero-my", `${event.clientY - rect.top}px`);
+  }, []);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const activePhrase = t(`home.hero.rotatingPhrases.${phraseIndex}` as any);
   prevPhraseRef.current = activePhrase;
 
   return (
-    <section className="relative pt-28 md:pt-32 pb-12 md:pb-16 overflow-hidden">
-      <Container className="relative z-10 w-full px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center space-y-6 md:space-y-8">
-          {/* Subtitle badge */}
-          <p className="animate-fade-in-up text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-muted-foreground/70">
-            {t("home.hero.subtitle")}
-          </p>
+    <section
+      ref={sectionRef}
+      onPointerMove={handlePointerMove}
+      className="group/hero relative flex min-h-[88svh] items-center overflow-hidden pt-28 pb-16 md:pt-32 md:pb-20"
+    >
+      {/* Tech-stack backdrop behind the text (hover chips to light them up) */}
+      <div className="animate-fade-in-up absolute inset-0">
+        <HeroTechBackdrop />
+      </div>
+      <div aria-hidden="true" className="hero-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover/hero:opacity-100" />
+      <div aria-hidden="true" className="hero-scrim pointer-events-none absolute inset-0" />
 
+      {/* Content ignores the pointer so chips behind it stay hoverable; controls opt back in */}
+      <Container className="pointer-events-none relative z-10 w-full px-4 md:px-6">
+        <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
           {/* Main title — outcome-first, no personal name */}
-          <h1 className="animate-fade-in-up-delay-1 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-foreground font-black">
+          <h1 className="animate-fade-in-up-delay-1 font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-foreground font-black">
             {t.rich("home.hero.title", {
               highlight: (chunks) => (
                 <span className="bg-linear-to-r from-accent via-secondary to-accent bg-size-[200%_200%] bg-clip-text text-transparent">
@@ -64,11 +80,6 @@ export function HeroSection(): ReactElement {
               ),
             })}
           </h1>
-
-          {/* Description */}
-          <p className="animate-fade-in-up-delay-2 text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto">
-            {t("home.hero.description")}
-          </p>
 
           {/* Rotating tech/capability phrases */}
           <div
@@ -88,7 +99,7 @@ export function HeroSection(): ReactElement {
             <Link
               href="/brief"
               prefetch
-              className="group relative inline-flex items-center justify-center"
+              className="pointer-events-auto group relative inline-flex items-center justify-center"
             >
               <div className="px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
                 {t("common.cta.cost")}
@@ -97,7 +108,7 @@ export function HeroSection(): ReactElement {
             </Link>
             <a
               href="#process"
-              className="inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
+              className="pointer-events-auto inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
             >
               {t("common.cta.howIWork")}
             </a>
@@ -109,7 +120,7 @@ export function HeroSection(): ReactElement {
               href="https://www.linkedin.com/in/sayan-roor/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
+              className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-4 h-4" />
@@ -118,7 +129,7 @@ export function HeroSection(): ReactElement {
               href="https://instagram.com/satoshi_iam"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
+              className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
               aria-label="Instagram"
             >
               <Instagram className="w-4 h-4" />
@@ -127,7 +138,7 @@ export function HeroSection(): ReactElement {
               href="https://t.me/satoshi_iam"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
+              className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
               aria-label="Telegram"
             >
               <Send className="w-4 h-4" />
@@ -136,7 +147,7 @@ export function HeroSection(): ReactElement {
               href="https://github.com/SayanRoor"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
+              className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
               aria-label="GitHub"
             >
               <Github className="w-4 h-4" />
@@ -145,10 +156,6 @@ export function HeroSection(): ReactElement {
         </div>
       </Container>
 
-      {/* Tech-stack proof strip — replaces the old portrait as the trust signal */}
-      <div className="animate-fade-in-up-delay-5 mt-12 md:mt-16">
-        <TechnologiesMarquee />
-      </div>
     </section>
   );
 }
