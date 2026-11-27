@@ -838,6 +838,56 @@
     }
   }
 
+  /* Hero floating tech icons — placed around the headline, bobbing in place */
+  @keyframes hero-float {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-50%, calc(-50% - 10px)) rotate(var(--float-rotate, 4deg)); }
+  }
+
+  .hero-float {
+    transform: translate(-50%, -50%);
+    animation: hero-float var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite;
+  }
+
+  .hero-float:hover {
+    animation-play-state: paused;
+    z-index: 20;
+  }
+
+  .hero-float-tile {
+    opacity: 0.7;
+    filter: grayscale(1);
+    transition: opacity 300ms ease, filter 300ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-color 300ms ease, box-shadow 300ms ease, background-color 300ms ease;
+  }
+
+  .hero-float-tile:hover {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: scale(1.18) rotate(-3deg);
+    border-color: color-mix(in srgb, var(--base-color-accent) 60%, transparent);
+    background-color: color-mix(in srgb, var(--base-color-accent) 10%, var(--base-color-surface));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--base-color-accent) 25%, transparent),
+      0 14px 40px -8px color-mix(in srgb, var(--base-color-accent) 50%, transparent);
+  }
+
+  [data-theme="dark"] .hero-tech-invert {
+    filter: invert(1);
+  }
+
+  /* Cursor-following accent light */
+  .hero-spotlight {
+    background: radial-gradient(420px circle at var(--hero-mx, 50%) var(--hero-my, 40%),
+      color-mix(in srgb, var(--base-color-accent) 12%, transparent), transparent 70%);
+    transition: opacity 400ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float {
+      animation: none;
+    }
+  }
+
   /* Flip card styles */
   .flip-card {
     perspective: 1000px;

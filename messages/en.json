@@ -588,7 +588,7 @@
           "title": "Strategy & spec",
           "duration": "3–5 days",
           "description": "Detailed spec with wireframes, development plan, marketing strategy, contract & payment schedule.",
-          "output": "Full project picture. If you don't like something — we change it."
+          "output": "Full project picture."
         },
         "development": {
           "title": "Development",
@@ -597,7 +597,7 @@
           "output": "Visible progress. No black boxes."
         },
         "launch": {
-          "title": "Launch & setup",
+          "title": "Launch",
           "duration": "3–5 days",
           "description": "Production deploy, analytics setup, ads launch, team onboarding.",
           "output": "Working tool + first leads"
