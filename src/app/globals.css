@@ -6,22 +6,22 @@
 
     /* ===== NODE.JS INSPIRED TECH PORTFOLIO 2026 ===== */
     /* Light Mode - Clean & Professional */
-    --base-color-background: #fafafa;
-    --base-color-foreground: #09090b;
+    --base-color-background: #f4f4f1;
+    --base-color-foreground: #07080a;
     --base-color-surface: #ffffff;
-    --base-color-surface-foreground: #09090b;
-    --base-color-muted: #f4f4f5;
-    --base-color-muted-foreground: #71717a;
-    --base-color-border: #e4e4e7;
-    --base-color-ring: rgba(51, 153, 51, 0.4);
+    --base-color-surface-foreground: #07080a;
+    --base-color-muted: #eaeae5;
+    --base-color-muted-foreground: #5c615d;
+    --base-color-border: #dcdcd6;
+    --base-color-ring: rgba(43, 178, 90, 0.45);
 
     /* Accent Colors - Node.js Green Palette */
-    --base-color-accent: #339933;
+    --base-color-accent: #1a7a3e;
     --base-color-accent-foreground: #ffffff;
-    --base-color-secondary: #68a063;
-    --base-color-secondary-foreground: #ffffff;
-    --base-color-tertiary: #8cc84b;
-    --base-color-success: #339933;
+    --base-color-secondary: #2bb25a;
+    --base-color-secondary-foreground: #07080a;
+    --base-color-tertiary: #4ade80;
+    --base-color-success: #1a7a3e;
     --base-color-warning: #f59e0b;
     --base-color-error: #ef4444;
 
@@ -29,8 +29,8 @@
     --base-shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --base-shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --base-shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    --base-shadow-glow: 0 0 50px rgba(51, 153, 51, 0.25);
-    --base-shadow-glow-secondary: 0 0 50px rgba(104, 160, 99, 0.2);
+    --base-shadow-glow: 0 0 50px rgba(43, 178, 90, 0.25);
+    --base-shadow-glow-secondary: 0 0 50px rgba(43, 178, 90, 0.15);
 
     /* Radius */
     --base-radius-sm: 0.5rem;
@@ -69,22 +69,22 @@
     color-scheme: dark;
 
     /* Dark Mode - Node.js Dark */
-    --base-color-background: #09090b;
-    --base-color-foreground: #fafafa;
-    --base-color-surface: #18181b;
-    --base-color-surface-foreground: #fafafa;
-    --base-color-muted: #27272a;
-    --base-color-muted-foreground: #a1a1aa;
-    --base-color-border: #3f3f46;
-    --base-color-ring: rgba(140, 200, 75, 0.5);
+    --base-color-background: #07080a;
+    --base-color-foreground: #f4f4f1;
+    --base-color-surface: #111316;
+    --base-color-surface-foreground: #f4f4f1;
+    --base-color-muted: #1a1d20;
+    --base-color-muted-foreground: #9ca39e;
+    --base-color-border: #26292d;
+    --base-color-ring: rgba(74, 222, 128, 0.5);
 
     /* Accent Colors - Node.js Bright Green */
-    --base-color-accent: #8cc84b;
-    --base-color-accent-foreground: #09090b;
-    --base-color-secondary: #68a063;
-    --base-color-secondary-foreground: #ffffff;
-    --base-color-tertiary: #339933;
-    --base-color-success: #8cc84b;
+    --base-color-accent: #4ade80;
+    --base-color-accent-foreground: #07080a;
+    --base-color-secondary: #2bb25a;
+    --base-color-secondary-foreground: #07080a;
+    --base-color-tertiary: #2bb25a;
+    --base-color-success: #4ade80;
     --base-color-warning: #fbbf24;
     --base-color-error: #f87171;
 
@@ -92,8 +92,8 @@
     --base-shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
     --base-shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.6);
     --base-shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.7);
-    --base-shadow-glow: 0 0 60px rgba(140, 200, 75, 0.5);
-    --base-shadow-glow-secondary: 0 0 60px rgba(104, 160, 99, 0.4);
+    --base-shadow-glow: 0 0 60px rgba(74, 222, 128, 0.45);
+    --base-shadow-glow-secondary: 0 0 60px rgba(43, 178, 90, 0.35);
 
     background-color: var(--base-color-background);
   }
@@ -121,8 +121,8 @@
   }
 
   ::selection {
-    background-color: rgba(153, 185, 255, 0.25);
-    /* Azure from shapes */
+    background-color: rgba(74, 222, 128, 0.3);
+    /* Signal Green (logo kit) */
     color: var(--base-color-foreground);
   }
 
@@ -329,7 +329,7 @@
   }
 
   [data-theme="dark"] .glass-card {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(17, 19, 22, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.4);
   }
@@ -469,7 +469,7 @@
 
 
   .tech-gradient-text {
-    background: linear-gradient(135deg, #339933 0%, #8cc84b 100%);
+    background: linear-gradient(135deg, #1a7a3e 0%, #2bb25a 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -477,7 +477,7 @@
   }
 
   [data-theme="dark"] .tech-gradient-text {
-    background: linear-gradient(135deg, #8cc84b 0%, #68a063 100%);
+    background: linear-gradient(135deg, #4ade80 0%, #2bb25a 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -625,7 +625,7 @@
     bottom: 0.1em;
     width: 100%;
     height: 0.4em;
-    background: linear-gradient(90deg, rgba(153, 185, 255, 0.35), rgba(120, 255, 209, 0.45));
+    background: linear-gradient(90deg, rgba(74, 222, 128, 0.35), rgba(43, 178, 90, 0.45));
     border-radius: 9999px;
     opacity: 0.8;
     transform: scaleX(0);
@@ -1297,17 +1297,17 @@
 
     25% {
       transform: scale(1.02) rotate(1deg);
-      box-shadow: 0 10px 15px -3px rgba(153, 185, 255, 0.2), 0 4px 6px -2px rgba(153, 185, 255, 0.1);
+      box-shadow: 0 10px 15px -3px rgba(74, 222, 128, 0.2), 0 4px 6px -2px rgba(74, 222, 128, 0.1);
     }
 
     50% {
       transform: scale(1.05) rotate(0deg);
-      box-shadow: 0 20px 25px -5px rgba(153, 185, 255, 0.3), 0 10px 10px -5px rgba(153, 185, 255, 0.15);
+      box-shadow: 0 20px 25px -5px rgba(74, 222, 128, 0.3), 0 10px 10px -5px rgba(74, 222, 128, 0.15);
     }
 
     75% {
       transform: scale(1.02) rotate(-1deg);
-      box-shadow: 0 10px 15px -3px rgba(153, 185, 255, 0.2), 0 4px 6px -2px rgba(153, 185, 255, 0.1);
+      box-shadow: 0 10px 15px -3px rgba(74, 222, 128, 0.2), 0 4px 6px -2px rgba(74, 222, 128, 0.1);
     }
   }
 
@@ -1334,7 +1334,7 @@
     position: absolute;
     inset: -2px;
     border-radius: 0.5rem;
-    background: radial-gradient(circle, rgba(153, 185, 255, 0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(74, 222, 128, 0.3) 0%, transparent 70%);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
