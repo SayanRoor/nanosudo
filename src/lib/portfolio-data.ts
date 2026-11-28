@@ -408,6 +408,61 @@ export const PORTFOLIO_PROJECTS: readonly PortfolioProject[] = [
     metricKeys: ["places", "languages", "dataModels", "vectorSearch"],
   },
   {
+    id: "nativetravel-app",
+    title: "Native Travel App (NTA) — платформа городского туризма",
+    description:
+      "Платформа городского туризма на nativetravel.app: путешественникам — AI-гид, который сам находит и бронирует; бизнесу — брони, оплата и выплаты без лишних программ; городам — собственный туристический сервис под своим брендом. Шесть языков, веб и приложения для iOS и Android. Пилот — Visit Almaty: 2 900+ мест, 36 700 фото, такси, межгород и курьер, Tourist ID, кошелёк Native Tenge Coin и партнёрский Channel API.",
+    shortDescription:
+      "AI-гид с бронированием, кабинет бизнеса и white-label для городов — на 6 языках",
+    image: "/cases/nativetravel-app.jpg",
+    imageAlt: "Native Travel App (NTA) — платформа городского туризма",
+    url: "https://nativetravel.app/",
+    tags: [
+      "Next.js",
+      "Expo",
+      "Fastify",
+      "tRPC",
+      "PostgreSQL",
+      "pgvector",
+      "Claude",
+      "Kaspi",
+    ],
+    category: "Платформа городского туризма",
+    year: 2026,
+    featured: false,
+    goals: [
+      "Дать путешественнику всю поездку в одном приложении: найти, забронировать, доехать и оплатить",
+      "Дать бизнесу брони, оплату и выплаты без отдельных программ и абонентской платы",
+      "Позволить городам запускать собственный туристический сервис под своим брендом",
+      "Работать для гостей со всего мира — на шести языках, включая арабский (RTL)",
+    ],
+    tasks: [
+      "Сделать AI-гида NativeGuide, который подбирает реальные места из каталога, проверяет наличие и бронирует прямо в чате",
+      "Реализовать бронирование отелей, столиков, мастеров и туров с оплатой картой, через Kaspi или Native Tenge Coin",
+      "Собрать мобильность: такси от эконома до VIP, межгород, курьер и проезд в автобусе по QR",
+      "Сделать Tourist ID — проверку личности по паспорту и селфи, где партнёры видят только отметку «проверен»",
+      "Построить кабинеты бизнеса: шахматка номеров, зал по часам, расписание гидов, смены водителей, заселение по QR",
+      "Настроить автоматические выплаты и аналитику: просмотры, конверсия, загрузка и выручка по объекту",
+      "Открыть партнёрский Channel API для OTA и менеджеров каналов с защитой от двойных броней",
+      "Выпустить мобильное приложение на Expo с общим бэкендом и схемами с веб-версией",
+    ],
+    results: [
+      "Платформа работает на nativetravel.app, пилотный город — Visit Almaty",
+      "2 907 мест в каталоге, 1 661 место с фото и 36 700 снимков",
+      "AI-гид находит и бронирует места на шести языках",
+      "Кабинеты для отелей, ресторанов и спа, гидов, водителей и автопарков",
+      "Оплата картой, через Kaspi и Native Tenge Coin с автоматическими выплатами бизнесу",
+      "Мультитенантное ядро: новый город или бренд запускается на той же платформе",
+    ],
+    metrics: [
+      { label: "Мест в каталоге", value: "2 907" },
+      { label: "Фото мест", value: "36 700" },
+      { label: "Языков", value: "6" },
+      { label: "Платформы", value: "Web · iOS · Android" },
+    ],
+    metricKeys: ["places", "photos", "languages", "platforms"],
+  },
+  {
     id: "zakyat-kz",
     title: "ZAKYAT.KZ — Платформа добрых дел",
     description:
@@ -567,6 +622,18 @@ export function getTranslatedProject(
     results: translatedResults ?? baseProject.results,
     metrics: metrics ?? baseProject.metrics,
   };
+}
+
+/** Cases shown on /cases, in this order. Others keep their detail pages. */
+const LISTED_CASE_IDS = ["invite", "nativetravel", "nativetravel-app"] as const;
+
+/**
+ * Get the projects listed on the /cases page
+ */
+export function getListedProjects(): readonly PortfolioProject[] {
+  return LISTED_CASE_IDS.map((id) => PORTFOLIO_PROJECTS.find((p) => p.id === id)).filter(
+    (p): p is PortfolioProject => p !== undefined,
+  );
 }
 
 /**

@@ -9,7 +9,7 @@
     1. python3 -m http.server 8842   (from the repo root, so ../public resolves)
     2. Open /scripts/generate-case-covers.html?id=<project-id> for each id in
        src/lib/portfolio-data.ts (invite, rals, okiyo, egemen, kazgazeta,
-       kazpravda, nativetravel, zakyat-kz)
+       kazpravda, nativetravel, nativetravel-app, zakyat-kz)
     3. Screenshot the page at its native resolution (no browser chrome)
     4. Crop to 16:9 at native resolution -- no upscaling:
        magick shot.jpg -gravity center -extent WxH -quality 95 out.jpg
@@ -229,6 +229,7 @@
     kazgazeta:    { name: "Qazaq\nGazetteri",         category: "Медиа и миграция",     tags: ["Next.js","NestJS","TypeScript","PostgreSQL"],  year: 2026, accent: "lime",      orb: "tr" },
     kazpravda:    { name: "Kazakhstanskaya\nPravda",  category: "Медиа и миграция",     tags: ["Next.js","NestJS","TypeScript","PostgreSQL"],  year: 2026, accent: "flamingo",  orb: "bl" },
     nativetravel: { name: "Visit\nAlmaty",           category: "Туристическая платформа", tags: ["Next.js","Fastify","tRPC","pgvector"],      year: 2026, accent: "spring",    orb: "tl" },
+    "nativetravel-app": { name: "Native Travel\nApp", category: "Платформа городского туризма", tags: ["AI-гид","Fastify","tRPC","Expo"], year: 2026, accent: "azure", orb: "tr" },
     "zakyat-kz":  { name: "ZAKYAT.KZ",                category: "Социальный проект",    tags: ["Next.js","TypeScript","PostgreSQL","Supabase"], year: 2024, accent: "azure",    orb: "br" },
   };
 
