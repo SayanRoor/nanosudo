@@ -67,9 +67,11 @@
       "mainTitle": "Салем, мен Sayan",
       "imageAlt": "Sayan Roor - Full-stack әзірлеуші",
       "rotatingPhrases": {
-        "0": "N8N + MAKE.COM АВТОМАТИЗАЦИЯ",
+        "0": "N8N + MAKE.COM",
         "1": "CLAUDE API + CURSOR AI",
-        "2": "NEXT.JS + TYPESCRIPT"
+        "2": "NEXT.JS + TYPESCRIPT",
+        "3": "DOCKER + NGINX",
+        "4": "REACT NATIVE + EXPO"
       },
       "resume": "Резюме",
       "commercialProposal": "Коммерциялық ұсыныс",

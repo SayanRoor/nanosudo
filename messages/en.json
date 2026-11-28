@@ -526,9 +526,11 @@
       "mainTitle": "Hi, I'm Sayan",
       "imageAlt": "Sayan Roor - Full-stack developer",
       "rotatingPhrases": {
-        "0": "N8N + MAKE.COM AUTOMATION",
+        "0": "N8N + MAKE.COM",
         "1": "CLAUDE API + CURSOR AI",
-        "2": "NEXT.JS + TYPESCRIPT"
+        "2": "NEXT.JS + TYPESCRIPT",
+        "3": "DOCKER + NGINX",
+        "4": "REACT NATIVE + EXPO"
       },
       "resume": "Resume",
       "commercialProposal": "Commercial Proposal",
