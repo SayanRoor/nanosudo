@@ -37,12 +37,14 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
     >
       <motion.div className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       <div className="relative z-10 space-y-4 flex-1 flex flex-col">
-        <div className="flex min-h-[80px] flex-wrap content-start items-center justify-between gap-x-2 gap-y-2">
-          <div className="flex items-center gap-2">
-            <Icon size={40} className="text-foreground" />
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
             <span className="text-5xl font-heading font-black text-accent/20 group-hover:text-accent/40 transition-colors">{step.number}</span>
+            <span className="rounded-xl bg-accent/10 p-2">
+              <Icon size={40} className="text-foreground" />
+            </span>
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-1 rounded-full bg-muted/30">{step.duration}</span>
+          <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-1 rounded-full bg-muted/30">{step.duration}</span>
         </div>
         <h3 className="font-heading text-xl font-bold leading-tight min-h-[56px] flex items-center">{step.title}</h3>
         <p className="text-sm text-muted-foreground leading-relaxed min-h-[80px]">{t(`home.process.steps.${step.id}.description`)}</p>

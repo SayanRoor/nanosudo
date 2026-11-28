@@ -1489,8 +1489,12 @@
   --glyph-b: #1A7A3E;
 }
 
+/* Only the animated layers pivot on their own box. Shapes that carry an SVG
+   transform="rotate(45 cx cy)" (diamonds, brand pixels) must keep the default
+   view-box origin, otherwise fill-box shifts their rotation centre. */
 .nano-glyph [data-anim],
-.nano-glyph [data-anim] * {
+.nano-glyph [data-anim] > :not([transform]),
+.nano-glyph [data-part]:not([transform]) {
   transform-box: fill-box;
   transform-origin: center;
 }

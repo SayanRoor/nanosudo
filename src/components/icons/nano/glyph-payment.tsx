@@ -1,4 +1,4 @@
-// Payment card with a 30/40/30 bar and a diamond marker.
+// Bank card above a 30/40/30 staged-payment bar; the 40% stage is green.
 "use client";
 
 import type { ReactElement } from "react";
@@ -9,22 +9,15 @@ export function GlyphPayment(props: GlyphProps): ReactElement {
     <GlyphBase {...props}>
       {(gradientId): ReactElement => (
         <>
-          <rect x="5.25" y="9" width="37.5" height="30" rx="6" />
+          <rect x="5" y="6" width="38" height="23" rx="5" />
+          <path d="M5 13.5h38" />
           <g fill="currentColor" stroke="none">
-            <GlyphPixel x={13} y={17} />
+            <GlyphPixel x={12} y={22} />
           </g>
           <g data-anim="fill">
-            <rect x="9" y="25" width="6.3" height="8" rx="2" />
-            <rect
-              x="19.8"
-              y="25"
-              width="8.4"
-              height="8"
-              rx="2"
-              fill={`url(#${gradientId})`}
-              stroke="none"
-            />
-            <rect x="32.7" y="25" width="6.3" height="8" rx="2" />
+            <rect x="5" y="35" width="9.9" height="7" rx="3" />
+            <rect x="17.4" y="35" width="13.2" height="7" rx="3" fill={`url(#${gradientId})`} stroke="none" />
+            <rect x="33.1" y="35" width="9.9" height="7" rx="3" />
           </g>
         </>
       )}

@@ -1,25 +1,19 @@
-// Interlocking diamond links with a green intersection and a diamond node.
+// Two chain links on the 45° diagonal, joined by a green brand pixel.
 "use client";
 
 import type { ReactElement } from "react";
 import { GlyphBase, GlyphPixel, type GlyphProps } from "./glyph-base";
 
-type LinkDiamondProps = {
-  readonly x: number;
-  readonly y: number;
-  readonly clipId?: string;
-};
-
-function LinkDiamond({ x, y, clipId }: LinkDiamondProps): ReactElement {
+/** A stadium-shaped chain link centred at (x, y), laid along the 45° diagonal. */
+function ChainLink({ x, y }: { readonly x: number; readonly y: number }): ReactElement {
   return (
     <rect
-      x={x - 10}
-      y={y - 10}
-      width="20"
-      height="20"
-      rx="6"
-      transform={`rotate(45 ${x} ${y})`}
-      clipPath={clipId ? `url(#${clipId})` : undefined}
+      x={x - 12}
+      y={y - 5.5}
+      width="24"
+      height="11"
+      rx="5.5"
+      transform={`rotate(-45 ${x} ${y})`}
     />
   );
 }
@@ -29,22 +23,16 @@ export function GlyphLink(props: GlyphProps): ReactElement {
     <GlyphBase {...props}>
       {(gradientId): ReactElement => (
         <>
-          <defs>
-            <clipPath id={`${gradientId}-intersection`}>
-              <LinkDiamond x={29} y={29} />
-            </clipPath>
-          </defs>
-          <g fill={`url(#${gradientId})`} stroke="none">
-            <LinkDiamond x={19} y={19} clipId={`${gradientId}-intersection`} />
-            <GlyphPixel x={24} y={24} />
-          </g>
           <g data-anim="join">
             <g>
-              <LinkDiamond x={19} y={19} />
+              <ChainLink x={17} y={31} />
             </g>
             <g>
-              <LinkDiamond x={29} y={29} />
+              <ChainLink x={31} y={17} />
             </g>
+          </g>
+          <g fill={`url(#${gradientId})`} stroke="none">
+            <GlyphPixel x={24} y={24} />
           </g>
         </>
       )}
