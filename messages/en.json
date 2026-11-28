@@ -414,7 +414,9 @@
     },
     "pdf": {
       "view": "View document",
-      "close": "Close"
+      "close": "Close",
+      "openPdf": "Open PDF",
+      "download": "Download"
     },
     "education": {
       "bachelor": {

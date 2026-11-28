@@ -2,11 +2,11 @@
 
 import type { ReactElement } from "react";
 import { motion } from "framer-motion";
-import { Code, GraduationCap, Briefcase, Award, FileText, X, ExternalLink, Compass } from "lucide-react";
-import { useState } from "react";
+import { Code, GraduationCap, Briefcase, Award, ExternalLink, Compass } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/layout/container";
+import { DocumentViewer } from "./document-viewer";
 import { SiteShell } from "@/components/layout/site-shell";
 
 // Animation variants
@@ -30,75 +30,20 @@ type TimelineItem = {
   readonly description: string;
   readonly icon: typeof Code;
   readonly pdfUrl?: string;
+  readonly imageUrl?: string;
   readonly university?: string;
   readonly universityUrl?: string;
   readonly faculty?: string;
 };
 
-function PDFViewer({
-  url,
-  title,
-  viewLabel,
-  closeAriaLabel,
-}: {
-  readonly url: string;
-  readonly title: string;
-  readonly viewLabel: string;
-  readonly closeAriaLabel: string;
-}): ReactElement {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  if (!isOpen) {
-    return (
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 mt-3 text-sm font-medium text-accent hover:text-accent/80 transition-colors"
-      >
-        <FileText className="w-4 h-4" />
-        {viewLabel}
-      </button>
-    );
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm p-4">
-      <div className="glass-card relative w-full h-full max-w-5xl max-h-[90vh] rounded-2xl flex flex-col">
-        <div className="flex items-center justify-between p-4 border-b border-border/60">
-          <h3 className="font-heading text-lg">{title}</h3>
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="rounded-lg p-2 hover:bg-surface transition-colors"
-            aria-label={closeAriaLabel}
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <iframe
-            src={url}
-            className="w-full h-full"
-            title={title}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function TimelineSection({ 
   title, 
   items, 
   icon: Icon,
-  pdfViewLabel,
-  closeAriaLabel,
 }: { 
   readonly title: string; 
   readonly items: readonly TimelineItem[]; 
   readonly icon: typeof Code;
-  readonly pdfViewLabel: string;
-  readonly closeAriaLabel: string;
 }): ReactElement {
   return (
     <motion.section
@@ -154,8 +99,8 @@ function TimelineSection({
                   </div>
                 )}
                 <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-                {item.pdfUrl && (
-                  <PDFViewer url={item.pdfUrl} title={item.title} viewLabel={pdfViewLabel} closeAriaLabel={closeAriaLabel} />
+                {item.pdfUrl && item.imageUrl && (
+                  <DocumentViewer title={item.title} pdfUrl={item.pdfUrl} imageUrl={item.imageUrl} imageWidth={1800} imageHeight={1272} />
                 )}
               </div>
             </motion.div>
@@ -176,6 +121,7 @@ export default function AboutPage(): ReactElement {
       description: t('about.education.bachelor.description'),
       icon: GraduationCap,
       pdfUrl: '/documents/bachelor-diploma.pdf',
+      imageUrl: '/documents/bachelor-diploma.webp',
       university: t('about.education.bachelor.university'),
       universityUrl: 'https://ku.edu.kz/',
       faculty: t('about.education.bachelor.faculty'),
@@ -186,6 +132,7 @@ export default function AboutPage(): ReactElement {
       description: t('about.education.master.description'),
       icon: GraduationCap,
       pdfUrl: '/documents/master-diploma.pdf',
+      imageUrl: '/documents/master-diploma.webp',
       university: t('about.education.master.university'),
       universityUrl: 'https://ku.edu.kz/',
       faculty: t('about.education.master.faculty'),
@@ -243,15 +190,11 @@ export default function AboutPage(): ReactElement {
                   title={t('about.sections.education')}
                   items={education}
                   icon={GraduationCap}
-                  pdfViewLabel={t('about.pdf.view')}
-                  closeAriaLabel={t('about.pdf.close')}
                 />
                 <TimelineSection
                   title={t('about.sections.experience')}
                   items={experience}
                   icon={Briefcase}
-                  pdfViewLabel={t('about.pdf.view')}
-                  closeAriaLabel={t('about.pdf.close')}
                 />
               </div>
 

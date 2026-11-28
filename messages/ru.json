@@ -1078,7 +1078,9 @@
     },
     "pdf": {
       "view": "Посмотреть документ",
-      "close": "Закрыть"
+      "close": "Закрыть",
+      "openPdf": "Открыть PDF",
+      "download": "Скачать"
     },
     "education": {
       "bachelor": {

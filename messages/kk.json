@@ -243,7 +243,9 @@
     },
     "pdf": {
       "view": "Құжатты қарау",
-      "close": "Жабу"
+      "close": "Жабу",
+      "openPdf": "PDF ашу",
+      "download": "Жүктеп алу"
     },
     "education": {
       "bachelor": {
