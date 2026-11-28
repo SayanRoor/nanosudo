@@ -18,7 +18,7 @@ import {
 import { Container } from "@/components/layout/container";
 import { HeroFloatingIcons, HeroTechStrip } from "@/components/hero-floating-icons";
 
-const PHRASE_COUNT = 3;
+const PHRASE_COUNT = 5;
 const PHRASE_INTERVAL = 2500;
 
 export function HeroSection(): ReactElement {
@@ -143,7 +143,7 @@ export function HeroSection(): ReactElement {
               <Send className="w-4 h-4" />
             </a>
             <a
-              href="https://github.com/SayanRoor"
+              href="https://github.com/SayanWD"
               target="_blank"
               rel="noopener noreferrer"
               className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-xl bg-muted/20 border border-border/50 hover:text-accent hover:border-accent hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95"

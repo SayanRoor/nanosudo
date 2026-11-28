@@ -553,15 +553,17 @@
   "home": {
     "hero": {
       "subtitle": "Full-stack разработчик · ИИ-эксперт · Алматы",
-      "title": "Создаю цифровые продукты, которые <highlight>масштабируют бизнес</highlight>",
+      "title": "Создаю <highlight>цифровые продукты</highlight>",
       "description": "Разрабатываю веб-приложения и внедряю ИИ-автоматизацию для бизнеса в Казахстане и по всему миру.",
       "photoPlaceholder": "Фото Sayan Roor",
       "mainTitle": "Привет, я Sayan",
       "imageAlt": "Sayan Roor - Full-stack разработчик",
       "rotatingPhrases": {
-        "0": "N8N + MAKE.COM АВТОМАТИЗАЦИЯ",
+        "0": "N8N + MAKE.COM",
         "1": "CLAUDE API + CURSOR AI",
-        "2": "NEXT.JS + TYPESCRIPT"
+        "2": "NEXT.JS + TYPESCRIPT",
+        "3": "DOCKER + NGINX",
+        "4": "REACT NATIVE + EXPO"
       },
       "resume": "Резюме",
       "commercialProposal": "Коммерческое предложение",

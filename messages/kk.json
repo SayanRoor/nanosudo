@@ -61,15 +61,17 @@
   "home": {
     "hero": {
       "subtitle": "Full-stack әзірлеуші · ЖИ-сарапшы · Алматы",
-      "title": "Бизнесті <highlight>масштабтайтын цифрлық өнімдер жасаймын</highlight>",
+      "title": "<highlight>Цифрлық өнімдер</highlight> жасаймын",
       "description": "Қазақстанда және бүкіл Әлемде бизнесті ЖИ-автоматтандырумен жеделдетемін және Next.js-те жоғары өнімді веб-өнімдер жасаймын.",
       "photoPlaceholder": "Фото — Sayan Roor",
       "mainTitle": "Салем, мен Sayan",
       "imageAlt": "Sayan Roor - Full-stack әзірлеуші",
       "rotatingPhrases": {
-        "0": "N8N + MAKE.COM АВТОМАТИЗАЦИЯ",
+        "0": "N8N + MAKE.COM",
         "1": "CLAUDE API + CURSOR AI",
-        "2": "NEXT.JS + TYPESCRIPT"
+        "2": "NEXT.JS + TYPESCRIPT",
+        "3": "DOCKER + NGINX",
+        "4": "REACT NATIVE + EXPO"
       },
       "resume": "Резюме",
       "commercialProposal": "Коммерциялық ұсыныс",
