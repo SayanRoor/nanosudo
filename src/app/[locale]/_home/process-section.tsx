@@ -3,12 +3,14 @@
 import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { GlyphTalk, GlyphBlueprint, GlyphLayers, GlyphLaunch, type NanoGlyph } from "@/components/icons/nano";
 import { Container } from "@/components/layout/container";
 import { fadeInUp, staggerContainer, getViewportSettings } from "./animations";
 
 type ProcessStep = {
   readonly id: string;
   readonly number: string;
+  readonly icon: NanoGlyph;
   readonly title: string;
   readonly description: string;
   readonly duration: string;
@@ -26,6 +28,7 @@ const processStepCardVariants = {
 };
 
 function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
+  const Icon = step.icon;
   return (
     <motion.article
       className="glass-card rounded-2xl p-6 cursor-pointer overflow-hidden relative group h-full flex flex-col"
@@ -34,8 +37,11 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
     >
       <motion.div className="absolute inset-0 bg-linear-to-br from-accent/5 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       <div className="relative z-10 space-y-4 flex-1 flex flex-col">
-        <div className="flex items-center justify-between">
-          <span className="text-5xl font-heading font-black text-accent/20 group-hover:text-accent/40 transition-colors">{step.number}</span>
+        <div className="flex min-h-[80px] flex-wrap content-start items-center justify-between gap-x-2 gap-y-2">
+          <div className="flex items-center gap-2">
+            <Icon size={40} className="text-foreground" />
+            <span className="text-5xl font-heading font-black text-accent/20 group-hover:text-accent/40 transition-colors">{step.number}</span>
+          </div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-1 rounded-full bg-muted/30">{step.duration}</span>
         </div>
         <h3 className="font-heading text-xl font-bold leading-tight min-h-[56px] flex items-center">{step.title}</h3>
@@ -52,10 +58,10 @@ function ProcessStepCard({ step, t }: ProcessStepCardProps): ReactElement {
 export function ProcessSection(): ReactElement {
   const t = useTranslations();
   const steps = [
-    { id: "consult", number: "01", title: t("home.process.steps.consult.title"), description: "", duration: t("home.process.steps.consult.duration"), output: "" },
-    { id: "scope", number: "02", title: t("home.process.steps.scope.title"), description: "", duration: t("home.process.steps.scope.duration"), output: "" },
-    { id: "development", number: "03", title: t("home.process.steps.development.title"), description: "", duration: t("home.process.steps.development.duration"), output: "" },
-    { id: "launch", number: "04", title: t("home.process.steps.launch.title"), description: "", duration: t("home.process.steps.launch.duration"), output: "" },
+    { id: "consult", icon: GlyphTalk, number: "01", title: t("home.process.steps.consult.title"), description: "", duration: t("home.process.steps.consult.duration"), output: "" },
+    { id: "scope", icon: GlyphBlueprint, number: "02", title: t("home.process.steps.scope.title"), description: "", duration: t("home.process.steps.scope.duration"), output: "" },
+    { id: "development", icon: GlyphLayers, number: "03", title: t("home.process.steps.development.title"), description: "", duration: t("home.process.steps.development.duration"), output: "" },
+    { id: "launch", icon: GlyphLaunch, number: "04", title: t("home.process.steps.launch.title"), description: "", duration: t("home.process.steps.launch.duration"), output: "" },
   ];
 
   return (
