@@ -124,7 +124,7 @@ export function ContactSimpleStep(): ReactElement {
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-bold text-black shadow-lg transition hover:bg-accent/90"
+              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-bold text-accent-foreground shadow-lg transition hover:bg-accent/90"
             >
               {t('success.home')}
             </Link>

@@ -117,7 +117,7 @@ export function SiteFooter(): ReactElement {
 
                 <div className="flex flex-wrap items-center gap-6">
                   <Link href="/brief" className="group/btn relative">
-                    <div className="px-10 py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.2em] text-[11px] transition-all duration-500 group-hover/btn:scale-105 group-hover/btn:shadow-2xl group-hover/btn:shadow-accent/40 active:scale-95">
+                    <div className="px-10 py-5 rounded-full bg-accent text-accent-foreground font-black uppercase tracking-[0.2em] text-[11px] transition-all duration-500 group-hover/btn:scale-105 group-hover/btn:shadow-2xl group-hover/btn:shadow-accent/40 active:scale-95">
                       {t('common.cta.cost')}
                     </div>
                   </Link>

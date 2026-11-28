@@ -86,7 +86,7 @@ export function ServicesPageClient(): ReactElement {
               >
                 <Link
                   href="/brief"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-black uppercase tracking-[0.15em] text-black hover:opacity-90 transition-opacity active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-black uppercase tracking-[0.15em] text-accent-foreground hover:opacity-90 transition-opacity active:scale-95"
                 >
                   <Zap className="w-4 h-4" />
                   {t('hero.cta')}
@@ -231,7 +231,7 @@ export function ServicesPageClient(): ReactElement {
                           {t(`pricing.tiers.${tier}.name`)}
                         </span>
                         {badge && (
-                          <span className="text-[10px] font-black uppercase tracking-[0.1em] text-black bg-accent rounded-full px-3 py-1">
+                          <span className="text-[10px] font-black uppercase tracking-[0.1em] text-accent-foreground bg-accent rounded-full px-3 py-1">
                             {badge}
                           </span>
                         )}
@@ -255,7 +255,7 @@ export function ServicesPageClient(): ReactElement {
                       href="/brief"
                       className={`w-full flex items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-black uppercase tracking-[0.15em] transition-all active:scale-95 ${
                         isPopular
-                          ? 'bg-accent text-black hover:opacity-90'
+                          ? 'bg-accent text-accent-foreground hover:opacity-90'
                           : 'bg-muted/30 text-foreground border border-border hover:border-accent/50'
                       }`}
                     >
@@ -287,7 +287,7 @@ export function ServicesPageClient(): ReactElement {
               </p>
               <Link
                 href="/brief"
-                className="inline-flex items-center gap-2 rounded-2xl bg-accent px-10 py-5 text-sm font-black uppercase tracking-[0.2em] text-black hover:opacity-90 transition-opacity active:scale-95"
+                className="inline-flex items-center gap-2 rounded-2xl bg-accent px-10 py-5 text-sm font-black uppercase tracking-[0.2em] text-accent-foreground hover:opacity-90 transition-opacity active:scale-95"
               >
                 <Zap className="w-4 h-4" />
                 {t('cta.button')}

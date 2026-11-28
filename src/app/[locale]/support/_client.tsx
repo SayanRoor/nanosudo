@@ -186,7 +186,7 @@ export function SupportPageClient(): ReactElement {
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
                   href={`/support/track?token=${submitResult.tracking_token}` as Parameters<typeof Link>[0]['href']}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-accent px-6 py-3 text-sm font-black uppercase tracking-[0.15em] text-black hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-accent px-6 py-3 text-sm font-black uppercase tracking-[0.15em] text-accent-foreground hover:opacity-90 transition-opacity"
                 >
                   {t('success.trackButton')}
                   <ArrowRight className="w-4 h-4" />
@@ -458,7 +458,7 @@ export function SupportPageClient(): ReactElement {
                   <button
                     type="submit"
                     disabled={isSubmitting || (turnstile.enabled && !turnstile.token)}
-                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-black uppercase tracking-[0.15em] text-black hover:opacity-90 transition-opacity disabled:opacity-60 active:scale-95"
+                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-black uppercase tracking-[0.15em] text-accent-foreground hover:opacity-90 transition-opacity disabled:opacity-60 active:scale-95"
                   >
                     {isSubmitting ? (
                       <>

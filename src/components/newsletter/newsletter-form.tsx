@@ -88,7 +88,7 @@ export function NewsletterForm({ className }: { readonly className?: string }): 
         <button
           type="submit"
           disabled={status === "loading" || !email}
-          className="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl bg-accent px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-all duration-300 hover:shadow-lg hover:shadow-accent/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl bg-accent px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-accent-foreground transition-all duration-300 hover:shadow-lg hover:shadow-accent/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label={t("submit")}
         >
           {status === "loading" ? (
