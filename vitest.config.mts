@@ -21,7 +21,7 @@ export default defineConfig({
       ["src/app/api/**", "node"],
       ["tests/build/**", "node"],
     ],
-    include: ["src/**/*.test.ts", "tests/**/*.test.ts"],
+    include: ["src/**/*.test.{ts,tsx}", "tests/**/*.test.{ts,tsx}"],
     exclude: ["tests/e2e/**"],
     coverage: {
       reporter: ["text", "json", "html"],

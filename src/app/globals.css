@@ -1476,3 +1476,125 @@
 [data-theme="light"] .brand-mark--on-light {
   display: block;
 }
+
+/* Nano Glyphs */
+:root,
+[data-theme="dark"] {
+  --glyph-a: #4ADE80;
+  --glyph-b: #2BB25A;
+}
+
+[data-theme="light"] {
+  --glyph-a: #2BB25A;
+  --glyph-b: #1A7A3E;
+}
+
+/* Only the animated layers pivot on their own box. Shapes that carry an SVG
+   transform="rotate(45 cx cy)" (diamonds, brand pixels) must keep the default
+   view-box origin, otherwise fill-box shifts their rotation centre. */
+.nano-glyph [data-anim],
+.nano-glyph [data-anim] > :not([transform]),
+.nano-glyph [data-part]:not([transform]) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.group:hover .nano-glyph [data-anim="pulse"] > circle {
+  animation: nano-pulse 450ms ease-in-out both;
+}
+.group:hover .nano-glyph [data-anim="pulse"] > circle:nth-child(2) { animation-delay: 100ms; }
+.group:hover .nano-glyph [data-anim="pulse"] > circle:nth-child(3) { animation-delay: 200ms; }
+.group:hover .nano-glyph [data-anim="blink"] { animation: nano-cursor 600ms steps(1) both; }
+.group:hover .nano-glyph [data-anim="blink"][data-part="eyelids"] { animation: nano-eyelids 450ms ease-in-out both; }
+.group:hover .nano-glyph [data-anim="join"] > g:first-child { animation: nano-join-first 500ms ease-out both; }
+.group:hover .nano-glyph [data-anim="join"] > g:last-child { animation: nano-join-last 500ms ease-out both; }
+.group:hover .nano-glyph [data-anim="sweep"] { animation: nano-sweep 600ms ease-in-out both; }
+.group:hover .nano-glyph [data-anim="draw"] [data-part="check"] { animation: nano-draw 600ms ease-out both; }
+.group:hover .nano-glyph [data-anim="stamp"] { animation: nano-stamp 450ms ease-out both; }
+.group:hover .nano-glyph [data-anim="fill"] > rect { animation: nano-fill 400ms ease-out both; }
+.group:hover .nano-glyph [data-anim="fill"] > rect:nth-child(2) { animation: nano-fill-accent 400ms ease-out 120ms both; }
+.group:hover .nano-glyph [data-anim="fill"] > rect:nth-child(3) { animation-delay: 240ms; }
+.group:hover .nano-glyph [data-anim="dots"] > g { animation: nano-dots 400ms ease-in-out both; }
+.group:hover .nano-glyph [data-anim="dots"] > g:nth-child(2) { animation-delay: 100ms; }
+.group:hover .nano-glyph [data-anim="dots"] > g:nth-child(3) { animation-delay: 200ms; }
+.group:hover .nano-glyph [data-anim="assemble"] > :first-child { animation: nano-assemble 500ms ease-out both; }
+.group:hover .nano-glyph [data-anim="assemble"] > :last-child { animation: nano-assemble 500ms ease-out 120ms both; }
+.group:hover .nano-glyph [data-anim="lift"] > :nth-child(2) { animation: nano-lift-middle 500ms ease-out both; }
+.group:hover .nano-glyph [data-anim="lift"] > :last-child { animation: nano-lift-top 500ms ease-out both; }
+.group:hover .nano-glyph [data-anim="rise"] [data-part="rocket"] { animation: nano-rise 600ms ease-out both; }
+.group:hover .nano-glyph [data-anim="rise"] [data-part="flame"] { animation: nano-flame 600ms ease-out both; }
+
+@keyframes nano-pulse {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.25; }
+}
+@keyframes nano-cursor {
+  0%, 100% { opacity: 1; }
+  30%, 70% { opacity: 0; }
+}
+@keyframes nano-eyelids {
+  0%, 100% { transform: scaleY(1); }
+  45% { transform: scaleY(0.08); }
+}
+/* Animate wrappers so the diamond rotation stays intact. */
+@keyframes nano-join-first {
+  from { transform: translate(0, 0); }
+  to { transform: translate(2px, 0); }
+}
+@keyframes nano-join-last {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-2px, 0); }
+}
+@keyframes nano-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(35deg); }
+}
+@keyframes nano-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes nano-stamp {
+  0% { transform: scale(1.25); opacity: 0.4; }
+  65% { transform: scale(0.94); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes nano-fill {
+  from { fill: currentColor; fill-opacity: 0; }
+  to { fill: currentColor; fill-opacity: 0.22; }
+}
+@keyframes nano-fill-accent {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+@keyframes nano-dots {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-3px); }
+}
+@keyframes nano-assemble {
+  from { transform: translateY(4px); opacity: 0.25; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes nano-lift-middle {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1.5px); }
+}
+@keyframes nano-lift-top {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+@keyframes nano-rise {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+@keyframes nano-flame {
+  from { transform: scaleY(1); }
+  to { transform: scaleY(1.5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .nano-glyph [data-anim],
+  .group:hover .nano-glyph [data-anim] * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

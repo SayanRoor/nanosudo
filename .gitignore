@@ -56,3 +56,6 @@ supabase/.temp/
 
 # production credentials / secrets (never commit)
 CREDENTIALS.md
+
+# Local design proofs (scripts/export-nano-glyphs.mjs)
+artifacts/
