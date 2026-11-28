@@ -45,6 +45,10 @@ export const serverEnvSchema = z.object({
     .string()
     .min(1, "TELEGRAM_CHAT_ID is required to send Telegram notifications.")
     .optional(),
+  CRON_SECRET: z
+    .string()
+    .min(1, "CRON_SECRET must not be empty.")
+    .optional(),
   TURNSTILE_SECRET_KEY: z
     .string()
     .min(1, "TURNSTILE_SECRET_KEY is required to verify Turnstile tokens.")

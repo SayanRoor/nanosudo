@@ -141,6 +141,11 @@
 
 Каждая статья: тайтл с ключом, один явный CTA на /brief или /contact, 800-1500 слов, минимум 2 внутренние ссылки на кейсы/услуги.
 
+### План публикаций дек 2026 — май 2027 (2026-11-28)
+- `[~]` **SEO-7** 12 статей + 2 обновления, 2/мес по вторникам с 08.12.2026. Расписание: `docs/content/blog-schedule-2026-12_2027-05.md`, обложки (промты Codex): `docs/codex/blog-covers.md`, наглядно: https://claude.ai/artifact/FJpYYQvRPQT678P5DXYRkS
+- `[~]` **SEO-8** Автопубликация (ветка `feat/blog-scheduled-publishing`, не закоммичено): пост со статусом published и будущей датой скрыт до 00:00 Алматы (`src/lib/blog-schedule.ts` + фильтр в `blog-db.ts`); Vercel Cron 08:00 Алматы → IndexNow + Telegram (`/api/cron/publish-scheduled`). `[!]` нужен `CRON_SECRET` в Vercel.
+- `[!]` Решения: кто пишет тексты (предложено — Claude пачками по 4, вы вычитываете); реальные цифры для кейса n8n + Claude (23.02).
+
 ## Phase 8 — максимум бесплатного Cloudflare ✅ готово
 - `[x]` **CF-3** Turnstile-виджет `nanosudo-forms` создан в Cloudflare (Managed mode), подключён в код на всех формах-заявках (`/brief` → brief-simple, `/support`) через переиспользуемый `TurnstileWidget`/`useTurnstile()` + серверную проверку `verifyTurnstileToken()`. Env-переменные (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`) добавлены в Vercel Production. Проверено вживую в dev: виджет рендерится, кнопка отправки корректно блокируется без прохождения проверки (тестировали на localhost — там ожидаемо не проходит, т.к. виджет привязан только к хосту nanosudo.com — это и подтверждает, что защита реально работает).
   - Заодно защитил и `/api/brief` (старая форма) и `/api/brief-new` (форма с калькулятором) — но по факту обе сейчас **не подключены** ни к одной странице (`BriefFormProvider` и `brief-page-client-wrapper.tsx` нигде не импортируются из `src/app`). Реально работает через `/brief` только **brief-simple** (3 шага). Защита на неиспользуемых роутах не мешает, но если эти формы возвращать в строй — они уже готовы.
