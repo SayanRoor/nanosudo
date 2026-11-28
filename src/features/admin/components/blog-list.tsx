@@ -8,6 +8,7 @@ import { Plus, Pencil, Trash2, Star } from "lucide-react";
 import type { Route } from "next";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { cn } from "@/lib/cn";
+import { isScheduledForFuture } from "@/lib/blog-schedule";
 import type { BlogPostRow } from "../types";
 
 const supabase = getSupabaseBrowserClient();
@@ -112,9 +113,15 @@ export function BlogList(): ReactElement {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", STATUS_COLORS[post.status])}>
-                      {STATUS_LABELS[post.status]}
-                    </span>
+                    {post.status === "published" && isScheduledForFuture(post.published_at) ? (
+                      <span className="rounded-full px-2.5 py-0.5 text-xs font-semibold bg-blue-500/15 text-blue-600 dark:text-blue-400">
+                        Запланировано
+                      </span>
+                    ) : (
+                      <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", STATUS_COLORS[post.status])}>
+                        {STATUS_LABELS[post.status]}
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">
                     {post.published_at ?? "—"}

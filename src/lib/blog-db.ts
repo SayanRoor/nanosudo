@@ -1,10 +1,12 @@
 // Server-only Supabase queries for blog posts.
 // Returns the same BlogPost / AppLocale types used by the static blog-data.ts.
 // Falls back to static blog-data.ts when the DB table is empty or unavailable.
+// Posts dated in the future are hidden until their day (scheduled publishing).
 
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import type { BlogPostRow } from "@/features/admin/types";
 import { getAllPosts, getPostBySlug, type AppLocale, type BlogPost } from "@/lib/blog-data";
+import { publishedByDateFilter } from "@/lib/blog-schedule";
 
 function getField(row: BlogPostRow, field: string, locale: AppLocale): string {
   const localeKey = `${field}_${locale}` as keyof BlogPostRow;
@@ -37,6 +39,7 @@ export async function getAllPublishedPosts(locale: AppLocale): Promise<readonly 
       .from("blog_posts")
       .select("*")
       .eq("status", "published")
+      .or(publishedByDateFilter())
       .order("published_at", { ascending: false });
 
     if (!error && data && data.length > 0) {
@@ -60,6 +63,7 @@ export async function getPostBySlugFromDB(
       .select("*")
       .eq("slug", slug)
       .eq("status", "published")
+      .or(publishedByDateFilter())
       .single();
 
     if (!error && data) {
@@ -78,7 +82,8 @@ export async function getAllPublishedSlugs(): Promise<string[]> {
     const { data, error } = await supabaseAdmin
       .from("blog_posts")
       .select("slug")
-      .eq("status", "published");
+      .eq("status", "published")
+      .or(publishedByDateFilter());
 
     if (!error && data && data.length > 0) {
       return (data as Array<{ slug: string }>).map((row) => row.slug);
