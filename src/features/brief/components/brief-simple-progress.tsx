@@ -40,7 +40,7 @@ export function BriefSimpleProgress(): ReactElement {
                 disabled={!isClickable}
                 className={`relative z-10 flex items-center justify-center w-10 h-10 rounded-full border-2 font-bold text-sm transition-all ${
                   isActive
-                    ? 'border-accent bg-accent text-black scale-110'
+                    ? 'border-accent bg-accent text-accent-foreground scale-110'
                     : isCompleted
                     ? 'border-accent bg-accent/10 text-accent cursor-pointer hover:scale-105'
                     : 'border-border/60 bg-background text-muted-foreground'

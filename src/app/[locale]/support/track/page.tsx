@@ -140,7 +140,7 @@ export default function TrackPage(): ReactElement {
                   type="button"
                   onClick={() => token && void fetchTicket(token)}
                   disabled={loading || !token}
-                  className="flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-black text-black hover:opacity-90 transition-opacity disabled:opacity-60"
+                  className="flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-black text-accent-foreground hover:opacity-90 transition-opacity disabled:opacity-60"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   {loading ? t('track.loading') : t('track.checkButton')}

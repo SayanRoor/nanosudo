@@ -100,7 +100,7 @@ export function HeroSection(): ReactElement {
               prefetch
               className="pointer-events-auto group relative inline-flex w-full items-center justify-center sm:w-auto"
             >
-              <div className="w-full justify-center px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
+              <div className="w-full justify-center px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-accent-foreground font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
                 {t("common.cta.cost")}
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </div>

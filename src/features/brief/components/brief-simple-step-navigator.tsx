@@ -54,7 +54,7 @@ export function BriefSimpleStepNavigator({ stepId, isSubmitting = false, onSubmi
         className={`inline-flex items-center gap-2 px-8 py-3 rounded-full font-black uppercase tracking-wider text-sm transition-all ml-auto shadow-2xl ${
           !canGoForward || isSubmitting
             ? 'bg-muted/40 text-muted-foreground cursor-not-allowed border-2 border-border/40'
-            : 'bg-accent text-black hover:bg-accent/90 hover:scale-105 active:scale-95'
+            : 'bg-accent text-accent-foreground hover:bg-accent/90 hover:scale-105 active:scale-95'
         }`}
         whileHover={(!canGoForward || isSubmitting) ? {} : { scale: 1.05 }}
         whileTap={(!canGoForward || isSubmitting) ? {} : { scale: 0.95 }}
