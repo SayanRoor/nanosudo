@@ -1,17 +1,18 @@
 'use client';
 
-// HeroFloatingIcons — tech-stack icons placed only in the empty space around the
-// hero text (side columns on desktop, top/bottom bands on mobile). Each tile
-// floats in place; hovering colours it in, scales it up with an accent glow
-// and reveals its name. Decorative only (aria-hidden).
+// HeroFloatingIcons — desktop: full-colour tech-stack icons placed only in the
+// empty space around the hero text; each floats in place and on hover scales up
+// with an accent glow and reveals its name.
+// HeroTechStrip — mobile: the same stack as a moving strip at the bottom of hero.
+// Both are decorative only (aria-hidden).
 import type { CSSProperties, ReactElement } from "react";
 import Image from "next/image";
 
 const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 const SIMPLE = "https://cdn.simpleicons.org";
 
-/** Where a tile is shown: desktop side columns, wide-screen inner columns, or mobile bands */
-type Zone = "side" | "wide" | "mobile";
+/** Where a tile is shown: desktop side columns or wide-screen inner columns */
+type Zone = "side" | "wide";
 
 type FloatingIcon = {
   readonly name: string;
@@ -42,19 +43,11 @@ const ICONS: ReadonlyArray<FloatingIcon> = [
   { name: "Tailwind CSS", icon: `${DEVICON}/tailwindcss/tailwindcss-original.svg`, x: 20, y: 80, zone: "wide" },
   { name: "Python", icon: `${DEVICON}/python/python-original.svg`, x: 81, y: 30, zone: "wide" },
   { name: "Telegram Bot API", icon: `${SIMPLE}/telegram`, x: 80, y: 80, zone: "wide" },
-  // Mobile: bands above the headline and below the socials
-  { name: "Next.js", icon: `${DEVICON}/nextjs/nextjs-original.svg`, x: 14, y: 15, zone: "mobile", invertOnDark: true },
-  { name: "Claude", icon: `${SIMPLE}/claude`, x: 50, y: 13, zone: "mobile" },
-  { name: "React", icon: `${DEVICON}/react/react-original.svg`, x: 86, y: 15, zone: "mobile" },
-  { name: "n8n", icon: `${SIMPLE}/n8n`, x: 14, y: 95, zone: "mobile" },
-  { name: "TypeScript", icon: `${DEVICON}/typescript/typescript-original.svg`, x: 50, y: 96, zone: "mobile" },
-  { name: "Supabase", icon: `${DEVICON}/supabase/supabase-original.svg`, x: 86, y: 95, zone: "mobile" },
 ];
 
 const ZONE_CLASS: Record<Zone, string> = {
   side: "hidden lg:block",
   wide: "hidden 2xl:block",
-  mobile: "lg:hidden",
 };
 
 function FloatingTile({ item, index }: { readonly item: FloatingIcon; readonly index: number }): ReactElement {
@@ -83,10 +76,35 @@ function FloatingTile({ item, index }: { readonly item: FloatingIcon; readonly i
 
 export function HeroFloatingIcons(): ReactElement {
   return (
-    <div aria-hidden="true" className="absolute inset-0">
+    <div aria-hidden="true" className="absolute inset-0 hidden lg:block">
       {ICONS.map((item, i) => (
         <FloatingTile key={`${item.zone}-${item.name}`} item={item} index={i} />
       ))}
+    </div>
+  );
+}
+
+function StripChip({ item }: { readonly item: FloatingIcon }): ReactElement {
+  return (
+    <div className="flex shrink-0 items-center gap-2 rounded-xl border border-border/60 bg-surface/60 px-3 py-2 backdrop-blur-sm">
+      <span className={`relative h-5 w-5 ${item.invertOnDark ? "hero-tech-invert" : ""}`}>
+        <Image src={item.icon} alt="" fill sizes="20px" className="object-contain" unoptimized />
+      </span>
+      <span className="whitespace-nowrap text-xs font-semibold text-foreground">{item.name}</span>
+    </div>
+  );
+}
+
+export function HeroTechStrip(): ReactElement {
+  // Two identical halves so the -50% translate loops seamlessly
+  const loop = [...ICONS, ...ICONS];
+  return (
+    <div aria-hidden="true" className="hero-strip-mask overflow-hidden lg:hidden">
+      <div className="hero-strip-track flex w-max gap-3">
+        {loop.map((item, i) => (
+          <StripChip key={`${item.name}-${i}`} item={item} />
+        ))}
+      </div>
     </div>
   );
 }

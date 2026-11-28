@@ -16,7 +16,7 @@ import {
   Send,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { HeroFloatingIcons } from "@/components/hero-floating-icons";
+import { HeroFloatingIcons, HeroTechStrip } from "@/components/hero-floating-icons";
 
 const PHRASE_COUNT = 3;
 const PHRASE_INTERVAL = 2500;
@@ -58,7 +58,7 @@ export function HeroSection(): ReactElement {
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
-      className="group/hero relative flex min-h-[88svh] items-center overflow-hidden pt-28 pb-16 md:pt-32 md:pb-20"
+      className="group/hero relative flex min-h-[88svh] items-center overflow-hidden pt-28 pb-28 md:pt-32 lg:pb-20"
     >
       {/* Tech-stack icons floating in the free space around the text */}
       <div className="animate-fade-in-up-delay-3 absolute inset-0">
@@ -98,16 +98,16 @@ export function HeroSection(): ReactElement {
             <Link
               href="/brief"
               prefetch
-              className="pointer-events-auto group relative inline-flex items-center justify-center"
+              className="pointer-events-auto group relative inline-flex w-full items-center justify-center sm:w-auto"
             >
-              <div className="px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
+              <div className="w-full justify-center px-8 md:px-10 py-4 md:py-5 rounded-full bg-accent text-black font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-accent/40 active:scale-95 flex items-center gap-2">
                 {t("common.cta.cost")}
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </div>
             </Link>
             <a
               href="#process"
-              className="pointer-events-auto inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
+              className="pointer-events-auto inline-flex w-full items-center justify-center sm:w-auto px-8 md:px-10 py-4 md:py-5 rounded-full border-2 border-border/80 font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-[10px] md:text-[11px] text-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-95"
             >
               {t("common.cta.howIWork")}
             </a>
@@ -155,6 +155,10 @@ export function HeroSection(): ReactElement {
         </div>
       </Container>
 
+      {/* Mobile: tech stack as a moving strip along the bottom of hero */}
+      <div className="animate-fade-in-up-delay-5 absolute inset-x-0 bottom-6 lg:hidden">
+        <HeroTechStrip />
+      </div>
     </section>
   );
 }
