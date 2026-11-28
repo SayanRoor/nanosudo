@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/layout/container";
 import { SiteShell } from "@/components/layout/site-shell";
-import { getAllProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
+import { getListedProjects, getTranslatedProject, type PortfolioProject } from "@/lib/portfolio-data";
 import { StructuredData, generateBreadcrumbStructuredData } from "@/components/seo/structured-data";
 
 // Animation variants
@@ -88,7 +88,7 @@ function ProjectCard({ project, index }: { readonly project: PortfolioProject; r
 }
 
 export default function CasesPage(): ReactElement {
-  const projects = getAllProjects();
+  const projects = getListedProjects();
   const t = useTranslations();
 
   // If only one project, simplify the page
@@ -136,7 +136,7 @@ export default function CasesPage(): ReactElement {
         <section className={isSingleProject ? "py-section" : "py-section"}>
           <Container>
             <div className="flex justify-center">
-              <div className="grid gap-6 max-w-2xl w-full">
+              <div className="grid w-full max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
                   <ProjectCard key={project.id} project={project} index={index} />
                 ))}

@@ -324,6 +324,43 @@
           "vectorSearch": "Semantic search"
         }
       },
+      "nativetravel-app": {
+        "title": "Native Travel App (NTA) — city tourism platform",
+        "description": "A city tourism platform at nativetravel.app: for travellers, an AI guide that finds and books on its own; for businesses, bookings, payments and payouts without extra software; for cities, their own branded tourism service. Six languages, web plus iOS and Android apps. The pilot is Visit Almaty: 2,900+ places, 36,700 photos, taxi, intercity and courier, Tourist ID, the Native Tenge Coin wallet and a partner Channel API.",
+        "shortDescription": "AI guide with booking, business dashboard and white-label for cities — in 6 languages",
+        "imageAlt": "Native Travel App (NTA) — city tourism platform",
+        "category": "City tourism platform",
+        "goals": [
+          "Put the whole trip in one app: find, book, get there and pay",
+          "Give businesses bookings, payments and payouts without separate software or subscriptions",
+          "Let cities launch their own tourism service under their own brand",
+          "Serve guests from anywhere — in six languages, including right-to-left Arabic"
+        ],
+        "tasks": [
+          "Build the NativeGuide AI assistant that picks real places from the catalogue, checks availability and books right in the chat",
+          "Implement booking for hotels, tables, specialists and tours, paid by card, Kaspi or Native Tenge Coin",
+          "Assemble mobility: taxi from economy to VIP, intercity rides, courier and QR bus fares",
+          "Build Tourist ID — passport + selfie verification where partners only see a “verified” badge",
+          "Build business dashboards: room grid, floor by the hour, guide schedules, driver shifts, QR check-in",
+          "Set up automatic payouts and analytics: views, conversion, occupancy and revenue per property",
+          "Open a partner Channel API for OTAs and channel managers with double-booking protection",
+          "Ship an Expo mobile app sharing the backend and schemas with the web version"
+        ],
+        "results": [
+          "The platform runs at nativetravel.app, with Visit Almaty as the pilot city",
+          "2,907 places in the catalogue, 1,661 with photos and 36,700 images",
+          "The AI guide finds and books places in six languages",
+          "Dashboards for hotels, restaurants and spas, guides, drivers and fleets",
+          "Card, Kaspi and Native Tenge Coin payments with automatic payouts to businesses",
+          "Multi-tenant core: a new city or brand launches on the same platform"
+        ],
+        "metrics": {
+          "places": "Places in catalogue",
+          "photos": "Place photos",
+          "languages": "Languages",
+          "platforms": "Platforms"
+        }
+      },
       "zakyat-kz": {
         "title": "ZAKYAT.KZ — Platform for Good Deeds",
         "description": "Independent online platform for targeted assistance, built on principles of trust, transparency and manual moderation. Enables people in need to directly connect with donors without intermediaries or money collection.",
